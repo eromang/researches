@@ -163,9 +163,107 @@ The top 20 ccTLD targets as unique hosts are:
 
 ![Plot of the number of files per month](data/TOP20-ccTLDs.png)
 
-*For the overall period, plot the top 10 uniq number of ccTLD targets per weeks. The targets are identified via the host field in each file. Add the ccTLD name in the plot as legend.*
+*For the overall period, plot the top 10 uniq number of ccTLD targets per weeks. The targets are identified via the host field in each file. Add the ccTLD name in the plot as legend. Each ccTLD should have a uniq distinguishable color*
 
 ![Plot the top 10 uniq number of ccTLD targets per weeks](data/Plot_top10_ccTLD_per_week.png)
 
 *Which ccTLD had the most fluctuation*
+
+The ccTLD that experienced the most fluctuation is .ua, with a standard deviation of approximately 115.73.
+
+*Are they any patterns of the targeted top 20 ccTLDs overtime*
+
+**Observations:**
+- Fluctuations: Certain ccTLDs show significant fluctuations in targeting activity.
+- Spikes: There are visible spikes in activity for some ccTLDs, indicating periods of increased targeting.
+- Trends: Some ccTLDs exhibit consistent levels of activity, while others have more erratic patterns.
+
+#### Fluctuations
+
+The ccTLDs with the most fluctuations, based on the standard deviation of the number of unique hosts per week, are:
+
+- ua: 115.73
+- es: 100.32
+- it: 98.46
+- md: 87.52
+- pl: 73.39
+- ro: 67.24
+- de: 63.76
+- com: 61.79
+- fi: 59.44
+- se: 50.90
+
+![Top 10 ccTLDs with the most fluctuations](data/TOP10_ccTLDs_fluctuations.png)
+
+*What are the ccTLDs exhibiting consistent levels of activity*
+
+The ccTLDs exhibiting the most consistent levels of activity, based on the lowest standard deviations, are:
+
+- org: 11.08
+- nl: 22.20
+- fr: 26.53
+- lu: 32.82
+- gr: 33.75
+- jp: 34.61
+- si: 35.59
+- lt: 38.40
+- cz: 42.49
+- il: 45.83
+
+These ccTLDs have shown relatively stable activity levels over the weeks.
+
+*What are the most consistent ccTLD targets?*
+
+The most consistent ccTLD targets, based on the coefficient of variation (CV), are:
+
+- com: 1.10
+- org: 1.38
+- ua: 1.77
+- cz: 1.97
+- md: 2.07
+- fr: 2.09
+- es: 2.22
+- fi: 2.33
+- nl: 2.47
+- de: 2.83
+
+### Analysis of targeted hosts
+
+*What is the top 20 uniq targeted hosts*
+
+The top 20 unique targeted hosts are:
+
+- servicii.gov.md: 2,512 occurrences
+- mai.gov.md: 2,080 occurrences
+- presedinte.md: 1,971 occurrences
+- mfa.gov.md: 1,820 occurrences
+- stisc.gov.md: 1,710 occurrences
+- www.tram.cat: 1,666 occurrences
+- moldova.md: 1,539 occurrences
+- gov.md: 1,471 occurrences
+- www.legis.md: 1,445 occurrences
+- mpass.gov.md: 1,277 occurrences
+- mded.gov.md: 918 occurrences
+- www.caf.net: 752 occurrences
+- multimedia.parlament.md: 739 occurrences
+- a1.com.pl: 690 occurrences
+- credit-agricole.ua: 653 occurrences
+- metro.kyiv.ua: 621 occurrences
+- anasf.it: 621 occurrences
+- www.autostrada-a2.pl: 608 occurrences
+- autostrady.mpay.pl: 594 occurrences
+- www.radioroks.ua: 559 occurrences
+
+## Used protocols
+
+*What are the used protocols on the overall period for all targets ? The protocols are identified by the "type" field in the csv files*
+
+Here are the used protocols on the overall period for all targets, based on the "type" field in the CSV files:
+
+- tcp: 842 occurrences
+- http: 839 occurrences
+- nginx_loris: 839 occurrences
+- http2: 810 occurrences
+- udp: 349 occurrences
+- http3: 313 occurrences
 
