@@ -6,6 +6,8 @@
 
 *Use the file name to determine the date. File name have the following format YYYY-MM-DD_HH-MM-SS_DDoSia-target-list.csv where YYYY-MM-DD is the date and HH-MM-SS is the time. The files in the zip file represents configurations of the DDoSia project.*
 
+*The targets are identified via the host field in each file.*
+
 ## Questions & Answers
 
 ### General
@@ -105,3 +107,60 @@ None of the dates listed are major public holidays in Russia. Some are adjacent 
 
 [List of Saterday's and Sunday's with files](data/Saturdays_and_Sundays_With_Files_and_Counts.csv)
 
+### Analysis of target ccTLD's
+
+*What are the top 20 ccTLD targets as uniq hosts*
+
+The top 20 ccTLD targets as hosts are:
+
+- ua: 23,706 occurrences
+- md: 18,771 occurrences
+- com: 18,546 occurrences
+- es: 16,834 occurrences
+- it: 11,240 occurrences
+- pl: 10,803 occurrences
+- fi: 9,951 occurrences
+- de: 9,113 occurrences
+- ro: 8,854 occurrences
+- cz: 8,190 occurrences
+- se: 4,721 occurrences
+- fr: 4,421 occurrences
+- lt: 3,848 occurrences
+- nl: 3,289 occurrences
+- lu: 3,084 occurrences
+- jp: 3,050 occurrences
+- si: 2,991 occurrences
+- gr: 2,868 occurrences
+- il: 2,806 occurrences
+- org: 2,709 occurrences
+
+*What are the top 20 ccTLD targets as uniq hosts*
+
+The top 20 ccTLD targets as unique hosts are:
+
+- com: 261 unique hosts
+- es: 169 unique hosts
+- ua: 147 unique hosts
+- it: 115 unique hosts
+- cz: 110 unique hosts
+- pl: 93 unique hosts
+- de: 88 unique hosts
+- fi: 87 unique hosts
+- fr: 70 unique hosts
+- dk: 64 unique hosts
+- be: 61 unique hosts
+- se: 58 unique hosts
+- il: 55 unique hosts
+- ro: 54 unique hosts
+- nl: 51 unique hosts
+- si: 50 unique hosts
+- lu: 49 unique hosts
+- ch: 47 unique hosts
+- jp: 46 unique hosts
+- gr: 43 unique hosts
+
+*Visualize the distribution of ccTLD targets.*
+
+![Plot of the number of files per month](data/TOP20-ccTLDs.png)
+
+*For the overall period, plot the number of ccTLD occurrences per weeks*
