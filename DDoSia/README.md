@@ -163,9 +163,9 @@ The top 20 ccTLD targets as unique hosts are:
 
 ![Plot of the number of files per month](data/TOP20-ccTLDs.png)
 
-*For the overall period, plot the top 20 uniq number of ccTLD targets per weeks. The targets are identified via the host field in each file. Add the ccTLD name in the plot as legend.*
+*For the overall period, plot the top 10 uniq number of ccTLD targets per weeks. The targets are identified via the host field in each file. Add the ccTLD name in the plot as legend.*
 
-![Plot the top 20 uniq number of ccTLD targets per weeks](data/Plot_top20_ccTLD_per_week.png)
+![Plot the top 10 uniq number of ccTLD targets per weeks](data/Plot_top10_ccTLD_per_week.png)
 
 *Which ccTLD had the most fluctuation*
 
