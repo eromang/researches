@@ -48,7 +48,7 @@ total_records: 1200
 | Sectors covered | Energy, Finance, Health, Telecom, Government, Defence, Transport, Elections, Cloud, CriticalInfra, Space, Water, Maritime, Aviation, Automotive, Manufacturing, Research, SupplyChain |
 | Output format | 7-section structured threat landscape assessment |
 
-Full methodology: [[EU_Cyber_LLM_Global_Research_Methodology]]
+Full methodology: [Full Research Methodology](../docs/methodology.md)
 
 ---
 
@@ -459,6 +459,6 @@ Based on Phase 1 findings, Phase 2 should address:
 
 ## 14. Related Files
 
-- [[EU_Cyber_LLM_Global_Research_Methodology]] — Full research methodology
-- [[README]] — Project README and setup instructions
-- Results directory: `results/run_20260223T183701Z_c56fa1d40ab51b84.jsonl`
+- [Full Research Methodology](../docs/methodology.md) — Full research methodology
+- [README](../README.md) — Project README and setup instructions
+- Results directory: `../results/Phase_1/run_20260223T183701Z_c56fa1d40ab51b84.jsonl`

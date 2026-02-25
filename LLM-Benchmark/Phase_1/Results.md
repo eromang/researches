@@ -5,8 +5,8 @@ date_updated: 2026-02-24
 project: "EU Cyber Threat Landscape LLM Benchmark"
 phase: "Phase 1"
 related:
-  - "[[Phase_1_Results]]"
-  - "[[EU_Cyber_LLM_Global_Research_Methodology]]"
+  - "Results_Data.md"
+  - "../docs/methodology.md"
 ---
 
 # Phase 1 results — plain language edition
@@ -223,4 +223,4 @@ Finally, Phase 2 will include a human evaluation subsample. Phase 1 is fully aut
 
 ---
 
-*Source data: [[Phase_1_Results]] — Full methodology: [[EU_Cyber_LLM_Global_Research_Methodology]]*
+*Source data: [Phase 1 Results (Data)](Results_Data.md) — Full methodology: [Full Research Methodology](../docs/methodology.md)*
