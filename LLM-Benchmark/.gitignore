@@ -1,0 +1,19 @@
+.DS_Store
+.qodo/
+__pycache__/
+*.pyc
+
+# Derived artifacts (regenerable from JSONL via scripts/)
+results/**/markdown/
+results/**/*_summary.csv
+results/**/*_pairs.csv
+results/**/*_stability.csv
+results/**/*_annotation_sheet.csv
+results/**/*_report.md
+results/**/*_dashboard.html
+results/**/*_live_dashboard.html
+results/**/*_flat.csv
+results/**/*_flat.json
+results/**/analysis/
+# Note: LATEST_RUN_ID.txt is kept in vault (runner state) but excluded from public repo
+results/LATEST_RUN_ID.txt
