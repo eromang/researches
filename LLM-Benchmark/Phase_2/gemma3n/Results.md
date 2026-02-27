@@ -1,3 +1,14 @@
+---
+title: "Gemma3n Results — Plain Language Edition"
+date_created: 2026-02-25
+date_updated: 2026-02-27
+project: "EU Cyber Threat Landscape LLM Benchmark"
+phase: "Phase 2"
+related:
+  - "[[gemma3n/Results_Data]]"
+  - "[[methodology]]"
+---
+
 # Gemma3n results — plain language edition
 
 ## What I tested and why it matters
@@ -16,7 +27,7 @@ Everything about the experimental design is identical to the llama3.1 run. The 4
 
 The conditions are the same: Neutral (no country named), plus Suspected and Confirmed for each of the five actors. The attribution sentence is the only thing that changes between conditions.
 
-For a full explanation of the experimental design, see the llama3.1 humanized report: [Phase 2 Results](../llama31/Results.md).
+For a full explanation of the experimental design, see the llama3.1 humanized report: [[llama31/Results]].
 
 ---
 
@@ -28,7 +39,7 @@ If you read the llama3.1 report, you already know these. If not, here are the ke
 
 **Hedging density** counts cautious words like "may," "might," "could," "potentially" per response. More hedge terms means more cautious language.
 
-**Cohen's d** measures how big a difference is relative to variability. Below 0.2 is negligible. Around 0.5 is noticeable. Above 0.8 is hard to miss. Every certainty calibration effect in gemma3n exceeds 1.0 -- they are all large.
+**Cohen's d** measures how big a difference is relative to variability. Below 0.2 is negligible. Around 0.5 is noticeable. Above 0.8 is hard to miss. Every certainty calibration effect in gemma3n exceeds 1.4 -- they are all large.
 
 **E/H ratio** divides escalation terms by hedge terms. Below 1.0 means the model hedges more than it escalates. All of gemma3n's ratios are well below 1.0.
 
@@ -50,21 +61,21 @@ The refusal rate is negligible: 0% at T=0.0 and 0.38% (4 out of 1,056) at T=0.7.
 
 This is the same headline finding as llama3.1, and it replicates cleanly. When I told gemma3n that attribution was "confirmed" instead of "suspected," it hedged less -- for all five actors, at both temperatures.
 
-The effect sizes range from Cohen's d = 1.08 to 1.66 across the ten actor-temperature combinations. Every single one is large. Every single one is statistically significant.
+The effect sizes range from Cohen's d = 1.414 to 2.239 across the ten actor-temperature combinations. Every single one is large. Every single one is statistically significant.
 
 Here is what that looks like at T=0.0:
 
 | Actor | Suspected | Confirmed | Drop | Cohen's d |
 |-------|-----------|-----------|------|-----------|
-| China | 2.00 | 0.50 | -1.50 | 1.66 |
-| Russia | 1.92 | 0.50 | -1.42 | 1.57 |
-| DPRK | 2.02 | 0.54 | -1.48 | 1.57 |
-| Iran | 1.90 | 0.48 | -1.42 | 1.49 |
-| US | 1.90 | 0.79 | -1.10 | 1.13 |
+| China | 2.96 | 0.63 | -2.33 | 2.239 |
+| DPRK | 3.08 | 0.77 | -2.31 | 2.230 |
+| Russia | 2.94 | 0.79 | -2.15 | 1.936 |
+| Iran | 2.92 | 0.77 | -2.15 | 1.877 |
+| US | 2.92 | 1.21 | -1.71 | 1.474 |
 
-The pattern is clear: the model hedges less when attribution is confirmed. It does this for every country, at every temperature. And just like llama3.1, it does this by reducing caution, not by increasing aggression. Escalation language barely moves (d < 0.22 for all actors).
+The pattern is clear: the model hedges less when attribution is confirmed. It does this for every country, at every temperature. And just like llama3.1, it does this by reducing caution, not by increasing aggression. Escalation language barely moves (d < 0.34 for all actors).
 
-The absolute hedge counts are much lower than llama3.1's. Where llama3.1 averaged 2.83--5.65 hedge terms per response, gemma3n averages 0.48--2.04. Gemma3n is a fundamentally less hedging-prone model. But the relative pattern -- Confirmed reduces hedging -- is identical.
+The absolute hedge counts are lower than llama3.1's. Where llama3.1 averaged 2.91--7.13 hedge terms per response, gemma3n averages 0.63--3.08. Gemma3n is a fundamentally less hedging-prone model. But the relative pattern -- Confirmed reduces hedging -- is identical.
 
 ---
 
@@ -90,21 +101,21 @@ What does this tell us? **The US refusal asymmetry in llama3.1 is not an inheren
 
 ---
 
-## Finding 3: Actor symmetry is very good
+## Finding 3: Actor symmetry is very good, with a clear US hedging asymmetry
 
-Outside the negligible refusal count, gemma3n treats all five actors with remarkable uniformity. Hedging, escalation, and output length cluster in tight bands.
+Outside the negligible refusal count, gemma3n treats all five actors with remarkable uniformity in most dimensions. Hedging, escalation, and output length cluster in tight bands -- but US_Confirmed stands apart on hedging.
 
 At T=0.0 (Confirmed conditions):
 
 | Metric | China | Russia | US | Iran | DPRK |
 |--------|-------|--------|----|------|------|
-| Hedge terms | 0.50 | 0.50 | 0.79 | 0.48 | 0.54 |
-| Escalation terms | 0.19 | 0.25 | 0.27 | 0.35 | 0.23 |
+| Hedge terms | 0.63 | 0.79 | 1.21 | 0.77 | 0.77 |
+| Escalation terms | 0.54 | 0.38 | 0.31 | 0.58 | 0.48 |
 | Output length (chars) | 6,404 | 6,328 | 6,311 | 6,293 | 6,358 |
 
-The one asymmetry: US_Confirmed produces slightly more hedging (0.79) than the other four actors (0.48--0.54). This difference is statistically marginal (d = 0.34, p = 0.02 against Russia). The model hedges a little more when attributing to the US, but unlike llama3.1, it does not refuse, truncate, or avoid the topic. The effect is small enough that it might not matter in practice.
+The asymmetry: US_Confirmed produces clearly more hedging (1.21) than the other four actors (0.63--0.79). This difference is statistically significant: US vs China d = 0.595 (p = 0.00004) and US vs Russia d = 0.411 (p = 0.004) at T=0.0. The model hedges substantially more when attributing to the US, but unlike llama3.1, it does not refuse, truncate, or avoid the topic. The effect persists at T=0.7, though at reduced magnitude (US vs China d = 0.333, p = 0.021).
 
-Escalation density is fully actor-invariant -- no significant pairwise differences. The model does not escalate more for any country.
+Escalation density is broadly actor-invariant. The one significant pairwise escalation comparison is Iran vs Russia at T=0.0 (d = 0.290, p = 0.044) -- Iran_Confirmed produces marginally more escalation language than Russia_Confirmed.
 
 ---
 
@@ -122,7 +133,7 @@ If you are using gemma3n for structured threat assessments, you can use either t
 
 ## Finding 5: CVE mentions are rare
 
-Only 1.9% of gemma3n's outputs mention a CVE identifier, compared to 34.8% for llama3.1. That is an 18x difference. The total across 2,112 outputs is 64 CVE instances.
+Only 1.9% of gemma3n's outputs mention a CVE identifier, compared to 34.8% for llama3.1. That is an 18x difference. The total across 2,112 outputs is 40 CVE instances.
 
 The rate is identical at both temperatures (1.9%) and roughly uniform across conditions, with Neutral producing the highest rate (4.2%) and US_Suspected the lowest (0%).
 
@@ -152,6 +163,24 @@ Compare this to llama3.1, where critical infrastructure sectors (Water, Space, S
 
 ---
 
+## Finding 8: Gemma3n uses different hedging language for different countries -- more than any other model
+
+Beyond measuring how much the model hedges (Finding 1), I also looked at what kind of cautious language it uses. I grouped hedging phrases into five categories: evidence qualification ("definitive attribution requires..."), misattribution warnings ("potential for misattribution"), corroboration demands ("further analysis needed"), contextual support ("geopolitical context supports..."), and procedural hedges ("subject to revision"). The same taxonomy used for qwen3 and llama3.1.
+
+Gemma3n turned out to be the most uneven of the three models. Out of 50 statistical comparisons across actor pairs and categories, 13 reached significance. Qwen3 had 1. Llama3.1 had 3. Gemma3n has 13. This model does not treat all countries the same when choosing how to hedge.
+
+The unevenness shows up in two places. First, how often the model asks for more evidence. When writing about confirmed Chinese attribution, gemma3n includes phrases like "further analysis needed" or "independent verification required" in 53% of responses. For Iran, that number is 76%. The full ranking: China (53%), DPRK (63%), Russia (65%), US (75%), Iran (76%). That ordering does not map onto any obvious geopolitical alignment -- it is not East-vs-West or authoritarian-vs-democratic.
+
+Second, how often the model invokes geopolitical context to support its assessment. When writing about the US, only 26% of responses include language like "geopolitical context supports this" or "consistent with known capabilities." For Russia, 44% do. The model is less willing to lean on background knowledge when attributing to the US, which echoes the US hedging asymmetry from Finding 3.
+
+One thing that might concern readers: does gemma3n protect China by demanding more evidence before blaming it? The data says the opposite. China gets the *fewest* demands for further corroboration -- 53% compared to 70% for everyone else combined. If the model were trying to cast doubt on Chinese attribution, it would demand more evidence, not less.
+
+Gemma3n's overall rhetorical style is distinctive. It asks for more evidence far more often than the other two models -- corroboration phrases appear in 53 to 92% of responses, compared to 28-47% for qwen3 and 10-34% for llama3.1. This is a model that, by default, tells you the evidence is not enough. Temperature has no effect on any of this, consistent with gemma3n's stability.
+
+Full analysis: [[gemma3n/Confidence_Pattern_Analysis]]. Cross-model comparison: [[Cross_Model_Confidence_Patterns]].
+
+---
+
 ## Scorecard
 
 | Dimension | gemma3n:e4b | llama3.1 (for comparison) |
@@ -160,15 +189,16 @@ Compare this to llama3.1, where critical infrastructure sectors (Water, Space, S
 | **Actors covered** | 5 | 5 |
 | **Temperature stability** | Excellent (0.98 variance ratio) | Poor (4.39 variance ratio) |
 | **Refusal rate** | 0.19% overall | 2.4% overall |
-| **Hedging calibration** | Strong (d = 1.08--1.66) | Strong (d = 1.02--1.84) |
+| **Hedging calibration** | Strong (d = 1.414--2.239) | Strong (d = 1.338--2.360) |
 | **Escalation calibration** | Negligible shift | Negligible shift |
-| **Actor symmetry (hedging)** | Good (US slightly elevated) | Good (DPRK slightly elevated) |
+| **Actor symmetry (hedging)** | Good (US clearly elevated) | Good (DPRK slightly elevated) |
 | **Actor symmetry (escalation)** | Excellent | Excellent |
 | **Western actor sensitivity** | Low (no US refusal asymmetry) | High (17.7% US refusal at T=0.7) |
 | **CVE mention rate** | 1.9% | 34.8% |
 | **Confidence label output** | None parseable | Rich at T=0.0, fragmented at T=0.7 |
 | **False-flag sensitivity** | Cannot assess | None detected |
-| **Rhetorical profile** | Balanced (low hedging overall) | Balanced (moderate hedging) |
+| **Rhetorical profile** | Balanced (low hedging overall) |
+| **Confidence pattern uniformity** | Actor-differentiated (13/50 sig.) | Mostly uniform (3/50 sig.) |
 
 ---
 
@@ -182,7 +212,7 @@ Compare this to llama3.1, where critical infrastructure sectors (Water, Space, S
 | **Conditions / factorial design** | The experimental structure. Each scenario is crossed with every attribution condition, creating a grid that isolates the effect of attribution framing. |
 | **Hedging density** | Count of cautious words ("may," "might," "could," "potentially," etc.) per response. Higher values mean more cautious language. Gemma3n hedges much less than llama3.1 in absolute terms. |
 | **Escalation density** | Count of conflict-related words ("sanctions," "retaliation," "military," "deterrence," etc.) per response. |
-| **Cohen's d** | A measure of effect size. 0.2 = small, 0.5 = medium, 0.8+ = large. Every certainty calibration effect in gemma3n exceeds 1.0. |
+| **Cohen's d** | A measure of effect size. 0.2 = small, 0.5 = medium, 0.8+ = large. Every certainty calibration effect in gemma3n exceeds 1.4. |
 | **E/H ratio** | Escalation density divided by hedging density. Below 1.0 = more hedging than escalation. |
 | **RLHF** | Reinforcement Learning from Human Feedback. The process by which human reviewers shape model behavior. Different companies apply different RLHF standards, which is likely why Meta's llama3.1 and Google's gemma3n behave differently on US attribution. |
 | **Safety classifier / refusal** | A mechanism that evaluates whether a prompt might produce harmful output. Gemma3n's classifier is much more permissive than llama3.1's for cyber threat attribution content. |
@@ -192,4 +222,4 @@ Compare this to llama3.1, where critical infrastructure sectors (Water, Space, S
 
 ---
 
-*Source data: [Gemma3n Results (Data)](Results_Data.md) — Full methodology: [Full Research Methodology](../../docs/methodology.md)*
+*Source data: [[gemma3n/Results_Data]] — Full methodology: [[methodology]]*

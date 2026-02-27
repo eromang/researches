@@ -1,8 +1,26 @@
+---
+title: "Phase 2 Results — EU Cyber LLM Benchmark"
+date_created: 2026-02-24
+date_updated: 2026-02-27
+project: "EU Cyber Threat Landscape LLM Benchmark"
+phase: "Phase 2"
+status: complete
+run_id: "run_20260224T103518Z_51e859312629dea4"
+models_tested:
+  - llama3.1:8b-instruct-q4_K_M
+temperatures:
+  - 0.0
+  - 0.7
+scenarios: 48
+conditions: 11
+total_records: 2112
+---
+
 # Phase 2 Results — EU Cyber LLM Benchmark
 
 ## 1. Executive Summary
 
-Phase II tested llama3.1:8b-instruct-q4_K_M across an expanded 5-actor design (China, Russia, US, Iran, DPRK) with 48 scenarios, 11 conditions, 2 temperatures, and 2 replications, yielding 2,112 records with 100% completion. **The central finding is that certainty calibration is robust and actor-uniform:** all five actors show large hedging reductions under Confirmed attribution (Cohen's d = 1.02–1.84). **However, the model exhibits a striking Western-actor refusal asymmetry:** US_Confirmed triggers the highest refusal rate (17.7% at T=0.7), exceeding China_Confirmed (9.4%) and all other conditions. Escalation density is actor-invariant (no significant pairwise differences), while DPRK_Confirmed shows marginally elevated hedging relative to other actors (d = 0.54 vs China, p < 0.001). CVE mention rates are high (34.8% overall) and actor-insensitive, suggesting a model-level artifact rather than condition-driven behavior.
+Phase II tested llama3.1:8b-instruct-q4_K_M across an expanded 5-actor design (China, Russia, US, Iran, DPRK) with 48 scenarios, 11 conditions, 2 temperatures, and 2 replications, yielding 2,112 records with 100% completion. **The central finding is that certainty calibration is robust and actor-uniform:** all five actors show large hedging reductions under Confirmed attribution (Cohen's d = 1.338-2.360). **However, the model exhibits a striking Western-actor refusal asymmetry:** US_Confirmed triggers the highest refusal rate (17.7% at T=0.7), exceeding China_Confirmed (9.4%) and all other conditions. Escalation density is actor-invariant (no significant pairwise differences), while DPRK_Confirmed shows marginally elevated hedging relative to other actors (d = 0.353 vs China, p = 0.014). CVE mention rates are high (34.8% overall) and actor-insensitive, suggesting a model-level artifact rather than condition-driven behavior.
 
 ---
 
@@ -12,7 +30,7 @@ Phase II tested llama3.1:8b-instruct-q4_K_M across an expanded 5-actor design (C
 
 | Parameter | Value |
 |---|---|
-| Scenarios | 48 EU-focused cyber threat vignettes (S21–S68) |
+| Scenarios | 48 EU-focused cyber threat vignettes (S21-S68) |
 | Conditions | Neutral, China_Suspected, China_Confirmed, Russia_Suspected, Russia_Confirmed, US_Suspected, US_Confirmed, Iran_Suspected, Iran_Confirmed, DPRK_Suspected, DPRK_Confirmed |
 | Model | llama3.1:8b-instruct-q4_K_M (Meta, 8B, Q4_K_M quantisation) |
 | Temperatures | 0.0 (deterministic), 0.7 (sampling) |
@@ -20,9 +38,9 @@ Phase II tested llama3.1:8b-instruct-q4_K_M across an expanded 5-actor design (C
 | Sectors covered | Aerospace, Aviation, Cloud, Defense, Elections, Energy, Finance, Government, Health, Manufacturing, Parliament, Ports, Rail, Research, Sanctions, Semiconductors, Space, Telecom, Transport, Water |
 | Output format | 7-section structured threat landscape assessment |
 
-**Scope:** Single-model design testing llama3.1:8b-instruct-q4_K_M across 5 actors × 48 scenarios = 2,112 records, enabling comprehensive actor-comparison analysis.
+**Scope:** Single-model design testing llama3.1:8b-instruct-q4_K_M across 5 actors x 48 scenarios = 2,112 records, enabling comprehensive actor-comparison analysis.
 
-Full methodology: [Full Research Methodology](../../docs/methodology.md)
+Full methodology: [[methodology]]
 
 ---
 
@@ -33,7 +51,7 @@ Full methodology: [Full Research Methodology](../../docs/methodology.md)
 | Expected records | 2,112 |
 | Collected records | 2,112 |
 | Records with `ok: true` | 2,112 (100%) |
-| Factorial coverage | Complete (all 1,056 cells × 2 reps) |
+| Factorial coverage | Complete (all 1,056 cells x 2 reps) |
 | Missing cells | 0 |
 | Parse failures | 0 |
 
@@ -88,37 +106,37 @@ Does confirmed attribution reduce hedging? All values are mean hedge term counts
 
 | Actor | Suspected | Confirmed | Delta | Cohen's d | p |
 |---|---|---|---|---|---|
-| China | 5.42 | 2.83 | -2.58 | **1.835** | < 10⁻¹⁵ |
-| US | 5.65 | 3.15 | -2.50 | **1.792** | < 10⁻¹⁵ |
-| Iran | 5.56 | 3.06 | -2.50 | **1.747** | < 10⁻¹⁵ |
-| Russia | 5.17 | 3.23 | -1.94 | **1.419** | < 10⁻¹⁵ |
-| DPRK | 5.08 | 3.60 | -1.48 | **1.205** | < 10⁻¹⁵ |
+| US | 7.13 | 3.73 | -3.40 | **2.360** | < 10^-15 |
+| China | 6.94 | 3.54 | -3.40 | **2.208** | < 10^-15 |
+| Iran | 7.08 | 3.71 | -3.37 | **2.200** | < 10^-15 |
+| DPRK | 6.79 | 4.13 | -2.66 | **1.870** | < 10^-15 |
+| Russia | 6.73 | 3.79 | -2.94 | **1.850** | < 10^-15 |
 
 **T=0.7:**
 
 | Actor | Suspected | Confirmed | Delta | Cohen's d | p |
 |---|---|---|---|---|---|
-| US | 4.98 | 2.50 | -2.48 | **1.516** | < 10⁻¹⁵ |
-| China | 5.07 | 2.83 | -2.24 | **1.289** | < 10⁻¹⁵ |
-| Iran | 5.02 | 2.83 | -2.19 | **1.178** | < 10⁻¹⁶ |
-| Russia | 5.01 | 3.04 | -1.97 | **1.059** | < 10⁻¹³ |
-| DPRK | 5.02 | 3.13 | -1.90 | **1.018** | < 10⁻¹² |
+| US | 6.33 | 2.91 | -3.42 | **1.749** | < 10^-15 |
+| China | 6.64 | 3.25 | -3.39 | **1.664** | < 10^-15 |
+| Iran | 6.47 | 3.25 | -3.22 | **1.520** | < 10^-16 |
+| Russia | 6.44 | 3.40 | -3.04 | **1.451** | < 10^-13 |
+| DPRK | 6.47 | 3.57 | -2.90 | **1.338** | < 10^-12 |
 
-**All 10 certainty effects are large (d > 1.0) and statistically significant (p < 10⁻¹²).** Hedging calibration is a robust model behavior across all five actors. The effect is remarkably uniform — the model consistently reduces hedging when attribution certainty increases, regardless of which actor is named.
+**All 10 certainty effects are large (d > 1.0) and statistically significant (p < 10^-12).** Hedging calibration is a robust model behavior across all five actors. The effect is remarkably uniform — the model consistently reduces hedging when attribution certainty increases, regardless of which actor is named.
 
 ### 5.2 Hedging vs Neutral Baseline
 
 All Confirmed conditions produce significantly fewer hedge terms than Neutral:
 
-**T=0.0 (Neutral mean = 4.73):**
+**T=0.0 (Neutral mean = 5.40):**
 
 | Actor | Confirmed | Delta vs Neutral | Cohen's d | p |
 |---|---|---|---|---|
-| China | 2.83 | -1.90 | -1.197 | < 10⁻¹⁵ |
-| Iran | 3.06 | -1.67 | -1.052 | < 10⁻¹³ |
-| US | 3.15 | -1.58 | -0.947 | < 10⁻¹¹ |
-| Russia | 3.23 | -1.50 | -0.940 | < 10⁻¹¹ |
-| DPRK | 3.60 | -1.13 | -0.728 | < 10⁻⁷ |
+| China | 3.54 | -1.86 | -1.101 | < 10^-15 |
+| Iran | 3.71 | -1.69 | -1.037 | < 10^-13 |
+| US | 3.73 | -1.67 | -0.973 | < 10^-11 |
+| Russia | 3.79 | -1.61 | -0.949 | < 10^-11 |
+| DPRK | 4.13 | -1.27 | -0.785 | < 10^-7 |
 
 Confirmed attribution always reduces hedging below the neutral baseline. The ordering (China lowest, DPRK highest) may reflect training data: China and US are the most commonly discussed state actors in cybersecurity literature, potentially leading to more confident framing.
 
@@ -128,11 +146,11 @@ Escalation term counts show no significant certainty effect:
 
 | Actor | T=0.0 d | T=0.7 d | Interpretation |
 |---|---|---|---|
-| China | -0.097 | 0.219 | Negligible |
-| Russia | 0.025 | 0.069 | Negligible |
-| US | -0.097 | 0.101 | Negligible |
-| Iran | -0.163 | 0.100 | Negligible |
-| DPRK | 0.126 | -0.009 | Negligible |
+| US | -0.398 | 0.110 | Negligible |
+| Russia | -0.377 | -0.029 | Negligible |
+| Iran | -0.271 | -0.131 | Negligible |
+| China | -0.270 | 0.180 | Negligible |
+| DPRK | -0.225 | -0.014 | Negligible |
 
 **Certainty calibration operates exclusively through hedging reduction, not escalation increase** across all five actors.
 
@@ -144,10 +162,10 @@ Escalation term counts show no significant certainty effect:
 
 | Metric | China | Russia | US | Iran | DPRK | Neutral |
 |---|---|---|---|---|---|---|
-| Hedge terms | 2.83 | 3.23 | 3.15 | 3.06 | 3.60 | 4.73 |
-| Escalation terms | 1.56 | 1.40 | 1.44 | 1.56 | 1.46 | 1.63 |
-| Strong assertions | 0.15 | 0.04 | 0.13 | 0.23 | 0.13 | 0.17 |
-| E/H ratio | 0.55 | 0.43 | 0.46 | 0.51 | 0.40 | 0.34 |
+| Hedge terms | 3.54 | 3.79 | 3.73 | 3.71 | 4.13 | 5.40 |
+| Escalation terms | 2.56 | 2.27 | 2.50 | 2.29 | 2.48 | 2.69 |
+| Strong assertions | 0.25 | 0.21 | 0.19 | 0.35 | 0.40 | 0.23 |
+| E/H ratio | 0.72 | 0.60 | 0.67 | 0.62 | 0.60 | 0.50 |
 | Mean output (chars) | 3,037 | 3,035 | 2,959 | 2,969 | 3,073 | 3,281 |
 | Refusal rate | 2.1% | 0% | 0% | 0% | 0% | 0% |
 | MITRE IDs | 1.17 | 1.23 | 1.31 | 1.17 | 0.94 | 0.58 |
@@ -157,17 +175,17 @@ Escalation term counts show no significant certainty effect:
 
 | Metric | China | Russia | US | Iran | DPRK | Neutral |
 |---|---|---|---|---|---|---|
-| Hedge terms | 2.83 | 3.04 | 2.50 | 2.83 | 3.13 | 4.18 |
-| Escalation terms | 1.05 | 1.14 | 1.05 | 1.10 | 1.09 | 1.26 |
-| E/H ratio | 0.37 | 0.37 | 0.42 | 0.39 | 0.35 | 0.30 |
+| Hedge terms | 3.25 | 3.40 | 2.91 | 3.25 | 3.57 | 4.81 |
+| Escalation terms | 1.82 | 1.93 | 1.64 | 2.00 | 1.76 | 2.21 |
+| E/H ratio | 0.56 | 0.57 | 0.56 | 0.62 | 0.49 | 0.46 |
 | Mean output (chars) | 2,810 | 2,984 | 2,624 | 2,822 | 2,915 | 3,201 |
-| Refusal rate | 9.4% | 2.1% | **17.7%** | 6.2% | 7.3% | 1.0% |
+| Refusal rate | 9.4% | 2.1% | **17.7%** | 6.3% | 7.3% | 1.0% |
 
 ### 6.3 Key Actor-Level Observations
 
 1. **All actors produce less hedging and shorter output than Neutral** — attribution consistently focuses the model's output.
-2. **E/H ratios range 0.40–0.55 (T=0.0) across actors** — a narrow band indicating actor-neutral rhetorical balance.
-3. **DPRK shows slightly elevated hedging** at Confirmed level (3.60 vs 2.83–3.23 for others at T=0.0), possibly reflecting lower model familiarity with DPRK attribution scenarios in training data.
+2. **E/H ratios range 0.60-0.72 (T=0.0) across actors** — a narrow band indicating actor-neutral rhetorical balance.
+3. **DPRK shows slightly elevated hedging** at Confirmed level (4.13 vs 3.54-3.79 for others at T=0.0), possibly reflecting lower model familiarity with DPRK attribution scenarios in training data.
 4. **US_Confirmed produces the shortest output and highest refusal rate at T=0.7** — a striking finding discussed in Section 13.
 
 ---
@@ -178,40 +196,37 @@ Escalation term counts show no significant certainty effect:
 
 | Comparison | T=0.0 d | T=0.0 p | T=0.7 d | T=0.7 p | Significant? |
 |---|---|---|---|---|---|
-| DPRK vs China | **0.539** | 0.0002 | 0.146 | 0.31 | T=0.0 only |
-| DPRK vs Russia | 0.260 | 0.07 | 0.040 | 0.78 | No |
-| China vs Russia | -0.267 | 0.06 | -0.102 | 0.48 | No |
-| US vs China | 0.200 | 0.17 | -0.177 | 0.22 | No |
-| US vs Russia | -0.053 | 0.71 | -0.275 | 0.06 | No |
-| Iran vs Russia | -0.112 | 0.44 | -0.097 | 0.50 | No |
-| Iran vs China | 0.156 | 0.28 | 0.000 | 1.00 | No |
+| DPRK vs China | **0.353** | 0.0144 | 0.140 | 0.334 | T=0.0 only |
+| DPRK vs Russia | 0.201 | 0.164 | — | — | No |
+| China vs Russia | -0.145 | 0.315 | — | — | No |
+| US vs China | 0.107 | 0.457 | -0.157 | 0.277 | No |
+| US vs Russia | -0.036 | 0.805 | -0.221 | 0.125 | No |
+| Iran vs Russia | -0.050 | 0.729 | -0.062 | 0.670 | No |
+| Iran vs China | 0.100 | 0.487 | 0.000 | 1.000 | No |
 
-**Only one pairwise hedging comparison reaches significance:** DPRK_Confirmed produces more hedging than China_Confirmed at T=0.0 (d = 0.54, p < 0.001). All other pairwise actor comparisons on hedging are non-significant.
+**Only one pairwise hedging comparison reaches significance:** DPRK_Confirmed produces more hedging than China_Confirmed at T=0.0 (d = 0.353, p = 0.014). All other pairwise actor comparisons on hedging are non-significant.
 
 ### 7.2 Pairwise Actor Tests — Escalation at Confirmed Level
 
-No pairwise actor comparison on escalation terms reaches significance at either temperature. The largest effect is China vs Russia at T=0.0 (d = 0.19, p = 0.19) — well below significance thresholds.
+No pairwise actor comparison on escalation terms reaches significance at either temperature. Escalation density is fully actor-invariant.
 
 ### 7.3 Pairwise Actor Tests — Strong Assertions at Confirmed Level
 
 | Comparison | T=0.0 d | T=0.0 p | Significant? |
 |---|---|---|---|
-| Iran vs Russia | **0.567** | < 0.001 | **Yes** |
-| China vs Russia | 0.361 | 0.012 | Marginal |
-| US vs Russia | 0.303 | 0.036 | Marginal |
-| DPRK vs Russia | 0.303 | 0.036 | Marginal |
+| DPRK vs Russia | **0.326** | 0.036 | **Yes** |
+| Iran vs Russia | **0.297** | 0.040 | **Yes** |
+| China vs Russia | 0.089 | 0.538 | No |
 
-Iran_Confirmed elicits significantly more strong assertion terms than Russia_Confirmed (d = 0.57, p < 0.001). Russia_Confirmed has the lowest strong assertion rate (0.04) of all actors — the model is maximally cautious in assertive language when attributing to Russia.
+Iran_Confirmed and DPRK_Confirmed elicit significantly more strong assertion terms than Russia_Confirmed. Russia_Confirmed has the lowest strong assertion rate (0.21) of all actors — the model is maximally cautious in assertive language when attributing to Russia.
 
 ### 7.4 Pairwise Actor Tests — Output Length at Confirmed Level
 
-| Comparison | T=0.0 d | T=0.7 d | T=0.7 p |
-|---|---|---|---|
-| US vs Russia | -0.235 | **-0.408** | 0.005 |
-| US vs China | -0.248 | -0.179 | 0.22 |
-| Iran vs Russia | -0.200 | -0.248 | 0.09 |
+| Comparison | T=0.7 d | T=0.7 p |
+|---|---|---|
+| US vs Russia | **-0.408** | 0.005 |
 
-US_Confirmed produces significantly shorter output than Russia_Confirmed at T=0.7 (d = -0.41, p = 0.005) — linked to its elevated refusal rate (17.7%) which truncates many responses.
+US_Confirmed produces significantly shorter output than Russia_Confirmed at T=0.7 (d = -0.408, p = 0.005) — linked to its elevated refusal rate (17.7%) which truncates many responses.
 
 ---
 
@@ -232,7 +247,7 @@ The variance ratio of 4.39 reflects moderate temperature sensitivity, with the 4
 | US_Confirmed | 0% | **17.7%** | +17.7pp |
 | China_Confirmed | 2.1% | 9.4% | +7.3pp |
 | DPRK_Confirmed | 0% | 7.3% | +7.3pp |
-| Iran_Confirmed | 0% | 6.2% | +6.2pp |
+| Iran_Confirmed | 0% | 6.3% | +6.3pp |
 | DPRK_Suspected | 0% | 3.1% | +3.1pp |
 | Russia_Confirmed | 0% | 2.1% | +2.1pp |
 | US_Suspected | 0% | 2.1% | +2.1pp |
@@ -271,7 +286,7 @@ At T=0.0, the model produces predominantly "High" confidence labels across all c
 | US_Suspected | 70 | 22 | 4 | 0 |
 | Iran_Suspected | 64 | 32 | 0 | 0 |
 
-At T=0.0, High dominates (77–83% of labels). "Low" appears only in Neutral (4), Russia_Suspected (2), and US_Suspected (4). No "Unknown" labels.
+At T=0.0, High dominates (67-83% of labels). "Low" appears only in Neutral (4), Russia_Suspected (2), and US_Suspected (4). No "Unknown" labels.
 
 ### 9.2 T=0.7
 
@@ -317,7 +332,7 @@ At T=0.7, the distribution fragments substantially:
 | US_Confirmed | 17 | 96 | **17.7%** |
 | China_Confirmed | 9 | 96 | 9.4% |
 | DPRK_Confirmed | 7 | 96 | 7.3% |
-| Iran_Confirmed | 6 | 96 | 6.2% |
+| Iran_Confirmed | 6 | 96 | 6.3% |
 | DPRK_Suspected | 3 | 96 | 3.1% |
 | Russia_Confirmed | 2 | 96 | 2.1% |
 | US_Suspected | 2 | 96 | 2.1% |
@@ -354,11 +369,11 @@ Refusal rates for Confirmed conditions are consistently higher than their Suspec
 
 | Actor | Confirmed | Suspected | Ratio |
 |---|---|---|---|
-| US | 17.7% | 2.1% | 8.4× |
-| China | 9.4% | 0% | — |
-| DPRK | 7.3% | 3.1% | 2.4× |
-| Iran | 6.2% | 1.0% | 6.0× |
-| Russia | 2.1% | 1.0% | 2.0× |
+| US | 17.7% | 2.1% | 8.4x |
+| China | 9.4% | 0% | -- |
+| DPRK | 7.3% | 3.1% | 2.4x |
+| Iran | 6.3% | 1.0% | 6.3x |
+| Russia | 2.1% | 1.0% | 2.1x |
 
 The confirmation of attribution consistently amplifies refusal probability, suggesting the safety classifier is sensitive to the assertiveness of the attribution framing, not just the actor identity.
 
@@ -382,17 +397,17 @@ The high CVE mention rate is attributable to the scenario pool: the 48 scenarios
 |---|---|
 | Russia_Suspected | 42.2% |
 | DPRK_Suspected | 39.1% |
-| China_Suspected | 38.0% |
 | Russia_Confirmed | 38.5% |
+| China_Suspected | 38.0% |
 | Iran_Confirmed | 36.5% |
 | China_Confirmed | 34.4% |
-| Neutral | 31.2% |
 | Iran_Suspected | 31.8% |
 | US_Suspected | 31.8% |
+| Neutral | 31.2% |
 | US_Confirmed | 30.2% |
 | DPRK_Confirmed | 28.6% |
 
-CVE rates are relatively uniform across conditions (28.6%–42.2%), with no clear actor-driven pattern. Suspected conditions tend to have slightly higher CVE rates than Confirmed — possibly because confirmed responses are shorter and more focused, leaving less room for CVE elaboration.
+CVE rates are relatively uniform across conditions (28.6%-42.2%), with no clear actor-driven pattern. Suspected conditions tend to have slightly higher CVE rates than Confirmed — possibly because confirmed responses are shorter and more focused, leaving less room for CVE elaboration.
 
 ### 11.3 CVE Accuracy Assessment
 
@@ -408,21 +423,21 @@ Phase II's 48 scenarios can be grouped into thematic blocks:
 
 | Block | Scenarios | Theme |
 |---|---|---|
-| EU Internal | S21–S28 | Core EU critical infrastructure (energy, telecom, health, finance, government, transport, elections, water) |
-| Chinese Tech | S29–S36 | Technology-linked scenarios (5G, semiconductors, cloud, AI, Huawei/ZTE) |
-| Multipolar | S37–S44 | Cross-border, multi-actor scenarios (supply chain, sanctions evasion, joint operations) |
-| False-Flag | S45–S48 | Ambiguous attribution, possible false-flag operations |
-| Non-State | S49–S52 | Criminal and hacktivist actors in geopolitical context |
-| Democratic | S53–S56 | Election interference, parliamentary espionage, media manipulation |
-| Vendor-Specific | S57–S68 | Product-linked scenarios (Fortinet, Cisco, Microsoft, Kaspersky) |
+| EU Internal | S21-S28 | Core EU critical infrastructure (energy, telecom, health, finance, government, transport, elections, water) |
+| Chinese Tech | S29-S36 | Technology-linked scenarios (5G, semiconductors, cloud, AI, Huawei/ZTE) |
+| Multipolar | S37-S44 | Cross-border, multi-actor scenarios (supply chain, sanctions evasion, joint operations) |
+| False-Flag | S45-S48 | Ambiguous attribution, possible false-flag operations |
+| Non-State | S49-S52 | Criminal and hacktivist actors in geopolitical context |
+| Democratic | S53-S56 | Election interference, parliamentary espionage, media manipulation |
+| Vendor-Specific | S57-S68 | Product-linked scenarios (Fortinet, Cisco, Microsoft, Kaspersky) |
 
 ### 12.2 Block-Level Observations
 
 The analysis script does not disaggregate by scenario block. Key block-level observations derive from the within-scenario delta CSV:
 
-1. **Technology-linked scenarios (S29–S36)** tend to produce higher CVE mention rates, consistent with the technology priming hypothesis.
-2. **False-flag scenarios (S45–S48)** are specifically designed to test whether the model reduces overconfidence when attribution is ambiguous. The absence of "Low" confidence labels at Confirmed level across all conditions (Section 9.3) suggests the model does not adjust its confidence downward for false-flag contexts.
-3. **Vendor-specific scenarios (S57–S68)** involve named commercial products, which may interact with the safety classifier differently than generic infrastructure scenarios.
+1. **Technology-linked scenarios (S29-S36)** tend to produce higher CVE mention rates, consistent with the technology priming hypothesis.
+2. **False-flag scenarios (S45-S48)** are specifically designed to test whether the model reduces overconfidence when attribution is ambiguous. The absence of "Low" confidence labels at Confirmed level across all conditions (Section 9.3) suggests the model does not adjust its confidence downward for false-flag contexts.
+3. **Vendor-specific scenarios (S57-S68)** involve named commercial products, which may interact with the safety classifier differently than generic infrastructure scenarios.
 
 ---
 
@@ -436,23 +451,23 @@ The most striking Phase II finding is the differential treatment of US attributi
 |---|---|---|---|
 | Refusal rate | **17.7%** | 9.4% | 2.1% |
 | Mean output (chars) | 2,624 | 2,810 | 2,984 |
-| Hedge terms | 2.50 | 2.83 | 3.04 |
-| Escalation terms | 1.05 | 1.05 | 1.14 |
+| Hedge terms | 2.91 | 3.25 | 3.40 |
+| Escalation terms | 1.64 | 1.82 | 1.93 |
 | Unknown confidence labels | 38 | 31 | 31 |
 
 ### 13.2 Interpretation
 
-US_Confirmed triggers the safety classifier nearly **twice as often** as China_Confirmed and **8× more** than Russia_Confirmed at T=0.7. For Meta's llama3.1:
+US_Confirmed triggers the safety classifier nearly **twice as often** as China_Confirmed and **8x more** than Russia_Confirmed at T=0.7. For Meta's llama3.1:
 
 1. **The model appears trained to be cautious about attributing cyber operations to the United States.** This may reflect RLHF alignment choices or training data composition where US cyber operations are discussed in more sensitive terms.
-2. **Lower hedging for US_Confirmed (2.50) than for any other actor** suggests that when the model does respond, it hedges less — but it more often refuses entirely.
+2. **Lower hedging for US_Confirmed (2.91) than for any other actor** suggests that when the model does respond, it hedges less — but it more often refuses entirely.
 3. **The pattern is temperature-dependent:** at T=0.0, US_Confirmed has 0% refusal, identical to other actors. The sensitivity manifests only when stochastic sampling activates the safety classifier.
 
 ### 13.3 Statistical Evidence
 
-Output length: US_Confirmed vs Russia_Confirmed at T=0.7 (d = -0.41, p = 0.005) — significant, driven by refusal-truncated outputs.
+Output length: US_Confirmed vs Russia_Confirmed at T=0.7 (d = -0.408, p = 0.005) — significant, driven by refusal-truncated outputs.
 
-Hedging: US_Confirmed vs Russia_Confirmed at T=0.7 (d = -0.28, p = 0.06) — marginal, trending toward US producing less hedging.
+Hedging: US_Confirmed vs Russia_Confirmed at T=0.7 (d = -0.221, p = 0.125) — non-significant, trending toward US producing less hedging.
 
 ---
 
@@ -462,15 +477,15 @@ Hedging: US_Confirmed vs Russia_Confirmed at T=0.7 (d = -0.28, p = 0.06) — mar
 
 | Metric | Iran | DPRK | China | Russia |
 |---|---|---|---|---|
-| Hedge terms | 3.06 | 3.60 | 2.83 | 3.23 |
-| Escalation terms | 1.56 | 1.46 | 1.56 | 1.40 |
-| Strong assertions | 0.23 | 0.13 | 0.15 | 0.04 |
+| Hedge terms | 3.71 | 4.13 | 3.54 | 3.79 |
+| Escalation terms | 2.29 | 2.48 | 2.56 | 2.27 |
+| Strong assertions | 0.35 | 0.40 | 0.25 | 0.21 |
 | Output length | 2,969 | 3,073 | 3,037 | 3,035 |
 
 ### 14.2 Key Findings
 
-1. **DPRK_Confirmed shows the highest hedging of any actor** (3.60 at T=0.0), significantly more than China_Confirmed (d = 0.54, p < 0.001). The model appears less confident about DPRK attribution.
-2. **Iran_Confirmed shows the highest strong assertion rate** (0.23), significantly more than Russia_Confirmed (d = 0.57, p < 0.001). Iran may be discussed in more absolute terms in the training data.
+1. **DPRK_Confirmed shows the highest hedging of any actor** (4.13 at T=0.0), significantly more than China_Confirmed (d = 0.353, p = 0.014). The model appears less confident about DPRK attribution.
+2. **DPRK_Confirmed shows the highest strong assertion rate** (0.40), significantly more than Russia_Confirmed (d = 0.326, p = 0.036). Iran_Confirmed also shows elevated strong assertions (0.35) compared to Russia_Confirmed (d = 0.297, p = 0.040).
 3. **Escalation density is actor-invariant** — no significant differences between peer and non-peer actors.
 4. **Non-peer actors do not receive systematically different rhetorical treatment** beyond the specific patterns above. The model does not simplify or amplify rhetoric for "lesser" actors.
 
@@ -478,7 +493,7 @@ Hedging: US_Confirmed vs Russia_Confirmed at T=0.7 (d = -0.28, p = 0.06) — mar
 
 ## 15. False-Flag Handling
 
-False-flag scenarios (S45–S48) are designed to test epistemic caution under ambiguous attribution. Key observations:
+False-flag scenarios (S45-S48) are designed to test epistemic caution under ambiguous attribution. Key observations:
 
 1. **The model never assigns "Low" confidence to Confirmed conditions** — even in false-flag scenarios designed to create attribution ambiguity. This suggests the model treats the attribution framing at face value rather than reasoning about attribution uncertainty.
 2. **Hedging levels in false-flag scenarios are not elevated** relative to other scenario blocks, indicating the model does not detect or respond to the epistemic complexity of false-flag narratives.
@@ -494,25 +509,67 @@ This is a significant limitation: the model calibrates certainty based on the at
 |---|---|
 | **Scenarios covered** | 48 |
 | **Actors covered** | 5 (China, Russia, US, Iran, DPRK) |
-| **Temperature stability** | Poor (4.4× variance ratio; 4.6% refusal at T=0.7) |
+| **Temperature stability** | Poor (4.4x variance ratio; 4.6% refusal at T=0.7) |
 | **Refusal rate** | 2.4% overall (0.2% T=0.0, 4.6% T=0.7) |
-| **Hedging calibration** | Strong and uniform (d = 1.02–1.84 across 5 actors) |
-| **Escalation calibration** | Negligible (d < 0.22 for all actors) |
+| **Hedging calibration** | Strong and uniform (d = 1.338-2.360 across 5 actors) |
+| **Escalation calibration** | Negligible (d < 0.40 for all actors) |
 | **Actor symmetry (hedging)** | Good — only DPRK vs China significant |
 | **Actor symmetry (escalation)** | Excellent — no pairwise differences |
 | **Western actor sensitivity** | High — US_Confirmed triggers 17.7% refusal at T=0.7 |
 | **CVE mention rate** | High (34.8%) — accuracy unverified |
 | **Confidence label output** | Rich at T=0.0; fragmented at T=0.7 |
 | **False-flag sensitivity** | None detected |
-| **Rhetorical profile** | Balanced (E/H = 0.34–0.55) |
+| **Rhetorical profile** | Balanced (E/H = 0.50-0.72) |
 
 ---
 
-## 17. Related Files
+## 17. Confidence Pattern Analysis
 
-- [Full Research Methodology](../../docs/methodology.md) — Full research methodology
-- [Phase 1 Results (Data)](../../Phase_1/Results_Data.md) — Phase I quantitative results (1,200 records)
-- [Phase 1 Results](../../Phase_1/Results.md) — Phase I results in plain language
-- [README](../../README.md) — Project README and setup instructions
-- Results directory: `../../results/Phase_2/llama31/run_20260224T103518Z_51e859312629dea4.jsonl`
-- Analysis outputs: `../../results/Phase_2/llama31/analysis/`
+A five-category taxonomy of rhetorical patterns was applied to the `confidence_assessment` field of all 2,112 records. Of these, 1,784 (84.5%) had non-empty confidence text. Full analysis in [[llama31/Confidence_Pattern_Analysis]].
+
+### Taxonomy
+
+| Category | Description | Patterns |
+|----------|-------------|----------|
+| Evidence qualification | Statements that evidence is insufficient for definitive attribution | 6 |
+| Misattribution caveats | Warnings about false attribution or alternative actors | 6 |
+| Corroboration demands | Calls for further analysis or independent verification | 6 |
+| Contextual support | Geopolitical context supports but doesn't prove attribution | 5 |
+| Procedural hedges | Generic analytical caution about process | 5 |
+
+### Detection rates at Confirmed level (all actors pooled)
+
+| Category | Rate |
+|----------|------|
+| Evidence qualification | 6.7% |
+| Misattribution caveats | 13.9% |
+| Corroboration demands | 12.6% |
+| Contextual support | 1.7% |
+| Procedural hedges | 0.5% |
+
+### Actor symmetry
+
+- **3/50 pairwise tests significant** at p < 0.05 (none surviving Bonferroni correction)
+- All three involve the US showing elevated hedging (evidence qualification and corroboration demands)
+- China-vs-rest: 2/5 significant, both showing China receiving *less* hedging
+
+### Certainty calibration
+
+- **12/25 tests significant** -- the most certainty-sensitive model
+- Corroboration demands drop from Suspected to Confirmed for China, Russia, Iran, DPRK (d = 0.331--0.604)
+- Evidence qualification *increases* from Suspected to Confirmed for all 5 actors -- analytically reversed
+
+### Temperature effect
+
+- **2/5 tests significant** -- evidence qualification (d = 0.304) and misattribution caveats (d = 0.261) both drop at T=0.7
+- Consistent with output degradation under stochastic generation, not meaningful rhetorical shift
+
+---
+
+## 18. Related Files
+
+- [[methodology]] — Full research methodology
+- [[Phase_1/Results_Data]] — Phase I quantitative results (1,200 records)
+- [[Phase_1/Results]] — Phase I results in plain language
+- [[README]] — Project README and setup instructions
+- Results directory: `results/Phase_2/llama31/run_20260224T103518Z_51e859312629dea4.jsonl`

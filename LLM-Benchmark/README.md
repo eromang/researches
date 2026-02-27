@@ -21,9 +21,9 @@ Phase I prompt set: the first 100 rows (20 scenarios x 5 conditions) of the 200-
 
 - **48 scenarios** spanning 7 thematic blocks (EU internal, Chinese tech, multipolar, false-flag, non-state, democratic process, vendor-specific)
 - **11 conditions** per scenario: Neutral + Suspected/Confirmed for China, Russia, US, Iran, DPRK
-- **2 models** tested: llama3.1:8b-instruct-q4_K_M, gemma3n:e4b
+- **4 models** tested: llama3.1:8b-instruct-q4_K_M, gemma3n:e4b, qwen3:8b (reasoning), deepseek-r1:8b (reasoning, incomplete)
 - **2 temperatures**, **2 replications**
-- **Total: 2,112 prompts per model** (4,224 total)
+- **Total: 2,112 prompts per model** (8,448 target; 7,676 completed)
 
 ### Controlled Variables
 
@@ -37,15 +37,15 @@ Phase I prompt set: the first 100 rows (20 scenarios x 5 conditions) of the 200-
 
 | Model | Origin | Type | Parameters | Thinking | Status |
 |-------|--------|------|------------|----------|--------|
-| qwen3:8b | Alibaba (China) | Standard | 8B | No | Phase I complete |
-| deepseek-r1:8b | DeepSeek (China) | Reasoning | 8B | Yes | Phase I complete |
+| qwen3:8b | Alibaba (China) | Reasoning | 8B | Yes | Phase I + II complete |
+| deepseek-r1:8b | DeepSeek (China) | Reasoning | 8B | Yes | Phase I complete; Phase II incomplete (63.4%) |
 | llama3.1:8b-instruct-q4_K_M | Meta (US) | Standard | 8B (Q4_K_M) | No | Phase I + II complete |
 | gemma3n:e4b | Google (US) | Standard | ~4B effective | No | Phase II complete |
 
 ### Group Structure
 
-- **Standard models**: qwen3, llama3.1, gemma3n — direct response generation
-- **Reasoning models**: deepseek-r1 — chain-of-thought with `<think>` tokens (stripped from analysis)
+- **Standard models**: llama3.1, gemma3n — direct response generation
+- **Reasoning models**: qwen3, deepseek-r1 — chain-of-thought with `<think>` tokens (stripped from analysis via `--strip-thinking`)
 
 ## Repository Structure
 
@@ -81,9 +81,14 @@ LLM-Benchmark/
 │   ├── llama31/
 │   │   ├── Results.md          ← Plain language results (llama3.1)
 │   │   └── Results_Data.md     ← Quantitative results (llama3.1)
-│   └── gemma3n/
-│       ├── Results.md          ← Plain language results (gemma3n)
-│       └── Results_Data.md     ← Quantitative results (gemma3n)
+│   ├── gemma3n/
+│   │   ├── Results.md          ← Plain language results (gemma3n)
+│   │   └── Results_Data.md     ← Quantitative results (gemma3n)
+│   └── qwen3-thinking/
+│       ├── Results.md          ← Plain language results (qwen3 thinking)
+│       ├── Results_Data.md     ← Quantitative results (qwen3 thinking)
+│       ├── Cross_Phase_Comparison.md  ← Phase I vs II comparison
+│       └── Greedy_Decoding_Failure_Note.md ← T=0.0 failure analysis
 │
 └── results/
     ├── RUNS.md                 ← Run registry
@@ -110,13 +115,14 @@ LLM-Benchmark/
 # Start Ollama
 ollama serve
 
-# Phase I: 20 scenarios, 5 conditions, single model
+# Phase I: 20 scenarios, 5 conditions, single model (reasoning model with thinking stripped)
 python3 scripts/run_benchmark_v2_5.py \
   --prompts prompts/EU_Cyber_Phase_II_40_Scenarios_200_Prompts_Harmonised.csv \
   --models qwen3:8b \
   --temps 0 0.7 \
   --reps 2 \
   --num-ctx 4096 \
+  --strip-thinking \
   --outdir results \
   --resume
 
@@ -169,8 +175,8 @@ Key features:
 
 ### Phase I (1,200 records)
 
-- **Certainty calibration works**: all models hedge less under Confirmed attribution (Cohen's d = -0.40 to -0.96)
-- **Actor asymmetry is small**: Russia_Confirmed triggers only 1.1% more escalation than China_Confirmed
+- **Certainty calibration works**: all models hedge less under Confirmed attribution (Cohen's d = -0.95 to -2.32)
+- **Actor asymmetry is negligible on escalation**: China_Confirmed and Russia_Confirmed differ by < 1% on escalation density; E/H ratio diverges (13.9%) due to hedging differences
 - **llama3.1 breaks at T=0.7**: 14% refusal rate, 16x variance increase — temperature-dependent stochastic safety activation
 - **Chinese-origin models show China-sensitivity**: qwen3 uses diplomatic framing, deepseek-r1 shifts the evidence burden for China attribution
 - **CVE hallucination is model-specific**: deepseek-r1 fixates on PwnKit (CVE-2021-4034); qwen3 never mentions CVEs
@@ -194,6 +200,14 @@ Detailed results: [Phase 2 Results](Phase_2/llama31/Results.md) | [Phase 2 Data]
 - **Very low CVE mentions**: 1.9% (vs llama3.1's 34.8%)
 
 Detailed results: [Gemma3n Results](Phase_2/gemma3n/Results.md) | [Gemma3n Data](Phase_2/gemma3n/Results_Data.md)
+
+### Phase II — qwen3:8b thinking (2,115 records)
+
+- **Chinese-origin reasoning model on expanded scenarios**: same qwen3:8b from Phase I, now tested on 48 scenarios x 11 conditions
+- **Mid-run `--strip-thinking` activation**: first 479 records without flag, remainder with — creates a natural within-run comparison
+- **3 timeout failures**: all at T=0.0 where internal reasoning never terminated
+
+Detailed results: [Qwen3 Thinking Results](Phase_2/qwen3-thinking/Results.md) | [Qwen3 Thinking Data](Phase_2/qwen3-thinking/Results_Data.md)
 
 ## Analysis
 

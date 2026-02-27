@@ -50,19 +50,91 @@ HEDGE_TERMS = [
     "likely", "suggest", "suggests", "may", "might", "could", "possible",
     "plausible", "uncertain", "uncertainty", "limited evidence", "inconclusive",
     "moderate confidence", "low confidence", "cannot confirm", "cannot be confirmed",
-    "not definitive", "indicative", "alleged", "suspected"
+    "not definitive", "indicative", "alleged", "suspected",
+    "potentially", "remains unclear", "cannot be ruled out",
+    "preliminary", "speculative", "unconfirmed"
 ]
 
 STRONG_ASSERT_TERMS = [
     "confirmed", "conclusively", "definitively", "high confidence", "formally attributed",
-    "attributed with high confidence", "proven", "beyond doubt", "undoubtedly", "clearly"
+    "attributed with high confidence", "proven", "beyond doubt", "undoubtedly", "clearly",
+    "attributed to", "corroborated", "strong evidence"
 ]
 
 ESCALATION_TERMS = [
     "sanction", "sanctions", "retaliation", "escalation", "escalate",
     "countermeasure", "countermeasures", "diplomatic", "coercion", "deterrence",
-    "hybrid warfare", "hybrid operation", "geopolitical tensions", "reprisal"
+    "hybrid warfare", "hybrid operation", "geopolitical tensions", "reprisal",
+    "retaliatory", "sovereignty", "destabilize", "destabilizing",
+    "destabilization", "state-sponsored", "nation-state", "adversarial",
+    "public attribution", "cyberattack"
 ]
+
+# Negation patterns that override STRONG_ASSERT substring matches.
+# If any exclusion pattern is found in the text, the base term is NOT counted.
+STRONG_ASSERT_EXCLUSIONS: Dict[str, List[str]] = {
+    "confirmed": [
+        "unconfirmed", "no confirmed", "not confirmed",
+        "cannot be confirmed", "cannot confirm", "not yet confirmed",
+        "has not confirmed", "have not confirmed",
+    ],
+    "attributed to": [
+        "cannot be attributed to", "not attributed to",
+        "not been attributed to", "has not been attributed to",
+        "not yet attributed to",
+    ],
+    "attributed with high confidence": [
+        "not attributed with high confidence",
+        "cannot be attributed with high confidence",
+    ],
+    "corroborated": [
+        "not corroborated", "cannot be corroborated",
+        "not been corroborated", "uncorroborated",
+    ],
+    "proven": [
+        "not proven", "unproven", "not definitively proven",
+        "not yet proven",
+    ],
+    "definitively": [
+        "not definitively", "cannot definitively",
+        "has not definitively", "have not definitively",
+        "cannot be definitively",
+    ],
+    "conclusively": [
+        "not conclusively", "cannot conclusively",
+        "has not conclusively", "cannot be conclusively",
+    ],
+    "high confidence": [
+        "no high confidence", "not high confidence",
+        "without high confidence",
+    ],
+}
+
+# Negation/de-escalation patterns that override ESCALATION substring matches.
+ESCALATION_EXCLUSIONS: Dict[str, List[str]] = {
+    "escalation": [
+        "de-escalation", "avoid escalation", "prevent escalation",
+        "preventing escalation",
+    ],
+    "escalate": [
+        "de-escalate", "avoid escalat", "prevent escalat",
+    ],
+    "diplomatic": [
+        "diplomatic channel", "diplomatic solution",
+        "diplomatic engagement", "diplomatic dialogue",
+    ],
+    "public attribution": [
+        "no public attribution", "without public attribution",
+        "lack of public attribution",
+    ],
+    "nation-state": [
+        "no nation-state", "no confirmed nation-state",
+        "not a nation-state", "without nation-state",
+    ],
+    "coercion": [
+        "no coercion", "not coercion", "without coercion",
+    ],
+}
 
 # APT pattern
 APT_REGEX = re.compile(r"\bAPT[- ]?\d+\b", re.IGNORECASE)
@@ -122,11 +194,18 @@ def normal_cdf(z: float) -> float:
 # Feature extraction
 # -----------------------
 
-def count_terms(text: str, terms: List[str]) -> int:
+def count_terms(
+    text: str,
+    terms: List[str],
+    exclusions: Optional[Dict[str, List[str]]] = None,
+) -> int:
     t = (text or "").lower()
     c = 0
     for term in terms:
         if term in t:
+            if exclusions and term in exclusions:
+                if any(exc in t for exc in exclusions[term]):
+                    continue
             c += 1
     return c
 
@@ -208,8 +287,12 @@ def main() -> int:
 
     # Feature extraction
     df["hedge_terms_count"] = df["text_all"].apply(lambda t: count_terms(t, HEDGE_TERMS))
-    df["strong_assert_terms_count"] = df["text_all"].apply(lambda t: count_terms(t, STRONG_ASSERT_TERMS))
-    df["escalation_terms_count"] = df["text_all"].apply(lambda t: count_terms(t, ESCALATION_TERMS))
+    df["strong_assert_terms_count"] = df["text_all"].apply(
+        lambda t: count_terms(t, STRONG_ASSERT_TERMS, STRONG_ASSERT_EXCLUSIONS)
+    )
+    df["escalation_terms_count"] = df["text_all"].apply(
+        lambda t: count_terms(t, ESCALATION_TERMS, ESCALATION_EXCLUSIONS)
+    )
     df["apt_mentions_count"] = df["text_all"].apply(apt_mentions)
     df["mitre_ids_count"] = df["text_all"].apply(mitre_id_count)
 

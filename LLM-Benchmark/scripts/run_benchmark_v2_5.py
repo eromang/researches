@@ -834,6 +834,71 @@ def write_report(report_path: str, summary_rows: List[Dict[str, Any]], records: 
 # Resume support
 # ---------------------------
 
+def index_path_for(jsonl_path: str) -> str:
+    """Return path for the lightweight resume index sidecar file."""
+    return jsonl_path + ".resume_index"
+
+def resume_key(rec: Dict[str, Any]) -> Tuple[str, float, int, str]:
+    return (
+        str(rec.get("model","")),
+        float(rec.get("temperature", 0.0)),
+        int(rec.get("rep", 0)),
+        str(rec.get("prompt_id","")),
+    )
+
+def append_to_index(idx_path: str, key: Tuple[str, float, int, str]) -> None:
+    """Append a single completed key to the resume index file."""
+    with open(idx_path, "a", encoding="utf-8") as f:
+        f.write(f"{key[0]}\t{key[1]}\t{key[2]}\t{key[3]}\n")
+
+def load_index(idx_path: str) -> Tuple[set, bool]:
+    """Load completed keys from the resume index sidecar file.
+    Returns (set_of_keys, include_errors_flag_from_header).
+    """
+    done = set()
+    include_errors = False
+    if not os.path.exists(idx_path):
+        return done, include_errors
+    with open(idx_path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.rstrip("\n")
+            if line.startswith("# include_errors="):
+                include_errors = line.split("=", 1)[1].strip() == "True"
+                continue
+            if not line or line.startswith("#"):
+                continue
+            parts = line.split("\t")
+            if len(parts) == 4:
+                done.add((parts[0], float(parts[1]), int(parts[2]), parts[3]))
+    return done, include_errors
+
+def write_index(idx_path: str, completed: set, include_errors: bool) -> None:
+    """Write (or rebuild) the full resume index file from a completed set."""
+    with open(idx_path, "w", encoding="utf-8") as f:
+        f.write(f"# include_errors={include_errors}\n")
+        for key in completed:
+            f.write(f"{key[0]}\t{key[1]}\t{key[2]}\t{key[3]}\n")
+
+def build_completed_set_from_file(jsonl_path: str, include_errors: bool) -> Tuple[set, int]:
+    """Stream JSONL and build completed set in one pass without storing all records."""
+    done = set()
+    n_records = 0
+    if not os.path.exists(jsonl_path):
+        return done, 0
+    with open(jsonl_path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                rec = json.loads(line)
+            except Exception:
+                continue
+            n_records += 1
+            if bool(rec.get("ok")) or include_errors:
+                done.add(resume_key(rec))
+    return done, n_records
+
 def load_existing_jsonl(jsonl_path: str) -> List[Dict[str, Any]]:
     records: List[Dict[str, Any]] = []
     if not os.path.exists(jsonl_path):
@@ -849,22 +914,6 @@ def load_existing_jsonl(jsonl_path: str) -> List[Dict[str, Any]]:
                 # skip corrupted/partial line
                 continue
     return records
-
-def resume_key(rec: Dict[str, Any]) -> Tuple[str, float, int, str]:
-    return (
-        str(rec.get("model","")),
-        float(rec.get("temperature", 0.0)),
-        int(rec.get("rep", 0)),
-        str(rec.get("prompt_id","")),
-    )
-
-def build_completed_set(records: List[Dict[str, Any]], include_errors: bool) -> set:
-    done = set()
-    for r in records:
-        ok = bool(r.get("ok"))
-        if ok or include_errors:
-            done.add(resume_key(r))
-    return done
 
 
 # ---------------------------
@@ -1117,16 +1166,32 @@ def main() -> int:
         p["sensitivity_level"] = p.get("sensitivity_level", p.get("condition", "") or "")
 
     # Resume: read existing JSONL
-    existing_records: List[Dict[str, Any]] = []
     completed = set()
     if args.overwrite and os.path.exists(jsonl_path):
         os.remove(jsonl_path)
+        idx_overwrite = index_path_for(jsonl_path)
+        if os.path.exists(idx_overwrite):
+            os.remove(idx_overwrite)
+
+    idx_file = index_path_for(jsonl_path)
 
     if args.resume and os.path.exists(jsonl_path):
-        existing_records = load_existing_jsonl(jsonl_path)
-        completed = build_completed_set(existing_records, include_errors=args.resume_include_errors)
-        print(f"[RESUME] Loaded {len(existing_records)} existing records from {jsonl_path}")
-        print(f"[RESUME] Completed keys: {len(completed)} (include_errors={args.resume_include_errors})")
+        # Fast path: use sidecar index if it exists, is fresh, and mode matches
+        use_index = False
+        if os.path.exists(idx_file) and os.path.getmtime(idx_file) >= os.path.getmtime(jsonl_path):
+            idx_completed, idx_include_errors = load_index(idx_file)
+            if idx_include_errors == args.resume_include_errors:
+                completed = idx_completed
+                use_index = True
+
+        if use_index:
+            print(f"[RESUME] Loaded {len(completed)} completed keys from index (fast)")
+        else:
+            # Slow path: rebuild from JSONL
+            completed, n_existing = build_completed_set_from_file(jsonl_path, include_errors=args.resume_include_errors)
+            write_index(idx_file, completed, args.resume_include_errors)
+            print(f"[RESUME] Rebuilt index with {len(completed)} keys from {n_existing} records")
+        print(f"[RESUME] include_errors={args.resume_include_errors}")
 
     # Determine API endpoint label
     api_endpoint = "chat" if args.use_chat else "generate"
@@ -1272,6 +1337,7 @@ def main() -> int:
                             # Mark complete immediately so we don't repeat on crash
                             if bool(rec.get("ok")) or args.resume_include_errors:
                                 completed.add(key)
+                                append_to_index(idx_file, key)
 
                             if args.export_md:
                                 md_root = os.path.join(args.outdir, run_id, "markdown")

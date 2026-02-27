@@ -50,6 +50,7 @@ def extract_sections(text: str) -> Dict[str, str]:
             re.compile(rf"(?im)^\s*\d+\s*[\)\.\-:]\s*\*\*{re.escape(title)}\*\*\s*$"),
             re.compile(rf"(?im)^\s*#+\s*{re.escape(title)}\s*$"),
             re.compile(rf"(?im)^\s*\*\*\d+[\)\.\-:]*\s*{re.escape(title)}\*\*"),
+            re.compile(rf"(?im)^\s*\*\*\d+\)\s*{re.escape(title)}:?\*\*\s*$"),
             re.compile(rf"(?im)^\s*\*\*{re.escape(title)}\*\*\s*:?\s*$"),
             re.compile(rf"(?im)^\s*{re.escape(title)}\s*:\s*$"),
         ]

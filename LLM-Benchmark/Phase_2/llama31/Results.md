@@ -1,3 +1,14 @@
+---
+title: "Phase 2 Results — Plain Language Edition"
+date_created: 2026-02-24
+date_updated: 2026-02-27
+project: "EU Cyber Threat Landscape LLM Benchmark"
+phase: "Phase 2"
+related:
+  - "[[llama31/Results_Data]]"
+  - "[[methodology]]"
+---
+
 # Phase 2 results — plain language edition
 
 ## What I tested and why it matters
@@ -60,21 +71,21 @@ At T=0.7, things shift. Responses average about 2,978 characters in roughly 11 s
 
 This is the headline finding, and it is good news. When I told the model that attribution was "confirmed" instead of "suspected," it hedged less — consistently, for all five actors, at both temperatures.
 
-The size of that shift ranged from Cohen's d = 1.02 to 1.84 across the ten actor-temperature combinations. Every single one is a large effect. Every single one is statistically significant at p < 10⁻¹².
+The size of that shift ranged from Cohen's d = 1.338 to 2.360 across the ten actor-temperature combinations. Every single one is a large effect. Every single one is statistically significant at p < 10^-12.
 
 Here is what that looks like at T=0.0:
 
 | Actor | Suspected | Confirmed | Drop | Cohen's d |
 |-------|-----------|-----------|------|-----------|
-| China | 5.42 | 2.83 | -2.58 | 1.84 |
-| US | 5.65 | 3.15 | -2.50 | 1.79 |
-| Iran | 5.56 | 3.06 | -2.50 | 1.75 |
-| Russia | 5.17 | 3.23 | -1.94 | 1.42 |
-| DPRK | 5.08 | 3.60 | -1.48 | 1.21 |
+| US | 7.13 | 3.73 | -3.40 | 2.360 |
+| China | 6.94 | 3.54 | -3.40 | 2.208 |
+| Iran | 7.08 | 3.71 | -3.37 | 2.200 |
+| DPRK | 6.79 | 4.13 | -2.66 | 1.870 |
+| Russia | 6.73 | 3.79 | -2.94 | 1.850 |
 
-At T=0.7 the pattern holds, with slightly smaller effect sizes (d = 1.02–1.52). The model is doing what you would want it to do: it hedges more when attribution is uncertain and hedges less when attribution is confirmed.
+At T=0.7 the pattern holds, with slightly smaller effect sizes (d = 1.338-1.749). The model is doing what you would want it to do: it hedges more when attribution is uncertain and hedges less when attribution is confirmed.
 
-The interesting part: **escalation language barely moves.** The Cohen's d values for escalation density are all below 0.22, regardless of actor or temperature. The model adjusts its certainty by dialing down caution, not by dialing up aggression. It hedges less rather than escalates more.
+The interesting part: **escalation language barely moves.** The Cohen's d values for escalation density range from -0.398 to 0.180, regardless of actor or temperature. The model adjusts its certainty by dialing down caution, not by dialing up aggression. It hedges less rather than escalates more.
 
 ---
 
@@ -112,18 +123,18 @@ At T=0.0 (Confirmed conditions):
 
 | Metric | China | Russia | US | Iran | DPRK |
 |--------|-------|--------|----|------|------|
-| Hedge terms | 2.83 | 3.23 | 3.15 | 3.06 | 3.60 |
-| Escalation terms | 1.56 | 1.40 | 1.44 | 1.56 | 1.46 |
-| E/H ratio | 0.55 | 0.43 | 0.46 | 0.51 | 0.40 |
+| Hedge terms | 3.54 | 3.79 | 3.73 | 3.71 | 4.13 |
+| Escalation terms | 2.56 | 2.27 | 2.50 | 2.29 | 2.48 |
+| E/H ratio | 0.72 | 0.60 | 0.67 | 0.62 | 0.60 |
 | Output length (chars) | 3,037 | 3,035 | 2,959 | 2,969 | 3,073 |
 
 The **E/H ratio** (escalation-to-hedging ratio) divides escalation terms by hedge terms. Above 1.0 means more escalation than hedging. Below 1.0 means more hedging. All actors sit well below 1.0 — the model hedges more than it escalates for everyone.
 
-When I ran pairwise statistical tests comparing every actor pair on hedging at Confirmed level, **only one comparison reached significance:** DPRK hedges more than China (d = 0.54, p < 0.001) at T=0.0. All other pairwise hedging comparisons are non-significant.
+When I ran pairwise statistical tests comparing every actor pair on hedging at Confirmed level, **only one comparison reached significance:** DPRK hedges more than China (d = 0.353, p = 0.014) at T=0.0. All other pairwise hedging comparisons are non-significant.
 
 For escalation, the result is even cleaner: **zero pairwise comparisons reach significance.** Escalation density is fully actor-invariant. The model does not escalate more for any country.
 
-One subtle asymmetry: **Russia gets the lowest strong assertion rate** (0.04 terms per response, compared to 0.23 for Iran). Iran vs Russia is the only significant pairwise difference on strong assertions (d = 0.57, p < 0.001). The model uses the most careful, least assertive language when attributing to Russia.
+One subtle asymmetry: **Russia gets the lowest strong assertion rate** (0.21 terms per response, compared to 0.35 for Iran). Iran vs Russia is the only significant pairwise difference on strong assertions (d = 0.297, p = 0.040). The model uses the most careful, least assertive language when attributing to Russia.
 
 ---
 
@@ -151,11 +162,11 @@ The 34.8% rate is driven partly by the scenario pool: the 48 scenarios include t
 
 ## Finding 6: False-flag scenarios do not reduce overconfidence
 
-I included four scenarios (S45–S48) specifically designed to create attribution ambiguity — false-flag operations where the technical evidence could point in multiple directions.
+I included four scenarios (S45-S48) specifically designed to create attribution ambiguity — false-flag operations where the technical evidence could point in multiple directions.
 
 The result: the model never assigns a "Low" confidence label to any Confirmed condition, even in false-flag scenarios. When I tell it attribution is confirmed, it treats that as settled, regardless of whether the scenario's internal evidence supports that certainty.
 
-At T=0.0, the model produces "High" confidence labels 77–83% of the time across all conditions. "Low" appears only in Neutral (4 instances), Russia_Suspected (2), and US_Suspected (4). No Confirmed condition — for any actor — ever receives "Low."
+At T=0.0, the model produces "High" confidence labels 67-83% of the time across all conditions. "Low" appears only in Neutral (4 instances), Russia_Suspected (2), and US_Suspected (4). No Confirmed condition — for any actor — ever receives "Low."
 
 That is a real limitation: **the model calibrates certainty based on the label it is given, not based on the scenario evidence.** It trusts the attribution framing at face value. An analyst using false-flag scenarios to stress-test the model's epistemic caution will find none.
 
@@ -181,6 +192,28 @@ This is the same irony identified in earlier testing: the safety classifier prev
 
 ---
 
+## Finding 8: The model's confidence language treats all countries the same -- except for mild US sensitivity
+
+Beyond measuring how much the model hedges (Finding 1), I also looked at *how* it hedges. What kind of cautious language does it use, and does it change depending on who is being blamed?
+
+I grouped hedging phrases into five categories:
+
+- **Evidence qualification** -- phrases like "definitive attribution requires further evidence" that say the proof is not strong enough
+- **Misattribution caveats** -- phrases like "potential for misattribution" or "cannot be ruled out" that warn about blaming the wrong actor
+- **Corroboration demands** -- phrases like "further analysis needed" or "independent verification required" that ask for more evidence
+- **Contextual support** -- phrases like "geopolitical context supports this" or "consistent with known capabilities" that use background knowledge to support the claim
+- **Procedural hedges** -- phrases like "subject to revision" or "ongoing monitoring" that add generic caution
+
+I ran 50 statistical comparisons across all actor pairs and categories. Only 3 reached significance, and all three involve the US showing more hedging than other actors. The US writes more "definitive attribution requires" language than Russia or Iran, and more "further analysis needed" language than DPRK. This fits the broader pattern from Finding 2 -- the model is more cautious about US attribution across every dimension I have tested. But the differences are small enough that they would not hold up under stricter statistical correction.
+
+The more interesting observation is what llama3.1 does *not* say. Qwen3 constantly invokes "geopolitical context" and "historical patterns" to frame its confidence assessments -- 48 to 74% of its responses include that kind of language. Llama3.1 almost never does. Fewer than 5% of its responses reference geopolitical framing. Its confidence sections are short and sparse, leaning mostly on corroboration demands and misattribution warnings.
+
+Temperature degrades things here too. At T=0.7, evidence-qualification phrases drop from 10% to 3%, and misattribution warnings drop from 18% to 9%. This is not the model changing strategy -- it is the same output fragmentation seen in every other metric at T=0.7.
+
+Full analysis: [[llama31/Confidence_Pattern_Analysis]]. Cross-model comparison: [[Cross_Model_Confidence_Patterns]].
+
+---
+
 ## Scorecard
 
 | Dimension | llama3.1 |
@@ -189,15 +222,16 @@ This is the same irony identified in earlier testing: the safety classifier prev
 | **Actors covered** | 5 (China, Russia, US, Iran, DPRK) |
 | **Temperature stability** | Poor (4.4x variance ratio; 4.6% refusal at T=0.7) |
 | **Refusal rate** | 2.4% overall (0.2% at T=0.0, 4.6% at T=0.7) |
-| **Hedging calibration** | Strong and uniform (d = 1.02–1.84 across 5 actors) |
-| **Escalation calibration** | Negligible shift (d < 0.22 for all actors) |
+| **Hedging calibration** | Strong and uniform (d = 1.338-2.360 across 5 actors) |
+| **Escalation calibration** | Negligible shift (d < 0.40 for all actors) |
 | **Actor symmetry (hedging)** | Good — only DPRK vs China significant |
 | **Actor symmetry (escalation)** | Excellent — no pairwise differences |
 | **Western actor sensitivity** | High — US_Confirmed triggers 17.7% refusal at T=0.7 |
 | **CVE mention rate** | High (34.8%) — accuracy unverified |
 | **Confidence label output** | Rich at T=0.0; fragmented at T=0.7 |
 | **False-flag sensitivity** | None detected |
-| **Rhetorical profile** | Balanced (E/H = 0.34–0.55) |
+| **Rhetorical profile** | Balanced (E/H = 0.50-0.72) |
+| **Confidence pattern uniformity** | Mostly uniform (3/50 sig., US elevated) |
 
 ---
 
@@ -221,4 +255,4 @@ This is the same irony identified in earlier testing: the safety classifier prev
 
 ---
 
-*Source data: [Phase 2 Results (Data)](Results_Data.md) — Full methodology: [Full Research Methodology](../../docs/methodology.md)*
+*Source data: [[llama31/Results_Data]] — Full methodology: [[methodology]]*

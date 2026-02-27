@@ -1,7 +1,6 @@
 ---
 title: "Phase 1 Results — EU Cyber LLM Benchmark"
 date_created: 2026-02-24
-date_updated: 2026-02-24
 project: "EU Cyber Threat Landscape LLM Benchmark"
 phase: "Phase 1"
 status: complete
@@ -13,6 +12,16 @@ models_tested:
 temperatures:
   - 0.0
   - 0.7
+model_configurations:
+  qwen3:8b:
+    type: reasoning
+    thinking_mode: "strip_thinking"
+  deepseek-r1:8b:
+    type: reasoning
+    thinking_mode: "strip_thinking"
+  llama3.1:8b-instruct-q4_K_M:
+    type: standard
+    thinking_mode: "none"
 scenarios: 20
 conditions: 5
 total_records: 1200
@@ -25,11 +34,11 @@ total_records: 1200
 - **1,200/1,200 records collected** (100% completion) across 3 models, 5 conditions, 2 temperatures, 2 replications, 20 scenarios.
 - **Three distinct model profiles emerged:** deepseek-r1 (verbose, cautious), qwen3 (balanced, assertive), llama3.1 (fast, concise, unstable at T=0.7).
 - **llama3.1 exhibits a critical temperature-dependent safety failure:** 0% refusal at T=0.0 but 14% refusal at T=0.7, with output variance increasing 16x.
-- **Certainty calibration works for hedging:** all three models reduce hedging density when attribution shifts from Suspected to Confirmed (Cohen's d = -0.40 to -0.96).
-- **Actor asymmetry is present but modest:** Russia_Confirmed triggers 17.6% higher escalation density than China_Confirmed.
-- **Chinese-origin models show systematic China-sensitivity in confidence language:** qwen3 uses diplomatic hedging and deepseek-r1 shifts the evidence burden for China attribution, while framing Russia attribution as routine technical investigation (Section 10).
+- **Certainty calibration works for hedging:** all three models reduce hedge term counts when attribution shifts from Suspected to Confirmed (Cohen's d = -1.27 to -2.32).
+- **Actor asymmetry is negligible on escalation terms:** China_Confirmed and Russia_Confirmed differ by less than 5% on mean escalation term counts, though E/H ratio diverges due to hedging differences (China 1.43 vs Russia 1.61).
+- **Chinese-origin models show systematic China-sensitivity in confidence language:** qwen3 uses diplomatic hedging and deepseek-r1 shifts the evidence burden for China attribution. Both treat Russia attribution with less friction — qwen3 as straightforward technical investigation, deepseek-r1 as grounded in observable patterns (Section 10).
 - **CVE hallucination is model-specific:** deepseek-r1 fixates on CVE-2021-4034 (PwnKit) across 18 records; qwen3 never mentions CVEs.
-- **deepseek-r1 is the only model with rich confidence label output**, producing extractable High/Moderate/Low labels in most responses.
+- **All three models produce extractable confidence labels.** qwen3 shows the cleanest calibration (Confirmed → High, Suspected → Moderate), deepseek-r1 provides the richest detail, while llama3.1 exhibits inverted calibration (less confident on Confirmed than Suspected in pooled data, driven by T=0.0 label patterns and T=0.7 refusal suppression).
 - **Section structure compliance is perfect (100%) except for llama3.1 at T=0.7** (88%), directly correlated with refusal episodes.
 
 ---
@@ -43,6 +52,7 @@ total_records: 1200
 | Scenarios | 20 EU-focused cyber threat vignettes |
 | Conditions | Neutral, China_Suspected, China_Confirmed, Russia_Suspected, Russia_Confirmed |
 | Models | qwen3:8b, deepseek-r1:8b, llama3.1:8b-instruct-q4_K_M |
+| Run flags | qwen3:8b and deepseek-r1:8b: `--strip-thinking` (thinking enabled, `<think>` tokens stripped from output). llama3.1: standard (no thinking flags). |
 | Temperatures | 0.0 (deterministic), 0.7 (sampling) |
 | Replications | 2 per cell |
 | Sectors covered | Energy, Finance, Health, Telecom, Government, Defence, Transport, Elections, Cloud, CriticalInfra, Space, Water, Maritime, Aviation, Automotive, Manufacturing, Research, SupplyChain |
@@ -80,6 +90,8 @@ No missing cells, no parsing failures, no timeouts. The run completed in a singl
 
 deepseek-r1 is 4x slower than llama3.1 but produces 2.6x longer outputs. qwen3 sits in the middle on both dimensions.
 
+> **Note:** Both qwen3:8b and deepseek-r1:8b ran with `--strip-thinking` (thinking enabled, `<think>` tokens stripped from recorded output). The latency figures include the invisible thinking phase. llama3.1 ran in standard mode with no thinking flags.
+
 ### 4.2 Section Compliance and Refusal Rates
 
 | Model | T | Section Compliance | Refusal Rate | CVE Mention Rate |
@@ -97,33 +109,33 @@ Section compliance is measured by presence of all 7 required headings (Executive
 
 ## 5. Certainty Calibration
 
-Do models adjust their language when attribution shifts from Suspected to Confirmed? Hedging density (per 1,000 words) should decrease, and escalation density may increase.
+Do models adjust their language when attribution shifts from Suspected to Confirmed? Hedge term counts should decrease, and escalation term counts may increase. Values are mean term counts per response, pooled across both temperatures. Cohen's d is the average of per-temperature effect sizes.
 
 ### 5.1 Hedging Shift (Confirmed - Suspected)
 
 | Model | Actor | Confirmed | Suspected | Delta | Cohen's d |
 |---|---|---|---|---|---|
-| qwen3:8b | China | 2.45 | 4.90 | -2.45 | -0.96 |
-| qwen3:8b | Russia | 2.35 | 4.67 | -2.32 | -0.90 |
-| deepseek-r1:8b | China | 10.38 | 12.03 | -1.65 | -0.53 |
-| deepseek-r1:8b | Russia | 10.48 | 12.83 | -2.35 | -0.65 |
-| llama3.1:8b-instruct-q4_K_M | China | 8.04 | 9.88 | -1.84 | -0.40 |
-| llama3.1:8b-instruct-q4_K_M | Russia | 7.66 | 9.60 | -1.94 | -0.47 |
+| qwen3:8b | China | 1.33 | 3.81 | -2.49 | -2.05 |
+| qwen3:8b | Russia | 1.28 | 4.14 | -2.86 | -2.32 |
+| deepseek-r1:8b | China | 4.56 | 6.66 | -2.10 | -1.27 |
+| deepseek-r1:8b | Russia | 4.26 | 7.04 | -2.77 | -1.87 |
+| llama3.1:8b-instruct-q4_K_M | China | 2.64 | 4.58 | -1.94 | -1.27 |
+| llama3.1:8b-instruct-q4_K_M | Russia | 2.39 | 4.85 | -2.46 | -1.83 |
 
-All Cohen's d values are negative, confirming that **all models hedge less when attribution is confirmed**. Effect sizes range from small-to-medium (d = -0.40) to large (d = -0.96). qwen3 shows the strongest certainty calibration on hedging.
+All Cohen's d values are negative, confirming that **all models hedge less when attribution is confirmed**. Effect sizes range from large (d = -1.27) to very large (d = -2.32). qwen3 shows the strongest certainty calibration on hedging.
 
 ### 5.2 Escalation Shift (Confirmed - Suspected)
 
 | Model | Actor | Confirmed | Suspected | Delta | Cohen's d |
 |---|---|---|---|---|---|
-| qwen3:8b | China | 7.45 | 6.89 | +0.56 | +0.18 |
-| qwen3:8b | Russia | 7.55 | 7.49 | +0.06 | +0.02 |
-| deepseek-r1:8b | China | 7.87 | 7.80 | +0.07 | +0.02 |
-| deepseek-r1:8b | Russia | 8.05 | 8.43 | -0.38 | -0.11 |
-| llama3.1:8b-instruct-q4_K_M | China | 8.70 | 7.89 | +0.81 | +0.15 |
-| llama3.1:8b-instruct-q4_K_M | Russia | 8.64 | 7.69 | +0.95 | +0.19 |
+| qwen3:8b | China | 5.31 | 5.61 | -0.30 | -0.18 |
+| qwen3:8b | Russia | 5.19 | 5.58 | -0.39 | -0.25 |
+| deepseek-r1:8b | China | 4.15 | 4.61 | -0.46 | -0.30 |
+| deepseek-r1:8b | Russia | 4.93 | 4.68 | +0.25 | +0.16 |
+| llama3.1:8b-instruct-q4_K_M | China | 2.75 | 2.40 | +0.35 | +0.37 |
+| llama3.1:8b-instruct-q4_K_M | Russia | 2.60 | 2.50 | +0.10 | +0.11 |
 
-Escalation shifts are small (|d| < 0.20) and inconsistent in direction. **Certainty calibration operates primarily through hedging reduction, not escalation increase.**
+Escalation shifts are small (|d| ≤ 0.37) and inconsistent in direction. After negation-aware filtering (excluding "de-escalation," "diplomatic channels," etc.), qwen3 and deepseek-r1 show slight *decreases* in escalation terms under Confirmed attribution, while llama3.1 shows slight increases. **Certainty calibration operates primarily through hedging reduction, not escalation increase.**
 
 ---
 
@@ -131,28 +143,31 @@ Escalation shifts are small (|d| < 0.20) and inconsistent in direction. **Certai
 
 ### 6.1 Confirmed Conditions: China vs Russia
 
+Values are raw mean term counts pooled across all 3 models and both temperatures (n=240 per condition, including refusal records which contribute 0 to linguistic counts).
+
 | Metric | China_Confirmed | Russia_Confirmed | Asymmetry |
 |---|---|---|---|
-| Escalation density | 7.98 | 8.07 | Russia +1.1% |
-| Hedging density | 6.91 | 6.81 | Russia -1.4% |
-| E/H ratio | 1.15 | 1.18 | Russia +2.6% |
+| Escalation terms | 4.07 | 4.24 | Russia +4.0% |
+| Hedging terms | 2.84 | 2.64 | Russia -7.0% |
+| E/H ratio | 1.43 | 1.61 | Russia +12.3% |
 | Mean output length | 5,073 chars | 5,194 chars | Russia +2.4% |
 | Refusal rate | 3.8% | 1.7% | China +2.1pp |
-| CVE mention rate | 5.4% | 4.2% | China +1.2pp |
 
-Actor asymmetry under confirmed attribution is **small** (< 3% on rhetorical metrics). The most notable asymmetry is in refusal rate: China_Confirmed triggers more refusals (3.8%) than Russia_Confirmed (1.7%), driven entirely by llama3.1 at T=0.7.
+Actor asymmetry on escalation terms is **small** (< 5%). The E/H ratio diverges more (12.3%) because hedging counts differ: models hedge more for China_Confirmed (2.84 terms) than Russia_Confirmed (2.64 terms), inflating China's denominator. The most notable asymmetry remains in refusal rate: China_Confirmed triggers more refusals (3.8%) than Russia_Confirmed (1.7%), driven entirely by llama3.1 at T=0.7.
 
 ### 6.2 Escalation/Hedging by Condition (All Models Pooled)
 
+Values are raw mean term counts (n=240 per condition, including refusal records).
+
 | Condition | n | Escalation | Hedging | E/H Ratio |
 |---|---|---|---|---|
-| Neutral | 234 | 8.38 | 12.99 | 0.65 |
-| China_Suspected | 235 | 7.52 | 8.92 | 0.84 |
-| China_Confirmed | 231 | 7.98 | 6.91 | 1.15 |
-| Russia_Suspected | 236 | 7.87 | 9.02 | 0.87 |
-| Russia_Confirmed | 236 | 8.07 | 6.81 | 1.18 |
+| Neutral | 240 | 3.21 | 5.68 | 0.57 |
+| China_Suspected | 240 | 4.21 | 5.02 | 0.84 |
+| China_Confirmed | 240 | 4.07 | 2.84 | 1.43 |
+| Russia_Suspected | 240 | 4.25 | 5.34 | 0.80 |
+| Russia_Confirmed | 240 | 4.24 | 2.64 | 1.61 |
 
-Neutral has the highest hedging and lowest E/H ratio, as expected. Both Confirmed conditions push E/H above 1.0 (more escalation than hedging).
+Neutral has the highest hedging and lowest E/H ratio, as expected. Both Confirmed conditions push E/H well above 1.0 (more escalation than hedging). The escalation gap between conditions is small (< 1 term between Confirmed and Suspected), while the hedging gap is large (~2.5 terms), confirming that the E/H shift is hedging-driven.
 
 ---
 
@@ -180,35 +195,61 @@ Neutral has the highest hedging and lowest E/H ratio, as expected. Both Confirme
 | llama3.1:8b-instruct-q4_K_M | Mean length  | 3,131 | 2,858     | -273        |
 | llama3.1:8b-instruct-q4_K_M | Length CV    | 8.3%  | **36.8%** | **+28.5pp** |
 
-qwen3 and deepseek-r1 are temperature-stable. llama3.1 exhibits a **phase transition** at T=0.7 where its safety classifier becomes stochastically activated, producing a bimodal output distribution (full responses vs. short refusals).
+qwen3 and deepseek-r1 are temperature-stable — notably so given that both are reasoning models with internal chain-of-thought active (`--strip-thinking`). Phase 2 results confirm that qwen3:8b's thinking architecture introduces non-determinism even at T=0.0 (only 9.3% identical replication pairs), yet in Phase 1 its output length variance ratio is 0.94, indicating the thinking process does not amplify temperature-induced instability. llama3.1 exhibits a **phase transition** at T=0.7 where its safety classifier becomes stochastically activated, producing a bimodal output distribution (full responses vs. short refusals).
 
 ---
 
 ## 8. Confidence Label Distribution
 
-Confidence labels (High, Moderate, Low) extracted from output text using pattern matching on "high/moderate/low confidence" phrases.
+Confidence labels (High, Moderate, Low) are extracted from output text via pattern matching on "high/moderate/low confidence" phrases. All three models produce extractable labels from nearly every response.
 
-### 8.1 deepseek-r1:8b (Primary Source — Most Labels)
+### 8.1 Per-Model Totals (400 responses each)
 
-| Condition | High | Moderate | Low | Total Extracted | n |
+| Model | High | Moderate | Low | Unknown | Total Labeled |
 |---|---|---|---|---|---|
-| China_Confirmed | 27 | 10 | 0 | 37 | 80 |
-| China_Suspected | 9 | 26 | 0 | 35 | 80 |
-| Neutral | 12 | 40 | 10 | 62 | 80 |
-| Russia_Confirmed | 26 | 3 | 0 | 29 | 80 |
-| Russia_Suspected | 2 | 26 | 0 | 28 | 80 |
+| qwen3:8b | 166 | 225 | 9 | 0 | 400 |
+| deepseek-r1:8b | 252 | 136 | 11 | 1 | 400 |
+| llama3.1:8b-instruct-q4_K_M | 219 | 124 | 7 | 50 | 400 |
 
-**Pattern:** deepseek-r1 assigns "High confidence" predominantly to Confirmed conditions (27/80 China, 26/80 Russia) and "Moderate confidence" to Suspected conditions. Neutral receives the most "Low confidence" labels (10/80). This indicates strong certainty-to-confidence calibration.
+All three models produce confidence labels consistently. deepseek-r1 skews heavily toward "High" (63%), while qwen3 distributes more evenly between "High" (41.5%) and "Moderate" (56.3%). llama3.1's 50 "Unknown" labels come from refusal/truncated outputs at T=0.7.
 
-### 8.2 Other Models
+### 8.2 Calibration Quality by Model
 
-| Model | Total "high confidence" | Total "moderate confidence" | Total "low confidence" |
-|---|---|---|---|
-| qwen3:8b | 6 | 9 | 2 |
-| llama3.1:8b-instruct-q4_K_M | 8 | 31 | 0 |
-| deepseek-r1:8b | 101 | 117 | 12 |
+**qwen3:8b — Best calibration.** Clean separation between conditions:
 
-qwen3 and llama3.1 rarely produce extractable confidence labels. deepseek-r1 is the only model where confidence assessment is a reliable structured output.
+| Condition | High % | Moderate % | Low % | n |
+|---|---|---|---|---|
+| China_Confirmed | 95.0% | 5.0% | 0% | 80 |
+| China_Suspected | 3.8% | 96.3% | 0% | 80 |
+| Neutral | 6.3% | 82.5% | 11.3% | 80 |
+| Russia_Confirmed | 97.5% | 2.5% | 0% | 80 |
+| Russia_Suspected | 5.0% | 95.0% | 0% | 80 |
+
+qwen3 maps Confirmed → High, Suspected → Moderate, Neutral → Moderate/Low with near-perfect consistency. This is the strongest calibration of the three models.
+
+**deepseek-r1:8b — Good calibration, High-skewed.**
+
+| Condition | High % | Moderate % | Low % | n |
+|---|---|---|---|---|
+| China_Confirmed | 88.8% | 11.3% | 0% | 80 |
+| China_Suspected | 37.5% | 55.0% | 7.5% | 80 |
+| Neutral | 61.3% | 32.5% | 5.0% | 80 |
+| Russia_Confirmed | 93.8% | 6.3% | 0% | 80 |
+| Russia_Suspected | 33.8% | 65.0% | 1.3% | 80 |
+
+deepseek-r1 correctly assigns highest confidence to Confirmed conditions and reserves "Low" mostly for Suspected/Neutral. However, it skews High even for Neutral (61.3%), reducing discrimination.
+
+**llama3.1:8b-instruct-q4_K_M — Inverted calibration.**
+
+| Condition | High % | Moderate % | Low % | Unknown % | n |
+|---|---|---|---|---|---|
+| China_Confirmed | 38.8% | 43.8% | 0% | 17.5% | 80 |
+| China_Suspected | 53.8% | 30.0% | 0% | 16.3% | 80 |
+| Neutral | 72.5% | 17.5% | 5.0% | 5.0% | 80 |
+| Russia_Confirmed | 51.3% | 35.0% | 1.3% | 12.5% | 80 |
+| Russia_Suspected | 57.5% | 28.8% | 2.5% | 11.3% | 80 |
+
+llama3.1 shows **inverted** calibration: Neutral receives the highest "High confidence" rate (72.5%), while China_Confirmed receives the lowest (38.8%). The "Unknown" labels cluster in T=0.7 refusal/truncated outputs. This model's confidence labels are unreliable as a structured signal.
 
 ---
 
@@ -349,8 +390,8 @@ deepseek-r1 produces the richest confidence label output of the three models (Se
 
 | Label | China_Confirmed | Russia_Confirmed | Gap |
 |---|---|---|---|
-| High | 50.0% | 55.6% | -5.6pp |
-| Moderate | 41.7% | 33.3% | +8.4pp |
+| High | 85.0% | 100.0% | -15.0pp |
+| Moderate | 15.0% | 0.0% | +15.0pp |
 | Low | 0% | 0% | — |
 
 **Key language pattern frequency:**
@@ -371,7 +412,7 @@ deepseek-r1 produces the richest confidence label output of the three models (Se
 | China-exclusive warnings | "escalation", "false positives" | "definitive proof lacking", "false positives" |
 | Russia framing | Technical investigation | Observable patterns, corroborated |
 | Temperature effect on China | More cautious at T=0.7 | More cautious at T=0.7 (both conditions) |
-| Confidence label gap | N/A (rarely produces labels) | 5.6pp gap (China lower) |
+| Confidence label gap | N/A (rarely produces labels) | 5.0pp gap (China lower) |
 
 Both models exhibit the same underlying bias — China-sensitivity in confidence language — but express it through different surface mechanisms. qwen3 uses diplomatic hedging and escalation warnings; deepseek-r1 raises the evidentiary bar for China attribution while accepting Russia attribution at face value. This pattern is consistent with RLHF-mediated training constraints on China-related content.
 
@@ -432,11 +473,11 @@ Both models exhibit the same underlying bias — China-sensitivity in confidence
 | **Temperature stability** | Excellent | Good | Poor |
 | **Refusal rate** | 0% | 0% | 7% (14% at T=0.7) |
 | **Section compliance** | 100% | 100% | 94% (88% at T=0.7) |
-| **Hedging calibration** | Strong (d = -0.93) | Medium (d = -0.59) | Medium (d = -0.44) |
-| **Escalation calibration** | Negligible | Negligible | Negligible |
+| **Hedging calibration** | Very strong (d = -2.19) | Strong (d = -1.57) | Strong (d = -1.55) |
+| **Escalation calibration** | Small (d ≤ 0.25) | Small (d ≤ 0.30) | Small (d ≤ 0.37) |
 | **CVE hallucination risk** | None | High (PwnKit fixation) | Low |
-| **Confidence label output** | Rare | Rich | Rare |
-| **Rhetorical profile** | Assertive (E/H > 1.5) | Cautious (E/H ~ 0.7) | Balanced (E/H ~ 0.8) |
+| **Confidence label output** | Rich (best calibrated) | Rich (High-skewed) | Rich (inverted calibration) |
+| **Rhetorical profile** | Assertive (E/H ~ 1.6) | Cautious (E/H ~ 0.7) | Cautious (E/H ~ 0.7) |
 | **Attribution sensitivity** | China-diplomatic framing | China-evidence deflection | N/A (refusal masks signal) |
 | **Overall reliability** | High | High | Low at T=0.7 |
 

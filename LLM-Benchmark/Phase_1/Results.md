@@ -1,7 +1,6 @@
 ---
 title: "Phase 1 Results — Plain Language Edition"
 date_created: 2026-02-24
-date_updated: 2026-02-24
 project: "EU Cyber Threat Landscape LLM Benchmark"
 phase: "Phase 1"
 related:
@@ -53,15 +52,17 @@ Some of the terms in this report come from AI research and statistics. I will ex
 
 **Replications** means running the same prompt twice. At T=0 this is a sanity check — both runs should be identical. At T=0.7, replications reveal how stable the model is when randomness is involved.
 
+**Thinking mode / reasoning models.** Two of the three models — qwen3:8b and deepseek-r1:8b — are reasoning models. They generate an internal chain of thought (wrapped in `<think>` tokens) before producing visible output. I ran both with the `--strip-thinking` flag, which removes the `<think>` tokens from the recorded output while leaving the thinking process active. The thinking shapes the response but is not visible in the results. 
+
 ---
 
 ## The three models
 
 I tested three 8-billion-parameter models. All three are small enough to run on a decent laptop. Here is who they are.
 
-**qwen3:8b** — Made by Alibaba (China). The balanced one. Medium speed, medium output length, and the most stable performer in the group. It wrote around 4,100 characters per response and took about 31 seconds. It never refused a prompt and never mentioned a CVE identifier. Think of it as the reliable workhorse.
+**qwen3:8b** — Made by Alibaba (China). A reasoning model that generates internal chain-of-thought before producing visible output (run with `--strip-thinking` to remove `<think>` tokens from results). The balanced one. Medium speed, medium output length, and the most stable performer in the group. It wrote around 4,100 characters per response and took about 31 seconds. It never refused a prompt and never mentioned a CVE identifier. Think of it as the reliable workhorse.
 
-**deepseek-r1:8b** — Made by DeepSeek (China). The verbose, cautious one. Slowest of the three at 42 seconds per response, but it produced the richest output: around 8,100 characters, roughly double llama3.1's length. It was the only model that consistently labelled its own confidence levels ("High confidence," "Moderate confidence"). The downside: it had a habit of name-dropping the same vulnerability over and over. More on that in the CVE section.
+**deepseek-r1:8b** — Made by DeepSeek (China). Also a reasoning model, run with `--strip-thinking`. The verbose, cautious one. Slowest of the three at 42 seconds per response, but it produced the richest output: around 8,100 characters, roughly double llama3.1's length. It was the only model that consistently labelled its own confidence levels ("High confidence," "Moderate confidence"). The downside: it had a habit of name-dropping the same vulnerability over and over. More on that in the CVE section.
 
 **llama3.1:8b-instruct-q4_K_M** — Made by Meta (US). The fast, concise one — about 10 seconds per response, roughly 3,000 characters. At T=0 it performed fine. At T=0.7 it fell apart. Fourteen percent of its responses were refusals where it simply declined to write the assessment. That is the single most dramatic finding in the whole experiment, and it only shows up when you turn the randomness dial.
 
@@ -69,15 +70,15 @@ I tested three 8-billion-parameter models. All three are small enough to run on 
 
 ## Finding 1: Certainty calibration works
 
-When I told the models that attribution was "confirmed" instead of "suspected," they all hedged less. Every single model, for every actor, produced fewer cautious words per thousand when the attribution was framed as confirmed.
+When I told the models that attribution was "confirmed" instead of "suspected," they all **hedged** less. Every single model, for every actor, produced fewer cautious words per thousand when the attribution was framed as confirmed.
 
 How did I measure this? I counted hedging words — "may," "might," "could," "potentially," "likely," "suggests," "appears," "uncertain" — per 1,000 words of output. I call this **hedging density**.
 
-The size of the shift varied. qwen3 showed the strongest reaction: its hedging density dropped by about 2.4 points when attribution moved from suspected to confirmed, which translates to a **Cohen's d** of roughly -0.93.
+The size of the shift varied. qwen3 showed the strongest reaction: its hedge term count dropped by about 2.7 terms per response when attribution moved from suspected to confirmed, which translates to a **Cohen's d** of roughly -2.19.
 
-Cohen's d is a way of asking "how big is this difference, really?" It measures the gap between two groups in units of their own variability. A d of 0.2 is small (you would barely notice). A d of 0.5 is medium (noticeable). A d of 0.8 or above is large (hard to miss). qwen3's hedging shift of -0.93 is large. deepseek-r1 landed around -0.59 (medium). llama3.1 was around -0.44 (small-to-medium).
+Cohen's d is a way of asking "how big is this difference, really?" It measures the gap between two groups in units of their own variability. A d of 0.2 is small (you would barely notice). A d of 0.5 is medium (noticeable). A d of 0.8 or above is large (hard to miss). qwen3's hedging shift of -2.19 is very large. deepseek-r1 landed around -1.57 (large). llama3.1 was around -1.55 (large).
 
-The interesting part: escalation language barely moved. Escalation density — counting words like "sanctions," "retaliation," "conflict," "military," "deterrence" per 1,000 words — showed almost no change between suspected and confirmed conditions. The Cohen's d values were all below 0.20.
+The interesting part: escalation language barely moved. Escalation term counts — words like "sanctions," "retaliation," "deterrence," after excluding negation patterns like "de-escalation" and "diplomatic channels" — showed almost no change between suspected and confirmed conditions. The Cohen's d values were all below 0.37.
 
 So the models adjust their certainty by dialing down caution, not by dialing up aggression. They hedge less rather than escalate more. That is a reasonable behavior, and it is reassuring that all three models do it.
 
@@ -89,14 +90,14 @@ When I compared China_Confirmed and Russia_Confirmed outputs across all three mo
 
 | What I measured | China | Russia | Gap |
 |---|---|---|---|
-| Escalation density | 7.98 | 8.07 | Russia +1.1% |
-| Hedging density | 6.91 | 6.81 | Russia -1.4% |
-| E/H ratio | 1.15 | 1.18 | Russia +2.6% |
+| Escalation terms | 4.07 | 4.24 | Russia +4.0% |
+| Hedging terms | 2.84 | 2.64 | Russia -7.0% |
+| E/H ratio | 1.43 | 1.61 | Russia +12.3% |
 | Refusal rate | 3.8% | 1.7% | China +2.1 points |
 
-The **E/H ratio** (escalation-to-hedging ratio) is exactly what it sounds like: escalation density divided by hedging density. Above 1.0 means the model uses more escalation language than hedging language. Below 1.0 means it hedges more than it escalates. It is a quick proxy for overall tone: aggressive vs. cautious.
+The **E/H ratio** (escalation-to-hedging ratio) is exactly what it sounds like: mean escalation term count divided by mean hedging term count. Above 1.0 means the model uses more escalation language than hedging language. Below 1.0 means it hedges more than it escalates. It is a quick proxy for overall tone: aggressive vs. cautious.
 
-Russia gets slightly more escalation language and slightly less hedging. But we are talking about differences under 3%. The biggest asymmetry is not in rhetoric — it is in refusal rate. China_Confirmed triggers more refusals (3.8%) than Russia_Confirmed (1.7%). That gap comes entirely from llama3.1's behavior at T=0.7, which I will get to next.
+Escalation terms are close between the two actors (< 5% gap). The E/H ratio diverges more (12.3%) because models hedge more when writing about China_Confirmed (2.84 terms) than Russia_Confirmed (2.64 terms) — China gets more cautious framing even under confirmed attribution. The biggest asymmetry is not in escalation but in refusal rate. China_Confirmed triggers more refusals (3.8%) than Russia_Confirmed (1.7%). That gap comes entirely from llama3.1's behavior at T=0.7, which I will get to next.
 
 ---
 
@@ -150,15 +151,17 @@ qwen3 never mentioned a single CVE. That is actually the safest behavior: if you
 
 ---
 
-## Finding 6: Only deepseek-r1 gives usable confidence labels
+## Finding 6: All models produce confidence labels, but calibration varies
 
-I asked all three models to include a confidence assessment section. The prompt template explicitly requested it. Here is what I got:
+I asked all three models to include a confidence assessment section. The prompt template explicitly requested it. All three models produce extractable **confidence labels** — explicit "High confidence," "Moderate confidence," or "Low confidence" phrases — in nearly every response.
 
-deepseek-r1 produced extractable **confidence labels** — explicit "High confidence," "Moderate confidence," or "Low confidence" phrases — in the majority of its responses. 101 "high," 117 "moderate," 12 "low" across 400 outputs. The labels tracked the attribution conditions sensibly: "High confidence" appeared mostly in Confirmed scenarios, "Moderate" in Suspected, and "Low" almost exclusively in Neutral. That is good calibration.
+**qwen3 has the best calibration.** It assigns "High confidence" to 95–97.5% of Confirmed responses and "Moderate confidence" to 95–96% of Suspected responses — a near-perfect mapping from attribution certainty to confidence label. 166 "high," 225 "moderate," 9 "low" across 400 outputs.
 
-qwen3 produced only 17 total confidence labels across 400 outputs. llama3.1 produced 39, but with no "Low confidence" labels at all.
+**deepseek-r1 produces the most labels** (252 "high," 136 "moderate," 11 "low") but skews toward "High" even for Neutral conditions (61.3% High). It correctly differentiates Confirmed from Suspected but overstates confidence on ambiguous inputs.
 
-For any workflow that depends on structured confidence output, deepseek-r1 is the only realistic option among these three. The other two essentially ignore the confidence instruction.
+**llama3.1 shows inverted calibration.** Its highest "High confidence" rate is on Neutral (72.5%) and its lowest is on China_Confirmed (38.8%). This is backwards — the model is most confident when no attribution is given and least confident when attribution is confirmed. 50 responses at T=0.7 produced no extractable label due to refusals.
+
+For any workflow that depends on reliable structured confidence output, qwen3 is the best choice. deepseek-r1 is usable but overconfident. llama3.1's inverted calibration makes its labels actively misleading.
 
 ---
 
@@ -181,10 +184,10 @@ The refusal language follows a template: "I cannot provide information that coul
 | Temperature stability | Excellent | Good | Poor |
 | Refusal rate | 0% | 0% | 7% overall, 14% at T=0.7 |
 | Format compliance | 100% | 100% | 94% (88% at T=0.7) |
-| Hedging calibration | Strong | Medium | Medium |
+| Hedging calibration | Very strong | Strong | Strong |
 | CVE hallucination | None | High (PwnKit fixation) | Low |
-| Confidence labels | Rare | Rich and calibrated | Rare |
-| Tone | Assertive | Cautious | Balanced |
+| Confidence labels | Rich (best calibrated) | Rich (High-skewed) | Rich (inverted calibration) |
+| Tone | Assertive | Cautious | Cautious |
 | China sensitivity | Diplomatic framing | Evidence deflection | Masked by refusals |
 | Overall | Reliable | Reliable but verbose | Unreliable at T=0.7 |
 
@@ -210,15 +213,16 @@ Finally, Phase 2 will include a human evaluation subsample. Phase 1 is fully aut
 | **Temperature** | A parameter controlling output randomness. T=0 is deterministic (same input, same output). T=0.7 introduces variation. Higher values produce more "creative" but less predictable text. |
 | **Replications** | Running the same prompt multiple times to measure consistency. At T=0, both runs should match. At T=0.7, differences reveal stability. |
 | **Conditions / factorial design** | The experimental structure. Each scenario is crossed with every attribution condition (Neutral, China_Suspected, China_Confirmed, Russia_Suspected, Russia_Confirmed), creating a grid that isolates the effect of attribution framing. |
-| **Hedging density** | Count of cautious words ("may," "might," "could," "potentially," etc.) per 1,000 words. Higher values mean more cautious language. |
-| **Escalation density** | Count of aggressive or conflict-related words ("sanctions," "retaliation," "military," "deterrence," etc.) per 1,000 words. Higher values mean more assertive language. |
+| **Hedging terms** | Count of cautious words ("may," "might," "could," "potentially," etc.) per response. Higher values mean more cautious language. |
+| **Escalation terms** | Count of aggressive or conflict-related words ("sanctions," "retaliation," "military," "deterrence," etc.) per response, after negation-aware filtering. Higher values mean more assertive language. |
 | **Cohen's d** | A measure of effect size — how big is the difference between two groups relative to their variability. 0.2 = small, 0.5 = medium, 0.8+ = large. Negative values mean the second group is higher. |
 | **E/H ratio** | Escalation density divided by hedging density. Above 1.0 = more escalation than hedging (assertive tone). Below 1.0 = more hedging than escalation (cautious tone). |
 | **RLHF** | Reinforcement Learning from Human Feedback. After initial training, human reviewers rate the model's outputs, and the model is fine-tuned to produce higher-rated responses. This is how models learn to refuse harmful requests, be polite, and follow instructions — but it can also encode reviewer biases. |
 | **Safety classifier / refusal** | A built-in mechanism that evaluates whether a prompt might lead to harmful output. If triggered, the model refuses to answer. In llama3.1, this mechanism becomes stochastic (randomly triggered) at T=0.7. |
 | **CVE hallucination** | When a model generates a CVE identifier (e.g., CVE-2021-34930) that looks real but does not correspond to any actual vulnerability. Dangerous because analysts might treat it as a real reference. |
-| **Confidence labels** | Explicit self-assessments like "High confidence" or "Moderate confidence" embedded in the model's output. Only deepseek-r1 produces these reliably. |
+| **Confidence labels** | Explicit self-assessments like "High confidence" or "Moderate confidence" embedded in the model's output. All three models produce these, but calibration quality varies — qwen3 is best calibrated, llama3.1 shows inverted patterns. |
 | **Variance ratio / CV%** | Measures of output stability. CV% (coefficient of variation) is the standard deviation divided by the mean, as a percentage — low means consistent, high means erratic. Variance ratio compares T=0.7 variability to T=0.0 variability — a ratio near 1.0 means temperature has little effect. |
+| **Reasoning model / thinking mode** | An LLM architecture where the model generates an internal chain of thought (in `<think>` tokens) before producing visible output. qwen3:8b and deepseek-r1:8b are both reasoning models. In this experiment they ran with `--strip-thinking`, which removes the thinking tokens from recorded output while leaving the reasoning process active. |
 | **Section compliance** | Whether the model followed the requested 7-section output format (Executive Summary, Threat Overview, Key Threat Vectors, Impact Assessment, Early Warning Indicators, Defensive Priorities, Confidence Assessment). 100% means every section was present in every response. |
 
 ---
