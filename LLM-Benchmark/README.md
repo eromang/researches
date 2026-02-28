@@ -23,7 +23,7 @@ Phase I prompt set: the first 100 rows (20 scenarios x 5 conditions) of the 200-
 - **11 conditions** per scenario: Neutral + Suspected/Confirmed for China, Russia, US, Iran, DPRK
 - **4 models** tested: llama3.1:8b-instruct-q4_K_M, gemma3n:e4b, qwen3:8b (reasoning), deepseek-r1:8b (reasoning, incomplete)
 - **2 temperatures**, **2 replications**
-- **Total: 2,112 prompts per model** (8,448 target; 7,676 completed)
+- **Total: 2,112 prompts per model** (8,448 target; 8,449 completed)
 
 ### Controlled Variables
 
@@ -38,7 +38,7 @@ Phase I prompt set: the first 100 rows (20 scenarios x 5 conditions) of the 200-
 | Model | Origin | Type | Parameters | Thinking | Status |
 |-------|--------|------|------------|----------|--------|
 | qwen3:8b | Alibaba (China) | Reasoning | 8B | Yes | Phase I + II complete |
-| deepseek-r1:8b | DeepSeek (China) | Reasoning | 8B | Yes | Phase I complete; Phase II incomplete (63.4%) |
+| deepseek-r1:8b | DeepSeek (China) | Reasoning | 8B | Yes | Phase I + II complete |
 | llama3.1:8b-instruct-q4_K_M | Meta (US) | Standard | 8B (Q4_K_M) | No | Phase I + II complete |
 | gemma3n:e4b | Google (US) | Standard | ~4B effective | No | Phase II complete |
 
@@ -84,11 +84,16 @@ LLM-Benchmark/
 │   ├── gemma3n/
 │   │   ├── Results.md          ← Plain language results (gemma3n)
 │   │   └── Results_Data.md     ← Quantitative results (gemma3n)
-│   └── qwen3-thinking/
-│       ├── Results.md          ← Plain language results (qwen3 thinking)
-│       ├── Results_Data.md     ← Quantitative results (qwen3 thinking)
-│       ├── Cross_Phase_Comparison.md  ← Phase I vs II comparison
-│       └── Greedy_Decoding_Failure_Note.md ← T=0.0 failure analysis
+│   ├── qwen3-thinking/
+│   │   ├── Results.md          ← Plain language results (qwen3 thinking)
+│   │   ├── Results_Data.md     ← Quantitative results (qwen3 thinking)
+│   │   ├── Cross_Phase_Comparison.md  ← Phase I vs II comparison
+│   │   └── Greedy_Decoding_Failure_Note.md ← T=0.0 failure analysis
+│   └── deepseek-r1/
+│       ├── Results.md          ← Plain language results (deepseek-r1)
+│       ├── Results_Data.md     ← Quantitative results (deepseek-r1)
+│       ├── Confidence_Pattern_Analysis.md ← Confidence patterns
+│       └── Cross_Phase_Comparison.md  ← Phase I vs II comparison
 │
 └── results/
     ├── RUNS.md                 ← Run registry
@@ -203,11 +208,21 @@ Detailed results: [Gemma3n Results](Phase_2/gemma3n/Results.md) | [Gemma3n Data]
 
 ### Phase II — qwen3:8b thinking (2,115 records)
 
-- **Chinese-origin reasoning model on expanded scenarios**: same qwen3:8b from Phase I, now tested on 48 scenarios x 11 conditions
+- **Chinese-origin reasoning model on expanded scenarios**: same qwen3:8b from Phase I, now tested on 48 scenarios × 11 conditions
 - **Mid-run `--strip-thinking` activation**: first 479 records without flag, remainder with — creates a natural within-run comparison
 - **3 timeout failures**: all at T=0.0 where internal reasoning never terminated
 
 Detailed results: [Qwen3 Thinking Results](Phase_2/qwen3-thinking/Results.md) | [Qwen3 Thinking Data](Phase_2/qwen3-thinking/Results_Data.md)
+
+### Phase II — deepseek-r1:8b (2,113 records)
+
+- **Chinese-origin reasoning model**: second Chinese-origin model, enabling cross-origin comparison with qwen3:8b
+- **Strong certainty calibration**: hedging drops for all 5 actors (d = 1.24–1.99) — large effects, weaker than qwen3's 2.26–3.35
+- **Hedging-dominant profile**: E/H ratios near 1.0, similar to llama3.1 — opposite to qwen3's escalation-dominant posture
+- **Slowest and longest model**: ~44.5s latency, ~7,932-char output — 2x longer than any other model
+- **No China-protective framing**: Phase 1 China-sensitivity does not replicate
+
+Detailed results: [deepseek-r1 Results](Phase_2/deepseek-r1/Results.md) | [deepseek-r1 Data](Phase_2/deepseek-r1/Results_Data.md)
 
 ## Analysis
 
