@@ -44,7 +44,7 @@ Phase II tested qwen3:8b (Alibaba, reasoning mode with `--strip-thinking`) acros
 
 **Scope:** Single-model design testing qwen3:8b across 5 actors x 48 scenarios = 2,112 records, enabling comprehensive actor-comparison analysis.
 
-Full methodology: [[methodology]]
+Full methodology: [[04_Personal/LLM-Benchmark/docs/methodology]]
 
 ---
 
@@ -538,12 +538,12 @@ Script: `scripts/analyze_confidence_patterns.py`
 
 ## 16. Related Files
 
-- [[methodology]] — Full research methodology
+- [[04_Personal/LLM-Benchmark/docs/methodology]] — Full research methodology
 - [[llama31/Results_Data]] — Phase II llama3.1 quantitative results (2,112 records)
 - [[llama31/Results]] — Phase II llama3.1 results in plain language
 - [[qwen3-thinking/Greedy_Decoding_Failure_Note]] — Timeout failure analysis
 - [[qwen3-thinking/Cross_Phase_Comparison]] — Finding 4 cross-phase replication test
 - [[qwen3-thinking/Confidence_Pattern_Analysis]] — Confidence assessment rhetorical pattern taxonomy
 - [[Phase_1/Results_Data]] — Phase I quantitative results (1,200 records)
-- [[README]] — Project README and setup instructions
+- [[00_Inbox/README]] — Project README and setup instructions
 - Results directory: `results/qwen3_thinking/`

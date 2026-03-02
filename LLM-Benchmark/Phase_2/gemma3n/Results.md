@@ -1,12 +1,12 @@
 ---
-title: "Gemma3n Results — Plain Language Edition"
+title: Gemma3n Results — Plain Language Edition
 date_created: 2026-02-25
 date_updated: 2026-02-27
-project: "EU Cyber Threat Landscape LLM Benchmark"
-phase: "Phase 2"
+project: EU Cyber Threat Landscape LLM Benchmark
+phase: Phase 2
 related:
   - "[[gemma3n/Results_Data]]"
-  - "[[methodology]]"
+  - "[[04_Personal/LLM-Benchmark/docs/methodology]]"
 ---
 
 # Gemma3n results — plain language edition
@@ -222,4 +222,4 @@ Full analysis: [[gemma3n/Confidence_Pattern_Analysis]]. Cross-model comparison: 
 
 ---
 
-*Source data: [[gemma3n/Results_Data]] — Full methodology: [[methodology]]*
+*Source data: [[gemma3n/Results_Data]] — Full methodology: [[04_Personal/LLM-Benchmark/docs/methodology]]*

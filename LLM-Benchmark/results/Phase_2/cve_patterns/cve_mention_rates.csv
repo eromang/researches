@@ -1,0 +1,8 @@
+model,total_records,records_with_cves,cve_mention_rate,mean_cve_per_record,mean_cve_when_present
+deepseek-r1,2107,767,0.364,0.638,1.754
+qwen3,2109,1192,0.5652,0.898,1.589
+llama31,2112,734,0.3475,0.386,1.112
+gemma3n,2112,40,0.0189,0.03,1.6
+qwen3-nothink,2112,534,0.2528,0.486,1.921
+phi4,2112,58,0.0275,0.028,1.017
+mistral,2112,230,0.1089,0.167,1.535

@@ -1,12 +1,12 @@
 ---
-title: "Phase 2 Results — Plain Language Edition (deepseek-r1:8b)"
+title: Phase 2 Results — Plain Language Edition (deepseek-r1:8b)
 date_created: 2026-02-28
 date_updated: 2026-02-28
-project: "EU Cyber Threat Landscape LLM Benchmark"
-phase: "Phase 2"
+project: EU Cyber Threat Landscape LLM Benchmark
+phase: Phase 2
 related:
   - "[[deepseek-r1/Results_Data]]"
-  - "[[methodology]]"
+  - "[[04_Personal/LLM-Benchmark/docs/methodology]]"
 ---
 
 # Phase 2 results — plain language edition (deepseek-r1:8b)
@@ -261,4 +261,4 @@ Full analysis: [[deepseek-r1/Cross_Phase_Comparison]]
 
 ---
 
-*Source data: [[deepseek-r1/Results_Data]] — Full methodology: [[methodology]]*
+*Source data: [[deepseek-r1/Results_Data]] — Full methodology: [[04_Personal/LLM-Benchmark/docs/methodology]]*

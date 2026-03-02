@@ -206,13 +206,12 @@ Run flags and thinking mode per model per phase:
 | Phase II | llama3.1:8b-instruct-q4_K_M | Standard | (none) | Complete (2,112 records) |
 | Phase II | gemma3n:e4b | Standard | (none) | Complete (2,112 records) |
 | Phase II | qwen3:8b | Reasoning | `--strip-thinking` | Complete (2,115 records); mid-run flag activation at record 479 |
-| Phase II | deepseek-r1:8b | Reasoning | `--strip-thinking` | Incomplete (1,340 / 2,112 records) |
-| Phase II | mistral:7b-instruct | Standard | (none) | Planned |
-| Phase II | qwen2.5:7b-instruct-q4_K_M | Standard | (none) | Planned |
-| Phase II | phi4:latest | Standard | (none) | Planned |
-| Phase II | qwen3:8b | Reasoning | `--no-think` | Planned (non-thinking comparison) |
+| Phase II | deepseek-r1:8b | Reasoning | `--strip-thinking` | Complete (2,113 records) |
+| Phase II | hoangquan456/qwen3-nothink:8b | Standard | (none) | Complete (2,112 records); community fine-tune natively suppresses CoT |
+| Phase II | mistral:7b-instruct | Standard | (none) | Complete (2,112 records) |
+| Phase II | phi4:latest | Standard | (none) | Complete (2,112 records) |
 
-The `--strip-thinking` flag removes `<think>...</think>` blocks from recorded output while leaving the model's internal reasoning process active. This means latency figures include the invisible thinking phase and output text reflects reasoning-shaped content. The `--no-think` flag appends `/no_think` to prompts, disabling the thinking process entirely in models that support it (e.g. qwen3). In Phase I, `--strip-thinking` was applied consistently for qwen3:8b and deepseek-r1:8b. In Phase II, qwen3:8b's run had a mid-run flag activation (first 479 records without `--strip-thinking`, remainder with), and deepseek-r1:8b's run is incomplete (1,340 of 2,112 expected records). A planned qwen3:8b `--no-think` run will enable direct comparison of thinking vs non-thinking output for the same model.
+The `--strip-thinking` flag removes `<think>...</think>` blocks from recorded output while leaving the model's internal reasoning process active. This means latency figures include the invisible thinking phase and output text reflects reasoning-shaped content. In Phase I, `--strip-thinking` was applied consistently for qwen3:8b and deepseek-r1:8b. In Phase II, qwen3:8b's run had a mid-run flag activation (first 479 records without `--strip-thinking`, remainder with). The hoangquan456/qwen3-nothink:8b community fine-tune natively suppresses chain-of-thought without runtime flags, enabling a direct thinking vs no-think comparison on the same Qwen3 architecture.
 
 ---
 

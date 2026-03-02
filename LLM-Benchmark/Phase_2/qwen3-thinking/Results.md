@@ -1,12 +1,12 @@
 ---
-title: "Phase 2 Results — Plain Language Edition (qwen3:8b Thinking)"
+title: Phase 2 Results — Plain Language Edition (qwen3:8b Thinking)
 date_created: 2026-02-26
 date_updated: 2026-02-27
-project: "EU Cyber Threat Landscape LLM Benchmark"
-phase: "Phase 2"
+project: EU Cyber Threat Landscape LLM Benchmark
+phase: Phase 2
 related:
   - "[[qwen3-thinking/Results_Data]]"
-  - "[[methodology]]"
+  - "[[04_Personal/LLM-Benchmark/docs/methodology]]"
 ---
 
 # Phase 2 results — plain language edition (qwen3:8b thinking)
@@ -285,4 +285,4 @@ Full analysis: [[qwen3-thinking/Cross_Phase_Comparison]]
 
 ---
 
-*Source data: [[qwen3-thinking/Results_Data]] — Full methodology: [[methodology]]*
+*Source data: [[qwen3-thinking/Results_Data]] — Full methodology: [[04_Personal/LLM-Benchmark/docs/methodology]]*

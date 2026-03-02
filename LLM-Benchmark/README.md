@@ -21,9 +21,9 @@ Phase I prompt set: the first 100 rows (20 scenarios x 5 conditions) of the 200-
 
 - **48 scenarios** spanning 7 thematic blocks (EU internal, Chinese tech, multipolar, false-flag, non-state, democratic process, vendor-specific)
 - **11 conditions** per scenario: Neutral + Suspected/Confirmed for China, Russia, US, Iran, DPRK
-- **4 models** tested: llama3.1:8b-instruct-q4_K_M, gemma3n:e4b, qwen3:8b (reasoning), deepseek-r1:8b (reasoning, incomplete)
+- **7 models** tested: llama3.1:8b-instruct-q4_K_M, gemma3n:e4b, qwen3:8b (reasoning), deepseek-r1:8b (reasoning), hoangquan456/qwen3-nothink:8b, phi4:latest, mistral:7b-instruct
 - **2 temperatures**, **2 replications**
-- **Total: 2,112 prompts per model** (8,448 target; 8,449 completed)
+- **Total: 2,112 prompts per model** (14,784 target; 14,785 completed)
 
 ### Controlled Variables
 
@@ -41,11 +41,15 @@ Phase I prompt set: the first 100 rows (20 scenarios x 5 conditions) of the 200-
 | deepseek-r1:8b | DeepSeek (China) | Reasoning | 8B | Yes | Phase I + II complete |
 | llama3.1:8b-instruct-q4_K_M | Meta (US) | Standard | 8B (Q4_K_M) | No | Phase I + II complete |
 | gemma3n:e4b | Google (US) | Standard | ~4B effective | No | Phase II complete |
+| hoangquan456/qwen3-nothink:8b | Alibaba/Community | Standard | 8B | No | Phase II complete |
+| phi4:latest | Microsoft (US) | Standard | 14B | No | Phase II complete |
+| mistral:7b-instruct | Mistral AI (France/EU) | Standard | 7B | No | Phase II complete |
 
 ### Group Structure
 
-- **Standard models**: llama3.1, gemma3n — direct response generation
+- **Standard models**: llama3.1, gemma3n, qwen3-nothink, phi4, mistral — direct response generation
 - **Reasoning models**: qwen3, deepseek-r1 — chain-of-thought with `<think>` tokens (stripped from analysis via `--strip-thinking`)
+- **Architecture pair**: qwen3:8b (thinking) and hoangquan456/qwen3-nothink:8b share the same Qwen3 base; the community fine-tune natively suppresses CoT without runtime flags
 
 ## Repository Structure
 
@@ -78,6 +82,7 @@ LLM-Benchmark/
 │   └── Results_Data.md         ← Quantitative results with tables
 │
 ├── Phase_2/
+│   ├── Results.md              ← Global plain language results (all 7 models)
 │   ├── llama31/
 │   │   ├── Results.md          ← Plain language results (llama3.1)
 │   │   └── Results_Data.md     ← Quantitative results (llama3.1)
@@ -89,11 +94,24 @@ LLM-Benchmark/
 │   │   ├── Results_Data.md     ← Quantitative results (qwen3 thinking)
 │   │   ├── Cross_Phase_Comparison.md  ← Phase I vs II comparison
 │   │   └── Greedy_Decoding_Failure_Note.md ← T=0.0 failure analysis
-│   └── deepseek-r1/
-│       ├── Results.md          ← Plain language results (deepseek-r1)
-│       ├── Results_Data.md     ← Quantitative results (deepseek-r1)
-│       ├── Confidence_Pattern_Analysis.md ← Confidence patterns
-│       └── Cross_Phase_Comparison.md  ← Phase I vs II comparison
+│   ├── deepseek-r1/
+│   │   ├── Results.md          ← Plain language results (deepseek-r1)
+│   │   ├── Results_Data.md     ← Quantitative results (deepseek-r1)
+│   │   ├── Confidence_Pattern_Analysis.md ← Confidence patterns
+│   │   └── Cross_Phase_Comparison.md  ← Phase I vs II comparison
+│   ├── qwen3-nothink/
+│   │   ├── Results.md          ← Plain language results (qwen3-nothink)
+│   │   ├── Results_Data.md     ← Quantitative results (qwen3-nothink)
+│   │   ├── Confidence_Pattern_Analysis.md ← Confidence patterns
+│   │   └── Thinking_vs_NoThink_Comparison.md ← Thinking vs no-think comparison
+│   ├── phi4/
+│   │   ├── Results.md          ← Plain language results (phi4)
+│   │   ├── Results_Data.md     ← Quantitative results (phi4)
+│   │   └── Confidence_Pattern_Analysis.md ← Confidence patterns
+│   └── mistral/
+│       ├── Results.md          ← Plain language results (mistral)
+│       ├── Results_Data.md     ← Quantitative results (mistral)
+│       └── Confidence_Pattern_Analysis.md ← Confidence patterns
 │
 └── results/
     ├── RUNS.md                 ← Run registry
@@ -188,9 +206,20 @@ Key features:
 
 Detailed results: [Phase 1 Results](Phase_1/Results.md) | [Phase 1 Data](Phase_1/Results_Data.md)
 
+### Phase II — Global (14,785 records)
+
+- **7 models from 6 providers** across 3 continents (US, China, EU), 5 actors, 48 scenarios
+- **Certainty calibration is universal**: all 7 models reduce hedging from Suspected to Confirmed (d ranges from 0.78 to 3.35)
+- **Phase 1's China bias disappears at scale**: 0/5 China-vs-rest tests significant for any model
+- **No systematic geopolitical bias**: actor-uniform confidence rhetoric across all models
+- **CVE fixation is model-specific**: deepseek-r1 (PwnKit 73%), llama3.1 (Log4Shell 49%), phi4 (Log4Shell 60%)
+- **Chain-of-thought amplifies everything**: qwen3 thinking vs nothink pair shows CoT increases calibration, CVE rate, escalation dominance, and actor uniformity
+
+Global results: [Phase 2 Results](Phase_2/Results.md)
+
 ### Phase II — llama3.1 (2,112 records)
 
-- **Certainty calibration is robust and actor-uniform**: Cohen's d = 1.02-1.84 across all 5 actors
+- **Certainty calibration is robust and actor-uniform**: Cohen's d = 1.34-2.36 across all 5 actors
 - **US_Confirmed triggers highest refusal rate**: 17.7% at T=0.7 — Meta's model is most cautious about US attribution
 - **Escalation density is actor-invariant**: no significant pairwise differences
 - **False-flag scenarios do not reduce overconfidence**: the model trusts attribution framing at face value
@@ -223,6 +252,43 @@ Detailed results: [Qwen3 Thinking Results](Phase_2/qwen3-thinking/Results.md) | 
 - **No China-protective framing**: Phase 1 China-sensitivity does not replicate
 
 Detailed results: [deepseek-r1 Results](Phase_2/deepseek-r1/Results.md) | [deepseek-r1 Data](Phase_2/deepseek-r1/Results_Data.md)
+
+### Phase II — qwen3-nothink (2,112 records)
+
+- **Community fine-tune of Qwen3 8B**: natively suppresses chain-of-thought, enabling a direct thinking vs no-think comparison on the same architecture
+- **Strong certainty calibration**: hedging drops for all 5 actors (d = 1.35–2.69) — stronger than deepseek-r1's 1.24–1.99
+- **Zero refusals**: 2,112/2,112 records completed — cleanest run in Phase 2
+- **Balanced rhetorical profile**: E/H ratios near 1.0; no single confidence pattern category dominates
+- **37% faster than thinking variant**: ~21.8s vs ~34.5s, quantifying the CoT latency tax
+- **No China-protective framing**: 0/5 China-vs-rest tests significant
+- **CVE rate halved by removing CoT**: 25.3% vs thinking variant's 56.5%
+
+Detailed results: [qwen3-nothink Results](Phase_2/qwen3-nothink/Results.md) | [qwen3-nothink Data](Phase_2/qwen3-nothink/Results_Data.md)
+
+### Phase II — phi4:latest (2,112 records)
+
+- **US-origin instruct model at 14B**: largest model in Phase II by parameter count, nearly twice the 8B models
+- **Strong certainty calibration**: hedging drops for all 5 actors (d = 1.07–2.53) — comparable to deepseek-r1's 1.24–1.99
+- **Zero refusals at T=0.0**: 1/2,112 total (one Iran_Suspected at T=0.7) — lowest refusal rate in Phase II
+- **Hedging-dominant rhetorical profile**: E/H ratios near 1.0, consistent with deepseek-r1 and llama3.1
+- **Very low CVE mention rate**: 2.8% — second-lowest after gemma3n's 1.9%
+- **CVE fixation on Log4Shell**: CVE-2021-44228 at 60.3% of CVE-containing records
+- **Temperature-sensitive confidence labels**: near-uniform "High" at T=0.0 but diversified at T=0.7
+- **No China-protective framing**: 0/5 China-vs-rest tests significant
+
+Detailed results: [phi4 Results](Phase_2/phi4/Results.md) | [phi4 Data](Phase_2/phi4/Results_Data.md)
+
+### Phase II — mistral:7b-instruct (2,112 records)
+
+- **First EU-origin model**: Mistral AI (France), 7B parameters — the smallest model in Phase II
+- **Strong certainty calibration**: hedging drops for all 5 actors (d = 0.78–1.91) with the lowest confirmed hedging levels of any model (0.62–1.02)
+- **Zero refusals**: 0/2,112 at both temperatures
+- **Escalation-dominant rhetorical profile**: E/H ratios above 1.0 (1.12–1.95) — dual-channel calibration (hedging reduction + escalation increase)
+- **Best actor symmetry**: hedging range 0.40 (tightest of any model), 0/50 pairwise confidence pattern tests significant
+- **No China-protective framing**: 0/5 China-vs-rest tests significant
+- **Moderate CVE rate, no fixation**: 10.9%, top CVE at 28.7%, second-highest CVE diversity (H = 0.803)
+
+Detailed results: [mistral Results](Phase_2/mistral/Results.md) | [mistral Data](Phase_2/mistral/Results_Data.md)
 
 ## Analysis
 

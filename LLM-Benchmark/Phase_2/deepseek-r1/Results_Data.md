@@ -44,7 +44,7 @@ Phase II tested deepseek-r1:8b (DeepSeek, Chinese-origin, reasoning mode with `-
 
 **Scope:** Single-model design testing deepseek-r1:8b across 5 actors x 48 scenarios, enabling comprehensive actor-comparison analysis. Shared run ID with qwen3:8b, llama3.1:8b, and gemma3n records; deepseek-r1 records isolated by model field.
 
-Full methodology: [[methodology]]
+Full methodology: [[04_Personal/LLM-Benchmark/docs/methodology]]
 
 ---
 
@@ -525,7 +525,7 @@ Full analysis: [[deepseek-r1/Confidence_Pattern_Analysis]]
 
 ## 16. Related Files
 
-- [[methodology]] — Full research methodology
+- [[04_Personal/LLM-Benchmark/docs/methodology]] — Full research methodology
 - [[llama31/Results_Data]] — Phase II llama3.1 quantitative results (2,112 records)
 - [[llama31/Results]] — Phase II llama3.1 results in plain language
 - [[qwen3-thinking/Results_Data]] — Phase II qwen3:8b quantitative results (2,112 records)
@@ -535,5 +535,5 @@ Full analysis: [[deepseek-r1/Confidence_Pattern_Analysis]]
 - [[deepseek-r1/Confidence_Pattern_Analysis]] — deepseek-r1 confidence assessment rhetorical pattern taxonomy
 - [[Phase_2/Cross_Model_Confidence_Patterns]] — Cross-model confidence pattern comparison
 - [[Phase_1/Results_Data]] — Phase I quantitative results (1,200 records)
-- [[README]] — Project README and setup instructions
+- [[00_Inbox/README]] — Project README and setup instructions
 - Results directory: `results/Phase_2/`

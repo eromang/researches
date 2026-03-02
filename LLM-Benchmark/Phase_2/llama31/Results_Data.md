@@ -40,7 +40,7 @@ Phase II tested llama3.1:8b-instruct-q4_K_M across an expanded 5-actor design (C
 
 **Scope:** Single-model design testing llama3.1:8b-instruct-q4_K_M across 5 actors x 48 scenarios = 2,112 records, enabling comprehensive actor-comparison analysis.
 
-Full methodology: [[methodology]]
+Full methodology: [[04_Personal/LLM-Benchmark/docs/methodology]]
 
 ---
 
@@ -568,8 +568,8 @@ A five-category taxonomy of rhetorical patterns was applied to the `confidence_a
 
 ## 18. Related Files
 
-- [[methodology]] — Full research methodology
+- [[04_Personal/LLM-Benchmark/docs/methodology]] — Full research methodology
 - [[Phase_1/Results_Data]] — Phase I quantitative results (1,200 records)
 - [[Phase_1/Results]] — Phase I results in plain language
-- [[README]] — Project README and setup instructions
+- [[00_Inbox/README]] — Project README and setup instructions
 - Results directory: `results/Phase_2/llama31/run_20260224T103518Z_51e859312629dea4.jsonl`

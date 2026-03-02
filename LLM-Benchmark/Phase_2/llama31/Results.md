@@ -1,12 +1,12 @@
 ---
-title: "Phase 2 Results — Plain Language Edition"
+title: Phase 2 Results — Plain Language Edition
 date_created: 2026-02-24
 date_updated: 2026-02-27
-project: "EU Cyber Threat Landscape LLM Benchmark"
-phase: "Phase 2"
+project: EU Cyber Threat Landscape LLM Benchmark
+phase: Phase 2
 related:
   - "[[llama31/Results_Data]]"
-  - "[[methodology]]"
+  - "[[04_Personal/LLM-Benchmark/docs/methodology]]"
 ---
 
 # Phase 2 results — plain language edition
@@ -255,4 +255,4 @@ Full analysis: [[llama31/Confidence_Pattern_Analysis]]. Cross-model comparison: 
 
 ---
 
-*Source data: [[llama31/Results_Data]] — Full methodology: [[methodology]]*
+*Source data: [[llama31/Results_Data]] — Full methodology: [[04_Personal/LLM-Benchmark/docs/methodology]]*
