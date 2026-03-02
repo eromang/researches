@@ -222,7 +222,7 @@ Detailed results: [Phase 1 Results](Phase_1/Results.md) | [Phase 1 Data](Phase_1
 - **CVE fixation is model-specific**: deepseek-r1 (PwnKit 73%), llama3.1 (Log4Shell 49%), phi4 (Log4Shell 60%)
 - **Chain-of-thought amplifies everything**: qwen3 thinking vs nothink pair shows CoT increases calibration, CVE rate, escalation dominance, and actor uniformity
 
-Global results: [Phase 2 Results](Phase_2/Results.md)
+Global results: [Phase 2 — Actor Symmetry Across 7 Local LLMs](Phase_2/Results.md)
 
 ### Phase II — llama3.1 (2,112 records)
 

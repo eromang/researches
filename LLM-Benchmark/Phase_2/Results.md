@@ -1,5 +1,5 @@
 ---
-title: "Phase 2 Results — Plain Language Edition"
+title: "Phase 2 — Actor Symmetry Across 7 Local LLMs: EU Cyber Threat Benchmark Results"
 date_created: 2026-03-02
 date_updated: 2026-03-02
 project: "EU Cyber Threat Landscape LLM Benchmark"
@@ -11,7 +11,7 @@ related:
   - "[[04_Personal/LLM-Benchmark/docs/methodology]]"
 ---
 
-# Phase 2 results — plain language edition
+# Phase 2 — Actor symmetry across 7 local LLMs: EU cyber threat benchmark results
 
 ## What I tested and why it matters
 
