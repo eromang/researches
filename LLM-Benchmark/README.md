@@ -66,16 +66,19 @@ LLM-Benchmark/
 │
 ├── prompts/
 │   ├── README.md               ← Prompt file guide (phase mapping)
-│   ├── EU_Cyber_Phase_II_40_Scenarios_200_Prompts_Harmonised.csv
-│   ├── EU_Cyber_Phase_II_40_Scenarios_280_Prompts_7_Conditions_Harmonised.csv
-│   └── EU_Cyber_Phase_II_48_Scenarios_528_Prompts_11_Conditions_Harmonised.csv
+│   ├── EU_Cyber_Phase_II_40_Scenarios_200_Prompts_Harmonised.csv   ← Phase I (100 prompts)
+│   └── EU_Cyber_Phase_II_48_Scenarios_528_Prompts_11_Conditions_Harmonised.csv  ← Phase II (528 prompts)
 │
 ├── scripts/
-│   ├── run_benchmark_v2_4.py   ← Runner v2.4 (Phase I)
-│   ├── run_benchmark_v2_5.py   ← Runner v2.5 (Phase II, current)
-│   ├── analyze_results.py      ← Analysis script
-│   ├── convert_jsonl_to_flat.py← JSONL → flat CSV/JSON converter
-│   └── live_dashboard.py       ← Real-time HTML dashboard
+│   ├── run_benchmark_v2_4.py          ← Runner v2.4 (Phase I)
+│   ├── run_benchmark_v2_5.py          ← Runner v2.5 (Phase II, current)
+│   ├── analyze_results.py             ← Per-run statistical analysis
+│   ├── analyze_cve_patterns.py        ← Cross-model CVE fixation analysis
+│   ├── analyze_confidence_patterns.py ← Per-model confidence pattern extraction
+│   ├── compare_confidence_patterns.py ← Cross-model confidence pattern comparison
+│   ├── finding4_crossphase.py         ← Phase I vs II cross-phase analysis
+│   ├── convert_jsonl_to_flat.py       ← JSONL → flat CSV/JSON converter
+│   └── live_dashboard.py              ← Real-time HTML dashboard
 │
 ├── Phase_1/
 │   ├── Results.md              ← Plain language results
@@ -83,45 +86,49 @@ LLM-Benchmark/
 │
 ├── Phase_2/
 │   ├── Results.md              ← Global plain language results (all 7 models)
+│   ├── CVE_Fixation_Analysis.md           ← Cross-model CVE fixation patterns
+│   ├── Cross_Model_Confidence_Patterns.md ← Cross-model confidence comparison
+│   ├── SA_Crisis_Model_Recommendation.md  ← Model selection for SA/crisis use
 │   ├── llama31/
-│   │   ├── Results.md          ← Plain language results (llama3.1)
-│   │   └── Results_Data.md     ← Quantitative results (llama3.1)
+│   │   ├── Results.md, Results_Data.md
+│   │   └── Confidence_Pattern_Analysis.md
 │   ├── gemma3n/
-│   │   ├── Results.md          ← Plain language results (gemma3n)
-│   │   └── Results_Data.md     ← Quantitative results (gemma3n)
+│   │   ├── Results.md, Results_Data.md
+│   │   └── Confidence_Pattern_Analysis.md
 │   ├── qwen3-thinking/
-│   │   ├── Results.md          ← Plain language results (qwen3 thinking)
-│   │   ├── Results_Data.md     ← Quantitative results (qwen3 thinking)
-│   │   ├── Cross_Phase_Comparison.md  ← Phase I vs II comparison
-│   │   └── Greedy_Decoding_Failure_Note.md ← T=0.0 failure analysis
+│   │   ├── Results.md, Results_Data.md
+│   │   ├── Confidence_Pattern_Analysis.md
+│   │   ├── Cross_Phase_Comparison.md
+│   │   └── Greedy_Decoding_Failure_Note.md
 │   ├── deepseek-r1/
-│   │   ├── Results.md          ← Plain language results (deepseek-r1)
-│   │   ├── Results_Data.md     ← Quantitative results (deepseek-r1)
-│   │   ├── Confidence_Pattern_Analysis.md ← Confidence patterns
-│   │   └── Cross_Phase_Comparison.md  ← Phase I vs II comparison
+│   │   ├── Results.md, Results_Data.md
+│   │   ├── Confidence_Pattern_Analysis.md
+│   │   └── Cross_Phase_Comparison.md
 │   ├── qwen3-nothink/
-│   │   ├── Results.md          ← Plain language results (qwen3-nothink)
-│   │   ├── Results_Data.md     ← Quantitative results (qwen3-nothink)
-│   │   ├── Confidence_Pattern_Analysis.md ← Confidence patterns
-│   │   └── Thinking_vs_NoThink_Comparison.md ← Thinking vs no-think comparison
+│   │   ├── Results.md, Results_Data.md
+│   │   ├── Confidence_Pattern_Analysis.md
+│   │   └── Thinking_vs_NoThink_Comparison.md
 │   ├── phi4/
-│   │   ├── Results.md          ← Plain language results (phi4)
-│   │   ├── Results_Data.md     ← Quantitative results (phi4)
-│   │   └── Confidence_Pattern_Analysis.md ← Confidence patterns
+│   │   ├── Results.md, Results_Data.md
+│   │   └── Confidence_Pattern_Analysis.md
 │   └── mistral/
-│       ├── Results.md          ← Plain language results (mistral)
-│       ├── Results_Data.md     ← Quantitative results (mistral)
-│       └── Confidence_Pattern_Analysis.md ← Confidence patterns
+│       ├── Results.md, Results_Data.md
+│       └── Confidence_Pattern_Analysis.md
 │
 └── results/
     ├── RUNS.md                 ← Run registry
     ├── Phase_1/
     │   └── *.jsonl             ← Raw data (Git LFS)
     └── Phase_2/
-        ├── llama31/
-        │   └── *.jsonl
-        └── gemma3n/
-            └── gemma-results.jsonl
+        ├── llama31/            ← llama31.jsonl
+        ├── gemma3n/            ← gemma3n.jsonl
+        ├── qwen3-thinking/     ← qwen3-thinking.jsonl
+        ├── deepseek-r1/        ← deepseek-r1.jsonl
+        ├── qwen3-nothink/      ← qwen3-nothink.jsonl
+        ├── phi4/               ← phi4.jsonl
+        ├── mistral/            ← mistral.jsonl
+        ├── cross_model_confidence_patterns/  ← Cross-model confidence CSVs + report
+        └── cve_patterns/       ← Cross-model CVE fixation CSVs + report
 ```
 
 ## Quick Start
