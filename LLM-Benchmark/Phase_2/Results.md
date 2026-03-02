@@ -9,6 +9,8 @@ related:
   - "[[CVE_Fixation_Analysis]]"
   - "[[SA_Crisis_Model_Recommendation]]"
   - "[[04_Personal/LLM-Benchmark/docs/methodology]]"
+wp_post_id: 47
+wp_published_at: 2026-03-02
 ---
 
 # Phase 2 — Actor symmetry across 7 local LLMs: EU cyber threat benchmark results
