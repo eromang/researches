@@ -1,0 +1,1588 @@
+description_preview,train_severity,test_severity,same_label,train_count,test_count
+Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Acro,高,高,True,6,1
+Adobe After Effects是一款图形视频处理软件。Adobe After Effects存在内存破坏漏洞，攻击者可利用该漏洞造成拒绝服务。,中,中,True,5,1
+Android是Google公司一款基于Linux内核（不包含GNU组件），自由开源的操作系统。Samsung移动设备存在代码问题漏洞，攻击者可利用该漏洞损坏内存。,中,中,True,1,1
+Android是Google公司一款基于Linux内核（不包含GNU组件），自由开源的操作系统。Samsung移动设备存在未明漏洞，攻击者可利用该漏洞获取敏感信息。,中,低,False,1,1
+IrfanView是波黑软件开发者Irfan Skiljan所研发的一款图片浏览器，它支持图片浏览、图片编辑、图片格式转换等。IrfanView 4.50版本(64位)版本中存在缓冲区溢出漏洞。远程攻,中,中,True,7,1
+Siemens SIMATIC S7-1500是模块化结构的控制器系列产品。Siemens SIMATIC S7-1500 CPU存在拒绝服务漏洞。允许未经身份验证的远程攻击者导致设备的拒绝服务状态。,高,高,True,1,1
+Aruba ClearPass Policy Manager是一个网络访问控制(NAC)解决方案。Aruba ClearPass Policy Manager 6.9.5、6.8.8-HF1、6.7.,高,高,True,2,2
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。libstagefright是其中的一个硬解码支持库。Android 4.4,高,高,True,2,1
+OpenText Brava! Desktop是一款基于Windows的查看和协作工具，可让您轻松查看几乎任何文件并进行协作。OpenText Brava! Desktop中DWF文件的解析存在越界写,高,高,True,9,1
+Adobe Experience Manager是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理等。Ado,中,中,True,27,3
+JT是由西门子数字工业软件开发的一种公开发布的数据格式，广泛用于沟通，可视化，数字模型等。JT实用程序提供了一系列命令行实用程序，可用于支持应用程序开发和JT重用。JT Open Toolkit(也称,高,高,True,2,1
+Mozilla Firefox是一款开源Web浏览器。Mozilla Firefox ESR是Firefox（Web浏览器）的一个延长支持版本。Mozilla Thunderbird是一套从Mozil,高,中,False,2,1
+Apple iOS是为移动设备所开发的一套操作系统。Apple iOS存在多个漏洞。攻击者可以利用漏洞绕过安全限制，执行任意代码或未授权操作，获取敏感信息。,高,高,True,9,1
+CImg是一款开源的用于图像处理的C++工具库。CImg 220版本中的CImg.h文件的‘load_bmp’函数存在堆缓冲区越边界读取漏洞。目前没有详细的漏洞细节提供。,中,中,True,1,1
+Adobe Dimension是美国奥多比（Adobe）公司的是一套2D和3D合成设计工具。Adobe Dimension存在堆缓冲区溢出漏洞，攻击者可利用该漏洞在当前用户的上下文中执行任意代码。,高,高,True,6,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,中,True,1,1
+IBM Kenexa LCMS Premier on Cloud是美国IBM公司的一套可调节的用于开发、维护和提供高效的员工培训的学习内容管理系统 (LCMS)。IBM Kenexa LCMS Pre,中,中,True,2,1
+Microsoft Edge是美国微软（Microsoft）公司的一款Web浏览器，是Windows10操作系统附带的默认浏览器。Microsoft Edge和ChakraCore中存在缓冲区溢出漏洞,高,高,True,2,1
+文电通PDF阅读器是北京棣南新宇科技有限公司开发的pdf相关产品。文电通pdf阅读器存在二进制漏洞，攻击者可利用该漏洞导致程序拒绝服务。,中,中,True,3,1
+Microsoft Office是美国微软（Microsoft）公司的一款办公软件套件产品。该产品常用组件包括Word、Excel、Access、Powerpoint、FrontPage等。Offic,高,中,False,3,1
+Cloudbees Jenkins（Hudson Labs）是美国CloudBees（Cloudbees）公司的一套基于Java开发的持续集成工具。该产品主要用于监控持续的软件版本发布/测试项目和一些,低,低,True,1,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。MySQL Server是其中的一个数据库服务器组件。Oracle MySQL中的MySQL Server组件8,高,高,True,1,1
+Linux kernel是美国Linux基金会的开源操作系统Linux所使用的内核。Linux kernel存在安全漏洞，该漏洞源于允许越界读取。目前没有详细的漏洞细节提供。,中,中,True,2,1
+Oracle E-Business Suite（电子商务套件）是美国甲骨文（Oracle）公司的一套全面集成式的全球业务管理软件。Oracle Marketing是其中的一个用于管理市场营销相关信息和,中,中,True,4,1
+Microsoft Edge是一款Windows 10之后版本系统附带的Web浏览器。Microsoft Edge (Chromium-based) 存在远程代码执行漏洞，攻击者可利用该漏洞在系统上执,中,中,True,1,1
+QEMU（又名Quick Emulator）是法国程序员法布里斯-贝拉（Fabrice Bellard）所研发的一套模拟处理器软件。该软件具有速度快、跨平台等特点。QEMU中存在拒绝服务漏洞。攻击者可,中,中,True,1,1
+Adobe Reader等都是美国奥多比（Adobe）公司的产品。Adobe Reader是一款免费的PDF文件阅读器；Acrobat是一款PDF文件编辑和转换工具；Acrobat Reader DC,中,中,True,6,2
+Foxit PDF Reader是中国福昕（Foxit）公司的一款PDF阅读器。Foxit PDF Reader Annotation存在安全漏洞，攻击者可利用该漏洞在当前进程的上下文中执行代码。,中,中,True,4,1
+Microsoft Windows DWM Core Library是Windows操作系统中的一个核心库。Microsoft Windows DWM Core Library存在权限提升漏洞，攻击者,中,中,True,1,2
+Huawei 1288H V5等都是中国华为（Huawei）公司的不同型号的服务器设备。Intelligent Baseboard Management Controller（iBMC）是其中的一套嵌,高,高,True,1,1
+SWFTools是一种实用工具与Adobe Flash文件(SWF文件)工作的集合。SWFTools存在空指针解引用漏洞，攻击者可利用该漏洞造成拒绝服务。,中,中,True,15,2
+Open5GS是Open5GS开源的一个5G Core和Epc的C语言开源实现，即Lte/Nr网络的核心网络。Open5GS存在安全漏洞，攻击者可利用该漏洞导致拒绝服务。,中,高,False,1,2
+Adobe Illustrator是美国奥多比（Adobe）公司的一套基于向量的图像制作软件。Adobe Illustrator存在越界读取漏洞。攻击者利用该漏洞导致敏感内存泄露。,中,中,True,2,1
+ShopXO是一套开源的企业级开源电子商务系统。ShopXO存在文件上传漏洞，攻击者可利用该漏洞获取网站服务器控制权。,高,高,True,1,1
+Microsoft Word是美国微软（Microsoft）公司的一套Office套件中的文字处理软件。Microsoft Word存在代码执行漏洞，攻击者可利用该漏洞在系统上执行任意代码。,高,中,False,5,1
+Adobe Bridge是Adobe公司推出的一款免费数字资产管理应用程序。Adobe Bridge 11.1.1及更早版本存在缓冲区溢出漏洞。攻击者可利用该漏洞执行任意代码。,中,中,True,2,1
+markdown-it是一款解析器产品。NodeBB是Design Create Play团队开发的一套使用Node.js（一套建立在Google V8 JavaScript引擎之上的网络应用平台）构,中,中,True,1,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,高,False,5,3
+Microsoft Edge是内置于Windows 10版本中的网页浏览器。Microsoft Edge脚本引擎在实现上存在内存破坏漏洞，未经身份验证的远程攻击者利用该漏洞在目标系统上执行任意代码。,高,高,True,2,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,中,True,1,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,18,1
+NETGEAR R7800是美国网件公司（NETGEAR）的一款路由器。NETGEAR R7800存在命令注入漏洞，攻击者可利用该漏洞对机密性、完整性、可用性造成影响。,中,中,True,11,1
+Adobe Experience Manager是Adobe公司推出的企业级内容管理软件（CMS），用于构建、管理和部署网站、移动应用、数字资产及表单等数字体验。Adobe Experience Ma,中,中,True,28,4
+钉钉是智能移动办公平台。钉钉（Windows客户端）存在dll劫持漏洞。攻击者可利用该漏洞加载恶意dll，执行恶意代码。,高,高,True,1,1
+CMS Made Simple（CMSMS）是CMSMS团队开发的一套开源的内容管理系统(CMS)。该系统支持基于角色的权限管理系统、基于向导的安装与更新机制、智能缓存机制等。CMS Made Sim,低,低,True,1,1
+IBM i2 Analysts Notebook和IBM i2 Analysts Notebook Premium都是美国IBM公司的产品。IBM i2 Analysts Notebook是一款数据可,高,高,True,4,1
+TPCMS是thinkphp写的开源cms。TPCMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,1,1
+STDU Viewer是一款免费的支持多种格式的文件查看器。该软件支持TIFF、PDF、DjVu、XPS和WWF等格式。STDU Viewer 1.6.375版本中存在缓冲区溢出漏洞。本地攻击者可借助,中,中,True,13,1
+Microsoft Windows是流行的计算机操作系统。Microsoft Server Message Block 1.0 (SMBv1) 服务器处理某些请求中存在信息泄露漏洞。攻击者可利用该漏洞,中,中,True,2,1
+瑞友天翼应用虚拟化系统是国内具有自主知识产权的应用虚拟化平台，是基于服务器计算（Server-based Computing）的应用虚拟化平台。西安瑞友信息技术资讯有限公司瑞友天翼应用虚拟化系统存在S,高,高,True,1,1
+Reolink Rlc-410W是中国Reolink公司的一款Wifi安全摄像头。Reolink RLC-410W存在安全漏洞，攻击者可利用漏洞造成拒绝服务。,中,中,True,1,1
+"Cisco Identity Services Engine是一种转换生成的技术,它为网络用户和设备提供了一个统一的访问通路和政策途径。Cisco Identity Services Engine存在",中,中,True,1,1
+Cisco IOS XE Software是美国思科（Cisco）公司的一套为其网络设备开发的操作系统。CLI parser是其中的一个命令行命令解析器。Cisco IOS XE Software中的,高,高,True,1,1
+Oracle Database Server是美国甲骨文（Oracle）公司的一套关系数据库管理系统。该数据库管理系统提供数据管理、分布式处理等功能。Application Express（APEX，,中,低,False,1,1
+Bentley MicroStation CONNECT是美国Bentley Systems公司的一个用于二维和三维设计和绘图的Cad软件平台。Bentley MicroStation CONNECT,中,中,True,2,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,7,1
+Oracle Primavera是美国甲骨文（Oracle）公司的一套面向项目密集型行业的企业项目组合管理（EPPM）解决方案。该方案可帮助企业评估项目风险与回报、确定完成工作所需的资源和技能等。Or,中,中,True,7,1
+IBM Rational Collaborative Lifecycle Management（CLM）是美国IBM公司的一套协作化生命周期管理解决方案。该方案在一个IBM SmartCloud En,中,中,True,2,1
+文电通PDF阅读器是北京棣南新宇科技有限公司开发的pdf相关产品。文电通PDF阅读器存在二进制漏洞，攻击者利用该漏洞造成拒绝服务。,中,中,True,2,1
+Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Acro,中,中,True,5,1
+Adobe Acrobat和Reader都是美国奥多比（Adobe）公司的产品。前者是一套PDF文件编辑和转换工具，后者是一套PDF文档阅读软件。Adobe Acrobat和Reader中存在安全漏洞,高,高,True,18,4
+D-Link DAP-2622是中国友讯（D-Link）公司的一款无线接入点（Access Point）设备。D-Link DAP-2622存在缓冲区溢出漏洞，攻击者可利用该漏洞在根上下文中执行代码。,高,高,True,7,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。MySQL Server component是其中的服务器组件。Oracle MySQL中的MySQL Serv,高,高,True,2,1
+Oracle MySQL Server是美国甲骨文（Oracle）公司的一款关系型数据库。Oracle MySQL Server存在信息泄露漏洞，攻击者可利用该漏洞导致对MySQL Server可访问,中,中,True,1,1
+Google Chrome是美国谷歌（Google）公司开发的一款Web浏览器。Google Chrome中存在任意代码执行漏洞。攻击者可利用该漏洞在浏览器上下文中执行任意代码，泄露敏感信息或造成拒绝,高,高,True,2,1
+Microsoft Message Queuing是用于实现需要高性能的异步和同步场景的解决方案。Microsoft Message Queuing存在远程代码执行漏洞，攻击者可利用该漏洞在系统上执行,中,中,True,6,2
+Microsoft HEVC Video Extensions是美国微软（Microsoft）公司的一个视频扩展应用程序。该应用使计算机和设备可以读取高效视频编码或HEVC视频。Microsoft H,高,高,True,3,2
+Cisco WebEx Business Suite（WBS30）client等都是美国思科（Cisco）公司的视频会议解决方案的客户端软件。WebEx Recording Format Player,高,高,True,2,2
+STDU Viewer是一款免费的支持多种格式的文件查看器。该软件支持TIFF、PDF、DjVu、XPS和WWF等格式。STDU Viewer 1.6.375版本中存在缓冲区溢出漏洞。本地攻击者可借助,中,中,True,3,1
+Microsoft Internet Explorer（IE）是美国微软（Microsoft）公司的一款Windows操作系统附带的Web浏览器。Microsoft Internet Explorer,高,高,True,1,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。System是其中的一个系统组件。Google Android System存在安全漏洞,高,高,True,1,1
+Chadha Software Technologies PHPKB Standard Multi-Language是印度Chadha Software Technologies公司的一套基于Web的,中,中,True,21,4
+WordPress是WordPress基金会的一套使用PHP语言开发的博客平台。该平台支持在PHP和MySQL的服务器上架设个人博客网站。search-everything是使用在其中的一个搜索功能插,高,高,True,1,1
+Apple iOS等都是美国苹果（Apple）公司的产品。Apple iOS是为移动设备所开发的一套操作系统；Safari是一款Web浏览器，是Mac OS X和iOS操作系统附带的默认浏览器。iCl,中,中,True,3,1
+Microsoft 365 Copilot Business Chat是美国Microsoft公司的一个AI聊天软件。Microsoft 365 Copilot Business Chat存在欺骗漏洞,高,高,True,1,1
+Microsoft Exchange Server是Microsoft开发的邮件服务器和日历服务器。Microsoft Exchange Server存在远程代码执行漏洞。攻击者可利用该漏洞实现远程代,中,中,True,8,1
+Siveillance Video（以前称为Siveillance VMS）是一款IP视频管理软件，专为从小型和简单到大规模和高安全性的部署而设计。Siemens Siveillance Video存,高,高,True,1,1
+baserCMS是一套企业级内容管理系统（CMS）。baserCMS 3.0.10以及之前的版本存在跨站请求伪造漏洞，该漏洞源于程序未能充分过滤用户提交的输入。攻击者可利用该漏洞在服务器上执行未授权操,中,低,False,2,1
+libimobiledevice是一个可让Linux支持连接iPhone、iPodTouch等iOS设备的软件协议库和工具。libplist是其中的一个以二进制或XML格式来处理Apple Prope,低,低,True,1,1
+FreeBSD是FreeBSD基金会的一套类Unix操作系统。FreeBSD中存在安全漏洞。本地攻击者可利用该漏洞获取敏感信息。,中,低,False,1,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在权限提升漏洞，攻击者可利用此漏洞在系统上获取提升的特权。,高,高,True,2,1
+Adobe Flash Player是美国奥多比（Adobe）公司的一款跨平台、基于浏览器的多媒体播放器产品。Adobe Flash Player中存在安全漏洞，攻击者可利用该漏洞执行任意代码或造成拒,高,高,True,6,1
+北京一诺互联科技有限公司是一家提供网站建设，网站优化，网站推广，网站开发，网页设计制作等服务的公司。北京一诺互联科技有限公司建站系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,中,False,1,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,高,高,True,5,2
+Apple Safari是美国苹果（Apple）公司开发的一款Web浏览器，是Mac OS X和iOS操作系统附带的默认浏览器。Safari是其中的一个用于Safari浏览器的专用组件。Apple S,中,中,True,1,1
+Microsoft SharePoint Server是美国微软（Microsoft）公司的一套企业业务协作平台。该平台用于对业务信息进行整合，并能够共享工作、与他人协同工作、组织项目和工作组、搜索人,高,高,True,3,5
+Citrix NetScaler ADC是应用交付控制器，可以优化企业服务交付。Citrix Access Gateway是一款通用的SSL VPN设备。Citrix NetScaler ADC an,高,高,True,1,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在权限提升漏洞，攻击者可利用此漏洞提升权限。,高,高,True,8,1
+NETGEAR RBK50等都是美国网件（NETGEAR）公司的一款无线路由器。多款NETGEAR产品中存在跨站脚本漏洞，该漏洞源于WEB应用缺少对客户端数据的正确验证，攻击者可利用该漏洞执行客户端代,低,低,True,6,3
+OneThink是一个开源的内容管理框架。OneThink存在命令执行漏洞，攻击者可利用该漏洞获取网站服务器控制权。,高,高,True,1,1
+IBM Jazz Reporting Service是IBM Rational Reporting for Development Intelligence的可选组件。IBM Jazz Reporti,低,中,False,2,1
+Apple macOS High Sierra是美国苹果（Apple）公司的一套专为Mac计算机所开发的专用操作系统。file是其中的一个文件系统组件。Apple macOS High Sierra中,高,高,True,5,1
+w3m是一款开源的基于文本的Web浏览器。w3m 0.5.3-31之前的版本中存在安全漏洞。攻击者可利用该漏洞执行任意代码或造成拒绝服务。,高,高,True,7,2
+BossCMS是温州互引信息技术有限公司开发的一款基于自主研发PHP框架MySQL架构的内容管理系统。温州互引信息技术有限公司BossCMS存在XSS漏洞，攻击者可利用该漏洞获取用户cookie等敏感,中,中,True,2,1
+Adobe After Effects是美国奥多比（Adobe）公司的一套视觉效果和动态图形制作软件。该软件主要用于2D和3D合成、动画制作和视觉特效制作等。Adobe After Effects 2,高,高,True,2,1
+软媒图标大师是一款图标管理软件，它具备图标提取、图标替换、图标格式转换和图标缓存修复等功能。青岛软媒魔方软媒图标大师存在内存破坏漏洞，攻击者可通过构造畸形的ICO图片导致程序崩溃。,中,中,True,1,1
+Microsoft Windows 10等都是美国微软（Microsoft）公司发布的一系列操作系统。Windows kernel是其中的一个Windows系统内核。Microsoft Windows,低,中,False,7,1
+瑞安市优博科技有限公司是一家为社会大众提供网页设计制作、百度/谷歌SEO优化推广、手机网站、微信公众平台、外贸监控企业邮箱等网络信息咨询服务，产品画册目录、企业光盘设计制作，400号码申请等服务的公司,高,高,True,1,1
+易居房产系统(ejucms)是一套本地化O2O房产网站平台系统。ejucms后台存在SQL注入漏洞，攻击者可以利用漏洞获取数据库敏感信息。,中,中,True,4,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,2,1
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acro,高,低,False,5,1
+Microsoft Windows操作系统是美国微软公司研发的一套操作系统。Microsoft Windows GDI Component存在信息泄露漏洞，攻击者可以利用该漏洞导致信息泄漏，从而获得可,中,中,True,9,1
+Adobe Reader是一款免费的PDF文件阅读器；Acrobat是一款PDF文件编辑和转换工具；Acrobat Reader DC是一套用于查看、打印和批注PDF的工具。Adobe Reader和,高,高,True,9,1
+Adobe Premiere Pro是Adobe公司推出的一款基于时间轴的视频编辑软件。Adobe Premiere Pro 15.4.1及更早版本存在内存缓冲区越界访问漏洞。攻击者可利用该漏洞执行任,高,高,True,2,1
+Trend Micro OfficeScan是美国趋势科技（Trend Micro）公司的一套分布式反病毒软件。Trend Micro OfficeScan 11版本和XG (12)版本中存在命令注入,高,高,True,1,1
+JerryScript是一个轻量级的JavaScript引擎。JerryScript存在拒绝服务漏洞，攻击者可利用该漏洞造成拒绝服务。,中,中,True,12,2
+云优CMS企业网站管理系统（YUNUCMS）是一套基于PHP+MYSQL为核心开发的专业营销型企业建站系统。云优CMS企业网站管理系统V1***.php文件存在SQL注入漏洞。攻击者可利用漏洞获取数据,高,高,True,1,1
+Mozilla Firefox是美国Mozilla基金会的一款开源Web浏览器。Mozilla Firefox存在安全绕过漏洞，攻击者可利用该漏洞绕过安全限制。,高,高,True,5,1
+Cisco Registered Envelope Service是美国思科（Cisco）公司的一套邮件服务解决方案。该产品包括邮件的读取回执、邮件回收、邮件转发和回复功能，并提供智能手机支持。Cis,中,中,True,2,2
+IBM QRadar SIEM是美国IBM公司的一套利用安全智能保护资产和信息远离高级威胁的解决方案。该方案提供对整个IT架构范围进行监督、生成详细的数据访问和用户活动报告等功能。IBM QRadar,低,中,False,1,1
+Siretta QUARTZ-GOLD是Siretta公司的一款高速工业路由器。Siretta QUARTZ-GOLD G5.0.1.5-210720-141020版本存在缓冲区溢出漏洞，攻击者可利用,高,高,True,24,5
+Microsoft Internet Explorer是一款流行的WEB浏览器。Microsoft Internet Explorer存在权限提升漏洞，允许远程攻击者构建恶意WEB页，诱使用户解析，可,中,中,True,1,1
+ZXR10 1800-2S是中国中兴通讯（ZTE）公司的一款路由器产品。中兴通讯ZXR10 1800-2S存在文件读取漏洞。攻击者可利用该漏洞读取任意文件。,中,中,True,8,1
+IrfanView是波黑软件开发者Irfan Skiljan所研发的一款图片浏览器，它支持图片浏览、图片编辑、图片格式转换等。PDF plugin是其中的一个PDF文档读取插件。IrfanView 4,中,中,True,5,1
+"极速看图是一款快速看图软件,兼容所有主流图片格式,并且还支持raw、psd、cr2等。茉柏枘（上海）软件科技有限公司极速看图存在缓冲区溢出漏洞，攻击者通过该poc可导致软件崩溃，成功利用该漏洞可导致任",中,中,True,2,1
+InHand Networks InRouter 900是美国InHand Networks公司的一系列工业路由器。InHand Networks InRouter 900 Industrial 4G,高,高,True,7,1
+Adobe InDesign是美国奥多比（Adobe）公司的一套排版编辑应用程序。Adobe InDesign存在堆缓冲区溢出漏洞，攻击者可利用该漏洞在当前用户的上下文中执行任意代码。,高,高,True,4,1
+Oracle Database是一款商业性质的大型数据库。Oracle Database Application Express组件存在安全漏洞，允许通过验证的用户影响系统可用性。,中,低,False,1,1
+Rainbond是一个云原生应用管理平台。Rainbond存在逻辑缺陷漏洞，攻击者可利用该漏洞获取敏感信息。,中,低,False,1,1
+Microsoft Exchange Server是微软公司的一套电子邮件服务组件。Microsoft Exchange Server 2013 Cumulative Update 8/9/SP1，O,中,中,True,1,1
+Google Chrome是美国谷歌（Google）公司的一款Web浏览器。Google Chrome 78.0.3904.70之前版本中存在信息泄露漏洞。远程攻击者可利用该漏洞未授权访问敏感信息。,中,中,True,1,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,5,1
+SAP 3D Visual Enterprise Viewer是一款适用于Windows的免费3D可视化查看器。SAP 3D Visual Enterprise Viewer 9存在输入验证错误漏洞，,中,中,True,2,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。Oracle MySQL的MySQL Server存在安全漏洞。攻击者可利用该漏洞导致MySQL服务器挂起或频繁,中,中,True,17,2
+Adobe Flash Player、Adobe AIR SDK和Adobe AIR SDK & Compiler都是美国奥多比（Adobe）公司的产品。Adobe Flash Player是一款多媒,高,高,True,10,2
+Adobe Prelude是一款专为直观、高效的媒体整理和元数据输入而设计的视频记录和采集工具，可快速标记和转码视频素材并快速创建粗剪。Adobe Prelude 10.1及更早版本存在内存缓冲区越界,中,高,False,3,1
+axTLS是一款高度可配置的客户端/服务器TLS（安全传输层协议）库。axTLS 2.1.5及之前版本中的asn1.c文件的‘asn1_signature’函数存在安全漏洞。攻击者可利用该漏洞造成拒绝,中,中,True,1,1
+Oracle Fusion Middleware是一套适用于云环境和传统环境的应用服务器。Oracle Fusion Middleware Oracle BI Publisher Scheduler ,中,中,True,1,1
+Wireshark是一款网络封包分析软件。网络封包分析软件的功能是撷取网络封包，并尽可能显示出最为详细的网络封包资料。Wireshark使用WinPCAP作为接口，直接与网卡进行数据报文交换。Wire,高,中,False,1,1
+Android是美国Google公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android 8.0、8.1、9、10中的Framework组件存在,高,高,True,1,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。System是其中的一个系统组件。Android 10版本中的System存在安全漏洞，,低,低,True,4,1
+Advantech WebAccess/SCADA是中国台湾研华（Advantech）公司的一套基于浏览器架构的SCADA软件。Advantech WebAccess/SCADA存在任意文件删除漏洞，,中,中,True,3,1
+Exiv2是一个跨平台C++库和用于管理图像元数据的命令行实用程序。Exiv2 0.27.4及更早版本存在越界读取漏洞。攻击者可通过特制图像文件利用该漏洞导致拒绝服务。,中,中,True,1,1
+Siemens Polarion是德国西门子（Siemens）公司的一套应用程序生命周期管理软件。该软件支持在统一、模块化、基于浏览器的软件环境上进行端到端的企业级应用程序开发。webclient是其,低,低,True,2,1
+JYmusic是一款开源的跨平台音乐管理系统。JYmusic前台存在存储型跨站脚本漏洞，攻击者可在页面中插入恶意js代码，获得用户cookie等信息，导致用户被劫持。,中,中,True,2,2
+Tenda AC18是Tenda公司的一款路由器。Tenda AC18存在缓冲区溢出漏洞，攻击者可利用该漏洞提交特殊的请求，使程序崩溃或者在上下文执行任意代码。,高,高,True,1,1
+神通大型通用数据库是一款计算机数据库。神通大型通用数据库7.0.8.181104存在信息泄露漏洞，攻击者可利用该漏洞获取服务器控制权。,中,中,True,1,2
+Trend Micro Apex Central是美国趋势科技(Trend Micro)公司的一个基于Web的产品控制台。Trend Micro Apex Central存在跨站脚本漏洞，攻击者可利用,中,中,True,2,1
+GTKWave是GTKWave公司的一款功能齐全、基于GTK+的波形查看器。GTKWave 3.3.118版本存在代码执行漏洞，攻击者可利用此漏洞通过特制的fst文件可能导致任意代码执行。,高,高,True,2,1
+Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Acro,中,中,True,30,6
+Dell CloudLink是美国戴尔（Dell）公司的一个数据加密和密钥管理系统。Dell CloudLink存在命令执行漏洞，攻击者可利用该漏洞在系统上执行任意命令。,高,高,True,1,1
+HPE Intelligent Management Center (iMC) PLAT是美国惠普企业（Hewlett Packard Enterprise，HPE）公司的一套网络智能管理中心解决方案,高,高,True,2,1
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader(也被称为Acrobat Reader)是美国Adobe公司开发的一款PDF文件阅读软件。Adobe Ac,高,高,True,9,3
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acro,高,中,False,66,5
+XnView Classic for Windows是法国软件开发者Gougelet Pierre-Emmanuel所研发的一套用于Windows平台的图片查看软件。该软件可用于查看、转换、组织和编辑,中,中,True,7,2
+Microsoft Edge是一款Windows 10之后版本系统附带的Web浏览器。Microsoft Edge for iOS存在欺骗漏洞，攻击者可利用该漏洞进行欺骗攻击。,中,中,True,1,1
+Adobe Reader和Acrobat是PDF文件相关软件：Adobe Reader是一款免费的PDF文件阅读器，Acrobat是一款PDF文件编辑和转换工具。Adobe Reader和Acroba,高,高,True,22,5
+Adobe Acrobat Reader是美国奥多比（Adobe）公司的一款PDF查看器。该软件用于打印，签名和注释PDF。Adobe Acrobat Reader存在越界读取漏洞，攻击者可利用该漏洞,中,中,True,12,1
+TCCMS是一款内容管理系统。其核心框架TC，具备大数据量，高并发，易扩展等特点。TCCMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,3,2
+Microsoft Office是微软公司开发的一套基于Windows操作系统的办公软件套装。Microsoft Office处理内存对象中存在远程代码执行漏洞，可使攻击者通过构造的文件在当前用户安全,高,高,True,1,1
+Adobe Dimension是美国Adobe公司的是一套2D和3D合成设计工具。Adobe Dimension存在越界写入漏洞，攻击者可利用该漏洞导致在当前用户的上下文中执行任意代码。,高,高,True,1,1
+Oracle Communications Diameter Signaling Router（DSR）是美国甲骨文（Oracle）公司的一个应用于通信领域的信号路由器。Oracle Communic,中,中,True,1,1
+Apple Mac OS X是一款商业性质的操作系统。Apple Mac OS X处理特制字体文件存在任意代码执行漏洞，允许攻击者构建恶意文件，诱使用户解析，可执行任意代码。,高,高,True,3,1
+Adobe Experience Manager是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理等。Ado,中,中,True,16,2
+Microsoft Windows是美国微软公司研发的一套操作系统，Windows采用了图形化模式GUI。Microsoft Windows存在权限提升漏洞。该漏洞产生的原因是Win32k组件未能正确,高,高,True,1,1
+Freeware Advanced Audio Decoder 2 (FAAD2)是一款根据GPLv2许可证授权的开源MPEG-4和MPEG-2 AAC解码器。Freeware Advanced Au,中,中,True,2,1
+NVIDIA GPU Driver是美国英伟达（NVIDIA）公司的一套图形处理器（GPU）驱动程序。NVIDIA GPU Driver存在本地提权漏洞。本地攻击者可利用该漏洞获取提升的权限并执行未授,高,高,True,1,1
+SWFTools是一种实用工具与Adobe Flash文件(SWF文件)工作的集合。SWFTools存在堆缓冲区溢出漏洞，攻击者可利用该漏洞导致代码执行。,中,中,True,5,1
+NewsBee CMS是一套新闻网站CMS（内容管理系统）。NewsBee CMS 'home-text-edit.php'存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,高,高,True,1,1
+Juniper Junos是美国瞻博网络（Juniper Networks）公司的一套专用于该公司的硬件系统的网络操作系统。该操作系统提供了安全编程接口和JunosSDK。Juniper Junos中,中,中,True,1,1
+Microsoft Office是美国微软（Microsoft）公司开发的一款办公软件套件产品。Microsoft Office软件无法正确处理内存中的对象时存在内存破坏漏洞，远程攻击者可利用该漏洞在,高,高,True,1,1
+Cisco Security Manager（CSM）是美国思科（Cisco）公司的一套企业级的管理应用，它主要用于在Cisco网络和安全设备上配置防火墙、VPN和入侵保护安全服务。Cisco Sec,中,中,True,1,2
+Oracle Fusion Middleware（Oracle融合中间件）是美国甲骨文（Oracle）公司的一套面向企业和云环境的业务创新平台。该平台提供了中间件、软件集合等功能。Outside In,低,低,True,8,1
+cPanel是美国cPanel公司的一套基于Web的自动化主机托管平台。该平台主要用于自动化管理网站和服务器。cPanel 62.0.4之前版本中存在安全漏洞。目前没有详细漏洞细节提供。,中,中,True,3,1
+金微手机商城系统是一款适用于有公众号的微商客户的商城管理系统。金微手机商城系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,6,1
+Siemens Jt2go和Siemens Teamcenter Visualization都是德国Siemens公司的产品。Siemens Jt2go是一款JT文件查看器。Siemens Teamc,中,中,True,1,1
+Adobe InDesign是美国奥多比（Adobe）公司的一套排版编辑应用程序。Adobe InDesign存在缓冲区溢出漏洞，攻击者可利用该漏洞溢出缓冲区并在系统上执行任意代码，或者导致应用程序崩,高,高,True,3,2
+Huawei HarmonyOS是华为自主研发的分布式操作系统‌，专为手机、平板、智能家居等全场景设备设计，实现跨设备无缝协同。‌Huawei EMUI是华为基于安卓系统深度定制的手机操作系统‌。Hu,中,中,True,1,1
+优客365网址导航开源版是基于PHP+MYSQL开发构建的开源网站分类目录管理系统。优客365网址导航开源版存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,中,中,True,3,1
+Adobe InDesign是美国奥多比（Adobe）公司的一套排版编辑应用程序。Adobe InDesign存在越界写入漏洞。攻击者利用该漏洞在当前用户的上下文中执行任意代码。,高,高,True,2,1
+5UCMS是一款采用PHP开发，THINKPHP为内核，基于HMVC规则开发适合中小企业、公司、新闻、个人等相关行业的网站内容管理系统。5UCMS存在命令执行漏洞，攻击者可利用该漏洞获取服务器控制权。,高,高,True,1,1
+Tecnick.com TCExam是英国Tecnick.com公司的一套基于Web的开源电子考试系统。该系统主要用于在线考试等。Tecnick.com TCExam存在安全漏洞，攻击者可利用该漏洞造,中,低,False,3,1
+Adobe Commerce是美国奥多比（Adobe）公司的一种面向商家和品牌的数字商务解决方案。Adobe Commerce存在安全绕过漏洞，攻击者可利用此漏洞绕过安全功能。,中,中,True,5,1
+JT是由西门子数字工业软件开发的一种公开发布的数据格式。JT Open Toolkit(又称JTTK)是面向开发人员的应用程序编程接口(API)JT-enabled软件。JT Open Toolkit,高,高,True,8,3
+Backdrop CMS是一套开源的内容管理系统（CMS）。Backdrop CMS 1.13.5之前的1.13.x版本和1.14.2之前的1.14.x版本中存在跨站脚本漏洞。该漏洞源于WEB应用缺少,中,中,True,1,1
+Oracle MySQL是一个开源的关系型数据库管理系统。MySQL Server (mysqld)是MySQL服务器，是执行MySQL安装中大部分工作的主程序。Oracle MySQL Server,中,中,True,1,1
+Reolink Rlc-410W是中国Reolink公司的一款Wifi安全摄像头。Reolink RLC-410W存在安全漏洞，攻击者可利用该漏洞造成拒绝服务。,中,中,True,26,4
+JunAMS是一款以ThinkPHP为框架的开源内容管理系统。JunAMS内容管理系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库信息。,高,中,False,1,1
+JasPer是一个JPEG-2000编解码器的开源实现。JasPer存在拒绝服务漏洞。攻击者利用该漏洞可以造成拒绝服务漏洞。,中,中,True,1,1
+zzzcms是一款asp语言开发的免费建站系统。zzzcms后台in***.php文件存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,中,高,False,1,1
+心通达OA是一款多功能的智能办公应用软件。心通达OA2021秋实版存在文件上传漏洞，攻击者可利用该漏洞获取服务器控制权。,高,高,True,1,1
+FusionPBX是一套可扩展、多线程的通信平台。该平台可作为呼叫中心服务器、传真服务器、voip服务器、语音邮件服务器、会议服务器和语音应用服务器等。FusionPBX存在跨站脚本漏洞。攻击者可利用,中,中,True,14,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Qualcomm closed-source components是其中的一,高,高,True,8,1
+Microsoft Internet Explorer（IE）是美国微软（Microsoft）公司开发的一款Web浏览器，是Windows操作系统附带的默认浏览器。当Microsoft IE 11版本,高,高,True,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Media是其中的一个用于多媒体开发框架。Android中的Media fr,高,高,True,4,2
+deituiCMS是一套基于PHP的开源内容管理系统。deituiCMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,2,1
+Oracle Fusion Middleware（Oracle融合中间件）是美国甲骨文（Oracle）公司的一套面向企业和云环境的业务创新平台。该平台提供了中间件、软件集合等功能。Outside In,中,中,True,2,1
+Oracle PeopleSoft Products是美国甲骨文（Oracle）公司的一套企业人力资本管理解决方案，它提供了人力资本管理、财务管理、供应商关系管理等功能。PeopleSoft Ente,中,中,True,4,1
+Plone是一款开源内容管理系统。Plone 5.2.3之前版本存在XXE（XML外部实体注入）漏洞。攻击者可利用该漏洞进行XXE攻击。,中,中,True,1,1
+Oracle MySQL Server是美国甲骨文（Oracle）公司的一款关系型数据库。Oracle MySQL Server 8.0.23及更早版本中的Server: Group Replicat,中,中,True,6,1
+Apple iOS是一款用于苹果智能设备的操作系统。Apple iOS的Wi-Fi组件存在安全漏洞，允许远程攻击者利用该漏洞执行任意代码。,高,高,True,4,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。Oracle MySQL的MySQL Server存在安全漏洞。攻击者可利用该漏洞导致MySQL Server挂,中,中,True,1,1
+Oracle E-Business Suite是在原来Application（ERP）基础上的扩展，包括ERP（企业资源计划管理）、HR（人力资源管理）、CRM（客户关系管理）等等多种管理软件的集合，,中,中,True,3,1
+Mozilla Firefox是美国Mozilla基金会的一款开源Web浏览器。Mozilla Firefox存在拒绝服务漏洞，攻击者可利用该漏洞导致浏览器崩溃。,高,高,True,1,1
+Apple macOS Sierra是美国苹果（Apple）公司为Mac计算机所开发的一套专用操作系统。Kernel是其中的一个内核组件。Apple macOS Sierra 10.12.6版本中的K,高,高,True,4,1
+北京星网锐捷网络技术有限公司EG2000GE是一款路由器产品。北京星网锐捷网络技术有限公司EG2000GE存在命令执行漏洞，攻击者可利用该漏洞获取服务器控制权。,高,高,True,1,1
+Adobe After Effects是美国奥多比（Adobe）公司的一套视觉效果和动态图形制作软件。该软件主要用于2D和3D合成、动画制作和视觉特效制作等。Adobe After Effects 2,高,高,True,1,1
+cPanel是美国cPanel公司的一套基于Web的自动化主机托管平台。该平台主要用于自动化管理网站和服务器。cPanel存在输入验证错误漏洞。攻击者可利用该漏洞执行代码。,中,中,True,1,1
+XnView Classic for Windows是法国软件开发者Gougelet Pierre-Emmanuel所研发的一套用于Windows平台的图片查看软件。该软件可用于查看、转换、组织和编辑,中,中,True,9,1
+Adobe After Effects简称“AE”是Adobe公司推出的一款图形视频处理软件，适用于从事设计和视频特技的机构，包括电视台、动画制作公司、个人后期制作工作室以及多媒体工作室。Adobe ,中,中,True,3,1
+WordPress是WordPress软件基金会的一套使用PHP语言开发的博客平台。WordPress 4.5.2及之前版本中存在跨站脚本漏洞，攻击者可借助附件名称，利用该漏洞注入任意Web脚本或HT,中,中,True,1,1
+WSO2 API Manager是一个开源的api管理平台， 提供了一系列api创建，发布，生命周期管理，版本控制，货币化，治理和安全等功能，用于支持组织实现soa。WSO2 API Manager中,中,中,True,9,1
+IBM Kenexa LMS on Cloud是美国IBM公司的一套可配置的集成了社交网络、协作和知识分享功能的企业级社交学习管理系统 (LMS)。该系统提供互动功能并支持用户对学习内容进行评价并分享,高,高,True,1,1
+XDcms是一套通用的内容管理系统。XDcms存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,28,4
+Foxit Reader和Foxit PhantomPDF都是中国福昕（Foxit）公司的一款PDF文档阅读器。Foxit Reader和PhantomPDF存在安全漏洞。攻击者可利用漏洞导致堆栈缓冲,中,中,True,2,1
+Google Android是美国谷歌（Google）公司的的一套以Linux为基础的开源操作系统。Google Android存在权限许可和访问控制问题漏洞，攻击者可利用该漏洞导致本地权限升级。,高,高,True,2,1
+Adobe Acrobat和Reader都是美国奥多比（Adobe）公司的产品。前者是一套PDF文件编辑和转换工具，后者是一套PDF文档阅读软件。Adobe Acrobat和Reader中存在类型混淆,高,高,True,3,1
+NETGEAR R9000等都是美国网件（NETGEAR）公司的一款无线路由器。多款NETGEAR产品中存在缓冲区溢出漏洞，该漏洞源于网络系统或产品在内存上执行操作时，未正确验证数据边界，导致向关联的,中,中,True,4,1
+Huawei EMUI是一款基于Android开发的移动端操作系统。Huawei HarmonyOS是一个操作系统。提供一个基于微内核的全场景分布式操作系统。Huawei HarmonyOS和EMUI,高,高,True,1,1
+Adobe Flash Player是美国奥多比（Adobe）公司的一款跨平台、基于浏览器的多媒体播放器产品。该产品支持跨屏幕和浏览器查看应用程序、内容和视频。Adobe Flash Player中存,高,中,False,16,2
+IBM Rational Quality Manager（RQM）是美国IBM公司的一套协作的、基于Web的质量管理解决方案。该方案在软件开发的整个生命周期之内，提供了测试规划与测试评价管理方法，并能,中,中,True,5,3
+Acrobat DC Continuous Track等都是美国奥多比（Adobe）公司的产品。Acrobat DC Continuous Track是一款桌面版PDF解决方案的连续更新版本。Read,高,高,True,1,1
+Bentley Systems Bentley View是美国Bentley Systems公司的一个免费查看器。Bentley View存在缓冲区溢出漏洞，攻击者可利用该漏洞披露受影响的Bentle,中,中,True,5,1
+Apple iOS是一款运行在苹果iPhone和iPod touch设备上的最新的操作系统。Apple iOS使用的Webkit存在内存破坏漏洞，允许攻击者构建恶意WEB页，诱使用户解析，可使应用程序,中,中,True,23,2
+团啊VIP电影系统是一套带注册会员代理版的VIP电影视频观看网站源码。团啊VIP电影系统ad***.php页面存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,1,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。MySQL Server是其中的一个数据库服务器组件。Oracle MySQL中的MySQL Server 8.,中,中,True,3,1
+IBM Tealeaf Customer Experience是美国IBM公司的一套基于SaaS（软件即服务）的网络和移动应用分析解决方案。该方案通过对数据的分析了解帮助客户提高整体用户体验，并支持采,中,中,True,1,1
+NETCORE Netis DL4323是中国磊科（NETCORE）公司的一款多功能调制解调器。NETCORE Netis DL4323中存在跨站脚本漏洞，该漏洞源于WEB应用缺少对客户端数据的正确验,中,中,True,3,1
+Oracle Fusion Middleware（Oracle融合中间件）是美国甲骨文（Oracle）公司的一套面向企业和云环境的业务创新平台。该平台提供了中间件、软件集合等功能。Business I,中,低,False,1,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,54,10
+Foxit Reader是中国福昕（Foxit）软件公司的一款PDF文档阅读器。Foxit PhantomPDF是一个商业版。Foxit Reader和PhantomPDF 9.3之前版本中存在安全漏,高,高,True,3,2
+WordPress是WordPress基金会的一套使用PHP语言开发的博客平台。该平台支持在PHP和MySQL的服务器上架设个人博客网站。nelio-ab-testing是使用在其中的一个对网站进行A,中,中,True,1,1
+广东一一五科技股份有限公司经营范围包括：计算机软、硬件的设计、开发、销售；设计、发布、制作和代理国内外广告；提供电脑页面制作等。广东一一五科技股份有限公司115电脑版存在DLL劫持漏洞，攻击者可利用该,高,高,True,1,1
+Hancom Office 2020提供了一组功能丰富的桌面生产力应用程序，用于执行诸如文字处理，电子表格建模，图形表示以及使用PDF等常见任务。Hancom Office 2020存在内存破坏漏洞，,中,中,True,16,1
+zzzphp是采用PHP开发的免费建站整站系统。zzzphp V1.6.6后台存在代码执行漏洞，攻击者可利用该漏洞获取网站服务器控制权。,高,高,True,2,1
+Adobe Substance 3D Modeler是美国奥多比（Adobe）公司的一款3D建模和雕刻软件。Adobe Substance 3D Modeler存在越界写入漏洞，攻击者可利用该漏洞在当,高,高,True,4,1
+浙大恩特客户资源管理系统是一款外贸管理和外贸客户管理等功能的软件。浙大恩特客户资源管理系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,3,1
+Afian AB FileRun是瑞典Afian AB公司的一款可扩展的文件管理器，它具有文件共享、云端文件存储等功能。Afian AB FileRun 2019.05.21版本中存在路径遍历漏洞。该,中,中,True,1,1
+Microsoft Windows Server是一款流行的操作系统。Microsoft Windows Server的内核模式驱动程序未能正确处理内存中的对象存在安全漏洞，允许本地攻击者可利用该漏洞,中,中,True,1,1
+Mozilla Firefox是美国Mozilla基金会的一款开源Web浏览器。Mozilla Firefox ESR是Firefox（Web浏览器）的一个延长支持版本。Mozilla Thunder,高,高,True,1,1
+Microsoft Internet Explorer是一款流行的WEB浏览器。Microsoft Internet Explorer存在远程内存破坏漏洞，允许攻击者利用此漏洞在当前登录用户上下文中执,高,高,True,31,2
+Microsoft ChakraCore是美国微软（Microsoft）公司的使用在Edge浏览器中的一个开源的ChakraJavaScript脚本引擎的核心部分，也可作为单独的JavaScript引,高,高,True,1,1
+唐山市柳林自动化设备有限公司是一家专业从事物联网安全通讯终端与智慧应用平台软件的研发、生产、销售和系统工程技术服务的高新技术企业。水权交易系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,6,3
+Google Chrome是美国谷歌（Google）公司开发的一款Web浏览器。Blink是美国谷歌（Google）公司和挪威欧朋（Opera Software）公司共同开发的一套浏览器排版引擎（渲染,高,高,True,1,1
+DPR-343-DA-G电力系统动态记录装置是基于DL/T860构架，应用于新一代智能变电站中的故障录波装置。国电南瑞科技股份有限公司DPR-343-DA-G电力系统动态记录装置存在拒绝服务漏洞，攻击,高,高,True,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Mediaserver是其中的一个多媒体服务组件。Google Androi,中,中,True,1,1
+IBM Engineering Test Management是一个协作性的质量管理解决方案，可以提供端到端的测试规划和测试资产管理，广泛覆盖从需求到缺陷的各个方面。IBM Engineering T,中,低,False,2,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android的TrustZone中存在整数溢出漏洞。攻击者可,高,高,True,1,1
+Oracle MySQL Server是一套开源的关系数据库管理系统。MySQL Server: DML组件存在安全漏洞，允许远程攻击者利用漏洞提交特殊请求进行拒绝服务攻击。,中,中,True,4,2
+文电通PDF5是款可以免费使用的PDF格式文件浏览编辑工具。文电通PDF5 Windows版存在堆溢出漏洞，攻击者可利用该漏洞导致程序崩溃。,中,中,True,1,1
+江西铭软科技有限公司经营范围包括：信息技术咨询服务；互联网信息服务；计算机软件技术开发等。江西铭软科技有限公司MCms后台存在文件上传漏洞，攻击者可利用该漏洞获取服务器控制权限。,高,高,True,1,1
+IrfanView是一款图片浏览器。支持图片浏览、图片编辑、图片格式转换等。IrfanView存在越界写入漏洞，该漏洞源于DXF文件解析功能包含一个内存损坏问题。攻击者可利用该漏洞导致代码执行。,高,高,True,8,1
+D-Link DIR-605L是中国D-Link公司的一款无线路由器。D-Link DIR-605L存在缓冲区溢出漏洞，攻击者可利用该漏洞导致远程代码执行或服务中断。,高,高,True,6,3
+湖南强智科技发展有限公司是一家教育信息化服务提供商。湖南强智科技发展有限公司教务管理系统存在未授权访问漏洞，攻击者可利用该漏洞获取敏感信息。,中,中,True,1,1
+kkcms是一套开源的视频采集播放系统。该系统主要用于自动采集影视资源并提供在线播放功能。kkcms存在SQL注入漏洞，攻击者可利用漏洞获取数据库敏感信息。,中,中,True,14,3
+Android on Nexus是谷歌公司搭载原装Android系统的高端手机系列。Android before 2016-08-05 on Nexus 5和7 devices存在权限提升漏洞，允许攻,高,高,True,3,1
+Samsung Notes是韩国三星（Samsung）公司的一个应用软件。用于提供一个记录功能。Samsung Note 4.3.02.61之前版本存在缓冲区溢出漏洞，该漏洞源于libSPenBase,低,低,True,1,1
+Zoho ManageEngine AssetExplorer是美国卓豪（Zoho）公司的一套资产管理软件。该软件提供资产跟踪、IT资产的扫描和资产所有权的跟踪等功能。Zoho ManageEngin,中,中,True,1,1
+Adobe Acrobat和Reader都是美国奥多比（Adobe）公司的产品。前者是一套PDF文件编辑和转换工具，后者是一套PDF文档阅读软件。Adobe Acrobat和Reader中存在内存错误,高,高,True,7,2
+PbootCMS是翱云科技开发的一款全新内核的开源企业建站系统。PbootCMS V1.1.7 Do***.php页面存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,高,高,True,2,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Media framework是其中的一个用于多媒体开发框架。Android,高,高,True,7,3
+Huawei Honor 4C（华为荣耀4C）是中国华为（Huawei）公司的一款智能手机产品。Huawei Honor 4C驱动存在输入验证漏洞，攻击者可通过诱使用户安装恶意应用程序，利用该漏洞向C,中,中,True,3,2
+WordPress是WordPress基金会的一套使用PHP语言开发的博客平台。该平台支持在PHP和MySQL的服务器上架设个人博客网站。cforms2是使用在其中的一个表单构建插件。WordPres,高,高,True,1,1
+Aruba ClearPass Policy Manager是美国Aruba公司的一个应用系统提供无线网络安全接入管理系统。Aruba ClearPass Policy Manager 6.10.4及,低,低,True,1,1
+Adobe Flash Player是一款Flash文件处理程序。Adobe Flash Player存在一个未明未明堆缓冲区溢出漏洞，允许攻击者构建恶意SWF文件，诱使用户解析，可以应用程序上下文执,高,高,True,2,1
+Microsoft ChakraCore和Microsoft Edge都是美国微软（Microsoft）公司的产品。ChakraCore是使用在Edge浏览器中的一个开源的ChakraJavaScri,高,高,True,4,1
+Adobe After Effects是美国奥多比（Adobe）公司的一套视觉效果和动态图形制作软件。该软件主要用于2D和3D合成、动画制作和视觉特效制作等。Adobe After Effects 2,高,高,True,1,1
+珠海飞企软件有限公司（简称“飞企软件”）始创于1998年（原珠海用友软件有限公司成立于1998年），是一家专注于行业协同整合平台研发与服务的软件厂商。FE业务协助平台存在SQL注入漏洞，攻击者可利用该,高,高,True,2,1
+传音 Tecno Camon iClick是中国传音公司的一款智能手机。Tecno Camon iClick存在未明漏洞。攻击者可利用该漏洞以系统权限执行代码或命令，进而进行录屏，恢复出厂设置，获取用,高,高,True,2,1
+Adobe Flash Player、Adobe AIR SDK和Adobe AIR SDK & Compiler都是美国奥多比（Adobe）公司的产品。Adobe Flash Player是一款多媒,高,高,True,3,1
+Xen是英国剑桥大学开发的一款开源的虚拟机监视器产品。该产品能够使不同和不兼容的操作系统运行在同一台计算机上，并支持在运行时进行迁移，保证正常运行并且避免宕机。Xen存在拒绝服务漏洞。攻击者可利用此漏,中,中,True,3,1
+Hyland Perceptive Document Filters是一个工具包，可让应用程序开发人员识别和提取元数据，及转换和渲染几乎任何文件类型。Hyland Perceptive Documen,高,高,True,1,1
+Android是美国谷歌（Google）公司和开放手机联盟领导及开发的基于Linux开放性内核的移动操作系统。Android 5.1.1 之前的版本 LMY48T存在拒绝服务漏洞，允许远程攻击者通过精,高,高,True,5,3
+OurPHP傲派建站系统是一套企业+电商营销的建站系统。OurPHP傲派建站系统存在任意文件读取漏洞，攻击者可利用该漏洞读取任意系统文件。,低,中,False,1,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。MySQL Server是其中的一个数据库服务器组件。Oracle MySQL的MySQL Server存在安全,中,中,True,19,1
+Discourse是一套开源的社区讨论平台。该平台包括社区、电子邮件和聊天室等功能。Discourse存在跨站脚本漏洞，攻击者可利用该漏洞进行XSS攻击。,中,低,False,1,1
+Microsoft Windows是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Microsoft Windows Server是一套服务,中,中,True,1,1
+Oracle MySQL Server是美国甲骨文（Oracle）公司的一款关系型数据库。Oracle MySQL Server存在安全漏洞，攻击者可利用该漏洞读取可访问数据的子集。,低,低,True,1,1
+来客推电商系统是一款集成了电商系统全部功能的平台。湖南壹拾捌号网络技术有限公司来客推电商系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,1,1
+XnView Classic for Windows是法国软件开发者Gougelet Pierre-Emmanuel所研发的一套用于Windows平台的图片查看软件。该软件可用于查看、转换、组织和编辑,中,中,True,11,1
+PDF-XChange Editor是PDF-XChange公司的一个运行在Microsoft Windows系统中的PDF文件查看软件。PDF-XChange Editor EMF功能存在越界读取漏,高,高,True,1,1
+Milesight UR32L是中国星纵物联（Milesight）公司的一个4G工业路由器。Milesight UR32L firewall_handler_set函数存在缓冲区溢出漏洞，该漏洞是由于,高,高,True,3,1
+Samsung Note是韩国三星（Samsung）公司发布的一款智能手机。Telecom是其中的一个通信组件。Samsung Note设备上的Telecom应用程序中的接收器存在安全漏洞，该漏洞源于,高,高,True,1,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Google Android存在安全漏洞。目前没有详细的漏洞细节提供。,高,高,True,2,1
+百家CMS微商城是一款免费开源的面向对象的多店铺多用户微商城PHP开发框架。百家CMS微商城存在命令执行漏洞。攻击者可利用该漏洞获取服务器控制权。,高,高,True,1,1
+优客365网站分类导航系统是一款基于PHP+MYSQL开发构建的开源导航管理系统。优客365网站分类导航系统v1.1.3 app/admin/controller/ar***.php页面存在SQL注入,中,中,True,1,1
+Oracle Commerce Guided Search使人们能够通过易于理解和使用的界面实时交互式地浏览数据（不管基础数据的规模和复杂性如何）。Oracle Commerce Experience,中,中,True,1,1
+Cisco RV110W Wireless-N VPN Firewall是美国思科（Cisco）公司的一款企业级路由器。Cisco RV110W产品存在缓冲区溢出漏洞，该漏洞源于程序未能正确验证用户数,中,中,True,13,2
+Oracle Java SE和Oracle Java SE Embedded都是美国甲骨文（Oracle）公司的产品。Oracle Java SE是一款用于开发和部署桌面、服务器以及嵌入设备和实时环境,中,中,True,1,1
+Adobe Acrobat是一套PDF文件编辑和转换工具。Adobe Acrobat Reader是一款PDF查看器。该软件用于打印，签名和注释PDF。多款Adobe产品存在越界读取漏洞，该漏洞源于处,中,中,True,4,2
+MacPaw CleanMyMac X是美国MacPaw公司的一款专用于macOS平台的清理工具。该产品能够清除计算机中的垃圾文件、历史缓存和日志等。MacPaw CleanMyMac X 4.04版,中,中,True,1,1
+Qualcomm MDM9206等都是美国高通（Qualcomm）公司的产品。MDM9206是一款中央处理器（CPU）产品。MDM9607是一款中央处理器（CPU）产品。MDM9640是一款中央处理器,低,低,True,1,1
+Magma是Magma开源的一个开源软件平台。为网络运营商提供开放、灵活和可扩展的移动核心网络解决方案。Magma存在空指针解引用漏洞，攻击者可利用漏洞使MME崩溃。,低,低,True,2,1
+Mozilla Firefox是一款开源Web浏览器。Mozilla Firefox存在多个漏洞。攻击者利用该漏洞绕过安全限制执行未授权操作，获取敏感信息，在受影响的应用程序环境中执行任意脚本代码，失,高,高,True,2,1
+NETGEAR R7800等都是美国网件（NETGEAR）公司的产品。NETGEAR R7800是一款无线路由器。NETGEAR R7500是一款无线路由器。NETGEAR D6100是一款无线调制解,中,中,True,1,1
+Octopus Server是一个自动化部署平台。Octopus Server存在敏感信息明文存储漏洞，该漏洞源于数据库密码以明文形式写入OctopusServer.txt日志文件。 目前没有详细漏洞,中,中,True,1,1
+Dell Unity是美国戴尔（Dell）公司的一套虚拟Unity存储环境。Dell Unity 5.4及之前版本存在OS命令注入漏洞，攻击者可利用此漏洞在系统上执行任意操作系统命令。,中,中,True,9,1
+Adobe Illustrator是美国奥多比（Adobe）公司的一套基于向量的图像制作软件。Adobe Illustrator存在越界读取漏洞，攻击者可利用该漏洞导致敏感内存泄露。,中,中,True,4,1
+zzcms(站长招商网内容管理系统)，由zzcms团队开发，融入数据库优化，内容缓存，AJAX等技术，使网站的安全性 、稳定性 、负载能力得到可靠保障。源码开放，功能模块独立，便于二次开发。zzcms,中,中,True,2,2
+Google Nexus是美国谷歌（Google）公司研发的基于Android操作系统的系列智能设备，包含有手机、平板电脑。该智能设备由Google提供技术并授权合作硬件厂商进行生产制造。Google,中,中,True,1,1
+IrfanView是波黑软件开发者Irfan Skiljan所研发的一款图片浏览器，它支持图片浏览、图片编辑、图片格式转换等。BabaCAD4Image plugin是其中的一个用于读取DXF和DWG,中,中,True,8,1
+Aruba Networks AirWave Management Platform是美国安移通网络（Aruba Networks）公司的一套适用于多供应商管理的网络管理软件。该软件能够提供实时监控、,高,高,True,1,1
+Quest Software KACE Systems Management Appliance（SMA）是美国Quest Software公司的一款系统管理设备。该产品支持IT资产管理、服务器管理与,中,低,False,1,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。MySQL Server是其中的一个数据库服务器组件。Oracle MySQL中的MySQL Server 8.,低,中,False,1,1
+Google Chrome是一款Web浏览器。Google Chrome 85.0.4183.83之前版本存在安全漏洞。攻击者可以利用此漏洞绕过安全限制。,高,高,True,8,1
+Acronis Cyber Protect是一个应用程序。提供将备份、灾难恢复、基于人工智能的恶意软件保护、远程协助和安全集成到一个单一、可靠的工具中，从而统一您的网络保护。Acronis Cyber,中,低,False,1,1
+Cisco IOS XE是美国Cisco公司为其网络设备开发的一套基于Linux内核的模块化操作系统。Cisco IOS XE存在快速重载漏洞，攻击者可利用该漏洞在底层操作系统上执行任意代码，安装并引,高,高,True,1,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在权限提升漏洞，攻击者可利用该漏洞在系统上获得更高的权限。,中,中,True,9,2
+Insteon Hub是美国Insteon公司的一款Insteon中央控制器产品。该产品可远程控制家中的灯泡、墙壁开关、空调等。使用1012版本固件的Insteon Hub中存在缓冲区溢出漏洞。攻击者,高,高,True,9,1
+Cesanta MJS是爱尔兰Cesanta公司的一个用于C/C++的嵌入式JavaScript引擎。专为资源有限的微控制器而设计。主要设计目标是占用空间小和简单的C / C ++互操作性。Cesan,中,中,True,12,1
+Intel(R) Graphics Driver是英特尔公司的一款显卡驱动程序。Intel(R) Graphics Driver存在安全漏洞。攻击者可利用漏洞导致拒绝服务。,低,低,True,2,1
+Foxit Reader（旧名：Foxit PDF Reader）是一套用来阅读PDF格式文件的软件，由福建福昕软件所研发。Foxit Reader是一套自由使用的软件，操作系统主要以Microsof,中,中,True,3,1
+OSSEC-HIDS是一款开源入侵检测工具。OSSEC-HIDS服务器组件存在缓冲区溢出漏洞。该漏洞源于网络系统或产品在内存上执行操作时，未正确验证数据边界，导致向关联的其他内存位置上执行了错误的读写,高,中,False,1,1
+江苏固德威电源科技股份有限公司是一家新能源高新技术企业。江苏固德威电源科技股份有限公司光伏电站监控系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,3,1
+极致CMS是一套企业级开源内容建站系统。极致CMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,1,1
+Magento是美国Magento公司的一套开源的PHP电子商务系统。该系统提供权限管理、搜索引擎和支付网关等功能。Magento存在跨站脚本漏洞。攻击者可利用该漏洞执行客户端代码。,低,低,True,13,1
+Microsoft Office是美国微软（Microsoft）公司开发的一款办公软件套件产品。常用组件有Word、Excel、Access、Powerpoint、FrontPage等。Microso,高,高,True,2,1
+腾达AC11是一款无线路由器，使用RTOS操作系统。深圳市吉祥腾达科技有限公司AC 11存在二进制漏洞，攻击者可利用该漏洞造成拒绝服务。,中,中,True,9,1
+Oracle VM VirtualBox是美国甲骨文（Oracle）公司的一款虚拟机管理软件。Oracle VM VirtualBox存在安全漏洞。低权限攻击者可利用该漏洞登录到Oracle VM V,低,低,True,1,1
+Microsoft Azure Site Recovery是美国微软（Microsoft）公司的一种站点恢复 (DRaaS)。用于云和混合云架构。Microsoft Azure Site Recove,高,高,True,4,2
+Google Chrome是美国谷歌（Google）公司的一款Web浏览器。Google Chrome存在内存错误引用漏洞，攻击者可利用此漏洞在系统上执行任意代码。,高,高,True,2,1
+光影魔术手是一款针对图像画质进行改善提升及效果处理的软件。深圳市迅雷网文化有限公司光影魔术手存在堆越界写漏洞，攻击者可构造特殊图片导致该软件崩溃，成功利用后还可导致任意代码执行。,中,中,True,10,1
+极速Office是由北京海腾时代科技有限公司研发的一款自主可控办公学习类软件。极速表格 2017可以创建、修改和编辑xls、xlsx文件。极速Office中的极速表格在处理特殊xls文件时存在内存破坏,中,中,True,1,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。System是其中的一个系统组件。Android 10版本中的System存在安全漏洞。,中,高,False,4,1
+上海步科自动化股份有限公司一直专注于工业自动化设备控制核心部件与工业物联网/互联网软硬件的研发、生产、销售以及相关技术服务，并为客户提供设备自动化控制、数字化工厂及工业互联网解决方案，是中国领先的机器,中,中,True,1,1
+Kofax Power PDF是Kofax公司的一款专业PDF编辑和管理软件。Kofax Power PDF存在越界读取漏洞，攻击者可利用该漏洞获取敏感信息。,低,低,True,8,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Qualcomm Video Driver是使用在其中的一个美国高通（Qua,中,高,False,1,1
+wpsphoto是一款看图软件。wpsphoto存在拒绝服务漏洞，攻击者可利用该漏洞使服务器拒绝服务。,中,中,True,1,1
+Apple macOS Mojave是美国苹果（Apple）公司的一套专为Mac计算机所开发的专用操作系统。Apple macOS Mojave 10.14.6之前版本中的Grapher组件存在安全漏,高,高,True,3,1
+D-Link DIR-818LW是中国台湾友讯（D-Link）公司的一款无线路由器。使用2.06betab01版本固件的D-Link DIR-818LW中的HNAP1存在命令注入漏洞。该漏洞源于外部输,高,高,True,1,1
+TP-Link TL-WR886N是中国普联（TP-LINK）公司的一款无线路由器产品。TP-Link TL-WR886N 6.0 2.3.4版本和7.0 1.1.0版本中存在安全漏洞。攻击者可通过发,中,中,True,13,1
+Google Nexus是基于Android操作系统的系列智能设备，包含有手机、平板电脑。该智能设备由Google提供技术并授权合作硬件厂商进行生产制造，Qualcomm Camera Driver是,高,高,True,2,1
+Google Cloud Platform是美国谷歌（Google）的一款能够提供云计算、数据存储、数据分析及机器学习等服务的云计算平台。guest-oslogin是其中的一个操作系统登录组件。Goo,中,中,True,2,1
+新天科技股份有限公司是水表，电能表，气表的专业生产厂家和供应商。新天科技股份有限公司智能表综合管理系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,5,1
+Microsoft Windows是美国微软（Microsoft）公司发布的一系列操作系统。Microsoft Windows中存在远程执行代码漏洞，该漏洞源于程序在加载库前未能正确地验证输入。攻击者,高,高,True,2,1
+深圳市迅雷网络技术有限公司成立于2003年，是共享计算与区块链技术创新企业。深圳市迅雷网络技术有限公司迅雷X存在dll劫持漏洞，攻击者可利用该漏洞加载恶意dll，执行恶意代码。,高,高,True,1,1
+SemCMS是一套开源外贸企业网站管理系统，使用php语言编写，可在window或linux系统下运行。SemCMS SE***_Ba***.php文件存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏,高,高,True,1,1
+Apple iOS是一款苹果手机上的操作系统。OS X El Capitan是为Mac计算机所开发的一套专用操作系统。watchOS是一套智能手表操作系统。Apple iOS、watchOS和OS X,高,高,True,3,1
+Adobe FlashPlayer是多媒体程序播放器。Adobe Flash 在MPEG-4解析中存在安全漏洞，可使受影响应用读取已分配对象之外的内存。攻击者利用此漏洞可在当前进程上下文中执行任意代码,中,高,False,4,1
+"D盾专为IIS设计的一个主动防御的保护软件,以内外保护的方式 防止网站和服务器给入侵。D盾存在webshell绕过漏洞，攻击者可利用该漏洞绕过D盾获取目标服务器管控权限。",高,高,True,3,1
+Microsoft Windows是美国微软（Microsoft）公司发布的一系列操作系统。Microsoft Windows TrueType存在字体远程代码执行漏洞，攻击者可利用该漏洞完全控制受影,高,高,True,2,1
+Adobe Animate是美国奥多比（Adobe）公司的一套Flash动画制作软件。Adobe Animate存在安全漏洞，攻击者可利用该漏洞导致在当前用户的上下文中执行任意代码。,高,高,True,1,1
+Android on Nexus 9是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套运行于Nexus 9（平板电脑）中并以Linux为基础的开源操作系统。NVIDIA ca,高,高,True,7,1
+Oracle E-Business Suite（电子商务套件）是美国甲骨文（Oracle）公司的一套全面集成式的全球业务管理软件。该软件提供了客户关系管理、服务管理、财务管理等功能。CRM Techn,中,中,True,1,1
+Apple iOS等都是美国苹果（Apple）公司的产品。Apple iOS是一套为移动设备所开发的操作系统。Apple iPadOS是一套用于iPad平板电脑的操作系统。Apple macOS Ca,高,高,True,2,1
+Microsoft Internet Explorer（IE）是美国微软（Microsoft）公司的一款Windows操作系统附带的Web浏览器。Microsoft IE 11中脚本引擎处理内存对象的,高,高,True,1,1
+openSIS是一款免费、开源的学生信息系统/学校管理软件。OS4Ed openSIS 7.3中的密码重置页/opensis/ResetUserInfo.php中的password_stf_email,高,高,True,1,1
+Adobe Reader/Acrobat是一款流行的处理PDF文件的应用程序。Adobe Reader/Acrobat存在未明内存破坏漏洞。允许攻击者构建恶意PDF文件，诱使用户解析，可使应用程序崩溃,高,高,True,6,1
+Kofax Power PDF是Kofax公司的一款专业PDF编辑和管理软件。Kofax Power PDF存在缓冲区溢出漏洞，攻击者可利用该漏洞执行任意代码。,高,高,True,7,1
+Apple OS X是美国苹果（Apple）公司为Mac计算机所开发的一套专用操作系统。QuickTime是其中的一个多媒体播放组件。Apple OS X 10.11.6之前版本中的QuickTime,中,中,True,3,1
+5UCMS是一款采用PHP开发，THINKPHP为内核，基于HMVC规则开发适合中小企业、公司、新闻、个人等相关行业的网站内容管理系统。5UCMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信,中,中,True,6,1
+Microsoft Edge是美国微软（Microsoft）公司的一款Windows 10之后版本系统附带的Web浏览器。Microsoft Edge (Chromium-based)存在信息泄露漏洞,高,中,False,1,1
+Acrobat DC Continuous Track等都是美国奥多比（Adobe）公司的产品。Acrobat DC Continuous Track是一款桌面版PDF解决方案的连续更新版本。Read,高,高,True,1,1
+Adobe After Effects（简称“AE”）是Adobe公司推出的一款图形视频处理软件，适用于从事设计和视频特技的机构，包括电视台、动画制作公司、个人后期制作工作室以及多媒体工作室。Adob,高,高,True,8,1
+Oracle Fusion Middleware（Oracle融合中间件）是美国甲骨文（Oracle）公司的一套面向企业和云环境的业务创新平台。该平台提供了中间件、软件集合等功能。WebLogic S,中,中,True,3,2
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Media framework(libhevc)是其中的一个用于多媒体开发的,高,高,True,2,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,中,True,15,2
+HP Support Assistant是美国惠普（HP）公司的一套为PC和打印机提供支持等功能的解决方案。HP Support Assistant存在授权问题漏洞，该漏洞源于产品未对用户身份进行有效,中,中,True,4,1
+Adobe Flash Player是美国奥多比（Adobe）公司的一款跨平台、基于浏览器的多媒体播放器产品。该产品支持跨屏幕和浏览器查看应用程序、内容和视频。Adobe Flash Player中存,高,高,True,6,1
+Foxit Studio Photo是中国福昕（Foxit）公司的一套图像编辑软件。Foxit Studio Photo 3.6.6.930及更早版本中NEF文件的处理存在远程代码执行漏洞。该漏洞源于,高,高,True,3,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Qualcomm GPU Driver是使用在其中的一个美国高通（Qualc,高,中,False,1,1
+"Adobe Experience Manager是一款企业内容管理解决方案,可帮助您简化内容和资产的管理和投放。Adobe Experience Manager 6.0、6.1、6.2、6.3、6.4",中,中,True,1,1
+网御Web应用安全防护系统(以下简称:网御WAF)是Web安全防护与应用交付类网络安全产品。网御Web应用安全防护系统存在弱口令漏洞，攻击者可利用该漏洞获取敏感信息。,中,中,True,1,1
+极速PDF编辑器是一款简单好用的PDF编辑器。极速PDF编辑器存在越界读取漏洞，攻击者可利用该漏洞造成拒绝服务。,中,中,True,1,1
+Adobe Illustrator是美国奥多比（Adobe）公司的一套基于向量的图像制作软件。Adobe Illustrator存在越界写入漏洞，攻击者可利用此漏洞导致任意代码执行。,高,高,True,1,1
+NVIDIA Windows GPU Display Driver是美国英伟达（NVIDIA）公司的一套专用于Windows的图形处理器(GPU)显卡驱动程序。NVIDIA Windows GPU D,中,中,True,1,1
+SCSHOP是一套自主开发的开源网店(btc)系统。SEMCMS SCSHOP存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,19,3
+金微手机商城系统是一款适用于有公众号的微商客户的商城管理系统。金微手机商城存在逻辑缺陷漏洞，攻击者可利用该漏洞删除任意文件。,中,中,True,1,1
+Aruba Instant是一款云托管无控制器无线接入点。Aruba Instant存在缓冲区溢出漏洞，攻击者可通过向PAPI UDP端口发送特制数据包利用该漏洞在底层操作系统中执行任意代码。,高,高,True,1,1
+Siretta QUARTZ-GOLD是Siretta公司的一款高速双端口千兆以太网工业路由器。Siretta QUARTZ-GOLD存在操作系统命令注入漏洞，攻击者可利用该漏洞通过发送精心设计的网络,高,高,True,2,1
+Foscam C1 Indoor HD Camera是中国福斯康姆（Foscam）公司的一款无线高清IP摄像机。使用2.52.2.37版本应用程序固件的Foscam C1 Indoor HD Came,中,中,True,2,2
+团啊VIP电影系统是一套带注册会员代理版的VIP电影视频观看网站源码。团啊VIP电影系统re***.php文件存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,高,高,True,2,1
+Logitech Unifying是瑞士罗技（Logitech）公司的一款USB型信号接收器。Logitech Unifying设备存在信息泄露漏洞。攻击者可利用漏洞获取受影响组件敏感信息。,低,低,True,1,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Android 10版本中的telephony存在安全漏洞，该漏洞源于程序缺少边界检查。,高,中,False,1,1
+Windows Server是微软发布的一系列服务器操作系统的品牌名，它包括所有以“Windows Server”为品牌发布的Windows操作系统。Microsoft Windows Server中,中,中,True,3,1
+Google Chrome是美国谷歌（Google）公司的一款Web浏览器。Google Chrome 106.0.5249.62之前版本存在内存错误引用漏洞，该漏洞源于在Survey中负责释放内存的,高,高,True,1,1
+Oracle MySQL Server是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。该数据库系统具有性能高、成本低、可靠性好等特点。Oracle MySQL中的MySQL Serve,中,中,True,1,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,高,False,1,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Android Q中的System存在信息泄露漏洞。该漏洞源于网络系统或产品在运行过程中,低,中,False,18,1
+Microsoft OLE DB Driver for SQL Server是独立的数据访问应用程序编程接口 (API)，用于OLE DB。Microsoft OLE DB Driver for SQ,高,高,True,8,2
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acro,高,高,True,23,1
+MySQL Server (mysqld)是MySQL服务器，是执行MySQL安装中大部分工作的主程序。Oracle MySQL Server 8.0.21及更早版本中的InnoDB组件存在安全漏洞。,中,中,True,1,1
+Freeware Advanced Audio Decoder 2 (FAAD2)是一款根据GPLv2许可证授权的开源MPEG-4和MPEG-2 AAC解码器。Freeware Advanced Au,中,中,True,2,1
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader（也被称为Acrobat Reader)是由Adobe公司开发的一款PDF文件阅读软件。Adobe Acr,中,高,False,2,1
+FreeImage是一个跨平台的用于支持流行的图形图像格式的开源库。FreeImage存在缓冲区溢出漏洞，该漏洞源于程序未能正确验证输入数据的长度大小，攻击者可利用该漏洞造成拒绝服务。,中,中,True,1,1
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acro,高,高,True,7,1
+Adobe Flash Player是一个解析SWF内容的播放器。Adobe AIR是针对网络与桌面应用的结合所开发出来的技术，可以不必经由浏览器而对网络上的云端程式做控制。Adobe Flash P,高,高,True,11,1
+Adobe Acrobat和Reader都是美国奥多比（Adobe）公司的产品。前者是一套PDF文件编辑和转换工具，后者是一套PDF文档阅读软件。Adobe Acrobat和Reader中存在远程代码,高,高,True,4,1
+Adobe Substance 3D Stager是美国奥多比（Adobe）公司的一个虚拟3D工作室。Adobe Substance 3D Stager 2.0.1及之前版本存在资源管理错误漏洞，攻击,高,高,True,1,1
+Adobe FrameMaker是美国奥多比（Adobe）公司提供的一款页面排版软件。Adobe FrameMaker存在内存破坏漏洞。攻击者可利用漏洞执行任意代码。,高,高,True,1,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Android中的FPC存在安全漏洞。攻击者可利用该漏洞提升权限。,高,高,True,1,1
+熊海CMS是一款可广泛应用于个人博客，个人网站，企业网站的一套网站综合管理系统。熊海CMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,22,1
+Kenwood DMX958XR是Kenwood公司的一款车载信息娱乐系统。Kenwood DMX958XR存在命令注入漏洞，攻击者可利用该漏洞在root上下文中执行代码。,高,高,True,22,2
+Adobe Flash Player是美国奥多比（Adobe）公司的一款跨平台、基于浏览器的多媒体播放器产品。Adobe Flash Player 21.0.0.213 及以前版本，Microsoft,高,高,True,20,2
+RPCMS是一款基于PHP MYSQL的轻量型内容管理/博客系统。RPCMS存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,中,中,True,5,1
+FasterXML Jackson是美国FasterXML公司的一款适用于Java的数据处理工具。jackson-databind是其中的一个具有数据绑定功能的组件。FasterXML jackson,中,中,True,2,1
+WPS Office for Windows是珠海金山办公软件有限公司的软件，可以实现办公软件常用的文字、表格、演示等多种功能。WPS Office for Windows存在内存破坏漏洞，攻击者可利,中,中,True,18,2
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Qualcomm是使用在其中的一个美国高通（Qualcomm）公司的设备专用,高,高,True,2,1
+Microsoft Edge是美国微软（Microsoft）公司的一款Windows 10之后版本系统附带的Web浏览器。Microsoft Edge (Chromium-based) Update存,中,中,True,1,1
+Microsoft Skype for Business Server是美国微软（Microsoft）公司的一套安全统一的通信平台，它提供即时消息(IM)、音频和视频通话、联机会议、联机状态信息和共享,高,高,True,1,1
+Schneider Electric C-Bus Toolkit是法国施耐德（Schneider Electric）公司的一个应用软件。用于辅助C-Bus安装。C-Bus Toolkit V1.15.,中,中,True,1,1
+TRENDnet TEW-827DRU是美国趋势网络（TRENDnet）公司的一款无线路由器。使用2.05B11之前版本固件的TRENDnet TEW-827DRU中的apply.cgi文件存在命令注,中,中,True,7,1
+云业CMS是一款由洛阳云业信息科技有限公司开发的企业建站系统。云业CMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,高,False,1,1
+Google Android是由美国Google公司主导开发的一种基于Linux内核（不包含GNU组件）的自由及开放源代码的移动操作系统。Google Android存在输入验证不当漏洞，攻击者可利用,中,中,True,1,1
+OurPHP是一款基于PHP MySQL开发符合W3C标准的建站系统。OurPHP存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,6,2
+Adobe Acrobat和Reader是美国奥多比公开发的PDF文件处理程序。Adobe Acrobat和Reader处理PDF文件存在越界读漏洞，允许远程攻击者可以利用漏洞提交特殊的文件，诱使用户,高,高,True,11,1
+Siemens SIMATIC HMI面板用于操控和监控机器和设备的HMI软件。Siemens SIMATIC HMI产品存在安全漏洞。远程攻击者可以通过蛮力攻击来发现用户密码并获得对Sm@rt Se,中,中,True,1,1
+校无忧心理测评系统是一款通过互联网实现在线心理健康测试和诊断的平台。校无忧心理测评系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,1,1
+AC11是深圳市吉祥腾达科技有限公司推出的一款专为大户型打造适合200兆及以上光纤家庭使用的双频无线路由器。Tenda AC11存在拒绝服务漏洞，攻击者可利用该漏洞导致拒绝服务。,中,中,True,5,1
+cPanel是美国cPanel公司的一套基于Web的自动化主机托管平台。该平台主要用于自动化管理网站和服务器。cPanel 57.9999.54之前版本中存在安全漏洞。目前没有详细漏洞细节提供。,高,高,True,4,1
+Android是基于Linux开放性内核的手机操作系统。Android 5.1.1 LMY48Z之前版本、6.0 2015-12-01之前版本的libstagefright在实现上存在安全漏洞，远程攻,中,中,True,1,1
+Adobe Bridge是Adobe公司推出的一款免费数字资产管理应用程序。Adobe Bridge存在安全漏洞。攻击者可利用漏洞执行任意。,高,高,True,7,1
+AKCMS是一套基于PHP和MySQL的轻量级内容管理系统。AKCMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,19,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,中,True,3,1
+Mozilla Firefox是美国Mozilla基金会的一款开源Web浏览器。Mozilla Firefox中存在安全漏洞。目前没有详细的漏洞细节提供。,中,中,True,1,1
+QEMU（Quick Emulator）是法国法布里斯-贝拉（Fabrice Bellard）软件开发者的一套模拟处理器软件。该软件具有速度快、跨平台等特点。QEMU中存在缓冲区溢出漏洞。该漏洞源于网,中,高,False,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Mediaserver是其中的一个多媒体服务组件。Android 6.0之前,高,高,True,3,1
+WordPress是WordPress基金会的一套使用PHP语言开发的博客平台。该平台支持在PHP和MySQL的服务器上架设个人博客网站。WordPress存在跨站脚本漏洞，攻击者可利用该漏洞执行客户,中,中,True,4,1
+Microsoft Edge是美国微软（Microsoft）公司的一款Windows 10之后版本系统附带的Web浏览器。Microsoft Edge (Chromium-based)存在欺骗漏洞，攻,中,中,True,1,1
+Adobe Media Encoder是美国奥多比（Adobe）公司的一款音、视频编码应用程序。Adobe Media Encoder存在安全漏洞。攻击者可利用漏洞执行任意代码。,中,中,True,1,1
+Kofax Power PDF是Kofax公司的一款专业PDF编辑和管理软件。Kofax Power PDF存在信息泄露漏洞，攻击者可利用该漏洞获取敏感信息。,低,低,True,1,1
+Apple iOS等都是美国苹果（Apple）公司的产品。Apple iOS是为移动设备所开发的一套操作系统；iCloud for Windows是一款基于Windows平台的云服务；iTunes f,高,高,True,2,1
+GNU Binutils是GNU计划开发的一组编程语言工具程序。GNU Binutils libbfd库存在拒绝服务漏洞，允许远程攻击者该利用漏洞提交特制的请求，使应用程序崩溃。,中,中,True,3,2
+JAVAPMS门户管理系统以SpringMVC+Spring+Hibernate+Freemarker+Html5+jQuery为技术核心架构，适用于个人站长、商业企业、政府机构、教育机构和其它各种单,中,中,True,1,1
+IBM InfoSphere Master Data Management（MDM）是美国IBM公司的一套用于帮助组织管理整个企业范围内的主数据（关于客户、供应商、产品和帐户的信息）的解决方案。该方案,低,低,True,1,1
+phpMyAdmin是phpMyAdmin团队开发的一套免费的、基于Web的MySQL数据库管理工具。该工具能够创建和删除数据库，创建、删除、修改数据库表，执行SQL脚本命令等。phpMyAdmin中,中,中,True,1,2
+Adobe Framemaker是美国奥多比（Adobe）公司的一套用于编写和编辑大型或复杂文档（包括结构化文档）的页面排版软件。Adobe FrameMaker存在堆缓冲区溢出漏洞，攻击者利用该漏洞,高,高,True,1,1
+DSMall是一款简便易操作，可以帮助企业快速搭建类似京东/天猫的综合商城平台的系统。DSMall存在SQL注入漏洞，攻击者可利用该漏洞获取数据库信息。,高,高,True,1,1
+HPE Intelligent Management Center (iMC)是美国惠普企业公司（Hewlett Packard Enterprise，HPE）的一套网络智能管理中心解决方案。该解决方,高,高,True,34,2
+Adobe Acrobat是一套PDF文件编辑和转换工具。Adobe Acrobat Reader是一款PDF查看器。该软件用于打印，签名和注释PDF。多款Adobe产品存在越界读取漏洞，攻击者可利用,中,中,True,3,1
+NTP是一种以数据包交换把两台电脑的时钟同步化的网络协议。NTP存在安全漏洞，允许远程攻击者可利用该漏洞提交特殊请求进行拒绝服务攻击。,中,中,True,2,1
+Magento是美国Magento公司的一套开源的PHP电子商务系统。该系统提供权限管理、搜索引擎和支付网关等功能。Magento Open Source 1.9.4.2之前版本和Magento Co,低,低,True,1,1
+"Oracle JD Edwards EnterpriseOne是全面集成的企业资源计划软件套件,它将业务价值、基于标准的技术和深厚的行业经验融入到一个低TCO的业务解决方案中。Oracle JD Ed",中,中,True,2,1
+Apple iOS、macOS Sierra、tvOS和watchOS都是美国苹果（Apple）公司的产品。Apple iOS是为移动设备所开发的一套操作系统；watchOS是一套智能手表操作系统。K,高,高,True,3,1
+BeyongCms是一款基于ThinkPHP5.1框架内容管理系统。BeyongCms存在文件上传漏洞。攻击者可利用该漏洞上传恶意文件，获取服务器管理权限。,高,高,True,2,1
+"DotProject是一个基于Web的项目管理工具，采用PHP开发。DotProject存在SQL注入漏洞,攻击者可利用该漏洞获取数据库敏感信息。",中,中,True,1,1
+TP-COUPON是一个使用Thinkphp框架开发的免费开源的优惠券系统。TP-COUPON存在SQL注入漏洞。攻击者可在利用该漏洞获取数据库敏感信息。,中,中,True,4,1
+Adobe Acrobat和Reader都是美国奥多比（Adobe）公司的产品。Adobe Acrobat是一套PDF文件编辑和转换工具。Reader是一套PDF文档阅读软件。基于Windows和ma,中,中,True,2,1
+Foxit PhantomPDF是中国福昕（Foxit）公司的一款PDF文档阅读器。Foxit PhantomPDF 8.3.12之前版本中存在代码问题漏洞。攻击者可利用该漏洞造成拒绝服务。,中,中,True,1,1
+Ruby on Rails是Rails核心团队开发维护的一套基于Ruby语言的开源Web应用框架。rails-html-sanitizer是其中的一个HTML代码清理包。Ruby on Rails r,中,中,True,2,1
+Oracle Enterprise Manager是一款为ORACLE融合终结软件提供强化的管理套装。Oracle Enterprise Manager Grid Control的Oracle App,中,中,True,4,1
+Cybozu Office是日本Cybozu公司开发的一款基于WEB的跨平台办公室解决方案。Cybozu Office 9.9.0至10.3.0版本存在安全机制绕过漏洞，允许已通过身份验证的远程用户利,中,中,True,2,1
+WordPress是WordPress基金会的一套使用PHP语言开发的博客平台。该平台支持在PHP和MySQL的服务器上架设个人博客网站。gnucommerce是使用在其中的一个电子商务插件。Word,中,中,True,1,1
+Polaris Office是一款兼容MS Word、Excel、PowerPoint和Adobe PDF等办公套件。Polaris Office windows版存在内存破坏漏洞。攻击者可利用该漏洞,中,中,True,5,1
+Gaaiho Reader（文电通PDF阅读器）是北京棣南新宇科技有限公司推出的一款PDF阅读器。Gaaiho Reader处理特殊PDF文件时存在空指针引用漏洞。允许攻击者利用漏洞发起拒绝服务攻击。,低,低,True,1,1
+Chamilo LMS是Chamilo协会开发的一套开源的在线学习和协作系统。该系统支持创建教学内容、远程培训和在线答题等。Chamilo LMS存在跨站脚本漏洞，该漏洞源于程序未能充分过滤用户提交的,中,中,True,1,1
+Microsoft Dynamics 365是美国微软（Microsoft）公司的一套适用于跨国企业的ERP业务解决方案。该产品包括财务管理、生产管理和商业智能管理等。Microsoft Dynami,高,高,True,4,1
+Google Chrome是一款快速、安全且免费的网络浏览器，能很好地满足新型网站对浏览器的要求。Google Chrome中的FFmpeg存在整数溢出漏洞。远程攻击者可借助特制的视频文件利用该漏洞造,中,中,True,3,1
+Edge是Microsoft公司为Windows 10打造的浏览器，特点是快速、安全。ChakraCore是一个Microsoft开源的、用于Windows IE/Edge内核的高效JS脚本引擎。Mi,高,高,True,3,2
+Huawei HarmonyOS是中国华为（Huawei）公司的一个操作系统。提供一个基于微内核的全场景分布式操作系统。Huawei HarmonyOS存在拒绝服务漏洞，攻击者可利用该漏洞影响可用性。,低,低,True,5,1
+Adobe Flash Player是美国奥多比（Adobe）公司的一款跨平台、基于浏览器的多媒体播放器产品。该产品支持跨屏幕和浏览器查看应用程序、内容和视频。Adobe Flash Player中存,高,高,True,5,1
+AlpacaCMS是一个开源的轻量级树状CMS系统。它基于php+mysql并以b2core MVC为底层架构。AlpacaCMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库数据。,中,高,False,2,1
+Chadha Software Technologies PHPKB Standard Multi-Language是印度Chadha Software Technologies公司的一套基于Web的,低,中,False,13,3
+GTKWave是GTKWave公司的一款功能齐全、基于GTK+的波形查看器。GTKWave 3.3.115版本存在整数溢出漏洞，攻击者可利用此漏洞通过特制的fst文件导致任意代码执行。,高,高,True,3,1
+致翔OA办公系统是一款企业办公系统。致翔OA办公系统OpenWindows/Openleibie_zlMc.aspx?id=参数存在SQL注入漏洞，允许攻击者利用该漏洞获取数据库敏感信息。,高,高,True,1,1
+北京亿赛通科技发展有限责任公司是国内数据安全、网络安全及安全服务三大业务提供商。北京亿赛通科技发展有限责任公司亿赛通电子文档安全管理系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,1,1
+CrushFTP是美国CrushFTP公司的一款跨平台的Java FTP服务器。CrushFTP 7.8.0之前的版本和8.2.0之前的8.x版本中存在安全漏洞。目前没有详细的漏洞细节提供。,中,中,True,1,1
+Android是美国Google公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android 8.0、8.1、9、10中的System组件存在权限提,高,高,True,1,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,6,2
+Microsoft PostScript Printer Driver是美国微软（Microsoft）公司的用于PostScript打印机的Microsoft标准打印机驱动程序。Microsoft P,中,中,True,5,1
+Oracle Sun Systems Products Suite是Sun系统产品包。Oracle Sun Systems Products Suite的Solaris组件的Kernel子组件存在未明,低,低,True,1,1
+Adobe Animate是一款多媒体创作和计算机动画程序。Adobe Animate 21.0.9及更早版本存在内存缓冲区越界访问漏洞。攻击者可利用该漏洞执行任意代码。,高,高,True,2,1
+Adobe Experience Manager是Adobe公司推出的一款综合性内容管理解决方案（CMS），主要用于构建网站、移动应用程序和管理数字资产，同时支持跨渠道内容交付和个性化数字体验的创建‌,中,中,True,11,2
+Google Android是一款基于Linux开放性内核的手机操作系统。Google Android在Synaptics touchscreen driver实现上存在安全漏洞，允许远程攻击者利用漏,高,高,True,1,1
+CLTPHP是基于thinkphp开发的建站系统。CLTPHP存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,4,1
+IBM EntireX是美国国际商业机器（IBM）公司的一种多功能中间件解决方案，旨在促进企业核心应用程序与现代应用程序之间的无缝集成。IBM EntireX 11.1版本存在信息泄露漏洞，该漏洞是由,低,低,True,1,1
+Foxit Reader和Foxit PhantomPDF都是中国福昕（Foxit）公司的一款PDF文档阅读器。基于Windows平台的Foxit Reader 9.4.1.16828及之前版本，Fo,高,中,False,2,1
+SINEC NMS是Siemens推出的用于监控和管理工业网络的网络管理系统。SINEC NMS 1.0 SP2 Update 1之前版本存在SQL注入漏洞，该漏洞源于软件对于SQL参数语句缺少有效的,高,高,True,3,1
+IrfanView是一款图片浏览器，它支持图片浏览、图片编辑、图片格式转换等。Irfanview存在缓冲区溢出漏洞。攻击者可通过特制RLE文件利用该漏洞执行任意代码。,中,中,True,2,2
+U8cloud是用友推出的新一代云ERP，主要聚焦成长型、创新型企业，提供企业级云ERP整体解决方案。用友网络科技股份有限公司U8Cloud存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,1,1
+QNAP Qsync Central是威联通（QNAP）推出的私有云同步服务，主要用于实现设备间的文件实时同步与备份。QNAP Qsync Central存在空指针取消引用漏洞，攻击者可利用该漏洞导致,中,中,True,1,1
+BigAnt Software BigAnt Server是澳大利亚Big Ant Studios公司的一种服务器。BigAnt Software BigAnt Server 5.6.06版本存在安全,中,中,True,2,1
+环保时代企业在线记账管理系统是一款财务在线记账软件.环保时代企业在线记账管理系统前台zh***_mo***.asp文件存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,中,中,True,1,1
+PHP（PHP：Hypertext Preprocessor，PHP：超文本预处理器）是PHPGroup和开放源代码社区的共同维护的一种开源的通用计算机脚本语言。PHP解释器存在越界读取漏洞，攻击者可,中,中,True,1,1
+Microsoft Edge是美国微软（Microsoft）公司的一款Windows 10之后版本系统附带的Web浏览器。Microsoft Edge (Chromium-based)存在权限提升漏洞,高,中,False,1,2
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,高,False,4,1
+Adobe InDesign是美国奥多比（Adobe）公司的一套排版编辑应用程序。Adobe InDesign存在越界读取漏洞，攻击者可利用该漏洞导致敏感内存泄露。,中,中,True,14,1
+Adobe Flash Player是美国Adobe公司开发的一款软件，是一种广泛使用的、专有的多媒体程序播放器。Adobe Flash Player存在代码执行漏洞，攻击者可利用此漏洞在受影响应用程,高,高,True,3,1
+Adobe Bridge是美国奥多比（Adobe）公司的一款文件查看器。Adobe Bridge存在堆缓冲区溢出漏洞，攻击者可利用该漏洞在当前用户的上下文中执行任意代码。,高,高,True,2,1
+酷维错别字检测系统是一套针对于政府网站的错别字检测系统，能够发现政府网站页面上存在的错别字。酷维错别字检测系统存在文件上传漏洞，攻击者可利用该漏洞获取服务器控制权。,高,高,True,2,1
+Samsung J7 Pro是韩国三星（Samsung）公司的一款智能手机。Samsung J7 Pro存在访问控制错误漏洞。该漏洞源于网络系统或产品未正确限制来自未授权角色的资源访问。攻击者可利用该,中,中,True,1,1
+Tricon安全仪表系统是施耐德电气有限公司的安全仪表系统，MP3009模块为施耐德Tricon安全仪表系统的处理器模块。施耐德Tricon安全仪表系统MP3009处理器存在拒绝服务漏洞。攻击者可利用,中,中,True,4,1
+Oracle MySQL Server是美国甲骨文（Oracle）公司的一款关系型数据库。Oracle MySQL Server存在安全漏洞，攻击者可利用该漏洞导致MySQL服务器在未经授权的情况下挂,中,中,True,15,2
+Lepton是一套无损压缩JPEG格式文件的工具。Lepton中存在内存破坏漏洞，攻击者可利用该漏洞获取敏感信息，造成拒绝服务。,高,高,True,4,1
+Microsoft Windows是美国微软（Microsoft）公司的一套个人设备使用的操作系统。Microsoft Windows WalletService中处理内存对象的方式存在权限提升漏洞，,中,中,True,1,1
+Microsoft Windows 10和Windows Server 2016都是美国微软（Microsoft）公司的产品。前者是一套供个人电脑使用的操作系统，后者是一套服务器操作系统。Edge是其,高,高,True,6,1
+Microsoft Azure Site Recovery是美国微软（Microsoft）公司的一种站点恢复 (DRaaS)。用于云和混合云架构。Microsoft Azure Site Recove,中,中,True,18,2
+Oracle Database是一款商业性质的大型数据库。Oracle Database Server存在远程漏洞，允许攻击者利用 'Oracle Net' 协议获得'Create Session' ,中,中,True,1,1
+Microsoft 3D Builder是微软公司的一款创建模型和3D打印的工具。Microsoft 3D Builder存在远程代码执行漏洞，攻击者可利用该漏洞在系统上执行任意代码。,高,高,True,3,1
+Oracle Financial Services Applications是美国甲骨文（Oracle）公司的一套集核心银行、网上银行和财产管理于一身的金融服务软件。Banking Corporate,中,中,True,1,1
+IOS是由苹果公司为移动设备所开发的操作系统；Safari是苹果计算机的最新操作系统；Mac OS X中的浏览器；iTunes是一款数字媒体播放应用程序。Apple iOS 9.1之前版本、Safar,中,中,True,1,1
+PHP Scripts Mall Schools Alert Management Script是印度PHP Scripts Mall公司的一套学校管理系统脚本。PHP Scripts Mall Sc,高,高,True,1,1
+Internet Explorer是微软公司推出的一款网页浏览器。原称Microsoft Internet Explorer(6版本以前)和Windows Internet Explorer(7、8、,高,高,True,1,1
+XnView Classic for Windows是法国软件开发者Gougelet Pierre-Emmanuel所研发的一套用于Windows平台的图片查看软件。该软件可用于查看、转换、组织和编辑,中,中,True,9,1
+ytnef是一个用于从winmail.dat文件中提取数据的应用程序库。ytnef存在越界读取漏洞。允许远程攻击者可利用该漏洞构建恶意文件，诱使用户解析，可使应用程序崩溃。,中,中,True,2,1
+光影看图为一款面向摄影人群和设计师人群的看图软件，具有看图快，各种颜色空间的图片颜色还原准等特点。深圳市迅雷网文化有限公司光影看图存在二进制漏洞，攻击者可利用漏洞导致该软件崩溃。,中,中,True,7,1
+Adobe Flash Player& Compiler是美国奥多比（Adobe）公司的一个集成的多媒体播放器，短小精悍，能够在各种浏览器、操作系统和移动设备上使用。多款Adobe产品中存在安全漏洞。,高,高,True,11,3
+Oracle E-Business Suite（电子商务套件）是美国甲骨文（Oracle）公司的一套全面集成式的全球业务管理软件。该软件提供了客户关系管理、服务管理、财务管理等功能。Oracle E-,中,中,True,6,1
+Oracle Hospitality Simphony提供现代化的用户体验，通过流畅的实时平铺演示文稿向客人提供相关信息。Oracle Hospitality Simphony的POS组件存在未明漏洞,中,中,True,1,1
+Baxter SIGMA Spectrum Infusion System是一套智能输液系统。Baxter Wireless Battery（WBM）是其中的一个无线供电模块。Baxter WBM中存,中,中,True,2,1
+Apache Atlas是美国阿帕奇（Apache）软件基金会的一套可伸缩和可扩展的核心功能治理服务。Apache Atlas 0.6.0-incubating版本和0.7.0-incubating版,中,中,True,1,1
+播放库SDK是基于大华私有的码流封装协议开发，为网络硬盘录像机、网络视频服务器、网络摄像机、网络球机、智能设备等产品服务的开发套件。浙江大华播放库SDK_Win32_V3.39.1_20171130版,低,低,True,1,1
+Ipswitch IMail Server是美国Ipswitch公司的一款运行于Microsoft Windows操作系统中的邮件服务器。Ipswitch IMail server 12.5.5及之前,高,高,True,1,1
+ZyXEL CloudCNM SecuManager是中国台湾合勤（ZyXEL）公司的一套网络管理软件。该软件支持集中控制、设备管理和智能监控等功能。ZyXEL CloudCNM SecuManage,中,中,True,5,1
+文电通PDF阅读器是一款功能强大的PDF文件阅读器。文电通PDF阅读器存在二进制漏洞，攻击者可利用该漏洞导致拒绝服务。,中,中,True,6,1
+Adobe Reader/Acrobat是一款流行的处理PDF文件的应用程序。Adobe Reader/Acrobat存在执行绕过漏洞。允许攻击者构建恶意PDF文件，诱使用户解析，可绕过Javascr,高,高,True,3,2
+Joomla!是一套开源的内容管理系统(CMS)，该系统提供RSS馈送、网站搜索等功能。Joomla! AppsConda组件ap***.php页面存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信,高,高,True,1,1
+Libav是一款跨平台的开源的视频和音频录制、转换的一套解决方案。Libav存在拒绝服务漏洞。攻击者可利用该漏洞使使用受影响的库文件的应用程序崩溃，造成拒绝服务。,中,中,True,7,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,中,True,7,1
+Ingress NGINX Controller是一款开源的入口控制器，使用NGINX作为反向代理和负载均衡器。Ingress NGINX Controller存在远程代码执行漏洞，攻击者可利用该漏洞,高,高,True,1,1
+Adobe Illustrator是美国奥多比（Adobe）公司的一套基于向量的图像制作软件。Adobe Illustrator存在越界读取漏洞，攻击者可利用该漏洞绕过ASLR等缓解措施，导致敏感内存,中,中,True,4,1
+JT是由西门子数字工业软件开发的一种公开发布的数据格式。JT Open Toolkit(又称JTTK)是面向开发人员的应用程序编程接口(API)JT-enabled软件。JT Open Toolkit,高,低,False,3,1
+Simple DirectMedia Layer（SDL）是一个用于用于访问低级硬件和图形，并为游戏、软件和仿真器提供支持的多平台库。SDL 1.2.15之前版本和2.x至2.0.9版本中的audio,中,中,True,1,1
+帝国cms是一套内容管理系统（CMS）。帝国cms存在代码执行漏洞，攻击者可利用该漏洞远程执行恶意代码。,高,高,True,1,1
+浙江大华技术股份有限公司是以视频为核心的智慧物联解决方案供应商和运营服务商。浙江大华技术股份有限公司所外就医防脱逃平台存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,中,中,True,3,1
+IrfanView是波黑软件开发者Irfan Skiljan所研发的一款图片浏览器，它支持图片浏览、图片编辑、图片格式转换等。FPX Plugin是其中的一个可编程接口扩展插件。IrfanView 4,中,中,True,12,3
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在权限提升漏洞，攻击者可利用该漏洞导致权限提升。,中,中,True,1,1
+Apple Safari、iCloud for Windows、iTunes、iOS和tvOS都是美国苹果（Apple）公司的产品。Apple Safari是一款Web浏览器，是Mac OS X和iO,高,高,True,11,1
+Microsoft Windows是一款由美国微软公司开发的窗口化操作系统。Microsoft Windows IKE Extension存在拒绝服务漏洞，攻击者可利用该漏洞导致目标系统停止响应。,中,高,False,1,1
+Android是美国谷歌（Google）公司和开放手机联盟领导及开发的基于Linux开放性内核的移动操作系统。Android 5.1.1 之前的版本LMY48T存在拒绝服务漏洞，允许远程攻击者通过精心,高,高,True,2,2
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。MySQL Server是其中的一个数据库服务器组件。Oracle MySQL中的MySQL Server 8.,中,中,True,1,1
+Ivanti EPM是一款由Ivanti公司开发的综合性端点管理解决方案。Ivanti EPM存在绝对路径遍历漏洞，攻击者可利用该漏洞获取敏感信息。,高,高,True,1,1
+Oracle Virtualization是美国甲骨文（Oracle）公司的一套虚拟化解决方案。该产品用于统一管理从应用程序到磁盘的整个硬件和软件体系，可实现从桌面到数据中心的虚拟化。VM Virtu,低,低,True,4,1
+南京新迪生软件技术有限公司是一家专业研发销售工控通用组态及嵌入式软件的高新技术企业。南京新迪生态神Windows网络Web版存在缓冲区溢出漏洞，攻击者可利用该漏洞造成拒绝服务攻击。,中,中,True,1,1
+XnView是一款支持图片浏览、转换及编辑的多平台软体。XnView Classic存在缓冲区溢出漏洞。目前没有详细的漏洞细节提供。,中,中,True,2,1
+Advantech WebAccessNode是一款完全基于IE浏览器的HMI/SCADA监控软件Advantech WebAccessNode存在任意路径文件删除漏洞，攻击者可以利用漏洞删除系统内任,中,中,True,1,1
+JerryScript是一个轻量级的JavaScript引擎。JerryScript存在二进制漏洞，攻击者可利用该漏洞造成拒绝服务。,中,中,True,42,5
+Adobe Flash Player是一款多媒体播放器产品；Adobe AIR SDK和Adobe AIR SDK & Compiler都是适用于Adobe AIR的标准开发工具包。Microsoft,高,高,True,20,1
+Yeager是一套开源的内容管理系统。Yeager存在SQL注入漏洞，允许远程攻击者利用漏洞提交特制的SQL查询，操作或获取数据库数据。,高,高,True,2,1
+Oracle E-Business Suite（电子商务套件）是美国甲骨文（Oracle）公司的一套全面集成式的全球业务管理软件。该软件提供了客户关系管理、服务管理、财务管理等功能。Workflow（,中,中,True,1,1
+Google Android是由美国Google公司主导开发的一种基于Linux内核（不包含GNU组件）的自由及开放源代码的移动操作系统。Google Android存在缺少权限检查漏洞，攻击者可利用,中,中,True,2,1
+Android是美国Google公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Samsung移动设备存在缓冲区溢出漏洞，攻击者可利用该漏洞造成缓冲区溢出。,高,高,True,3,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。System是其中的一个系统组件。Android 10.0版本中的System组件存在安,中,中,True,4,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在权限提升漏洞，攻击者可利用此漏洞获得提升的权限。,高,高,True,6,1
+CloudBees Jenkins（Hudson Labs）是美国CloudBees公司的一套基于Java开发的持续集成工具。该产品主要用于监控持续的软件版本发布/测试项目和一些定时执行的任务。LTS,中,中,True,1,1
+Android是美国Google公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android中的MediaTek组件Multimedia Proce,中,中,True,2,1
+Huawei DP300、RP200、RSE6500、TE30/40/50/60等都是中国华为（Huawei）公司的产品。多款Huawei产品SIP模块存在缓存溢出漏洞，该漏洞是由于设备对SIP报文中,中,中,True,1,1
+Adobe InDesign是美国奥多比（Adobe）公司的一套排版编辑应用程序。Adobe InDesign存在越界读取漏洞，攻击者可利用该漏洞执行任意代码。,高,高,True,1,1
+WPS Office校园版是一款为老师学生量身定做的终身免费办公软件。WPS Office校园版存在内存破坏漏洞。攻击者可利用该漏洞导致程序崩溃。,中,中,True,2,1
+Adobe Acrobat和Adobe Reader都是美国奥多比（Adobe）公司的产品。Adobe Acrobat是一套PDF文件编辑和转换工具。Adobe Reader是一套PDF文档阅读软件。,高,中,False,2,1
+D-Link DIR-809是一款使用RTOS的无线路由器。D-Link DIR-809存在二进制漏洞，攻击者可利用该漏洞导致拒绝服务。,中,中,True,5,1
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acro,高,高,True,9,4
+2345 Security Guard是中国2345公司的一套计算机安全防护软件。2345 Security Guard 3.7.0版本中的2345MPCSafe.exe、2345SafeTray.e,低,低,True,1,1
+广东准度科技有限公司是一家专门从事定制开发、网络营销、新媒体营销、媒介广告及其它增值服务为一体的综合性互联网价值营销服务信息科技网络公司。广东准度科技有限公司建站系统存在SQL注入漏洞，攻击者可利用漏,高,高,True,2,1
+CMCC R3S-3是一款路由器。中移物联网有限公司CMCC R3S-3存在命令执行漏洞。攻击者可利用漏洞在设备上以root身份进行远程代码执行。,中,中,True,2,1
+"Oracle Java SE是标准版的Java平台是一个Java2的平台，为用户提供一个程序开发环境。Oracle Java SE 6u101, 7u85,8u60,Java SE Embedded ",高,高,True,1,1
+Microsoft Azure是美国微软（Microsoft）公司的一套开放的企业级云计算平台。Microsoft Azure RTOS存在权限许可和访问控制问题漏洞。该漏洞源于网络系统或产品缺乏有效,高,高,True,1,1
+SemCms是一套开源外贸企业网站管理系统，主要用于外贸企业。SemCms存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,1,1
+Oracle Enterprise Manager Base Platform是包含OMS、代理、信息库和管理插件的完整安装程序。Oracle Enterprise Manager Base Plat,中,中,True,4,1
+Mozilla Firefox和Firefox ESR都是美国Mozilla基金会开发的浏览器产品。Firefox是一款开源Web浏览器；Firefox ESR是Firefox的一个延长支持版本。Mo,中,中,True,2,1
+Nitro pro是一款PDF的制作与管理软件。Nitro Pro存在内存破坏漏洞。攻击者可利用该漏洞导致程序崩溃。,中,中,True,12,1
+OpenSSL是一个实现安全套接层和安全传输层协议的通用开源加密库，可支持多种加密算法，包括对称密码、哈希算法、安全散列算法等。OpenSSL EVP_EncodeUpdate()存在溢出漏洞。攻击者,中,中,True,1,1
+Cisco Firepower Management Center（FMC）是美国思科（Cisco）公司的新一代防火墙管理中心软件。Cisco Firepower Management Center存,中,中,True,6,1
+Android是一种基于Linux的自由及开放源代码的操作系统，主要使用于移动设备。Google Android高通组件存在多个漏洞。攻击者可以利用漏洞获取敏感信息，并在内核上下文中执行具有提升权限的,高,高,True,21,3
+Apple iOS等都是美国苹果（Apple）公司的产品。Apple iOS是为移动设备所开发的一套操作系统；Safari是一款Web浏览器，是Mac OS X和iOS操作系统附带的默认浏览器。Web,高,高,True,2,1
+Microsoft Windows是美国微软（Microsoft）公司发布的一系列操作系统。kernel是其中的内核。Microsoft Windows中的内核存在本地特权提升漏洞，该漏洞源于内核AP,低,低,True,2,1
+Huawei HarmonyOS是中国华为（Huawei）公司的一个操作系统。提供一个基于微内核的全场景分布式操作系统。Huawei EMUI是华为公司开发的一种基于Android操作系统的用户界面。,高,高,True,3,1
+GTKWave是GTKWave公司的一款功能齐全、基于GTK+的波形查看器。GTKWave 3.3.118版本存在整数溢出漏洞，攻击者可利用此漏洞通过特制的fst文件导致任意代码执行。,高,高,True,2,1
+天信仪表集团有限公司是国内流量仪表和燃气应用系统解决方案的专业服务商。天信仪表集团有限公司天信SCADA系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,3,1
+HPE Aruba ClearPass Policy Manager是一个网络访问控制（NAC）解决方案。HPE Aruba ClearPass Policy Manager存在远程命令注入漏洞。攻击,高,高,True,3,1
+eBrigade是一套救援团队管理系统。该系统包括人员管理、车辆管理和设备管理等。eBrigade 5.0之前版本中存在SQL注入漏洞，攻击者可利用该漏洞执行非法SQL命令。,中,中,True,1,1
+IBM Aspera是美国国际商业机器（IBM）公司的一套基于IBM FASP协议构建的快速文件传输和流解决方案。IBM Aspera 5.0.0至5.0.9版本存在安全绕过漏洞，攻击者可利用该漏洞绕,中,中,True,1,1
+Open-Xchange AppSuite（OX AppSuite）是美国Open-Xchange公司的一套Web云桌面环境。该环境允许用户更直观的管理电子邮件、任务和文件等。OX AppSuite ,中,中,True,1,1
+Parasolid是一种3D几何建模工具，支持各种技术，包括实体建模、直接编辑和自由曲面/片材建模。Simcenter Femap是一种高级仿真应用程序，用于创建、编辑和检查复杂产品或系统的有限元模型,高,高,True,12,1
+Oracle E-Business Suite（电子商务套件）是美国甲骨文（Oracle）公司的一套全面集成式的全球业务管理软件。该软件提供了客户关系管理、服务管理、财务管理等功能。iSupport是,中,中,True,4,1
+UliCMS是一套开源的内容管理系统（CMS）。该系统支持访问控制和所见即所得编辑等功能。UliCMS 2020.2之前版本中存在跨站脚本漏洞。该漏洞源于WEB应用缺少对客户端数据的正确验证。攻击者可,中,中,True,1,1
+S-CMS php版医院建站系统是一款基于PHP的网站搭建系统。S-CMS php版医院建站系统v1.0后台aj***.php页面存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,2,1
+Contiki-NG是一套用于下一代IoT（物联网）设备的开源跨平台操作系统。Contiki-NG 4.4版本至4.5版本中存在缓冲区溢出漏洞。该漏洞源于网络系统或产品在内存上执行操作时，未正确验证数,中,高,False,1,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,1,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。System是其中的一个系统组件。Android 10.0版本中的System存在安全漏,中,中,True,4,2
+Google Chrome是美国谷歌（Google）公司的一款Web浏览器。Google Chrome 存在资源管理错误漏洞，远程攻击者可利用该漏洞破坏脆弱的系统。,高,高,True,1,1
+Foscam C1 Indoor HD Camera是中国福斯康姆（Foscam）公司的一款无线高清IP摄像机。DDNS client是其中的一个动态域名服务客户端。Foscam C1 Indoor ,高,高,True,3,1
+Tecnomatix Plant Simulation可对物流系统及其流程进行建模、模拟、探索和优化。这些模型可以在生产执行之前对从全球生产设施到当地工厂和特定生产线的所有制造计划进行物料流、资源利用,高,高,True,3,1
+Microsoft Excel是美国微软（Microsoft）公司的一款Office套件中的电子表格处理软件。Microsoft Excel存在代码执行漏洞，攻击者可利用该漏洞在系统上执行任意代码。,高,高,True,42,2
+Piwigo是一套基于Web的开源图片库软件。该软件包括图片管理、图片分类和权限管理等功能。Piwigo中存在跨站脚本漏洞。该漏洞源于WEB应用缺少对客户端数据的正确验证。攻击者可利用该漏洞执行客户端,低,低,True,1,1
+OmniView是一个数据管理控制中心，用于监视和控制备份发电机。OmniView存在信息泄露漏洞。OmniView Web应用程序使用HTTP协议传输凭据，可能会被攻击者嗅探，从而导致帐户凭据泄露。,高,高,True,1,1
+Synology DiskStation Manager（DSM）是中国台湾群晖科技（Synology）公司的一套用于网络储存服务器（NAS）上的操作系统。该操作系统可管理资料、文件、照片、音乐等信息,高,高,True,1,1
+"美国菲力尔公司（FLIR Systems, Inc.）专注于设计、开发、生产、营销和推广用于增强态势感知力的专业技术。通过热成像、可见光成像、视频分析、测量和诊断以及先进的威胁检测系统，我们将创新的传",中,中,True,1,1
+IBM Rational Engineering Lifecycle Manager（RELM）是美国IBM公司的一套工程生命周期管理软件。IBM RELM中存在跨站脚本漏洞。远程攻击者可利用该漏洞在,低,低,True,5,1
+ScienceLogic SL1是ScienceLogic公司的一个应用程序。将您的房地产连接在一起，实现多向数据流和工作流程的自动化。ScienceLogic SL1 11.1.2及之前版本存在SQ,中,中,True,1,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。该数据库系统具有性能高、成本低、可靠性好等特点。MySQL Server是其中的服务器组件。Oracle MyS,中,中,True,5,1
+Yokogawa日本横河电机株式会社是测量、工业自动化控制、和信息系统的领导者。多个Yokogawa产品中存在栈缓冲区溢出漏洞，攻击者通过发送构造的数据包，利用此漏洞造成网络通讯不响应。,高,高,True,2,1
+MacPaw CleanMyMac X是一款专用于macOS平台的清理工具。该产品能够清除计算机中的垃圾文件、历史缓存和日志等。MacPaw CleanMyMac X 4.04版本存在输入验证漏洞，本,中,中,True,3,1
+Adobe Acrobat和Reader都是美国奥多比（Adobe）公司的产品。前者是一套PDF文件编辑和转换工具，后者是一套PDF文档阅读软件。Adobe Acrobat和Reader中存在越界读取,中,中,True,21,3
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,中,True,3,1
+Microsoft Windows 10等都是美国微软（Microsoft）公司发布的一系列操作系统。Desktop Bridge是其中的一个桌面应用程序转换器。Microsoft Desktop B,中,中,True,1,1
+Flexera Software FlexNet Publisher（FLEXlm）是美国Flexera Software公司的一款授权关系管理解决方案（Entitlement Relationshi,中,中,True,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android中的Framework组件存在权限提升漏洞。攻击,高,高,True,1,1
+Oracle Banking Payments是一个完整的支付处理解决方案。Oracle Banking Payments中的Payments Core组件存在信息泄露漏洞。攻击者可利用该漏洞影响机密,低,中,False,1,1
+Huawei HarmonyOS是华为技术有限公司自主研发的面向全场景的分布式操作系统。Huawei EMUI是华为基于Android（安卓）进行开发的情感化操作系统。Huawei HarmonyOS,高,中,False,2,1
+Emby MediaBrowser是Emby公司的一个媒体服务器软件。Emby MediaBrowser存在安全漏洞，攻击者可利用该漏洞通过用户控制密钥绕过授权。,高,高,True,1,1
+SEMCMS是一套自主开发的开源网店(btc)系统。SEMCMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,15,2
+海洋CMS是一款基于PHP+MYSQL架构的，可跨平台运行的网站内容管理系统。海洋CMS后台存在任意命令执行漏洞。攻击者可利用该漏洞获取网站服务器控制权。,高,高,True,1,1
+cPanel是美国cPanel公司的一套基于Web的自动化主机托管平台。该平台主要用于自动化管理网站和服务器。cPanel 67.9999.103之前版本中存在信息泄露漏洞。该漏洞源于网络系统或产品在,中,中,True,2,1
+Cisco Firepower Management Center（FMC）是美国思科（Cisco）公司的新一代防火墙管理中心软件。Cisco FMC中的基于Web的管理界面的RSS dashboar,中,中,True,1,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。MySQL Server是其中的一个数据库服务器组件。Oracle MySQL中的MySQL Server组件8,中,高,False,3,1
+Oracle Java SE用于开发和部署桌面、服务器以及嵌入设备和实时环境中的Java应用程序。Oracle Java SE的2D子组件中存在安全漏洞，远程攻击者可利用漏洞构建恶意WEB页，诱使用户,高,高,True,1,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。MySQL Server是其中的一个数据库服务器组件。Oracle MySQL Server存在未明漏洞。攻击者,中,中,True,4,1
+GPAC是一款开源的多媒体框架。GPAC 1.0.1存在安全漏洞，该漏洞源于网络系统或产品的代码开发过程中存在设计或实现不当的问题，攻击者利用该漏洞可进行拒绝服务攻击。,中,中,True,2,1
+Bentley Systems MicroStation是美国Bentley Systems公司的一个用于二维和三维设计和绘图的Cad软件平台。Bentley Systems MicroStation,中,中,True,6,2
+WordPress ELEX WordPress HelpDesk & Customer Ticketing System plugin是一款专为WordPress网站设计的帮助台与客户工单系统插件，,中,中,True,2,1
+Oracle E-Business Suite（电子商务套件）是美国甲骨文（Oracle）公司的一套全面集成式的全球业务管理软件。该软件提供了客户关系管理、服务管理、财务管理等功能。Oracle Tr,中,中,True,2,1
+安卓是一种基于Linux的自由及开放源代码的操作系统，由谷歌公司和开放手机联盟领导及开发。Google Android Qualcomm WLAN组件存在信息泄露漏洞，攻击者可利用该漏洞获取敏感信息（,中,中,True,7,1
+安卓（Android）是一种基于Linux的自由及开放源代码的操作系统，由谷歌公司和开放手机联盟领导及开发。Google Android Display Qualcomm组件存在权限提升漏洞。攻击者可,高,高,True,2,1
+Huawei HarmonyOS是中国华为（Huawei）公司的一个操作系统。提供一个基于微内核的全场景分布式操作系统。Huawei EMUI是华为公司开发的一种基于Android操作系统的用户界面。,高,中,False,1,1
+Grafana是Grafana实验室的一套提供可视化监控界面的开源监控工具。该工具主要用于监控和分析Graphite、InfluxDB和Prometheus等。Grafana 5.3.1版本中存在跨站,中,中,True,2,1
+Microsoft Exchange Server是美国微软（Microsoft）公司的一套电子邮件服务程序。它提供邮件存取、储存、转发，语音邮件，邮件过滤筛选等功能。Microsoft Exchan,高,高,True,1,1
+Microsoft Office Visio是美国微软（Microsoft）公司的Office软件系列中的负责绘制流程图和示意图的软件。Microsoft Office Visio存在远程代码执行漏洞,高,高,True,2,1
+Palo Alto Networks Expedition Migration Tool是美国Palo Alto Networks公司的一款安全策略（配置）迁移工具。Palo Alto Network,低,低,True,2,1
+Adobe After Effects是美国奥多比（Adobe）公司的一套视觉效果和动态图形制作软件。该软件主要用于2D和3D合成、动画制作和视觉特效制作等。Adobe After Effects存在,高,高,True,2,1
+Linux kernel是美国Linux基金会发布的操作系统Linux所使用的内核。Linux Kernel存在拒绝服务漏洞。攻击者利用该漏洞使内核崩溃，造成拒绝服务。,低,低,True,5,1
+Foxit PDF Reader是中国福昕（Foxit）公司的一款PDF阅读器。Foxit PDF Reader存在缓冲区溢出漏洞，攻击者可利用该漏洞获取敏感信息。,中,中,True,2,1
+NVIDIA Triton Inference Server是美国英伟达（NVIDIA）公司的一款开源软件，有助于标准化模型部署并在生产中提供快速且可扩展的AI。NVIDIA Triton Infer,高,高,True,1,1
+AC9是深圳市吉祥腾达科技有限公司2016年推出的一款带千兆网口的1200M 11AC无线路由器。Tenda AC9存在拒绝服务漏洞，攻击者可利用该漏洞导致程序崩溃。,中,中,True,2,1
+Google Chrome是美国谷歌（Google）公司的一款Web浏览器。Google Chrome存在安全绕过漏洞，该漏洞源于Safe Browsing对不受信任的输入验证不足。攻击者可利用该漏洞,高,高,True,1,1
+Siemens Jt2go是一款JT文件查看器。Siemens Teamcenter Visualization是一个可为设计2D、3D场景提供团队协作功能的软件。Siemens JT2Go和Team,低,低,True,3,1
+MySQL是一款开源关系型数据库管理系统。Oracle MySQL的Server : Replication子件存在安全漏洞，允许远程攻击者利用漏洞影响系统的可用性。,中,中,True,1,1
+PDF-XChange Editor是PDF-XChange公司的一个运行在Microsoft Windows系统中的PDF文件查看软件。PDF-XChange Editor存在远程代码执行漏洞，攻击,高,高,True,6,1
+modoboa是个人开发者的一个邮件托管和管理平台。modoboa 2.0.4之前版本存在跨站请求伪造漏洞。攻击者利用该漏洞执行跨站点请求伪造（CSRF）攻击。,高,中,False,1,1
+Adobe Photoshop是美国奥多比（Adobe）公司的一套图片处理软件。该软件主要用于处理图片。Adobe Photoshop存在资源管理错误漏洞。攻击者可以利用该漏洞触发任意代码执行。,高,高,True,1,1
+"Adobe Experience Manager是一款企业内容管理解决方案,可帮助您简化内容和资产的管理和投放。Adobe Experience Manager存在服务器端请求伪造漏洞。攻击者可利用该",中,中,True,1,1
+Trend Micro InterScan Messaging Security Virtual Appliance（IMSVA）是美国趋势科技（Trend Micro）公司的一款邮件网关安全设备，它,中,中,True,1,1
+Cisco ASA 5500系列自适应安全设备是用于提供安全和VPN服务的模块化平台，可提供防火墙、IPS、anti-X和VPN服务。Cisco Adaptive Security Appliance,高,高,True,1,1
+极速Office是由北京海腾时代科技有限公司研发的一款自主可控办公学习类软件。极速写作 2017可以创建、修改和编辑doc、docx文件。极速Office中的极速写作在处理特殊docx文件时存在内存破,中,中,True,6,1
+NETGEAR D3600等都是美国网件（NETGEAR）公司的产品。NETGEAR D3600是一款无线调制解调器。NETGEAR D6000是一款无线调制解调器。NETGEAR XR500是一款无,中,中,True,5,1
+Mozilla Firefox是美国Mozilla基金会的一款开源Web浏览器。Mozilla Firefox ESR是Firefox（Web浏览器）的一个延长支持版本。Mozilla Thunder,高,高,True,1,1
+Microsoft Edge是美国微软（Microsoft）公司开发的一款Web浏览器，是Windows 10操作系统附带的默认浏览器。Microsoft Edge中存在信息泄露漏洞。攻击者可借助特制,中,中,True,1,1
+Google Chrome是美国谷歌（Google）公司开发的一款Web浏览器。Omnibox是其中的一个实时搜索引擎。Google Chrome 63.0.3239.84之前版本中的Omnibox存,中,中,True,2,1
+Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Acro,中,中,True,10,1
+Apple macOS High Sierra是美国苹果（Apple）公司的一套专为Mac计算机所开发的专用操作系统。Kernel是其中的一个内核组件。Apple macOS High Sierra ,中,中,True,3,1
+Google Chrome是美国谷歌（Google）公司的一款Web浏览器。Google Chrome存在安全绕过漏洞，攻击者可利用该漏洞绕过安全限制。,高,高,True,16,1
+Adobe Flash Player是一种广泛使用的、专有的多媒体程序播放器。它最初由Macromedia编写，在Macromedia被Adobe收购后由Adobe继续开发并分发。Adobe Flas,高,高,True,3,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,中,True,2,1
+Adobe Reader/Acrobat是流行的处理PDF文件的应用程序。Adobe Reader/Acrobat处理特殊的PDF文件存在漏洞，允许远程攻击者利用漏洞构建恶意文件，诱使用户解析，可绕过,高,高,True,12,2
+Fuji Electric Tellus Lite V-Simulator是日本富士电机（Fuji Electric）公司开发的工业环境远程监控软件，主要用于收集PLC、温度控制器、逆变器等设备的实时,高,高,True,2,1
+SAP 3D Visual Enterprise Viewer是德国思爱普（SAP）公司的一款3D视图查看器。该软件支持在所有行业标准的桌面应用中发布2D、3D场景，并支持以独立可执行程序和Activ,中,中,True,13,1
+Oracle Sun Solaris是最初由Sun Microsystems开发的Unix操作系统。Oracle Sun Solaris中的Kernel组件存在未明漏洞。攻击者可利用该漏洞影响可用性。,高,中,False,1,1
+Oracle Virtualization是美国甲骨文（Oracle）公司的一套虚拟化解决方案。该产品用于统一管理从应用程序到磁盘的整个硬件和软件体系，可实现从桌面到数据中心的虚拟化。VM Virtu,中,中,True,9,2
+OpenText Document Sciences xPression（前称EMC Document Sciences xPression）是加拿大OpenText公司的一套文档输出管理及客户沟通解,中,中,True,1,1
+Oracle Enterprise Manager是一款为ORACLE融合终结软件提供强化的管理套装。Oracle Enterprise Manager Grid Control的Oracle App,中,中,True,1,2
+MySQL Server (mysqld)是MySQL服务器，是执行MySQL安装中大部分工作的主程序。Oracle MySQL Server 8.0.17及更早版本中的InnoDB组件存在未明漏洞。,中,中,True,1,1
+WordPress是WordPress软件基金会的一套使用PHP语言开发的博客平台。该平台支持在PHP和MySQL的服务器上架设个人博客网站。WordPress插件Border Loading Bar,中,中,True,3,1
+Android是Google公司一款基于Linux内核（不包含GNU组件），自由开源的操作系统。Samsung移动设备存在缓冲区溢出漏洞，攻击者可利用该漏洞导致缓冲区溢出或堆溢出等。,中,中,True,1,1
+Mozilla Firefox是美国Mozilla基金会开发的一款开源Web浏览器。Firefox ESR是Firefox的一个延长支持版本。Mozilla Firefox 54之前的版本和Firef,中,中,True,2,2
+NETGEAR R6250等都是美国网件（NETGEAR）公司的一款无线路由器。多款NETGEAR产品中存在缓冲区溢出漏洞，该漏洞源于网络系统或产品在内存上执行操作时，未正确验证数据边界，导致向关联的,中,中,True,1,1
+"Adobe Flash Player是一款Flash文件处理程序。Adobe AIR是Adobe公司出品的跨操作系统的运行时库,通过它开发者可利用现有的Web开发技术。Adobe Flash Play",高,高,True,3,1
+Adobe InDesign是美国奥多比（Adobe）公司的一套排版编辑应用程序。Adobe InDesign存在越界读取漏洞，攻击者可利用该漏洞获取敏感信息。,中,中,True,3,1
+Adobe Illustrator 2020是一款由Adobe公司设计的全球最为知名的矢量图形软件。Adobe Illustrator 2020存在内存破坏漏洞。攻击者可利用漏洞执行任意代码。,高,高,True,3,1
+Oracle E-Business Suite是一款由Oracle公司推出的新一代电子商务套件。Oracle E-Business Suite Oracle Customer Intelligence,中,中,True,4,1
+WAGO PFC200是德国WAGO公司的一款可编程逻辑控制器（PLC）。WAGO PFC200中的iocheckd服务的I/O-Check功能存在命令注入漏洞。该漏洞源于外部输入数据构造操作系统可执,高,高,True,2,2
+WMCMS是一套基于PHP+MYSQL为核心开发、免费 + 开源的专业中文标签建站系统。WMCMS V4.250.513前台up***.php页面存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信,中,中,True,1,1
+Oracle Fusion Middleware（Oracle融合中间件）是美国甲骨文（Oracle）公司的一套面向企业和云环境的业务创新平台。该平台提供了中间件、软件集合等功能。Outside In,中,中,True,4,2
+极速PDF编辑器是一款简单好用的PDF编辑器。极速PDF编辑器存在内存破坏漏洞，攻击者可利用该漏洞造成拒绝服务。,中,中,True,43,6
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在信息泄露漏洞，攻击者可利用此漏洞获取敏感信息。,中,中,True,36,6
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,10,1
+Oracle MySQL是一个开源的关系型数据库管理系统。MySQL Server (mysqld)是MySQL服务器，是执行MySQL安装中大部分工作的主程序。Oracle MySQL Server,中,中,True,2,1
+NETGEAR R6700等都是美国网件（NETGEAR）公司的一款无线路由器。多款NETGEAR产品中存在缓冲区溢出漏洞。该漏洞源于网络系统或产品在内存上执行操作时，未正确验证数据边界，导致向关联的,中,中,True,1,1
+狂雨小说cms提供一个轻量级小说网站解决方案，基于ThinkPHP5.1 MySQL的技术开发。狂雨小说cms存在命令执行漏洞，攻击者可利用该漏洞获取服务器权限。,高,高,True,1,1
+Huawei HarmonyOS是中国华为（Huawei）公司的一个操作系统。提供一个基于微内核的全场景分布式操作系统。Huawei EMUI是华为公司开发的一种基于Android操作系统的用户界面。,中,中,True,1,1
+CAJviewer是中国期刊网的专用全文格式阅读器，支持中国期刊网的TEB、NH、CAJ、KDH和PDF格式文件。CAJViewer存在内存破坏漏洞。攻击者可利用该漏洞造成拒绝服务。,中,中,True,1,1
+Oracle Financial Services Applications是美国甲骨文（Oracle）公司的一套金融服务软件。该产品包括核心银行、网上银行和财产管理等。Oracle Banking ,中,中,True,1,1
+极致CMS是一款开源的PHPCMS网站内容管理系统。极致CMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,高,False,2,1
+phpMyAdmin是phpMyAdmin团队开发的一套免费的、基于Web的MySQL数据库管理工具。该工具能够创建和删除数据库，创建、删除、修改数据库表，执行SQL脚本命令等。phpMyAdmin中,中,中,True,4,1
+Adobe InDesign Desktop是Adobe公司开发的桌面出版（DTP）应用程序，主要用于印刷品的排版编辑，支持书籍、杂志、海报、传单等印刷品的创作。Adobe InDesign Desk,高,高,True,2,1
+Adobe Flash Player是美国Adobe公司开发的一款广泛使用的、专有的多媒体程序播放器。Adobe Flash Player存在堆缓冲区溢出漏洞，攻击者可利用漏洞控制受影响的系统，导致任,高,高,True,2,1
+Oracle E-Business Suite是一款由Oracle公司推出的新一代电子商务套件。Oracle E-Business Suite Oracle iReceivables AR Web U,中,中,True,1,1
+国微CMS(原PHP168 S系列)是国内政府、学校、集团平台的领导厂商，也是中国南方PHP领域最大的开源系统提供商。国微CMS学校站群系统存在SQL注入漏洞，攻击者可利用漏洞获得数据库敏感信息。,中,中,True,1,1
+Pidgin是一款跨平台的实时通信客户端。Pidgin 2.10.11版本的MXIT协议处理过程中存在信息泄露漏洞，攻击者可借助无效的头像大小，利用该漏洞造成拒绝服务（越边界读取），或将内存复制到文件,中,中,True,1,1
+Adobe Commerce是美国奥多比（Adobe）公司的一种面向商家和品牌的全球领先的数字商务解决方案。Adobe Commerce存在不当访问控制漏洞，攻击者可利用该漏洞导致安全功能绕过。,中,中,True,6,2
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,16,1
+libdwarf是一套用于读取和写入DWARF2调试信息的工具。libdwarf 2017-03-21版本中的‘dwarf_formsdata()’函数存在堆缓冲区溢出漏洞。攻击者可利用该漏洞造成堆缓,高,高,True,1,1
+Oracle MySQL Server是美国甲骨文（Oracle）公司的一款关系型数据库。Oracle MySQL Server存在安全漏洞，攻击者可利用该漏洞导致未经授权的MySQL Server挂,中,中,True,25,3
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acro,高,高,True,1,1
+CAJViewer 7.3是CAJViewer系列产品截至2006年11月为止的最新版本，它充分吸取了当前市场上各种同类主流产品和自身上一版本CAJViewer 6.0的优点，经过长时间市场调查和系统,中,中,True,1,1
+Adobe Acrobat是一套PDF文件编辑和转换工具。Adobe Acrobat Reader是一款PDF查看器。该软件用于打印，签名和注释PDF。多款Adobe产品存在越界读取漏洞，攻击者可以利,中,中,True,6,1
+XnView Classic for Windows是法国软件开发者Gougelet Pierre-Emmanuel所研发的一套用于Windows平台的图片查看软件。该软件可用于查看、转换、组织和编辑,中,中,True,2,1
+安卓（Android）是一种基于Linux的自由及开放源代码的操作系统，由谷歌公司和开放手机联盟领导及开发。Google Android 9中的Media framework组件存在远程代码执行漏洞，,高,高,True,1,1
+Siemens Jt2go和Siemens Teamcenter Visualization都是德国Siemens公司的产品。Siemens Jt2go是一款JT文件查看器。该软件用于三维图形轻量化预,中,中,True,1,1
+Adobe Flash Player是一款多媒体播放器产品；Adobe AIR SDK和Adobe AIR SDK & Compiler都是适用于Adobe AIR的标准开发工具包。Microsoft,高,高,True,5,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Mediaserver是其中的一个多媒体服务组件。Android的Media,高,高,True,2,1
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader(也被称为Acrobat Reader)是美国Adobe公司开发的一款PDF文件阅读软件。Adobe Ac,中,中,True,44,6
+杭州安恒信息技术股份有限公司是一家一直专注堡垒机、远程监测、云Saas服务、云WAF、工控、在线远程办公安全、EDR、云DDoS防御等网络信息安全领域产品的研发、生产及销售的公司。明御APT攻击(网络,中,中,True,2,1
+Microsoft Internet Explorer（IE）是美国微软（Microsoft）公司的一款Windows操作系统附带的Web浏览器。VBScript Engine是其中的一个VBScri,高,高,True,1,1
+Android是美国Google公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android 7.0、7.1.1、7.1.2、8.0、8.1、9中的,高,高,True,1,1
+Microsoft Internet Explorer是一款基于WEB的浏览器。Microsoft Internet Explorer存在未明权限提升漏洞，允许远程攻击者利用漏洞构建恶意WEB页，诱使,中,中,True,3,1
+Adobe Reader等都是美国奥多比（Adobe）公司的产品。Adobe Reader是一款免费的PDF文件阅读器；Acrobat是一款PDF文件编辑和转换工具；Acrobat Reader DC,高,高,True,13,3
+Cisco Common Services Platform Collector（CSPC）是美国思科（Cisco）公司的一款通用服务平台数据收集器。该产品通过轮询思科设备的基本库存和配置数据分析网络,中,中,True,1,1
+FastStone Image Viewer是一款免费的图像浏览、转换、编辑工具。FastStone Image Viewer存在缓冲区溢出漏洞。攻击者可通过特制图像文件利用该漏洞导致拒绝服务。,中,中,True,3,1
+映翰通InRouter900系列工业路由器是一款4G工业路由器。映翰通InRouter900工业路由器存在任意文件删除漏洞，该漏洞源于程序未能正确验证用户数据，远程攻击者可借助恶意HTTP请求利用该漏,中,中,True,2,1
+深圳市乔安科技有限公司是监控摄像头专业研发生产厂家，专业生产乔安监控，乔安监控摄像头等。深圳市乔安科技有限公司多款网络摄像头存在文件上传漏洞，攻击者可利用该漏洞获取服务器控制权限。,高,高,True,1,1
+Esri Portal For ArcGIS是美国环境系统研究所（Esri）公司的一种允许在组织内与其他人共享地图、场景、应用程序和其他地理信息的组件。Esri Portal For ArcGIS存在,中,中,True,1,1
+Adobe Substance 3D Modeler是美国奥多比（Adobe）公司的一款3D建模和雕刻软件。Adobe Substance 3D Modeler存在空指针解引用漏洞，攻击者可利用该漏洞,中,中,True,1,1
+IBM Security Identity Manager（ISIM）是美国IBM公司的一套身份管理和治理解决方案。该方案可在整个用户生命周期内自动创建、修改、重新认证和终止用户特权，并支持基于策略的,中,低,False,1,1
+Android是美国Google公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android 11版中的Framework组件存在权限提升漏洞。目前,中,中,True,2,1
+Huawei Mate 8、Mate S、P8为华为的智能手机。多款华为手机存在缺少参数检查的安全漏洞。该漏洞利用的前提是，攻击者获取到Graphic或者Camera权限，并诱使用户安装恶意应用程序，,低,低,True,3,1
+Google Android是美国谷歌（Google）公司的的一套以Linux为基础的开源操作系统。Google Android存在信息泄露漏洞，攻击者可利用该漏洞导致本地信息泄露，而无需额外的执行权,低,低,True,15,1
+Guojiz国际网址导航系统是采用ThinkPHP5.0 PHP7.0 Mysql Apache/Nginx/iis进行开发，适合中小站长建站的CMS程序。Guojiz国际网址导航系统后台存在命令执行,高,高,True,3,1
+Adobe Reader/Acrobat是一款流行的处理PDF文件的应用程序。Adobe Reader/Acrobat存在未明安全绕过漏洞。允许攻击者构建恶意PDF文件，诱使用户解析，可绕过Javas,高,高,True,17,1
+AC15升级软件由深圳市吉祥腾达科技有限公司生产，内置的双核处理器，搭载DDR3内存。深圳市吉祥腾达科技有限公司AC15升级软件存在命令执行漏洞，攻击者可利用漏洞获取服务器的控制权。,高,高,True,2,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,1,1
+Ivanti EPM是美国Ivanti公司的一个一站式管理用户配置文件和所有客户端设备的软件。Ivanti EPM 2022 SU5及之前版本存在SQL注入漏洞，攻击者可利用该漏洞执行任意代码。,高,高,True,8,1
+Oracle Supply Chain Products Suite是美国甲骨文（Oracle）公司的一套供应链解决方案，该方案提供价值链计划、价值链执行、产品生命周期管理等功能。Agile PLM是,中,中,True,2,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在权限提升漏洞，攻击者可利用该漏洞提升权限。,高,高,True,27,4
+Adobe Animate是美国奥多比（Adobe）公司的一套Flash动画制作软件。Adobe Animate存在缓冲区溢出漏洞，该漏洞源于存在越界读取漏洞，攻击者可利用该漏洞导致敏感内存泄露。,中,中,True,1,1
+Google Chrome是由Google开发的一款Web浏览工具。Google Chrome存在未明漏洞，允许攻击者通过未知向量发起拒绝服务攻击。,中,中,True,1,1
+Android on Google Pixel和Nexus是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套运行于Google Pixel和Nexus（智能手机）中并以Lin,高,高,True,1,1
+Apple iOS、Safari和tvOS都是美国苹果（Apple）公司的产品。Apple iOS是为移动设备所开发的一套操作系统；Safari是一款Web浏览器，是Mac OS X和iOS操作系统附,中,中,True,1,2
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acro,高,高,True,1,1
+Microsoft Office是美国微软（Microsoft）公司的一款办公软件套件产品。该产品常用组件包括Word、Excel、Access、Powerpoint、FrontPage等。Micro,高,高,True,15,6
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。System是其中的一个系统组件。Android 10版本中的System组件存在安全漏,中,低,False,2,1
+Siemens Tecnomatix Plant Simulation是德国西门子（Siemens）公司的一个工控设备。利用离散事件仿真的功能进行生产量分析和优化，进而改善制造系统性能。Siemens,高,高,True,2,2
+Google Chrome是美国谷歌（Google）公司的一款Web浏览器。Google Chrome存在资源管理错误漏洞，远程攻击者可利用该漏洞破坏脆弱的系统。,高,高,True,1,1
+Siemens Simcenter Femap是德国西门子（Siemens）公司的一款尖端工程学仿真应用程序。用于创建、编辑和导入/重用复杂产品或系统基于网格的有限元分析模型。Siemens Simc,高,高,True,1,1
+Oracle MySQL Server是美国甲骨文（Oracle）公司的一款关系型数据库。Oracle MySQL Server 8.0.23及更早版本中的Server: Stored Procedu,中,中,True,2,1
+IBM Rational DOORS Next Generation（DNG）和Rational Requirements Composer（RRC）都是美国IBM公司的需求管理解决方案。该方案主要用,低,低,True,4,1
+Foxit Reader是中国福昕（Foxit）软件公司的一款PDF文档阅读器。Foxit Reader 9.0.0.29935版本中U3D Image Index的解析存在越界读取漏洞，该漏洞源于程,中,中,True,1,1
+Siemens Tecnomatix Plant Simulation是面向对象的、图形化的、集成的建模、仿真工具。Siemens Tecnomatix Plant Simulation存在越界写入漏,高,高,True,11,1
+江苏三恒科技股份有限公司是股份制技术企业，公司产品主要有三个专业方向：矿山安全、矿山通讯、矿山自动控制。主要系统有 KJ70X 煤矿安全监控系统、KJ128A 矿用人员管理系统、KT425 煤矿调度广,中,中,True,2,1
+Dolibarr ERP/CRM是法国Dolibarr基金会的一套基于Web的企业资源计划（ERP）和客户关系管理（CRM）系统。该系统可用来管理产品、库存、发票、订单等。Dolibarr ERP/C,中,中,True,3,1
+TP-COUPON是一个使用Thinkphp框架开发的免费开源的优惠券系统。TP-COUPON存在SQL注入漏洞，攻击者可在利用该漏洞获取数据库敏感信息。,中,中,True,2,1
+Oracle PeopleSoft Products是美国甲骨文（Oracle）公司的一套企业人力资本管理解决方案，它提供了人力资本管理、财务管理、供应商关系管理等功能。PeopleSoft Ente,低,中,False,1,1
+Dell SmartFabric OS10是戴尔网络推出的软件定义网络操作系统，基于 Linux 和开源技术，旨在实现数据中心网络资源的灵活管理与自动化部署。Dell SmartFabric OS10,中,中,True,1,1
+"Adobe Flash Player是一款Flash文件处理程序。Adobe AIR是Adobe公司出品的跨操作系统的运行时库,通过它开发者可利用现有的Web开发技术。Adobe Flash Play",高,高,True,2,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在权限提升漏洞。攻击者可利用该漏洞提升权限。,中,高,False,1,1
+Delta Electronics DIAScreen是中国台达电子（Delta Electronics）公司的一个智能机台建置软件。Delta Electronics DIAScreen存在越界写入,高,高,True,2,1
+Acrobat DC Continuous Track等都是美国奥多比（Adobe）公司的产品。Acrobat DC Continuous Track是一款桌面版PDF解决方案的连续更新版本。Read,高,高,True,4,1
+FreeXL是软件开发者Alessandro Furieri所研发的一个开源的用于从Excel（.xls）电子表格中提取有效数据的库。FreeXL 1.0.5之前版本中的‘parse_SST’函数存在,中,中,True,1,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Framework是其中的一个Android框架组件。Google Android Fr,高,高,True,1,1
+SIMATIC CP 1242和CP 1243相关处理器将SIMATIC S7-1200控制器连接到广域网（WAN）。它们提供集成的安全功能，如防火墙、虚拟专用网络（VPN）和支持其他数据加密协议。S,中,中,True,1,1
+S-CMS企业站系统是一套成熟完善的企业站CMS系统。S-CMS企业建站系统前台存在SQL注入漏洞，攻击者可以利用漏洞获取数据库信息。,高,高,True,1,1
+mruby是一款Ruby语言的轻量级实现。GitHub repository mruby/mruby 3.2之前版本存在安全漏洞，该漏洞源于mruby/mruby中的mrb_vm_exec存在堆缓冲区,中,高,False,1,1
+Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Acro,中,中,True,2,3
+IBM Db2是美国国际商业机器（IBM）公司的一套关系型数据库管理系统。该系统的执行环境主要有UNIX、Linux、IBMi、z/OS以及Windows服务器版本。IBM Db2存在拒绝服务漏洞，攻,中,中,True,6,1
+XnView Classic for Windows是法国软件开发者Gougelet Pierre-Emmanuel所研发的一套用于Windows平台的图片查看软件。该软件可用于查看、转换、组织和编辑,中,中,True,5,1
+IBM Security Privileged Identity Manager是美国IBM公司的一款身份监管解决方案（IBM Identity Governance and Management）中,中,中,True,2,1
+Microsoft Internet Explorer是一款流行的WEB浏览器。Microsoft Internet Explorer ASLR存在安全漏洞，允许攻击者利用此漏洞绕过某些安全限制，或利,中,中,True,2,1
+Adobe Flash Player是一款Flash文件处理程序。Adobe Air是一款Adobe公司出品的跨操作系统的运行时库。Adobe Flash Player/AIR存在一个未明内存破坏漏洞,高,高,True,1,1
+Adobe After Effects是美国奥多比（Adobe）公司的一套视觉效果和动态图形制作软件。该软件主要用于2D和3D合成、动画制作和视觉特效制作等。Adobe After Effects存在,高,高,True,3,1
+金山WPS是金山办公软件出品的office软件，可以实现办公软件常用的文字、表格、演示等多种功能。WPS Office专业版存在内存破坏漏洞，攻击者可利用该漏洞造成拒绝服务。,中,中,True,8,1
+Mozilla Firefox是美国Mozilla基金会的一款开源Web浏览器。Mozilla Firefox 中存在安全漏洞。目前没有详细的漏洞细节提供。,中,中,True,6,1
+Oracle Hospitality Applications是美国甲骨文（Oracle）公司的一套用于酒店管理的业务应用程序、服务器和存储解决方案。该方案提供人力资源成本管理、提供客户整个旅途中服务,低,低,True,1,1
+极速看图是目前超快超高清看图软件，兼容所有的主流图片格式和专业图片格式。极速看图存在堆溢出漏洞，攻击者可利用该漏洞导致软件崩溃。,中,中,True,4,1
+Adobe Acrobat和Reader都是美国奥多比（Adobe）公司的产品。前者是一套PDF文件编辑和转换工具，后者是一套PDF文档阅读软件。Adobe Acrobat和Reader中存在任意代码,高,高,True,7,1
+Adobe InCopy是美国奥多比（Adobe）公司的一款用于创作的文本编辑软件。Adobe InCopy存在内存错误引用漏洞，攻击者可利用该漏洞导致在当前用户环境下执行任意代码。,高,高,True,1,1
+Oracle Fusion Middleware（Oracle融合中间件）是美国甲骨文（Oracle）公司的一套面向企业和云环境的业务创新平台。该平台提供了中间件、软件集合等功能。Outside In,高,高,True,5,1
+Adobe Acrobat DC等都是美国奥多比（Adobe）公司的产品。Acrobat DC是一套桌面版PDF解决方案；Acrobat Reader DC是一套用于查看、打印和批注PDF的工具。Cl,高,高,True,1,1
+WordPress是WordPress基金会的一套使用PHP语言开发的博客平台。该平台支持在PHP和MySQL的服务器上架设个人博客网站。safe-svg是使用在其中的一个SVG（可缩放矢量图形）上传,中,中,True,1,1
+macOS是苹果公司为Mac系列产品开发的专属操作系统。Apple macOS Sierra 10.12.6、macOS High Sierra 10.13.6中的IOKit组件存在内存破坏漏洞。恶意,高,高,True,1,1
+Microsoft Brokering File System是美国微软（Microsoft）公司的一个文件系统。Microsoft Brokering File System存在安全漏洞。攻击者利用,中,中,True,1,1
+Microsoft SQL Server是美国微软（Microsoft）公司的一套应用在Microsoft Windows系统下的大型商业数据库系统。Microsoft SQL Server存在信息泄,高,高,True,2,1
+Android是美国Google公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android中的System组件存在信息泄露漏洞。攻击者可以利用此漏,中,中,True,3,1
+Magento是美国Magento公司的一套开源的PHP电子商务系统。该系统提供权限管理、搜索引擎和支付网关等功能。Magento 2.1.18之前的2.1版本、2.2.9之前的2.2版本和2.3.2,中,中,True,5,2
+Google Android是一款基于Linux开放性内核的手机操作系统。Google Android在Mediaserver组件实现上存在安全漏洞，允许远程攻击者利用漏洞构建特殊的应用，可使服务进程,高,高,True,3,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Framework是其中的一个Android框架组件。Android中的Framewor,中,中,True,9,2
+Adobe XMP Toolkit SDK是美国奥多比（Adobe）公司的一种标签技术，允许您将有关文件的数据（称为元数据）嵌入到文件本身中。Adobe XMP Toolkit SDK 2020.1及,高,高,True,1,1
+喜马拉雅是一个专业的音频分享平台。喜马拉雅（Windows客户端）存在dll劫持漏洞，攻击者可利用该漏洞通过客户端执行任意恶意代码。,高,高,True,3,1
+Adobe Animate是一款多媒体创作和计算机动画程序。Adobe Animate 21.0.9及更早版本存在越界写入漏洞。攻击者可利用该漏洞执行任意代码。,高,高,True,2,2
+飞鸽传书是面向企业、学校、家庭的局域网即时通讯软件，实现局域网内部消息、文件的高速传输和飞鸽网络打印。飞鸽传书网络打印组件存在二进制漏洞，攻击者可以利用漏洞构造畸形的TIFF图片可导致程序崩溃。,中,中,True,2,1
+Juniper Junos OS是美国瞻博网络（Juniper Networks）公司的一套专用于该公司的硬件系统的网络操作系统。该操作系统提供了安全编程接口和Junos SDK。Juniper Ju,中,高,False,1,1
+WSO2 Identity Server是美国WSO2公司的一个开源的身份认证服务，它支持Information Cards、OpenID和XACML身份识别框架。WSO2 Identity Serv,高,高,True,1,1
+Adobe Animate是由Adobe开发的多媒体与电脑动画制作软件。Adobe Animate存在二进制漏洞，攻击者可利用该漏洞导致拒绝服务。,中,中,True,1,2
+07FLY-CRM是一款国产开源的通用型客户管理系统，适用各类行业，主要针对中小型销售/售后服务团队。07FLY-CRM存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,2,1
+Huawei EMUI是一款基于Android开发的移动端操作系统。Huawei HarmonyOS是一个操作系统。提供一个基于微内核的全场景分布式操作系统。Huawei HarmonyOS和EMUI,中,高,False,1,1
+Cisco Webex Network Recording Player for Advanced Recording Format（ARF）是一个主要用于播放ARF格式的WebEx录制文件的媒体播放,高,高,True,2,1
+Microsoft Excel是美国微软（Microsoft）公司的一款Office套件中的电子表格处理软件。Microsoft Excel存在信息泄露漏洞，攻击者可利用该漏洞获取敏感信息。,中,中,True,6,1
+Crea8social是尼日利亚软件开发者Tiamiyu Waliu Kola所研发的一套基于PHP的社交网络平台。Crea8social 2018.2版本中存在跨站脚本漏洞。远程攻击者可利用该漏洞注,中,中,True,1,1
+云锁是基于操作系统内核加固技术的免费服务器安全管理软件，支持windows/linux服务器跨平台实时、批量、远程安全管理。云锁服务器端Windows版本存在SQL注入绕过漏洞。攻击者利用漏洞绕过云锁,高,高,True,1,1
+Adobe Photoshop，简称“PS”，是由Adobe公司开发和发行的图像处理软件。Adobe Photoshop存在越界读取漏洞。攻击者可利用该漏洞获取信息。,中,中,True,5,1
+IBM Blade Center是一款IBM的服务器管理程序。IBM Blade Center存在跨站请求伪造漏洞，远程攻击者可以利用该漏洞构建恶意URI，诱使请求，可以目标用户上下文执行恶意操作。,高,中,False,1,1
+FreeBSD是一个基于BSD的操作系统。FreeBSD存在远程拒绝服务漏洞，攻击者可以利用此漏洞导致内核崩溃，拒绝服务合法用户。,中,中,True,1,1
+Juniper SSG Series是美国瞻博网络（Juniper Networks）公司的一系列防火墙设备。ScreenOS是其中的一套操作系统。Juniper SSG Series设备上的Scre,低,低,True,4,1
+Ansible是美国Ansible公司的一款计算机系统配置管理器。该产品可用于发布、管理和编排计算机系统。Ansible中存在路径遍历漏洞。该漏洞源于网络系统或产品未能正确地过滤资源或文件路径中的特殊,中,中,True,1,2
+Siemens Teamcenter Visualization是一个可为设计2D、3D场景提供团队协作功能的软件。Siemens JT2GO是一款JT文件查看器。Siemens Teamcenter,高,高,True,4,1
+Adobe Reader/Acrobat是一款流行的处理PDF文件的应用程序。Adobe Reader/Acrobat存在绕过信息泄露漏洞。允许攻击者构建恶意PDF文件，诱使用户解析，可获取敏感信息。,中,中,True,2,1
+Foxit PhantomPDF是中国福昕（Foxit）公司的一款PDF文档阅读器。Foxit 3D Plugin是中国福昕（Foxit）公司的一款使用在PDF文档阅读器中的3D插件。Foxit Ph,高,高,True,3,1
+Magento是美国Magento公司的一套开源的PHP电子商务系统。该系统提供权限管理、搜索引擎和支付网关等功能。Magento 2.1.18之前的2.1版本、2.2.9之前的2.2版本和2.3.2,中,中,True,2,1
+Microsoft SharePoint是美国微软（Microsoft）公司的一套企业业务协作平台。该平台用于对业务信息进行整合，并能够共享工作、与他人协同工作、组织项目和工作组、搜索人员和信息。Mi,中,低,False,2,1
+MailEnable是澳大利亚MailEnable公司的一个基于Windows的商业电子邮件服务器。MailEnable存在安全漏洞，攻击者可利用该漏洞导致本地凭据泄露和账户接管。,中,中,True,1,1
+Adobe Reader/Acrobat是一款流行的处理PDF文件的应用程序。Adobe Reader/Acrobat存在内存泄露漏洞。允许攻击者构建恶意PDF文件，诱使用户解析，可获取敏感内存信息。,中,中,True,5,1
+无锡信捷电气股份有限公司是一家专注于工业自动化产品研发与应用的国内知名企业。信捷电气触摸屏画面编辑软件Twin存在内存破坏漏洞，攻击者可利用该漏洞导致拒绝服务。,中,中,True,1,1
+Adobe Flash Player是美国奥多比（Adobe）公司的一款跨平台、基于浏览器的多媒体播放器产品。该产品支持跨屏幕和浏览器查看应用程序、内容和视频。Adobe Flash Player中存,高,高,True,4,1
+Adobe Digital Editions软件提供一种引人入胜的方式帮助您查看和管理eBooks和其它数字出版物。4.5.6及更早版本的Adobe Digital Editions存在越界内存读取漏,中,中,True,3,1
+Rust是Mozilla基金会的一款通用、编译型编程语言。Mozilla Rust存在缓冲区溢出漏洞，攻击者可利用该漏洞导致缓冲区溢出或堆溢出等。,中,中,True,1,1
+Adobe Flash Player是一种广泛使用的、专有的多媒体程序播放器，最初由Macromedia编写，在Macromedia被Adobe收购后由Adobe继续开发并分发。Adobe Flash,高,高,True,1,1
+HongCMS是一套开源的轻量级内容管理系统（CMS）。HongCMS存在代码执行漏洞。攻击者可利用该漏洞获取服务器权限。,高,高,True,1,1
+ZOHO ManageEngine ADManager Plus是美国卓豪（ZOHO）公司的一套为使用Windows域的企业用户设计的微软活动目录管理软件。该软件能够协助AD管理员和帮助台技术人员进行,高,高,True,4,1
+Aruba Networks ArubaOS是美国安移通（Aruba Networks）公司的一套面向Aruba Mobility-Defined Networks（包括移动控制器和移动接入交换机）的,高,高,True,2,2
+Microsoft Edge是美国微软（Microsoft）公司开发的一款Web浏览器，是Windows 10操作系统附带的默认浏览器。Microsoft Edge中存在内存破坏漏洞，该漏洞源于程序未,高,高,True,3,2
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Android中的System存在信息泄露漏洞。该漏洞源于网络系统或产品在运行过程中存在,中,低,False,11,1
+金山WPS是金山办公软件出品的office软件。珠海金山办公软件有限公司WPS Office 2019专业版存在拒绝服务漏洞，攻击者可利用该漏洞造成拒绝服务。,中,中,True,12,2
+Adobe Acrobat Reader是美国奥多比（Adobe）公司的一款PDF查看器。该软件用于打印，签名和注释PDF。Adobe Acrobat Reader存在安全漏洞，攻击者可利用该漏洞在当,高,高,True,4,1
+Microsoft Word是一款微软开发的文字处理系统。Microsoft Word存在内存破坏漏洞。允许远程攻击者通过一个精心Office文档，执行任意代码或引起拒绝服务(内存崩溃)。,高,高,True,2,1
+Apple OS X是一款苹果公司的操作系统。Apple OS X存在权限提升漏洞，该漏洞源于IOGraphicsFamily接口未能在使用前验证用户提供的函数地址，允许本地攻击者利用漏洞提升权限和执,中,中,True,1,1
+DELL Dell Hybrid Client是美国戴尔（DELL）公司的一个应用软件。提供一个具有混合云管理功能的客户端计算软件。Dell Hybrid Client 1.5之前版本存在信息泄露漏洞,低,低,True,1,1
+PHP是PHP Group和开放源代码社区共同维护的一种开源的通用计算机脚本语言。PHP PHAR存在拒绝服务漏洞，允许攻击者可利用该漏洞提交特殊请求使应用程序崩溃，造成拒绝服务。,中,中,True,1,1
+Google Android是美国~谷歌~开放手持设备联盟（Google）的的一套以Linux为基础的开源操作系统。Google Android存在安全漏洞，攻击者可利用该漏洞可能导致具有所需系统执行,低,低,True,4,2
+K7AntiVirus Premium是K7 Computing推出的一款安全套件，可提供对在线威胁和欺诈活动的可靠防护，从而可保护您免受病毒和网络攻击。K7 Computing K7AntiViru,中,中,True,2,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,中,True,5,1
+Adobe Acrobat和Reader都是美国奥多比（Adobe）公司的产品。前者是一套PDF文件编辑和转换工具，后者是一套PDF文档阅读软件。Adobe Acrobat和Reader中存在缓冲区溢,高,高,True,3,1
+Apple iOS和Safari都是美国苹果（Apple）公司的产品。Apple iOS是为移动设备所开发的一套操作系统；Safari是一款Web浏览器，是Mac OS X和iOS操作系统附带的默认浏,高,高,True,1,1
+极速Office是由北京海腾时代科技有限公司研发的一款自主可控办公学习类软件。北京海腾时代科技有限公司极速Office 2019 For Windows存在内存破坏漏洞，攻击者可利用该漏洞导致拒绝服务,中,中,True,5,1
+MyBB（又名MyBulletinBoard）是MyBB团队开发的一套用PHP和MySQL开发的免费且基于Web的论坛软件。该软件具有简单易用、支持多国语言、可扩展等特点。MyBB 1.8.7之前的版,高,高,True,10,3
+Siemens Jt2go是一款JT文件查看器。Siemens Teamcenter Visualization是一个可为设计2D、3D场景提供团队协作功能的软件。Siemens JT2Go 13.2,中,中,True,1,1
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acro,高,中,False,8,2
+Foxit Reader是中国福昕（Foxit）软件公司的一款PDF文档阅读器。Foxit PhantomPDF是一个商业版。JavaScript engine是其中的一个JavaScript脚本引擎,高,高,True,5,1
+Foxit Reader是中国福昕（Foxit）公司的一款PDF文档阅读器。Foxit Reader U3D文件解析存在安全漏洞。该漏洞源于对用户提供的数据缺少适当的验证。攻击者可通过诱使用户访问恶意,中,中,True,2,1
+QTouch组态软件是武汉舜通智能科技有限公司推出的一款专业的跨平台自动化软件。舜通云QTouch组态软件通用版存在拒绝服务漏洞。攻击者可利用该漏洞导致程序崩溃。,中,中,True,5,1
+CloudBees Jenkins（Hudson Labs）是美国CloudBees公司的一套基于Java开发的持续集成工具。该产品主要用于监控持续的软件版本发布/测试项目和一些定时执行的任务。LTS,中,中,True,2,1
+Yii2-StateMachine extension for Yii2是一套用于演示Yii2框架的演示网站系统。Yii2-StateMachine extension for Yii2 2.x.x版,中,中,True,1,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在信息泄露漏洞，攻击者可利用该漏洞获取敏感信息。,中,中,True,31,4
+WebAccess/HMI Designer是一款人机界面集成开发工具。WebAccess/HMI Designer存在内存破坏漏洞，攻击者可利用该漏洞造成拒绝服务。,中,中,True,1,1
+SINEMA Remote Connect 是一个远程网络管理平台，可轻松管理总部、服务技术人员和已安装机器或工厂之间的隧道连接 (VPN)。Siemens SINEMA Remote Connect,中,中,True,1,1
+PHPOK是一款网站建设内容管理系统，实现定制化的开源免费建站cms系统。深圳市锟铻科技有限公司PHPOK存在文件上传漏洞，攻击者可利用漏洞上传webshell，获得服务器权限。,高,高,True,3,1
+Cybozu Office是一套基于Web的跨平台协同办公解决方案。Cybozu Office存在目录遍历漏洞，远程攻击者可利用漏洞删除服务器上的任意文件。,中,高,False,1,1
+Adobe Acrobat DC等都是美国奥多比（Adobe）公司的产品。Acrobat DC是一套桌面版PDF解决方案；Acrobat Reader DC是一套用于查看、打印和批注PDF的工具。Cl,高,高,True,2,1
+Panasonic FPWIN Pro是日本松下电器（Panasonic）公司的一套用于所有FP系列PLC（可编程逻辑控制器）的编程软件。Panasonic FPWIN Pro中存在缓冲区溢出漏洞，远,中,中,True,1,1
+Adobe InDesign是美国奥多比（Adobe）公司的一套排版编辑应用程序。Adobe InDesign存在越界写入漏洞，攻击者可利用该漏洞在系统上执行任意代码，或者导致应用程序崩溃。,高,高,True,2,1
+IBM DB2和DB2 Connect Server for Linux、UNIX和Windows都是美国IBM公司的基于Linux、UNIX和Windows平台的数据库产品。DB2是一套适用于大型应,高,高,True,2,1
+NETGEAR R6700等都是美国网件（NETGEAR）公司的产品。NETGEAR R6700是一款无线路由器。NETGEAR D6200是一款无线调制解调器。NETGEAR R6800是一款无线路,中,中,True,8,2
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Mediaserver是其中的一个多媒体服务组件。Android中的Medi,高,高,True,1,1
+FusionPBX是一套可扩展、多线程的通信平台。该平台可作为呼叫中心服务器、传真服务器、voip服务器、语音邮件服务器、会议服务器和语音应用服务器等。FusionPBX 4.5.7及之前版本中存在跨,中,中,True,1,1
+GPAC Project on Advanced Content是一个开源的跨平台库，它实现了MPEG-4系统标准，并提供了媒体播放、矢量图形和3D渲染工具。GPAC Project on Advan,高,高,True,4,1
+cPanel是美国cPanel公司的一套基于Web的自动化主机托管平台。该平台主要用于自动化管理网站和服务器。cPanel 68.0.27之前版本中存在安全漏洞。目前没有详细漏洞细节提供。,低,中,False,1,1
+Linux kernel是美国Linux基金会发布的开源操作系统Linux所使用的内核。Linux kernel中存在缓冲区溢出漏洞。该漏洞源于网络系统或产品在内存上执行操作时，未正确验证数据边界，导,高,高,True,3,1
+Foxit PDF Reader是中国福昕（Foxit）公司的一款PDF阅读器。Foxit PDF Reader存在内存错误引用漏洞，攻击者可利用该漏洞执行任意代码。,高,高,True,6,1
+北京引领盛世网络科技发展中心成立于2007年，是一家以提供企业数字化服务、APP微信开发运营、网站建设、网络营销全方位企业服务的专业化网络公司。北京引领盛世网络科技发展中心建站系统存在SQL注入漏洞，,高,高,True,2,1
+Microsoft Windows 10和Windows Server 2016都是美国微软（Microsoft）公司的产品。前者是一套供个人电脑使用的操作系统，后者是一套服务器操作系统。Edge是其,高,高,True,4,1
+浙江大华技术股份有限公司是以视频为核心的智慧物联解决方案供应商和运营服务商。浙江大华技术股份有限公司智慧园区综合管理平台存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,2,1
+Adobe Acrobat DC等都是美国奥多比（Adobe）公司的产品。Acrobat DC是一套桌面版PDF解决方案；Acrobat Reader DC是一套用于查看、打印和批注PDF的工具。Cl,高,高,True,5,1
+Foxit Reader（旧名：Foxit PDF Reader）是一套用来阅读PDF格式文件的软件，由福建福昕软件所研发。Foxit Reader是一套自由使用的软件，操作系统主要以Microsof,中,中,True,2,2
+Ivanti Endpoint Manager是一款面向企业的统一端点管理解决方案，主要用于集中管理组织内所有类型的设备（包括Windows、macOS、Linux、ChromeOS及物联网设备），覆,中,中,True,9,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Android Q中的System存在拒绝服务漏洞。攻击者可利用该漏洞造成拒绝服务。,中,中,True,10,2
+STDU Viewer是一款免费的支持多种格式的文件查看器。该软件支持TIFF、PDF、DjVu、XPS和WWF等格式。STDU Viewer 1.6.375版本中存在安全漏洞。攻击者可借助特制的.j,中,中,True,9,1
+北京神州视翰科技有限公司是一家深耕可视化领域的企业。北京神州视翰科技有限公司远程医疗综合服务平台存在SQL注入漏洞，攻击者可利用漏洞获取数据库敏感信息。,高,高,True,7,2
+Oracle PeopleSoft Products是美国甲骨文（Oracle）公司的一套企业人力资本管理解决方案。PeopleSoft Enterprise PeopleTools是其中的一个能够转,中,中,True,1,1
+PowerDNS是荷兰PowerDNS公司的一个跨平台的开源DNS服务组件，它支持在Windows系统中使用Access的mdb文件记录DNS信息，在Linux/Unix系统中使用MySQL来记录DN,中,中,True,1,1
+ImageMagick Studio ImageMagick是美国ImageMagick Studio公司的一套开源的图像处理软件。该软件可读取、转换或写入多种格式的图片。ImageMagick St,中,中,True,1,1
+Apple iOS等都是美国苹果（Apple）公司的产品。Apple iOS是一套为移动设备所开发的操作系统。Apple iPadOS是一套用于iPad平板电脑的操作系统。Apple macOS Ca,高,高,True,4,1
+Tenda AC7等都是中国腾达（Tenda）公司的无线路由器产品。httpd是其中的一个HTTP服务器组件。多款Tenda产品中的httpd存在缓冲区溢出漏洞，攻击者可利用该漏洞造成拒绝服务（覆盖函,中,中,True,1,2
+Oracle PeopleSoft Products是美国甲骨文（Oracle）公司的一套企业人力资本管理解决方案。PeopleSoft Enterprise PeopleTools是其中的一个能够转,中,中,True,1,1
+showdoc是开源的一个非常适合IT团队在线共享文档的工具。showdoc存在安全漏洞，目前没有详细的漏洞细节提供。,高,高,True,1,1
+NETGEAR SRX5308是美国网件（NETGEAR）公司的一款VPN防火墙设备。NETGEAR SRX5308存在跨站脚本漏洞，该漏洞源于对参数smtpServer.fromAddr的错误操作。,低,低,True,1,1
+IrfanView是波黑软件开发者Irfan Skiljan所研发的一款图片浏览器，它支持图片浏览、图片编辑、图片格式转换等。CADImage plugin是其中的一个用于查看CAD文件的插件。Irf,中,中,True,4,1
+李雷博客是一套开源PHP博客管理系统。李雷博客存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,2,1
+Microsoft Excel是美国微软（Microsoft）公司的一款Office套件中的电子表格处理软件。Microsoft Excel存在安全漏洞，攻击者可利用漏洞在当前用户的上下文中运行任意代,中,中,True,1,1
+Juniper Networks Junos OS是美国瞻博网络（Juniper Networks）公司的一套专用于该公司的硬件设备的网络操作系统。该操作系统提供了安全编程接口和Junos SDK。J,低,低,True,1,1
+Adobe Animate是美国奥多比（Adobe）公司的一套Flash动画制作软件。Adobe Animate 21.0.3及之前版本存在越界读取漏洞，未经身份认证的攻击者可借助恶意文件利用该漏洞导,中,中,True,3,2
+汕头市三互科技有限公司是一家专注为企业设计制作并提供个性化电子商务解决方案。汕头市三互科技有限公司建站系统存在SQL注入漏洞，攻击者可以利用漏洞获取数据库敏感信息。,高,高,True,2,1
+Oracle Agile产品生命周期管理（PLM）解决方案使企业能够在整个产品生命周期过程中跨全球产品网络管理产品的信息、流程和决策。Oracle Supply Chain Products Suit,中,中,True,3,2
+Adobe Commerce是美国奥多比（Adobe）公司的一种面向商家和品牌的全球领先的数字商务解决方案。Adobe Commerce存在权限提升漏洞，攻击者可利用该漏洞绕过安全措施并修改次要信息。,中,中,True,1,1
+Kubernetes是美国谷歌（Google）公司的一套开源的Docker容器集群管理系统。该系统为容器化的应用提供资源调度、部署运行、服务发现和扩容缩容等功能。Kubernetes存在日志信息泄露漏,中,中,True,2,1
+Apple OS X是一款苹果分发的基于BSD的操作系统。Apple OS X QuickTime处理特殊文件存在内存破坏漏洞，允许攻击者构建恶意文件，诱使用户解析，使应用程序崩溃或执行任意代码。,中,中,True,9,1
+GTKWave是GTKWave公司的一款功能齐全、基于GTK+ 的波形查看器。GTKWave 3.3.118版本存在代码执行漏洞，攻击者可利用此漏洞通过特制的fst文件可能导致任意代码执行。,高,高,True,4,1
+Juniper Networks Junos Space是美国瞻博网络（Juniper Networks）公司的一套网络管理解决方案。该方案支持在设备和服务的整个生命周期内对其进行自动配置、监控和故障,中,中,True,1,1
+SeaCMS是一款基于PHP+MYSQL架构，支持跨平台运行的建站系统。SeaCMS后台存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,7,1
+WordPress是WordPress基金会的一套使用PHP语言开发的博客平台。该平台支持在PHP和MySQL的服务器上架设个人博客网站。magic-fields是使用在其中的一个网页表单字段自定义插,中,中,True,2,1
+Microsoft HEVC Video Extensions是美国微软（Microsoft）公司的一个视频扩展应用程序。该应用使计算机和设备可以读取高效视频编码或HEVC视频。Microsoft H,中,中,True,13,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,39,3
+FasterXML Jackson是美国FasterXML公司的一款适用于Java的数据处理工具。jackson-databind是其中的一个具有数据绑定功能的组件。FasterXML jackson,高,高,True,10,1
+SIMATIC MV500产品是固定式光学读卡器，用于捕获各种不同表面上的打印、激光、钻孔、冲孔和点划线代码。Siemens SIMATIC MV500 Devices存在资源消耗失控漏洞，攻击者可利,高,高,True,2,1
+Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Acro,中,中,True,10,1
+Oracle Virtualization是美国甲骨文（Oracle）公司的一套软硬件虚拟化管理解决方案。Oracle VM VirtualBox是其中的一个虚拟机组件。Oracle Virtuali,中,高,False,7,1
+Cisco RV110W是一款Wireless-N VPN防火墙，Cisco RV130是一款多功能VPN路由器，Cisco RV130W是一款Wireless-N多功能VPN路由器，Cisco RV,低,低,True,7,1
+Adobe Acrobat和Reader都是美国奥多比（Adobe）公司的产品。Adobe Acrobat是一套PDF文件编辑和转换工具。Reader是一套PDF文档阅读软件。Adobe Acroba,中,中,True,13,1
+Oracle MySQL Server是一套开源的关系数据库管理系统。MySQL Server: InnoDB组件存在安全漏洞，允许远程攻击者利用漏洞提交特殊请求进行拒绝服务攻击。,低,低,True,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Qualcomm是使用在其中的一个美国高通（Qualcomm）公司的设备专用,高,中,False,3,1
+Google Android是美国谷歌（Google）公司的的一套以Linux为基础的开源操作系统。Google Android存在信息泄露漏洞，该漏洞源于网络系统或产品在运行过程中存在配置等错误。攻,低,低,True,1,1
+"Google TensorFlow是美国谷歌（Google）公司的一套用于机器学习的端到端开源平台。TensorFlow 2.4.2,2.3.3,2.2.3，2.1.4存在代码问题漏洞，攻击者可利用该",低,低,True,1,1
+Oracle Java SE是美国甲骨文（Oracle）公司的一款用于开发和部署桌面、服务器以及嵌入设备和实时环境中的Java应用程序。Oracle Java SE存在输入验证错误漏洞，攻击者可利用此,中,中,True,3,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android Audioserver存在权限提升漏洞。攻击者,高,高,True,2,1
+Wireshark（前称Ethereal）是Wireshark团队开发的一套网络数据包分析软件。该软件的功能是截取网络数据包，并显示出详细的数据以供分析。Wireshark容易出现远程拒绝服务漏洞.A,高,高,True,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android System组件存在远程代码执行漏洞。攻击者可,高,高,True,1,3
+IBM Rational Quality Manager是跨几乎任何平台和任何类型的测试的业务驱动型软件和系统质量协作中心。该软件可帮助团队无缝共享信息，使用自动化来加快项目进度，并为有针对性的发布决,中,中,True,1,2
+Cisco IOS XE Software是美国思科（Cisco）公司的一套为其网络设备开发的操作系统。Cisco IOS XE Software中的Web UI存在跨站脚本漏洞，该漏洞源于程序未能充,中,中,True,1,1
+Oracle E-Business Suite（电子商务套件）是美国甲骨文（Oracle）公司的一套全面集成式的全球业务管理软件。该软件提供了客户关系管理、服务管理、财务管理等功能。Oracle On,中,中,True,10,1
+Adobe Acrobat和Reader都是美国奥多比（Adobe）公司的产品。Adobe Acrobat是一套PDF文件编辑和转换工具。Reader是一套PDF文档阅读软件。Adobe Acroba,中,中,True,3,1
+NUCMS内容管理系统是一款开源网站管理系统。NUCMS V1.1存在SQL注入漏洞，攻击者可利用漏洞获取数据库敏感信息。,中,高,False,1,1
+Microsoft Edge是美国微软（Microsoft）公司的一款Windows 10之后版本系统附带的Web浏览器。Microsoft Edge (Chromium-based)存在远程代码执行,高,中,False,4,1
+Microsoft PostScript Printer Driver是美国微软（Microsoft）公司的用于PostScript打印机的Microsoft标准打印机驱动程序。Microsoft P,高,高,True,16,3
+Oracle Fusion Middleware（Oracle融合中间件）是美国甲骨文（Oracle）公司的一套面向企业和云环境的业务创新平台。该平台提供了中间件、软件集合等功能。Outside In,中,中,True,6,1
+Mozilla Firefox和Firefox ESR都是美国Mozilla基金会开发的浏览器产品。Firefox是一款开源Web浏览器；Firefox ESR是Firefox的一个延长支持版本。Mo,中,中,True,3,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在安全漏洞，攻击者可利用该漏洞导致本地权限提升。,低,中,False,3,1
+动科企业网站管理系统是一个以asp+access进行开发的企业网站源码。动科企业网站管理系统ch***.asp文件存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,高,高,True,1,1
+Mozilla Firefox是美国Mozilla基金会的一款开源Web浏览器。Mozilla Firefox存在代码执行漏洞，攻击者可利用该漏洞在系统上执行任意代码或导致拒绝服务。,高,高,True,1,1
+Intel Xeon Scalable Processors等都是美国英特尔（Intel）公司的产品。Intel Xeon Scalable Processors是一款可扩展服务器中央处理器（CPU）,中,中,True,3,1
+WPS Office 2019 PC版是珠海金山办公软件有限公司的软件，可以实现办公软件常用的文字、表格、演示等多种功能。WPS Office 2019 PC版存在内存破坏漏洞。攻击者可利用该漏洞导致,中,中,True,1,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,44,4
+Microsoft Windows DNS是美国微软（Microsoft）公司的一个域名解析服务。域名系统（DNS）是包含TCP / IP的行业标准协议套件之一，并且DNS客户端和DNS服务器共同为计,高,高,True,6,1
+"Adobe Experience Manager是一款企业内容管理解决方案,可帮助您简化内容和资产的管理和投放。Adobe Experience Manager6.0、6.1、 6.2、6.3、6.4",中,中,True,1,1
+Edge是微软为Windows 10打造的浏览器。Microsoft Edge存在内存破坏漏洞。该漏洞源于Microsoft Edge未能正确访问内存中的对象。攻击者可利用该漏洞在当前用户的上下文中执,高,高,True,5,1
+Adobe Experience Manager是Adobe公司推出的一款综合性内容管理解决方案。Adobe Experience Manager存在跨站脚本漏洞，该漏洞源于表单字段容易受到存储型跨站,中,中,True,38,2
+西安佰联网络技术有限公司是国内一家专业从事轴承行业管理软件开发和轴承行业门户网站设计的科技公司。西安佰联网络技术有限公司建站系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,1,1
+Chrome是由Google开发的一款设计简单、高效的Web浏览工具，其特点是简洁、快速。Google Chrome 84.0.4147.89之前版本中的Skia存在堆缓冲区溢出漏洞，目前没有详细的漏,中,中,True,1,1
+Microsoft Jet Database Engine是一个底层数据库引擎。Microsoft Jet Database Engine存在远程代码执行漏洞，该漏洞源于Jet Database En,高,高,True,10,1
+Adobe Acrobat是一套PDF文件编辑和转换工具。Adobe Reader是一套PDF文档阅读软件。多款Adobe产品存在越界写入漏洞，攻击者可利用漏洞在当前用户的上下文中执行任意代码。,高,高,True,1,1
+Foxit PDF Reader是中国福昕（Foxit）软件公司的一款PDF文档阅读器。JavaScript engine是其中的一个JavaScript脚本引擎。Foxit PDF Reader中的,高,高,True,5,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。MySQL Server是其中的一个数据库服务器组件。Oracle MySQL中的MySQL Server组件8,高,高,True,10,1
+Adobe Acrobat Reader是美国奥多比（Adobe）公司的一款PDF查看器。Adobe Acrobat and Reader存在越界写入漏洞，攻击者可利用该漏洞在当前用户的上下文中执行任,高,高,True,1,1
+安卓（Android）是一种基于Linux的自由及开放源代码的操作系统，由谷歌公司和开放手机联盟领导及开发。Google Android 7.0、7.1.1、7.1.2、8.0、8.1、9中的Syst,中,中,True,5,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在信息泄露漏洞，该漏洞是由系统组件中的越界读取引起的。攻击者可利用此漏洞,中,中,True,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Mediaserver是其中的一个多媒体服务组件。Android的Media,高,高,True,2,1
+WAGO PFC200是德国WAGO公司的一款可编程逻辑控制器（PLC）。WAGO PFC200 03.02.02(14)的iocheckd服务‘I/O-Check’功能存在栈缓冲区溢出漏洞。攻击者可,高,高,True,4,2
+Apple iOS、watchOS、OS X El Capitan和tvOS都是美国苹果（Apple）公司的产品。Apple iOS是为移动设备所开发的一套操作系统；watchOS是一套智能手表操作系,中,中,True,2,1
+WordPress是WordPress软件基金会的一套使用PHP语言开发的博客平台，该平台支持在PHP和MySQL的服务器上架设个人博客网站。photoxhibit是其中的一个用于建立画廊插件的接口。,中,中,True,1,1
+PrestaShop是美国PrestaShop公司的一套开源的电子商务解决方案。该方案提供多种支付方式、短消息提醒和商品图片缩放等功能。PrestaShop 1.7.0.0之后版本（1.7.6.5版本,中,中,True,1,1
+JasPer是一个JPEG-2000编解码器的开源实现。JasPer存在拒绝服务漏洞，攻击者可利用该漏洞导致拒绝服务。,中,中,True,1,1
+苏州托普斯网络科技有限公司是计算机软件、电脑动画及网络产品的设计、研发、销售、并提供相关技术服务和咨询服务的公司。苏州托普斯网络科技有限公司建站系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感,高,高,True,1,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在代码执行漏洞，攻击者可利用该漏洞在系统上执行任意代码。,高,高,True,4,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Media Framework是其中的一个多媒体开发框架。Android中的Media ,中,高,False,4,1
+SCALANCE M工业路由器用于通过移动网络对工厂进行安全的远程访问，例如， GPRS或UMTS，具有防火墙的集成安全功能以防止未经授权的访问和VPN来保护数据传输。SIEMENS SCALANCE,高,高,True,1,1
+AR120-S、AR1200、DP300、RSE6500、Secospace USG6300、ViewPoint 8660等都是中国华为（Huawei）公司的网络设备。Huawei多款产品H323协议,中,中,True,2,1
+安全狗是一款集服务器安全防护和安全管理为一体的综合性服务器安全防护工具。网站安全狗的SQL注入拦截功能存在绕过漏洞。攻击者可绕过网站安全狗的SQL注入拦截功能，获取数据库敏感信息。,高,高,True,1,1
+Adobe Flash Player是一款Flash文件处理程序。Adobe Flash Player存在一个未明未明空指针引用漏洞，允许攻击者构建恶意SWF文件，诱使用户解析，可以应用程序上下文执行,高,高,True,2,1
+Android是美国Google公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android 8.0、8.1、9、10中的Framework组件存在,高,高,True,1,1
+Tpshop是深圳搜豹网络有限公司开发的一套多商家模式的商城系统。Tpshop v3.5 Go***.php页面存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,中,中,True,1,1
+SAP Adaptive Server Enterprise（Sybase ASE）是德国思爱普（SAP）公司的一套关系型数据库管理系统。该系统可在数据密集型环境中使用，并具有速度快、性能稳定等特点。,高,高,True,1,1
+Oracle Hyperion是性能管理和财务管理解决方案。Oracle Hyperion Hyperion Enterprise Performance Management Architect组件,中,低,False,1,1
+ZZCMS是一款招商网内容管理系统。ZZCMS存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,中,高,False,1,1
+Adobe Acrobat和Reader是美国Adobe公司开发的一款可以用便携式文档格式出版所有的文档的编辑软件。Adobe Acrobat和Reader存在内存破坏漏洞，攻击者可通过漏洞控制受影响,高,高,True,19,2
+Microsoft Windows是美国微软（Microsoft）公司发布的一系列操作系统。Uniscribe（又名Unicode Script Processor）是其中的一个能够使Windows操,高,高,True,5,1
+HP KeyView是文件过滤及转换软件，可提取文件内容和元数据。HP KeyView 10.23.0.1之前版本、10.24.0.1之前版本，在实现上存在安全漏洞。远程攻击者利用此漏洞可执行任意代码,高,高,True,8,1
+爱奇艺是由龚宇于2010年4月22日创立的在线视频网站。爱奇艺Windows客户端存在拒绝服务漏洞，攻击者可利用该漏洞造成拒绝服务攻击。,中,中,True,1,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。System是其中的一个系统组件。Android 10版本中的System组件存在安全漏,中,中,True,7,1
+安卓（Android）是一种基于Linux的自由及开放源代码的操作系统，由谷歌公司和开放手机联盟领导及开发。Google Android 7.0、7.1.1、7.1.2、8.0、8.1、9中的Fram,高,高,True,2,1
+UDC-301CE测控装置是一款实现线路或变压器间隔测控功能的数字式测控装置。UDC-301CE测控装置存在拒绝服务漏洞，攻击者可利用该漏洞导致系统崩溃。,高,高,True,2,1
+Waychar报名系统是一个针对体育赛事及其他通用活动开发的网上报名系统。Waychar报名系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,高,False,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Qualcomm Bootloader是使用在其中的一个美国高通（Qualc,中,中,True,1,1
+Google Chrome是美国谷歌（Google）公司的一款Web浏览器。Google Chrome 87.0.4280.66之前版本存在安全漏洞。攻击者可以利用此漏洞绕过安全限制。,中,中,True,3,2
+Oracle Virtualization是美国甲骨文（Oracle）公司的一套虚拟化解决方案。该产品用于统一管理从应用程序到磁盘的整个硬件和软件体系，可实现从桌面到数据中心的虚拟化。VM Virtu,低,中,False,7,3
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。MNH driver是其中的一个MNH驱动程序。Google Android中的MNH驱,中,中,True,2,1
+Delta Electronics CNCSoft ScreenEditor是中国台湾台达电子（Delta Electronics）公司的一套数控机床仿真系统软件。Delta Electronics ,中,中,True,1,1
+Apple Mac OS X是一款商业性质的操作系统。Apple Mac OS X处理Intel图形驱动存在缓冲区溢出问题，允许攻击者利用漏洞使应用程序崩溃或执行任意代码。,高,中,False,6,2
+SugarCRM是一套开源客户关系管理软件。SugarCRM的Administration模块存在PHP代码注入漏洞。该漏洞源于缺少输入验证。攻击者可利用漏洞执行任意代码。,中,中,True,1,1
+WordPress是WordPress基金会的一套使用PHP语言开发的博客平台。该平台支持在PHP和MySQL的服务器上架设个人博客网站。memphis-documents-library是使用在其中,高,高,True,1,1
+上海装盟信息科技有限公司是一家专注于装饰行业企业管理解决方案的软件服务公司。上海装盟信息科技有限公司家装ERP管理系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,6,2
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在安全漏洞。目前没有详细的漏洞细节提供。,高,高,True,13,3
+Microsoft Internet Explorer是一款基于WEB的浏览器。Microsoft Internet Explorer存在未明内存破坏漏洞，允许远程攻击者利用漏洞构建恶意WEB页，诱使,高,高,True,12,2
+Uclibc-ng是一个用于开发嵌入式Linux系统的C库。Uclibc-ng中存在拒绝服务漏洞。攻击者可利用该漏洞造成拒绝服务。,中,中,True,1,1
+Cisco SPA100 Series Analog Telephone Adapters（ATAs）是美国思科（Cisco）公司的一款SPA100系列模拟电话适配器。Cisco SPA100 Ser,中,中,True,6,1
+Huawei HarmonyOS是中国华为（Huawei）公司的一个操作系统。提供一个基于微内核的全场景分布式操作系统。Huawei EMUI是华为基于Android(安卓)进行开发的情感化操作系统。,中,中,True,1,1
+Microsoft Windows Remote Desktop Services是美国微软（Microsoft）公司的一个允许用户远程访问图形桌面和Windows应用程序的功能集合。Microsof,高,高,True,5,2
+Opendaylight是美国Linux基金会的一个项目，是一套以社区为主导的开源软件定义网络框架，它包含一套模块合集，能够执行需要快速完成的网络任务。OpenDaylight OpenFlow插件存,中,中,True,1,1
+极速Office是由北京海腾时代科技有限公司研发的一款自主可控办公学习类软件。极速Office 2019存在内存破坏漏洞，攻击者可利用该漏洞导致拒绝服务。,中,中,True,14,1
+OS X（前称Mac OS X）是苹果公司为麦金塔电脑开发的专属操作系统的最新版本。iOS是由苹果公司为移动设备所开发的操作系统。Apple iOS 9.1之前版本、Apple OS X 10.11.,中,中,True,3,1
+通达OA2017版是一款办公软件系统。通达OA系统存在任意文件删除漏洞，攻击者可利用该漏洞删除任意文件。,低,低,True,1,1
+SolarWinds Access Rights Manager是SolarWinds公司的一个轻量级的审查管理系统。SolarWinds Access Rights Manager存在反序列化漏洞，,高,高,True,1,1
+金山PDF阅读器是一款精巧稳定的PDF阅读工具。金山PDF阅读器存在拒绝服务漏洞，攻击者可通过构造特定的pdf文件，利用该漏洞导致拒绝服务。,中,中,True,11,1
+GTKWave是GTKWave公司的一款功能齐全、基于GTK+的波形查看器。GTKWave 3.3.118版本存在整数溢出漏洞，攻击者可利用此漏洞通过特制的fst文件可能导致任意代码执行。,高,高,True,1,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,3,2
+HPE Aruba ClearPass Policy Manager是一个网络访问控制（NAC）解决方案。HPE Aruba ClearPass Policy Manager存在远程命令注入漏洞。攻击,中,中,True,1,1
+MySQL Server (mysqld)是MySQL服务器，是执行MySQL安装中大部分工作的主程序。Oracle MySQL Server 5.7.28、8.0.18及更早版本中的InnoDB组件,中,中,True,1,1
+Trend Micro Security 2019是美国趋势科技（Trend Micro）公司的一套计算机安全防护软件。Trend Micro Security 2019 (v15.0) 版本存在安全,中,中,True,1,1
+Mozilla Firefox（火狐）是一个自由的、开放源码的浏览器，适用于Windows、Linux及MacOSX平台。Firefox ESR是指火狐浏览器延长支持版，是mozilla专门为无法或不,高,高,True,1,1
+Google Nexus/Pixel都是美国谷歌（Google）公司的智能手机。Google Nexus/Pixel产品存在权限提升漏洞。攻击者可利用此漏洞在内核的上下文中使用提升的权限执行任意代码。,高,高,True,5,1
+SUPERAntiSpyware Professional Trial是美国Support.com公司的一套主要用于扫描间谍软件的杀毒工具。SUPERAntiSpyware Professional ,中,中,True,3,1
+Adobe InCopy是美国Adobe公司的一款用于创作的文本编辑软件。Adobe InCopy存在越界写入漏洞，攻击者利用该漏洞在当前用户的上下文中执行任意代码。,高,高,True,2,1
+Magento是美国Magento公司的一套开源的PHP电子商务系统。该系统提供权限管理、搜索引擎和支付网关等功能。Magento 2.1.18之前的2.1版本、2.2.9之前的2.2版本和2.3.2,中,低,False,1,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,12,3
+屏通科技股份有限公司是总部在台湾的一家集研发、生产、制造、销售于一体的专业人机界面制造商。屏通科技股份有限公司PM Designer V1.2.98.35存在内存破坏漏洞。攻击者可利用该漏洞导致程序崩,中,中,True,1,1
+Advantech WebAccess是一个基于浏览器的SCADA软件包，用于监控、数据采集和可视化。它用于在需要远程操作的情况下自动化复杂的工业流程。Advantech WebAccess Node,高,高,True,1,1
+Adobe Bridge是Adobe公司推出的一款免费数字资产管理应用程序。Adobe Bridge CC 9.0.2存在越界读取漏洞。攻击者可利用该漏洞获取信息。,中,中,True,3,1
+IBM Rational Collaborative Lifecycle Management（CLM）和Rational Quality Manager（RQM）都是美国IBM公司的产品。前者是协作,低,低,True,3,1
+Linux kernel是美国Linux基金会发布的操作系统Linux所使用的内核。Linux kernel中存在本地信息泄露漏洞。本地攻击者可利用该漏洞获取敏感信息。,低,低,True,1,1
+"金山WPS是金山办公软件出品的office软件,可以实现办公软件常用的文字、表格、演示等多种功能。珠海金山办公软件有限公司WPS Office国际版存在内存破坏漏洞，攻击者可利用该漏洞获取服务器管理权",高,高,True,6,1
+OurPHP是一款使用PHP语言开发的网站内容管理系统。OurPHP ou***_pa***.php页面存在SQL注入漏洞，攻击者可利用该漏洞获取敏感信息。,高,高,True,1,1
+Adobe Substance3D Modeler是Adobe Substance 3D系列软件中的核心工具，专为3D建模设计，支持数字黏土雕刻、对称工具、自动化UV管理等功能，可实现跨计算机VR环境,中,中,True,6,1
+Oracle MySQL是一个小型关系型数据库管理系统。Oracle MySQL Server的Server: DML组件存在未明漏洞。攻击者可利用该漏洞影响可用性。,中,中,True,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android Qualcomm组件WLAN Host存在权限,高,高,True,1,1
+NVIDIA Triton Inference Server是美国英伟达（NVIDIA）公司的一款开源软件，有助于标准化模型部署并在生产中提供快速且可扩展的AI。NVIDIA Triton Infer,高,高,True,2,1
+淇晨科技公司建站系统是一款由淇晨科技公司开发的企业建站系统。淇晨科技公司建站系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,1,1
+Siemens Jt2go是一款JT文件查看器。Siemens Teamcenter Visualization是一个可为设计2D、3D场景提供团队协作功能的软件。Siemens JT2Go 13.2,中,中,True,1,1
+CmsEasy是一款基于PHP+Mysql架构的网站内容管理系统，也是一个PHP开发平台。CmsEasy存在逻辑缺陷漏洞，攻击者可利用该漏洞修改支付金额。,中,中,True,1,1
+Google Chrome是流行的一款Web浏览器。Google Chrome PDFium存在内存错误引用漏洞，允许远程攻击者可利用该漏洞构建恶意WEB页，诱使用户解析，可使应用程序崩溃或执行任意代,高,中,False,1,1
+LJCMS采 PHP + Mysql架构，是一款对 SEO 非常友好、功能全面、安全稳定、支持多终端展示并且使用起来极其简单的企业建站系统。北京良精志诚科技有限责任公司LJCMS存在SQL注入漏洞，攻,中,中,True,2,1
+Microsoft Edge是美国微软（Microsoft）公司开发的一款Web浏览器，是Windows 10操作系统附带的默认浏览器。Microsoft Edge中存在内存破坏漏洞。远程攻击者可利用,高,高,True,1,1
+Dell PowerScale OneFS是美国戴尔（Dell）公司的一个操作系统。提供横向扩展NAS的PowerScale OneFS操作系统。Dell PowerScale OneFS存在安全漏洞,中,中,True,1,1
+Vim是一款基于UNIX平台的编辑器。Vim存在缓冲区溢出漏洞，攻击者可利用该漏洞执行代码。,中,中,True,1,1
+Apple iOS、Safari和tvOS都是美国苹果（Apple）公司的产品。Apple iOS是为移动设备所开发的一套操作系统；Safari是一款Web浏览器，是Mac OS X和iOS操作系统附,高,高,True,3,1
+deepin-clone是一款磁盘和分区备份/恢复工具。deepin-clone 1.1.3之前版本中存在安全漏洞。攻击者可利用该漏洞在文件系统的任意位置创建或覆盖文件。,中,中,True,1,1
+Realtek RTL8195A是中国台湾瑞昱半导体（Realtek）公司的一款物联网微控制器。Realtek RTL8195A 2.08之前版本存在缓冲区溢出漏洞，攻击者可利用该漏洞将精心设计的数据,中,中,True,4,1
+Ivanti Endpoint Manager是Ivanti公司开发的一款综合性端点管理解决方案，主要用于管理企业网络中的所有端点设备。Ivanti Endpoint Manager存在SQL注入漏洞,高,高,True,2,1
+GNU PSPP是GNU计划开发的一个免费的用于数据采样、统计和分析的应用程序。GNU PSPP 0.11.0版本中的data/dictionary.c文件的‘dict_add_mrset()’函数存,中,中,True,2,1
+Microsoft Windows Server 2008 SP2等都是美国微软（Microsoft）公司的一系列操作系统。Windows kernel是其中的一个操作系统内核。Microsoft W,低,低,True,7,1
+达梦数据库管理系统是达梦公司推出的具有完全自主知识产权的高性能数据库管理系统，简称DM。武汉达梦数据库有限公司达梦数据库管理系统存在信息泄露漏洞，攻击者可利用该漏洞获取敏感信息。,中,中,True,1,1
+Adobe Flash Player是美国奥多比（Adobe）公司的一款跨平台、基于浏览器的多媒体播放器产品。该产品支持跨屏幕和浏览器查看应用程序、内容和视频。Adobe Flash Player中存,高,高,True,4,1
+TEMMOKUMVC是邳州天目网络科技有限公司开发的一款专业的PHP+MYSQL产品，采用自主MVC构架，适用大型及中小型企业的开源MVC。邳州天目网络科技有限公司TEMMOKUMVC存在SQL注入漏,中,中,True,1,1
+GraphicsMagick是一套简单的图像处理工具。该工具对图像提供尺寸调整、旋转、加亮等功能。GraphicsMagick 1.3.26版本中的coders/xbm.c文件的‘ReadXBMIma,高,高,True,1,1
+Microsoft Internet Explorer（IE）是美国微软（Microsoft）公司开发的一款Web浏览器，是Windows操作系统附带的默认浏览器。Microsoft IE 9版本至1,高,高,True,1,1
+IBM Rational Collaborative Lifecycle Management（CLM）是美国IBM公司的一套协作化生命周期管理解决方案。该方案在一个IBM SmartCloud En,低,低,True,5,1
+Oracle Fusion Middleware是一套适用于云环境和传统环境的应用服务器。Oracle Fusion Middleware Oracle Endeca Information Disc,高,高,True,5,1
+Apple iOS等都是美国苹果（Apple）公司的产品。Apple iOS是一套为移动设备所开发的操作系统。Apple iPadOS是一套用于iPad平板电脑的操作系统。Apple macOS Ca,高,高,True,4,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Android中的Qualcomm闭源组件存在缓冲区溢出漏洞。目前没有详细的漏洞细节提供,高,高,True,2,1
+HuCart是一款开源企业建站系统。HuCart存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,3,1
+Microsoft Internet Explorer是美国微软（Microsoft）公司推出的并与Windows操作系统捆绑在一起的流行的Web浏览器。Microsoft Internet Expl,高,高,True,1,1
+Hancom Office 2020是一款在线office办公软件。Hancom Office 2020存在内存破坏漏洞，攻击者可利用该漏洞造成拒绝服务。,中,低,False,66,14
+Facebook HHVM（又名HipHop Virtual Machine）是美国Facebook公司的一款能够显著提高PHP加载动态页面性能的虚拟机。Facebook HHVM中存在整数溢出漏洞和,中,中,True,1,1
+上海彩圣信息科技有限公司（简称：“彩圣策划”）成立于2005年，是一家以数字营销为核心的整合营销服务公司。上海彩圣信息科技有限公司建站系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,1,1
+Adobe InDesign是美国奥多比（Adobe）公司的一套排版编辑应用程序。Adobe InDesign存在内存错误引用漏洞，攻击者可利用该漏洞导致在当前用户的上下文中执行任意代码。,高,高,True,1,1
+GTKWave是GTKWave公司的一款功能齐全、基于GTK+的波形查看器。GTKWave 3.3.118版本存在操作系统命令注入漏洞，攻击者可利用此漏洞通过特制的fst文件导致任意代码执行。,高,高,True,1,1
+PbootCMS是翱云科技开发的一款全新内核的开源企业建站系统。PbootCMS存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,高,高,True,1,1
+GTKWave是GTKWave公司的一款功能齐全、基于GTK+的波形查看器。GTKWave 3.3.115版本存在代码执行漏洞，攻击者可利用此漏洞通过特制的fst文件可能导致任意代码执行。,高,高,True,2,1
+Oracle Hospitality Reporting and Analytics是一个基于web的应用程序，其集中销售点（POS）数据，为业务运营提供运营和分析洞见，并通过向组织内的所有角色传递信,中,低,False,3,1
+Revive Adserver是Revive Adserver团队的一套开源的广告管理系统。该系统提供广告投放、广告位管理、数据统计等功能。Revive Adserver存在跨站脚本漏洞。远程攻击者可,低,低,True,1,1
+XnView是一款支持图片浏览、转换及编辑的多平台软体。XnView Standard是XnView的标准版。XnView Classic存在缓冲区溢出漏洞。攻击者可利用该漏洞导致拒绝服务。,中,中,True,6,1
+IBM Tivoli Storage Manager FastBack是美国IBM公司的一套为Microsoft Windows和Linux服务器提供持续数据保护和恢复管理功能的软件。IBM Tivo,高,高,True,1,1
+NETGEAR D7800等都是美国网件（NETGEAR）公司的产品。NETGEAR D7800是一款无线调制解调器。NETGEAR R7500是一款无线路由器。NETGEAR XR500是一款无线路,低,低,True,7,2
+Advantech R-SeeNet是中国台湾研华（Advantech）公司的一个工业监控软件。该软件基于 snmp 协议进行监控平台，并且适用于 Linux、Windows 平台。Advantech,中,中,True,1,1
+Android on Google Pixel和Nexus是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套运行于Google Pixel和Nexus（智能手机）中并以Lin,中,中,True,1,1
+东营金石软件有限公司是依托中国石油大学成立的一家双软企业，公司专业致力于施工行业管理类软件开发。金石工程项目管理系统存在信息泄露漏洞。攻击者可利用漏洞获取敏感信息。,中,中,True,1,1
+DHCMS是一套基于PHP和MySQL的内容管理系统。DHCMS存在命令执行漏洞，攻击者可利用该漏洞获取服务器控制权。,高,高,True,2,1
+Oracle E-Business Suite是一款由Oracle公司推出的新一代电子商务套件。Oracle E-Business Suite Application Mgmt Pack for E-,中,中,True,1,1
+北京神州视翰科技有限公司是一家深耕可视化领域的企业。北京神州视翰科技有限公司多媒体综合业务显示系统存在SQL注入漏洞，攻击者可利用漏洞获取数据库敏感信息。,高,中,False,28,1
+Oracle VM VirtualBox是美国甲骨文（Oracle）公司的一款虚拟机管理软件。Oracle VM VirtualBox存在输入验证错误漏洞，该漏洞源于Oracle VM Virtual,中,中,True,6,1
+Adobe Reader Acrobat是美国Adobe公司开发的非常流行的一款优秀的PDF文档阅读软件。Adobe Reader/Acrobat存在拒绝服务漏洞，允许攻击者通过未指定向量导致拒绝服务,中,中,True,1,1
+Netwide Assembler (NASM)是一款可移植、模块化的80x86和x86-64汇编器。Netwide Assembler (NASM) 2.14rc16中的asm/preproc.c中,中,中,True,1,1
+MITSUBISHI PLC是日本三菱电机（Mitsubishi Electric）公司的可编程控制器产品。MITSUBISHI PLC存在拒绝服务漏洞，攻击者可利用该漏洞导致拒绝服务。,中,中,True,3,1
+IBM Rational DOORS Next Generation（DNG/RRC）是美国IBM公司的一套用于捕获、跟踪、分析和管理需求的软件。该软件提供了一个用于全球团队协作的单一平台，以便更有效,低,低,True,1,2
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。WLAN是使用在其中的一个无线连接模块。Android中的WLAN存在安全漏,中,高,False,1,1
+Delta Electronics CNCSoft-G2是中国台达电子（Delta Electronics）公司的一种人机界面（HMI）软件。Delta Electronics CNCSoft-G2存,高,高,True,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Android中存在安全漏洞。攻击者可利用该漏洞执行未授权的操作。,中,中,True,5,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。System是其中的一个系统组件。Android Q中的System存在信息泄露漏洞，该,中,中,True,20,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,79,13
+Adobe Experience Manager是Adobe公司推出的企业级内容管理解决方案。Adobe Experience Manager存在跨站脚本漏洞，该漏洞源于表单字段存在存储型跨站脚本漏洞,中,中,True,3,1
+CImg是一款开源的用于图像处理的C++工具库。CImg 220版本中的CImg.h文件的'load_bmp'函数存在堆缓冲区越边界读取漏洞。目前没有详细的漏洞细节提供。,中,中,True,1,1
+IrfanView是波黑软件开发者Irfan Skiljan所研发的一款图片浏览器，它支持图片浏览、图片编辑、图片格式转换等。IrfanView 4.44版本（32位）中存在缓冲区溢出漏洞。本地攻击者,低,中,False,1,1
+w3m是一款开源的基于文本的Web浏览器。w3m 0.5.3-31之前的版本中存在任意代码执行漏洞。攻击者可利用该漏洞执行任意代码或造成拒绝服务。,高,高,True,7,1
+Android是美国Google公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android 12版中的Framework组件存在权限提升漏洞。目前,高,高,True,1,1
+Android on Android One是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套运行于Android One（智能手机）中并以Linux为基础的开源操作系统。M,高,高,True,2,1
+极速PDF阅读器是北京海腾时代科技有限公司开发的一款简单、小巧、高效益的PDF阅读器。极速PDF阅读器存在内存破坏漏洞，攻击者可利用该漏洞导致拒绝服务。,中,中,True,2,1
+ImageMagick是一款Unix/Linux平台下开源的图像查看和编辑工具。ImageMagick存在缓冲区溢出漏洞，攻击者可利用漏洞在受影响应用上下文中执行任意代码。,高,高,True,3,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Media Framework是其中的一个多媒体开发框架。Android 10版本中的M,中,中,True,1,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,中,True,4,2
+Google Chrome是美国谷歌（Google）公司的一款Web浏览器。Google Chrome存在输入验证错误漏洞。攻击者可借助特制HTML页面利用该漏洞伪造域名。,中,中,True,1,1
+Trend Micro Apex Central是美国趋势科技（Trend Micro）公司的一个基于Web的控制台。Trend Micro Apex Central存在跨站脚本漏洞，攻击者可利用该漏,中,中,True,7,2
+安卓（Android）是一种基于Linux的自由及开放源代码的操作系统，由谷歌公司和开放手机联盟领导及开发。Google Android 8.0、8.1、9中的System组件存在信息泄露漏洞，攻击者,中,中,True,2,1
+Cisco WebEx Meetings是网络会议解决方案。Cisco WebEx Meetings Server存在信息泄露漏洞，攻击者可以利用此漏洞获得敏感信息。,中,中,True,1,1
+Samsung J4是韩国三星（Samsung）公司的一款智能手机。Samsung J4存在访问控制错误漏洞。该漏洞源于网络系统或产品未正确限制来自未授权角色的资源访问。攻击者可利用该漏洞通过可访问的,中,中,True,1,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Android 11版本存在安全漏洞。该漏洞源于libDRCdec，攻击者可利用该漏洞获,中,中,True,1,1
+安卓（Android）是一种基于Linux的自由及开放源代码的操作系统，由谷歌公司和开放手机联盟领导及开发。Google Android 7.0、7.1.1、7.1.2、8.0、8.1、9中的Syst,低,中,False,7,2
+CAJViewer 7.3是中国期刊网的专用全文格式浏览器，支持中国期刊网的TEB、CAJ、NH、KDH和PDF格式文件。CAJViewer 7.3存在二进制漏洞，攻击者可利用该漏洞造成拒绝服务。,中,中,True,10,1
+Samsung SMR是韩国三星（Samsung）公司的一个系统补丁包。提供了三星手机应用的补丁程序。Samsung SMR存在堆缓冲区溢出漏洞，攻击者可利用该漏洞执行代码。,高,高,True,3,1
+Dell BIOS是美国戴尔（Dell）公司的一个计算机主板上小型内存芯片上的嵌入式软件。Dell BIOS存在输入验证错误漏洞，经过本地身份验证的攻击者可利用该漏洞通过向SMI发送恶意输入来绕过在S,高,高,True,2,1
+Apple iOS等都是美国苹果（Apple）公司的产品。Apple iOS是为移动设备所开发的一套操作系统；Safari是一款Web浏览器，是Mac OS X和iOS操作系统附带的默认浏览器。iCl,高,高,True,13,3
+IrfanView是一款图片浏览器。支持图片浏览、图片编辑、图片格式转换等。IrfanView PSP文件解析存在越界写入远程代码执行漏洞，该漏洞是由于对用户提供的数据缺乏适当的验证造成的，攻击者可利,高,高,True,1,1
+Adobe Connect是一款在线视频会议软件。9.6.2及更早版本的Adobe Connect存在反射型跨站脚本漏洞。该漏洞产生的原因是软件在显示用户提供的输入之前未能正确过滤输入中的HTML代码,中,中,True,1,1
+Google Chrome是美国谷歌（Google）公司的一款Web浏览器。Google Chrome 81.0.4044.129之前版本中存在资源管理错误漏洞。远程攻击者可利用该漏洞执行任意代码或导,高,高,True,1,1
+Google Android是一款基于Linux开放性内核的手机操作系统。Google Android在Broadcom Wi-Fi driver实现上存在安全漏洞，允许远程攻击者利用漏洞提交特殊的应,高,高,True,4,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Media Framework是其中的一个多媒体开发框架。Android中的Media ,中,中,True,11,3
+IBM Rational DOORS Next Generation（DNG/RRC）是美国IBM公司的一套用于捕获、跟踪、分析和管理需求的软件。该软件提供了一个用于全球团队协作的单一平台，以便更有效,低,低,True,1,3
+ABC看图是一款永久免费的看图软件，智能开启硬件加速，支持各种图片格式。ABC看图存在堆越界写漏洞。攻击者可利用漏洞导致该软件崩溃。,中,中,True,6,1
+SAP Netweaver是德国思爱普（SAP）公司的一套面向服务的集成化应用平台。该平台主要为SAP应用程序提供开发和运行环境。SAP NetWeaver ABAP Server and ABAP ,中,中,True,1,1
+网站安全狗是一款服务器安全防护软件，是为IDC运营商、虚拟主机服务商、企业主机、服务器管理者等用户提供服务器安全防范的实用系统，是集网站内容安全防护、网站资源保护及网站流量保护功能为一体的服务器工具。,高,高,True,6,1
+Siemens Solid Edge是德国西门子（Siemens）公司的一款三维CAD软件。该软件可用于零件设计、装配设计、钣金设计、焊接设计等行业。Siemens Solid Edge存在越界读取漏,低,低,True,3,1
+Oracle PeopleSoft Enterprise PeopleTools提供了一个支持PeopleSoft应用程序的开发和运行时的全面的开发工具集。Oracle PeopleSoft Ente,中,中,True,1,1
+Mozilla Firefox是一款开源的WEB浏览器。Mozilla Firefox处理MPEG4视频时存在整数溢出漏洞，允许远程攻击者构建恶意WEB页，诱使用户解析，可使应用程序崩溃或执行任意代码,高,高,True,1,1
+Bentley MicroStation CONNECT是美国Bentley Systems公司的一个用于二维和三维设计和绘图的Cad软件平台。Bentley MicroStation CONNECT,中,中,True,1,1
+Adobe After Effects（简称“AE”）是Adobe公司推出的一款图形视频处理软件，适用于从事设计和视频特技的机构，包括电视台、动画制作公司、个人后期制作工作室以及多媒体工作室。Adob,中,中,True,2,1
+家装ERP管理系统可以使公司售前及售后客户资源管理更标准、规范、人性化，最大限度的挖掘客户的服务价值，提升公司最大客户服务价值等。上海装盟信息科技有限公司家装ERP管理系统存在SQL注入漏洞，攻击者可,高,高,True,11,1
+"D盾_防火墙专为IIS设计的一个主动防御的保护软件,以内外保护的方式 防止网站和服务器给入侵,在正常运行各类网站的情 况下，越少的功能，服务器越安全的理念而设计！ 限制了常见的入侵方法，让服务器更安全",中,中,True,18,1
+"校无忧在线考试系统采用互联网技术,快速搭建在线考试系统平台,全面实现了考试工作的网络化、无纸化、自动化。校无忧在线考试系统sn***参数存在SQL注入漏洞，攻击者可以利用漏洞获取数据库敏感信息。",中,中,True,1,1
+Linux kernel是一种计算机操作系统内核，以C语言和汇编语言写成，符合POSIX标准，按GNU通用公共许可证发行。Linux kernel 4.14.8及之前版本中的kernel/bpf/ve,中,中,True,5,1
+Magento是美国Magento公司的一套开源的PHP电子商务系统。该系统提供权限管理、搜索引擎和支付网关等功能。Magento 2.1.18之前的2.1版本、2.2.9之前的2.2版本和2.3.2,中,中,True,10,1
+"U8 cloud是用友推出的新一代云ERP，主要聚焦成长型、创新型企业,提供企业级云ERP整体解决方案。用友网络科技股份有限公司U8 Cloud存在SQL注入漏洞，攻击者可利用该获取数据库敏感信息。",高,高,True,1,1
+七只熊文库系统是一个类似百度文库的在线文档预览、售卖系统。七只熊文库系统存在存储型xss漏洞，攻击者可利用该漏洞注入任意Web脚本或HTML。,中,中,True,1,1
+Ming是一款使用C语言编写的Flash（SWF）输出库。Ming存在安全漏洞，攻击者可利用漏洞导致直接分段错误并导致拒绝服务。,中,中,True,1,1
+Huawei HarmonyOS是中国华为（Huawei）公司的一个操作系统。提供一个基于微内核的全场景分布式操作系统。Huawei HarmonyOS存在安全漏洞，攻击者可利用此漏洞导致可用性受影响,中,中,True,2,2
+ShopsN商城系统是上海亿速网络科技有限公司旗下产品，一款企业级商用标准全功能的允许免费商业用途的开源网店全网系统。ShopsN v2.2.5正式版前台AppUploadController.cla,高,高,True,1,1
+FusionPBX是一套可扩展、多线程的通信平台。该平台可作为呼叫中心服务器、传真服务器、voip服务器、语音邮件服务器、会议服务器和语音应用服务器等。FusionPBX存在路径遍历漏洞。攻击者可利用,高,中,False,1,1
+Django是Django基金会的一套基于Python语言的开源Web应用框架。该框架包括面向对象的映射器、视图系统、模板系统等。Django存在输入验证错误漏洞。攻击者可利用该漏洞造成拒绝服务（资源,中,中,True,1,1
+成都爱诚科技有限公司是一家致力于通讯行业的平台开发与网络相关产品的销售与售后的公司。成都爱诚科技有限公司建站系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,1,1
+Oracle Configurator是一款销售和配置产品，提供了下一代最新的配置技术。Oracle Configurator 12.1、12.2中的UI Servlet组件存在未明漏洞。攻击者可利用,中,中,True,1,2
+IBM Rational Team Concert（RTC）是美国IBM公司的一套基于Jazz平台且支持分散团队进行实时相关协作的软件生命周期管理解决方案。IBM RTC中存在跨站脚本漏洞。远程攻击者,低,低,True,3,1
+FastStone Image Viewer是一款免费的图像浏览、转换、编辑工具。FastStone Image Viewer 7.5及更早版本中的FSViewer.exe存在安全漏洞。攻击者可通过畸,中,中,True,2,1
+"Oracle Fusion Middleware是一个全面的中间件产品系列，由SOA和中间件产品组成。Oracle Fusion Middleware 8.5.0, 8.5.1, 8.5.2版本，Ou",高,高,True,16,1
+Cisco IOS是多数思科系统路由器和网络交换机上使用的互联网络操作系统。Cisco IOS及IOS XE Software在IPv6监听功能的实现上存在安全漏洞。远程攻击者利用此漏洞可造成受影响设,高,高,True,1,1
+Adobe Substance3D Painter提供实时3D纹理绘制功能，配备智能材质系统与物理渲染视区，支持8K分辨率材质输出。Adobe Substance3D Painter存在越界读取漏洞，,中,中,True,6,2
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acro,高,高,True,12,2
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,中,True,2,1
+D-Link DSL-3782是友讯（D-Link）公司的一款无线路由器产品。D-Link DSL-3782中的/userfs/bin/tcapi二进制文件存在缓冲区溢出漏洞。攻击者可利用该漏洞造成内,高,高,True,3,1
+Oracle E-Business Suite（电子商务套件）是美国甲骨文（Oracle）公司的一套全面集成式的全球业务管理软件。该软件提供了客户关系管理、服务管理、财务管理等功能。Partner M,中,中,True,1,1
+FreeRDP是FreeRDP团队开发的一个免费、开源的关于远程桌面协议（RDP）的实现。FreeRDP存在拒绝服务漏洞，攻击者可以利用漏洞连接带有畸形数据的服务端发起拒绝服务攻击。,中,中,True,4,1
+Google Chrome是美国谷歌（Google）公司开发的一款Web浏览器。Google Chrome中的ServiceWorker存在同源策略绕过漏洞。攻击者可以利用漏洞绕过安全限制并执行未经授,中,中,True,1,1
+安卓（Android）是一种基于Linux的自由及开放源代码的操作系统，由谷歌公司和开放手机联盟领导及开发。Google Android Qualcomm组件WLAN存在权限提升漏洞，攻击者可利用该漏,高,高,True,3,3
+SeaCMS是基于PHP+MySql技术开发的视频点播系统。SeaCMS后台存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,13,1
+IBM Informix Dynamic Server（IDS）是美国IBM公司的一款可扩展的对象关系数据库服务器，它为集群数据中心提供持续数据可用性和灾难恢复等功能。IBM Informix Dyn,高,高,True,6,1
+北京亚控科技发展有限公司是一家自动化软件平台高科技企业。北京亚控科技发展有限公司开发中心存在未授权访问漏洞，攻击者可利用该漏洞获取敏感信息。,中,低,False,1,1
+Adobe Flash Player是一种广泛使用的、专有的多媒体程序播放器。它最初由Macromedia编写，在Macromedia被Adobe收购后由Adobe继续开发并分发。Adobe Flas,高,高,True,5,1
+武汉达梦数据库股份有限公司是国内领先的数据库产品开发服务商。武汉达梦数据库股份有限公司达梦数据库客户端存在二进制漏洞，攻击者可利用该漏洞导致程序崩溃。,中,中,True,2,1
+Motorola C1和Motorola M2都是美国摩托罗拉（Motorola）公司的一款路由器。Motorola C1和Motorola M2存在操作系统命令注入漏洞。攻击者可借助特制的请求利用该,高,高,True,2,3
+Cisco Prime是一款以服务为中心从终端、网络设备和应用整合管理有线与无线LAN、WAN与数据中心，并筛选信息的解决方案。Cisco Prime Collaboration Assurance ,中,中,True,1,1
+Linux kernel是美国Linux基金会的开源操作系统Linux所使用的内核。Linux kernel存在安全漏洞，该漏洞源于存在死锁问题。目前没有详细的漏洞细节提供。,中,中,True,1,1
+Adobe Acrobat是一套PDF文件编辑和转换工具。Adobe Acrobat Reader是一款PDF查看器。该软件用于打印，签名和注释PDF。多款Adobe产品存在资源管理错误漏洞，攻击者可,高,低,False,7,2
+Dell BIOS是美国戴尔（Dell）公司的一个计算机主板上小型内存芯片上的嵌入式软件。Dell BIOS存在输入验证错误漏洞，经过本地身份验证的攻击者可利用该漏洞使用SMI获取SMRAM中的任意代,高,高,True,1,1
+CloudBees Jenkins（Hudson Labs）是美国CloudBees公司的一套基于Java开发的持续集成工具。该产品主要用于监控持续的软件版本发布/测试项目和一些定时执行的任务。LTS,中,中,True,1,1
+Enalean Tuleap是法国Enalean公司的一套开源的软件开发和项目管理工具。该工具提供企业应用程序生命周期管理，以及项目跟踪、源代码管理和团队协作等功能。Enalean Tuleap存在注,中,中,True,1,1
+Oracle E-Business Suite是在原来Application（ERP）基础上的扩展，包括ERP（企业资源计划管理）、HR（人力资源管理）、CRM（客户关系管理）等等多种管理软件的集合，,中,中,True,3,1
+Windows Server是微软发布的一系列服务器操作系统的品牌名，它包括所有以“Windows Server”为品牌发布的Windows操作系统。Microsoft Windows Server中,中,中,True,3,1
+SAP SAPCAR是一套用于SAP Kernel中的压缩和解压缩工具。SAP SAPCAR存在安全漏洞，允许本地攻击者可利用漏洞提升权限。,高,高,True,1,1
+MySQL-GUI-tools是美国甲骨文（Oracle）公司的一个可视化界面的MySQL数据库管理控制台。MySQL-GUI-tools中存在本地信息泄露漏洞。本地攻击者可利用该漏洞获取敏感信息。,低,低,True,1,1
+libbiosig是BioSig Project开源的一个用于生物医学信号处理的开源软件库。具有生物信号分析功能。libbiosig存在堆栈缓冲区溢出漏洞，攻击者可利用该漏洞导致执行任意代码。,高,高,True,14,1
+ImageMagick是美国ImageMagick Studio公司的一套开源的图象处理软件。该软件可读取、转换、写入多种格式的图片。ImageMagick中存在拒绝服务漏洞。攻击者可利用该漏洞造成拒,中,中,True,1,1
+SEMCMS PHP（多语）版是一套开源外贸企业网站管理系统，主要用于外贸企业，兼容IE、Firefox 等主流浏览器。SEMCMS PHP（多语）版存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏,中,中,True,14,2
+HPE Intelligent Management Center (iMC) PLAT是美国惠普企业（Hewlett Packard Enterprise，HPE）公司的一套网络智能管理中心解决方案,高,高,True,51,7
+libssh2是一款实现SSH2协议的客户端C库，它能够执行远程命令、文件传输，同时为远程的程序提供安全的传输通道。libssh2中存在越界读取漏洞，远程攻击者可借助特制的SFTP数据包利用该漏洞造成,中,中,True,1,1
+SeaCMS是一款基于PHP+MYSQL架构，支持跨平台运行的建站系统。SeaCMS后台存在代码执行漏洞，攻击者可利用该漏洞执行恶意代码。,高,高,True,14,1
+Apple QuickTime是一款流行的多媒体播放器。Apple QuickTime处理特殊电影文件存在漏洞，允许远程攻击者构建恶意文件，诱使应用解析，可以应用程序上下文执行任意代码。,高,高,True,5,2
+Adobe Photoshop是美国奥多比（Adobe）公司的一套图片处理软件。Adobe Photoshop存在缓冲区溢出漏洞。攻击者可利用该漏洞执行任意代码。,高,高,True,1,1
+Xoops是Xoops团队的一套开源的基于PHP和MySQL的内容管理系统。该系统可用于创建网络社区。Xoops存在跨站脚本漏洞。该漏洞源于WEB应用缺少对客户端数据的正确验证。攻击者可利用该漏洞执行,低,低,True,1,1
+Exponent CMS是美国OIC集团公司的一套基于PHP的免费、开源的模块化内容管理系统（CMS）。该系统支持在页面中直接进行编辑，并提供用户管理、网站配置、内容编辑等功能。Exponent CM,高,高,True,5,2
+Palo Alto Networks PAN-OS是美国Palo Alto Networks公司的一款下一代防火墙软件。Palo Alto Networks PAN-OS存在安全漏洞。攻击者可利用该漏,中,中,True,1,1
+Google Chrome是美国谷歌（Google）公司的一款Web浏览器。Google Chrome存在内存错误引用漏洞，攻击者可利用该漏洞在系统上执行任意代码。,高,高,True,1,1
+"QNAP QTS是威联通科技（QNAPSystems,Inc.）开发的NAS操作系统，专为网络附加存储设备设计，提供数据管理、备份、多媒体娱乐等功能。QNAP QuTS hero是威联通（QNAP）为",高,高,True,2,1
+Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Acro,高,高,True,32,3
+tcpdump是Tcpdump团队的一套运行在命令行下的嗅探工具。该工具主要用于数据包分析和网络流量捕获等。tcpdump存在缓冲区溢出漏洞。攻击者可利用该漏洞导致缓冲区溢出或堆溢出等。,高,高,True,6,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。MySQL Server是其中的一个数据库服务器组件。Oracle MySQL的MySQL Server存在安全,中,中,True,1,1
+SeaCMS是一款基于PHP MYSQL架构的，可跨平台运行的网站内容管理系统。SeaCMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,高,False,2,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,11,2
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Media Framework是其中的一个多媒体开发框架。Android Q中的Medi,中,中,True,4,1
+Microsoft Windows 10和Windows Server 2016都是美国微软（Microsoft）公司的产品。Microsoft Windows 10是一套供个人电脑使用的操作系统。W,中,中,True,1,1
+Siemens Parasolid是德国西门子（Siemens）公司的一个几何建模内核。Siemens Parasolid存在越界写入漏洞，该漏洞是由于受影响的应用程序在解析特制的X_B文件时包含超出,高,高,True,3,1
+Milesight UR32L是中国星纵物联（Milesight）公司的一个4G工业路由器。Milesight UR32L urvpn_client cmd_name_action功能存在命令执行漏洞,高,高,True,1,1
+QQ影音是腾讯公司推出的一款支持任何格式影片和音乐文件的本地播放器。QQ影音Windows版存在内存破坏漏洞，攻击者可利用该漏洞导致程序崩溃。,中,中,True,2,1
+WordPress是WordPress基金会的一套使用PHP语言开发的博客平台。该平台支持在PHP和MySQL的服务器上架设个人博客网站。events-manager是使用在其中的一个事件管理插件。W,中,中,True,6,1
+Adobe Dimension是美国奥多比（Adobe）公司的是一套2D和3D合成设计工具。Adobe Dimension存在越界读取漏洞，攻击者可利用该漏洞在当前用户的上下文中执行代码。,高,高,True,13,1
+Oracle VM VirtualBox是一款开源虚拟机软件。Oracle VM VirtualBox 4.3.20之前版本的VMSVGA device子件存在安全漏洞，允许远程攻击者利用漏洞影响系统,低,低,True,4,1
+Oracle FLEXCUBE Universal Banking是美国甲骨文（Oracle）公司的一套实时的、在线覆盖零售、团体、投资银行业务的综合性解决方案。该方案支持多货币、多语言和多实体操作等,中,中,True,1,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在权限提升漏洞，攻击者可利用该漏洞导致本地权限升级。,中,高,False,2,1
+"Siemens Climatix AWB (Advanced Web and BACnet Module, POL909) 使Climatix 600解决方案的用户能够连接到BACnet IP网络，并",中,中,True,1,1
+Adobe FrameMaker是美国奥多比（Adobe）公司提供的一款页面排版软件。Adobe FrameMaker存在越界写入漏洞。攻击者可利用漏洞执行任意代码。,高,高,True,12,4
+WPS Office 2019 PC版是珠海金山办公软件有限公司的软件，可以实现办公软件常用的文字、表格、演示等多种功能。WPS Office 2019 PC版存在内存破坏漏洞，攻击者可利用该漏洞导致,中,中,True,5,1
+Oracle Enterprise Manager是一款为ORACLE融合终结软件提供强化的管理套装。Oracle Enterprise Manager Grid Control的Enterprise,中,中,True,4,1
+Oracle Java SE和Java SE Embedded都是美国甲骨文（Oracle）公司的产品。Java SE（Java 平台标准版）用于开发和部署桌面、服务器以及嵌入设备和实时环境中的Jav,中,中,True,1,1
+Microsoft SharePoint Server是美国微软（Microsoft）公司的一套企业业务协作平台。该平台用于对业务信息进行整合，并能够共享工作、与他人协同工作、组织项目和工作组、搜索人,高,高,True,10,2
+SHEKAR Technology Endoscope是中国SHEKAR Technology公司的一款便携式内窥镜设备。SHEKAR Technology Endoscope中存在缓冲区溢出漏洞。该,中,中,True,2,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android 7.0、7.1.1、7.1.2、8.0、8.1,高,高,True,1,1
+Advantech R-SeeNet是中国台湾研华（Advantech）公司的一个工业监控软件。该软件基于snmp协议进行监控平台，并且适用于Linux、Windows平台。Advantech R-S,高,高,True,5,2
+Microsoft SharePoint是美国微软（Microsoft）公司的一套企业业务协作平台。该平台用于对业务信息进行整合，并能够共享工作、与他人协同工作、组织项目和工作组、搜索人员和信息。Mi,中,高,False,2,1
+WordPress是WordPress软件基金会的一套使用PHP语言开发的博客平台，该平台支持在PHP和MySQL的服务器上架设个人博客网站。DTracker是其中的一个用于跟踪网站下载的插件。Wor,高,高,True,1,1
+武汉金同方科技有限公司是一家为母婴服务行业提供信息化解决方案的公司。武汉金同方科技有限公司月子护理ERP管理平台存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,1,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,1,1
+Cisco Security Manager（CSM）是美国思科（Cisco）公司的一套企业级的管理应用，它主要用于在Cisco网络和安全设备上配置防火墙、VPN和入侵保护安全服务。Cisco Sec,中,中,True,1,3
+D-Link DAP-1360是中国友讯（D-Link）公司的一款路由器。D-Link DAP-1360存在栈缓冲区溢出漏洞，攻击者可利用该漏洞执行任意代码。,高,高,True,3,2
+Kentico Xperience是Kentico公司的一个数字体验平台。Kentico Xperience存在跨站脚本漏洞，攻击者可利用该漏洞通过注入精心设计的有效载荷执行任意Web脚本或HTML。,中,中,True,4,1
+IBM DB2是美国IBM公司的一套关系型数据库管理系统。该系统的执行环境主要有UNIX、Linux、IBMi、z/OS以及Windows服务器版本。基于Linux、UNIX和Windows平台的IB,高,高,True,3,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,高,高,True,2,1
+Squid是一套代理服务器和Web缓存服务器软件。Squid的存在缓冲区溢出漏洞，允许远程攻击者可利用该漏洞提交特殊请求，使应用程序崩溃或执行任意代码。,中,中,True,2,1
+Oracle MySQL Server是美国甲骨文（Oracle）公司的一款关系型数据库。Oracle MySQL Server存在安全漏洞，攻击者可利用该漏洞导致未经授权的MySQL服务器挂起或频繁,中,低,False,3,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,高,高,True,1,1
+IBM FileNet Content Manager是美国IBM公司的一套针对FileNet P8平台的内容管理解决方案。该方案将文档管理与即用型工作流程工具相结合，可管理图像、视频、Web内容、合,中,中,True,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android Media framework存在远程代码执行,高,高,True,5,1
+Open-Xchange OX App Suite是美国Open-Xchange公司的一套Web云桌面环境。该环境允许用户更直观的管理电子邮件、任务和文件等。mail compose是其中的一个邮件编,中,低,False,1,2
+Schneider Electric 1st Gen Pelco Sarix Enhanced Camera是法国施耐德电气（Schneider Electric）公司的一系列固定式IP摄像机。Sch,高,中,False,1,1
+爱青檬CMS是一个以php MySQL进行开发的php音乐网站。爱青檬CMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,40,2
+Microsoft Defender for IoT是一种适用于IoT/OT环境的资产发现、漏洞管理和威胁监控解决方案。Microsoft Defender for IoT存在权限提升漏洞，攻击者可利,高,高,True,1,1
+Microsoft Windows是美国微软（Microsoft）公司的一套个人设备使用的操作系统。Windows Jet Database Engine是其中的一个数据库引擎。Microsoft W,高,高,True,1,1
+政务微信是腾讯企业微信团队在原企业微信基础上，为政府提供的智慧办公解决方案。深圳市腾讯计算机系统有限公司政务微信存在dll劫持漏洞，攻击者可利用该漏洞导致用户电脑被远控或者植入木马。,低,低,True,2,1
+RUGGEDCOM APE1808是一个实用程序级应用程序托管平台，允许您在恶劣的工业环境中部署一系列用于边缘计算和网络安全的商用应用程序。Siemens RUGGEDCOM APE1808产品系列存,中,中,True,2,1
+Oracle Financial Services Applications是美国甲骨文（Oracle）公司的一套集核心银行、网上银行和财产管理于一身的金融服务软件。Banking Corporate,中,中,True,1,1
+Foxit PDF Reader是中国福昕（Foxit）公司的一款PDF阅读器。Foxit PDF Reader存在远程代码执行漏洞，攻击者可利用该漏洞执行任意代码。,高,高,True,1,1
+AMD Graphics Driver是美国AMD公司的一款集成显卡驱动程序。AMD Graphics Driver for Windows 10存在缓冲区溢出漏洞，攻击者可利用该漏洞导致任意信息泄露,低,低,True,1,1
+WPS Office 2019专业版是一款电脑办公应用软件。WPS Office 2019专业版存在内存破坏漏洞。攻击者可利用该漏洞导致程序崩溃。,中,中,True,1,2
+Oracle Database Server是一个对象一关系数据库管理系统，提供开放的、全面的、集成的信息管理方法。Oracle Database Server 12.1.0.2、12.2.0.1、1,低,低,True,2,1
+IBM Capacity Management Analytics是美国IBM公司的一套用于管理和预测IBM zEnterprise基础架构（大型计算机）资源的使用情况的容量管理分析解决方案。IBM ,低,低,True,1,1
+SPPA-T3000是一种分布式控制系统，主要应用于火力发电厂和大型可再生能源发电厂。MS3000 Migration Server是其中的一个迁移服务器。Siemens SPPA-T3000 MS3,中,中,True,4,3
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Mediaserver是其中的一个多媒体服务组件。Android的Media,中,中,True,2,1
+R818是一款四核智能带屏语音芯片。珠海全志科技股份有限公司R818存在二进制漏洞，攻击者可利用该漏洞造成拒绝服务。,中,中,True,4,1
+Adobe Photoshop，简称“PS”，是由Adobe公司开发和发行的图像处理软件。Adobe Photoshop存在缓冲区溢出漏洞。攻击者可利用该漏洞执行任意代码。,高,高,True,8,2
+IBM OpenPages GRC Platform是美国IBM公司的一套用于管理企业风险和合规性的平台。该平台提供一组涵盖风险和合规性领域（包括操作风险、策略和合规性、财务控制管理等）的核心服务和功,低,低,True,1,1
+Apple iOS等都是美国苹果（Apple）公司的产品。Apple iOS是为移动设备所开发的一套操作系统；Safari是一款Web浏览器，是Mac OS X和iOS操作系统附带的默认浏览器。iCl,高,高,True,4,1
+IBM Rational Quality Manager是基于Web的合作性质量管理解决方案。IBM Rational Collaborative Lifecycle Management是应用生命周,中,中,True,25,2
+Adobe Reader等都是美国奥多比（Adobe）公司的产品。Adobe Reader是一款免费的PDF文件阅读器；Acrobat是一款PDF文件编辑和转换工具；Acrobat Reader DC,高,高,True,17,1
+Oracle FLEXCUBE Universal Banking是美国甲骨文（Oracle）公司的一套实时的、在线覆盖零售、团体、投资银行业务的综合性解决方案。该方案支持多货币、多语言和多实体操作等,中,中,True,2,1
+MetInfo企业建站系统是一款免费开源的企业级CMS。MetInfo v5.0.4版本存在文件包含漏洞，攻击者可利用该漏洞获取服务器控制权。,高,高,True,3,1
+Adobe Experience Manager是Adobe公司推出的一款综合性内容管理解决方案。Adobe Experience Manager存在跨站脚本漏洞，该漏洞源于表单字段存储型跨站脚本漏洞,中,中,True,1,1
+NVIDIA Windows GPU Display Driver是美国英伟达（NVIDIA）公司的一套专用于Windows的图形处理器(GPU)显卡驱动程序。NVIDIA Windows GPU显示,高,高,True,1,1
+SAP 3D Visual Enterprise Viewer是德国思爱普（SAP）公司的一款3D视图查看器。该软件支持在所有行业标准的桌面应用中发布2D、3D场景，并支持以独立可执行程序和Activ,中,中,True,7,2
+Adobe Commerce是美国奥多比（Adobe）公司的一种面向商家和品牌的全球领先的数字商务解决方案。Adobe Commerce存在不正确授权漏洞，攻击者利用该漏洞导致安全功能绕过。,中,低,False,1,1
+Google Chrome是美国谷歌（Google）公司开发的一款Web浏览器。Google Chrome中的Omnibox存在URL欺骗漏洞。远程攻击者可通过诱使用户访问特制的网站利用该漏洞伪造UR,中,中,True,3,1
+HP HPE ArcSight Logger是一套日志管理软件。该软件能够收集并整合来自任何日志生成来源的数据，用于日志管理、搜索、编制索引、报告、分析和保留。HP HPE ArcSight Logg,中,中,True,1,1
+Microsoft Exchange Server是一款Microsoft 开发的企业级的流行的邮件服务器。Microsoft Exchange Server存在跨站脚本漏洞，允许远程攻击者通过精心编,中,中,True,2,1
+Vastgota-Data ProVide是瑞典Vastgota-Data公司的一款具有图形用户界面的文件传输服务器。Vastgota-Data ProVide 13.1及之前版本中的用户Web界面存,中,中,True,1,1
+Intel(R) Graphics Driver是英特尔公司的一款显卡驱动程序。Intel(R) Graphics Driver存在缓冲区溢出漏洞。攻击者可利用该漏洞通过本地访问潜在地启用拒绝服务。,低,低,True,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android中的System存在信息泄露漏洞，攻击者可利用该,中,中,True,6,1
+Foxit PDF Editor是中国福昕（Foxit）公司的一款PDF编辑器。Foxit PDF存在缓冲区溢出漏洞，该漏洞源于在对对象执行操作之前未验证对象是否存在，远程攻击者可以利用该漏洞在受影响,高,高,True,4,2
+Google Android是美国谷歌公司和开放手持设备联盟共同开发的一套以Linux为基础的开源操作系统。Google Android Qualcomm存在安全漏洞，允许远程攻击者利用漏洞提交特殊请,高,中,False,18,2
+Tecnomatix Plant Simulation允许对物流系统及其流程进行建模、模拟、探索和优化。这些模型可以在生产执行之前对从全球生产设施到当地工厂和特定生产线的所有制造计划进行物料流、资源利,高,高,True,5,1
+PHP（PHP：Hypertext Preprocessor，PHP：超文本预处理器）是PHP Group和开放源代码社区共同维护的一种开源的通用计算机脚本语言。该语言支持多重语法、支持多数据库及操作,中,中,True,1,1
+Magento是美国Magento公司的一套开源的PHP电子商务系统。该系统提供权限管理、搜索引擎和支付网关等功能。Magento中存在跨站脚本漏洞，该漏洞源于WEB应用缺少对客户端数据的正确验证。攻,低,低,True,3,2
+极速Office是由北京海腾时代科技有限公司研发的一款自主可控办公学习类软件。极速Office存在内存破坏漏洞。攻击者可利用该漏洞导致程序崩溃。,中,中,True,16,1
+龙采科技集团有限责任公司是一家致力于互联网企业智慧云服务平台开发建设，及”互联网+行业创新“平台服务的公司。龙采科技集团有限责任公司建站系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,1,1
+MOXA TN-4900是中国摩莎（MOXA）公司的一系列工业防火墙路由器。MOXA TN-5900是中国摩莎（MOXA）公司的一系列工业防火墙路由器。MOXA TN-4900 and TN-5900,高,高,True,2,1
+Microsoft Exchange Server是美国微软（Microsoft）公司的一套电子邮件服务程序，它提供邮件存取、储存、转发，语音邮件，邮件过滤筛选等功能。Microsoft Exchan,中,中,True,1,1
+极致CMS是一款开源免费的PHP语言的CMS网站内容管理系统。极致CMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,1,1
+Java SE是基于JDK和JRE的Java平台标准版的简称，用于开发和部署桌面、服务器以及嵌入设备和实时环境中的Java应用程序。Oracle Java SE/JRockit在实现上存在安全漏洞，允,中,中,True,1,1
+Adobe Acrobat和Reader都是美国奥多比（Adobe）公司的产品。前者是一套PDF文件编辑和转换工具，后者是一套PDF文档阅读软件。Adobe Acrobat和Reader存在内存越界读,中,中,True,10,1
+组态王（KingView）是北京亚控科技发展有限公司生产的一款工业自动化组态软件。组态王（KingView）web数据传输服务存在拒绝服务漏洞。攻击者可以利用该漏洞发起远程拒绝服务攻击。,高,高,True,5,1
+Bentley MicroStation CONNECT是美国Bentley Systems公司的一个用于二维和三维设计和绘图的Cad软件平台。Bentley MicroStation CONNECT,中,中,True,1,1
+Android on Nexus 6P等是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套运行于Nexus 6P（智能设备）等中并以Linux为基础的开源操作系统。Broad,高,高,True,4,1
+Oracle E-Business Suite（电子商务套件）是美国甲骨文（Oracle）公司的一套全面集成式的全球业务管理软件。Oracle Advanced Outbound Telephony是,中,中,True,1,1
+Huawei HarmonyOS是中国华为（Huawei）公司的一个操作系统。提供一个基于微内核的全场景分布式操作系统。Huawei HarmonyOS的Kernel模块存在堆栈缓冲区溢出漏洞。攻击者,中,高,False,2,1
+Adobe Acrobat和Reader都是美国奥多比（Adobe）公司的产品。前者是一套PDF文件编辑和转换工具，后者是一套PDF文档阅读软件。Adobe Acrobat和Reader存在内存破坏漏,中,高,False,15,1
+FasterXML Jackson是美国FasterXML公司的一款适用于Java的数据处理工具。jackson-databind是其中的一个具有数据绑定功能的组件。FasterXML jackson,高,高,True,1,1
+Pillow是一款基于Python的图像处理库。Pillow 7.1.0之前版本中的libImaging/PcxDecode.c文件存在越界读取漏洞。目前没有详细的漏洞细节提供。,中,中,True,1,1
+Microsoft Windows是美国微软（Microsoft）公司发布的一系列操作系统。Windows kernel是其中的一个操作系统内核。Microsoft Windows kernel中存在,低,低,True,3,1
+Microsoft Windows是美国微软（Microsoft）公司发布的一系列操作系统。PDF library是其中的一个PDF库。Microsoft Windows的PDF库中存在信息泄露漏洞，,中,中,True,1,1
+Mattermost Server是美国Mattermost公司的一套开源的消息传递平台。Mattermost Server 4.3.0之前版本、4.2.1之前版本和4.1.2之前版本中存在跨站脚本漏,中,中,True,2,1
+Pharos PopUp Printer Client是Pharos Systems International公司的一套打印机客户端软件。Pharos PopUp Printer Client 9.,高,高,True,1,1
+Microsoft Windows是一款流行的操作系统。Microsoft Windows 'Win32k.sys'处理内存中对象存在安全漏洞，允许本地攻击者利用漏洞提升特权，以内核上下文执行任意代码,中,高,False,1,1
+WavPack是一套开源的、免费的音频无损压缩软件。WavPack 5.0.0版本中存在本地拒绝服务漏洞。攻击者可利用该漏洞造成拒绝服务或获取敏感信息。,低,低,True,3,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Media Framework是其中的一个多媒体开发框架。Android Q中的Medi,中,中,True,28,5
+Mattermost Confluence Plugin是美国Mattermost公司的一个插件。Mattermost Confluence Plugin存在安全漏洞，攻击者可利用该漏洞导致插件崩溃。,中,高,False,3,1
+Android是美国Google公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Samsung移动设备存在输入验证错误漏洞，攻击者可借助特制的请求利用该漏洞在系统上,高,高,True,1,1
+Adobe Substance3D Modeler是美国奥多比（Adobe）公司的一款3D建模软件。Adobe Substance3D Modeler存在越界读取漏洞，攻击者可利用该漏洞获取敏感信息。,中,中,True,1,1
+IrfanView是波黑Irfan Skiljan软件开发者的一款图片浏览器，它支持图片浏览、图片编辑、图片格式转换等。IrfanView 4.53存在用户模式写访问冲突漏洞。攻击者可利用该漏洞读取w,中,中,True,11,1
+Oracle E-Business Suite（电子商务套件）是美国甲骨文（Oracle）公司的一套全面集成式的全球业务管理软件。该软件提供了客户关系管理、服务管理、财务管理等功能。Trade Man,中,中,True,3,1
+Kofax Power PDF是Kofax公司的一款专业PDF编辑和管理软件。Kofax Power PDF存在越界写入漏洞，攻击者可利用该漏洞执行任意代码。,高,高,True,11,1
+Chrome是由Google开发的一款设计简单、高效的Web浏览工具，其特点是简洁、快速。Google Chrome 88.0.4324.96之前版本存在文件系统API策略执行不足漏洞。攻击者可利用该,中,中,True,1,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在越界读取漏洞，攻击者可利用该漏洞获取敏感信息。,高,低,False,2,1
+Huawei HarmonyOS是中国华为（Huawei）公司的一个操作系统。提供一个基于微内核的全场景分布式操作系统。Huawei HarmonyOS存在安全漏洞，攻击者可利用该漏洞导致机密性受影响,中,中,True,3,1
+ZoneMinder是一套开源的视频监控软件系统。该系统支持IP、USB和模拟摄像机等。ZoneMinder 1.32.3及之前版本存在跨站脚本漏洞，该漏洞源于程序未进行正确的过滤，远程攻击者可借助‘,中,中,True,1,1
+Adobe Digital Editions（DE）是美国奥多比（Adobe）公司的一套电子书阅读管理软件。通过该软件可打开、阅读和管理PDF、XML、Flash文件。Adobe Digital Ed,高,高,True,1,1
+Oracle PeopleSoft Products是美国甲骨文（Oracle）公司的一套企业人力资本管理解决方案，它提供了人力资本管理、财务管理、供应商关系管理等功能。PeopleSoft Ente,中,中,True,2,1
+Microsoft Excel是美国微软（Microsoft）公司的一款Office套件中的电子表格处理软件。Microsoft Excel存在代码执行漏洞，该漏洞是由于不受信任的指针解引用缺陷引起的,高,高,True,2,1
+HPE KeyView是美国惠普企业（Hewlett Packard Enterprise，HPE）公司的一套用于文件筛选和转换的组件，该组件具有多格式文本提取、文件转换和本机查看的功能。HPE Ke,中,中,True,3,1
+Adobe Flash Player是美国奥多比（Adobe）公司的一款跨平台、基于浏览器的多媒体播放器产品。该产品支持跨屏幕和浏览器查看应用程序、内容和视频。Adobe Flash Player中存,高,高,True,3,1
+phpMyBackupPro是一款一个专业的MySql备份工具。phpMyBackupPro存在未明代码注入，允许通过验证远程攻击者利用漏洞注入任意PHP代码并以WEB权限执行。,高,高,True,2,1
+Microsoft Office是微软公司开发的一套基于Windows操作系统的办公软件套装。Microsoft SharePoint Server未正确过滤收到的Web请求时，在实现上存在跨站脚本漏,中,中,True,1,1
+Adobe Acrobat和Reader是美国Adobe公司开发的一款可以用便携式文档格式出版所有的文档的编辑软件。Adobe Acrobat和Reader中存在内存破坏漏洞。攻击者可利用该漏洞在受影,高,高,True,5,2
+校无忧心理测评系统是通过互联网实现在线心理健康测试和诊断的平台。校无忧心理测评系统存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,中,中,True,2,1
+Google Chrome是美国谷歌（Google）公司的一款Web浏览器。Google Chrome存在安全漏洞，攻击者可利用此漏洞绕过安全限制。,高,中,False,1,1
+Totolink A830R/A3100R/A950RG/A800R/A3000RU/A810R等产品都是中国Totolink公司的一个路由器。多款TotoLink产品存在命令注入漏洞，攻击者可利用该,高,高,True,5,1
+Oracle MySQL Server是美国甲骨文（Oracle）公司的一款关系型数据库。Oracle MySQL Server 8.0.28及之前版本的Server: Optimizer组件存在拒绝,中,中,True,1,1
+Ivanti EPM是一款由Ivanti公司开发的综合性端点管理解决方案。Ivanti EPM存在越界写入漏洞，攻击者可利用该漏洞导致拒绝服务。,高,高,True,3,2
+Adobe Flash Player是一个解析SWF内容的播放器。Adobe AIR是针对网络与桌面应用的结合所开发出来的技术，可以不必经由浏览器而对网络上的云端程式做控制。Adobe Flash P,高,高,True,4,1
+Huawei VIE-L09是华为公司（Huawei）的一款智能手机。Huawei VIE-L09存在缓冲区溢出漏洞，该漏洞是由于设备未能对参数进行充分检查。攻击者通过诱使用户安装恶意应用利用该漏洞向,高,高,True,1,1
+Cesanta MJS是爱尔兰Cesanta公司的一个用于 C/C++ 的嵌入式 JavaScript 引擎。Cesanta MJS拒绝服务漏洞，攻击者可利用该漏洞造成拒绝服务。,中,中,True,13,1
+IBM InfoSphere Information Server是美国国际商业机器（IBM）公司的一套数据整合平台。该平台可用于整合各种渠道获取的数据信息。IBM InfoSphere Inform,中,中,True,1,1
+Linux kernel是美国Linux基金会的开源操作系统Linux所使用的内核。Linux kernel存在安全漏洞，该漏洞源于存在除以零问题。目前没有详细的漏洞细节提供。,中,中,True,1,1
+Adobe Reader/Acrobat是一款流行的处理PDF文件的应用程序。Adobe Reader/Acrobat存在内存错误引用漏洞。允许攻击者构建恶意PDF文件，诱使用户解析，可使应用程序崩溃,高,高,True,3,1
+Chadha Software Technologies PHPKB Standard Multi-Language是印度Chadha Software Technologies公司的一套基于Web的,中,中,True,4,1
+Oracle Fusion Middleware（Oracle融合中间件）是美国甲骨文（Oracle）公司的一套面向企业和云环境的业务创新平台。Oracle WebCenter Sites是其中的一个,高,高,True,3,1
+IrfanView是Irfan Skiljan个人开发者的一款图片浏览器。支持图片浏览、图片编辑、图片格式转换等。IrfanView存在越界写入漏洞，攻击者可利用该漏洞在当前进程的上下文中执行代码。,高,高,True,16,2
+Microsoft Internet Explorer是一款流行的WEB浏览器。当Internet Explorer未能正确地访问内存中的对象时，存在远程执行代码漏洞。允许攻击者利用漏洞在当前用户的上,高,高,True,8,2
+Android on Nexus 9是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套运行于Nexus 9（平板电脑）中并以Linux为基础的开源操作系统。NVIDIA Bi,中,中,True,2,1
+DM建站系统是由php+mysql开发的一套专门用于中小企业网站建设的开源cms。DM建站系统存在文件包含漏洞，攻击者可利用该漏洞获取敏感信息。,高,中,False,1,1
+Dell ControlVault3和Dell ControlVault3 Plus都是美国戴尔（Dell）公司的一款基于硬件的安全解决方案。Dell ControlVault3和Dell Contr,中,中,True,2,2
+Fortinet FortiOS是美国飞塔（Fortinet）公司开发的一套专用于FortiGate网络安全平台上的安全操作系统。Fortinet FortiOS中存在跨站脚本漏洞。远程攻击者可利用该,中,中,True,2,1
+cPanel是美国cPanel公司的一套基于Web的自动化主机托管平台。该平台主要用于自动化管理网站和服务器。cPanel存在输入验证错误漏洞。目前暂无详细的漏洞细节提供。,中,中,True,11,2
+Microsoft Internet Explorer（IE）是美国微软（Microsoft）公司开发的一款Web浏览器，是Windows操作系统附带的默认浏览器。当Microsoft IE 7版本至,高,高,True,6,1
+Foxit PDF Reader是中国福昕（Foxit）公司的一款PDF阅读器。Foxit PDF Reader存在安全漏洞，该漏洞源于在对对象执行操作之前缺乏验证对象的存在，攻击者可利用该漏洞在当前,中,中,True,3,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Media Framework是其中的一个用于多媒体开发框架。Android,中,中,True,6,1
+libxls是一个用于读取Exce（xls）文件的C语言库。libxls 1.4版本中的'xls_preparseWorkSheet'函数存在整数溢出漏洞。远程攻击者可借助恶意的XLS文件利用该漏洞执,高,高,True,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Mediaserver是其中的一个多媒体服务组件。Android的Media,高,高,True,8,1
+IrfanView是波黑软件开发者Irfan Skiljan所研发的一款图片浏览器，它支持图片浏览、图片编辑、图片格式转换等。FPX Plugin是其中的一个可编程接口扩展插件。IrfanView 4,中,中,True,4,1
+Google Chrome是美国谷歌（Google）公司的一款Web浏览器。Google Chrome存在代码执行漏洞，该漏洞是由V8中的越界内存访问引起的。攻击者可利用该漏洞在系统上执行任意代码。,高,高,True,2,1
+苏州恩斯特网络科技有限公司是一家营销策划，提供中高端网站设计，平面设计，程序开发以及网络营销并与苏州托普斯网络科技有限公司。苏州恩斯特网络科技有限公司建站系统存在SQL注入漏洞，攻击者可利用该漏洞获取,高,高,True,1,1
+Adobe Connect是美国奥多比（Adobe）公司的一个用于创建会议环境的软件。Adobe Connect存在安全漏洞，攻击者可利用该漏洞将恶意脚本注入易受攻击的表单字段。,中,中,True,9,1
+浙江大华技术股份有限公司是监控产品供应商和解决方案服务商。浙江大华技术股份有限公司DSS平安城市系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,1,1
+Oracle Retail Applications是一套零售应用商店解决方案。Oracle Retail Point-of-Service组件存在未明漏洞，允许远程攻击者利用漏洞未授权访问数据，造成,低,低,True,3,1
+"Adobe Reader Acrobat是美国Adobe公司开发的非常流行的一款优秀的PDF文档阅读软件。Adobe Reader/Acrobat存在整数溢出漏洞,允许攻击者通过未指定向量执行任意代码",高,高,True,2,1
+Adobe Photoshop，简称“PS”，是由Adobe公司开发和发行的图像处理软件。Photoshop CC是Photoshop Creative Cloud版。Adobe Photoshop ,高,高,True,4,1
+Oracle VM VirtualBox是美国甲骨文（Oracle）公司的一款虚拟机管理软件。Oracle VM VirtualBox 存在输入验证错误漏洞，该漏洞源于Oracle VM Virtua,中,中,True,9,2
+JT2Go是一个3D JT查看工具，Teamcenter可视化软件使企业能够通过一个全面的可视化解决方案系列来增强其产品生命周期管理(PLM)环境。该软件允许企业用户在单一环境中访问文档、2D图纸和3,低,中,False,6,2
+TOTOLINK是吉翁电子（深圳）有限公司持有品牌，公司成立于1999年，是一家香港上市的高新技术外资企业（股票代码: HK.8287），全球领先的网络设备供应商之一。TOTOLINK T10路由器存,高,高,True,3,1
+Online Store System是一套电子商务系统。Online Store System v1.0版本中存在跨站脚本漏洞。该漏洞源于WEB应用缺少对客户端数据的正确验证。攻击者可利用该漏洞执行,中,低,False,2,1
+Nextcloud是德国Nextcloud公司的一套开源的自托管文件同步和共享的通信应用平台。Nextcloud Server存在授权问题漏洞。该漏洞源于网络系统或产品中缺少身份验证措施或身份验证强度,低,中,False,1,1
+"Oracle Berkeley DB是行业领先的开源、可嵌入的存储引擎,它为开发人员提供了无需管理的快速、可靠的本地数据库。Oracle Berkeley DB Data Store组件存在安全漏洞，",中,中,True,18,3
+Microsoft Windows是美国微软（Microsoft）公司发布的一系列操作系统。Uniscribe（又名Unicode Script Processor）是其中的一个能够使Windows操,中,中,True,17,1
+D-Link DAP-1325是中国友讯（D-Link）公司的一款无线接入点/桥接器，主要用于提供无线网络覆盖，并具备桥接功能，可以将有线网络转换为无线网络或将两个无线网络连接起来。D-Link DA,高,高,True,3,1
+四创科技有限公司是中国减灾兴利信息服务提供商。四创科技有限公司山洪灾害监测预警平台存在文件上传漏洞，攻击者可利用该漏洞获取服务器控制权。,高,高,True,9,3
+Canon Oce Colorwave 500是日本佳能（Canon）公司的一款打印机。Canon Oce Colorwave 500 4.0.0.0版本中的Web应用程序的/TemplateMana,中,中,True,1,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在权限提升漏洞，攻击者可利用该漏洞在系统上获得提升的权限。,高,中,False,9,1
+Oracle E-Business Suite是在原来Application（ERP）基础上的扩展，包括ERP（企业资源计划管理）、HR（人力资源管理）、CRM（客户关系管理）等等多种管理软件的集合，,中,中,True,1,1
+Mozilla Firefox是一款开源Web浏览器。Mozilla Firefox ESR是Firefox（Web浏览器）的一个延长支持版本。Mozilla Thunderbird是一套从Mozil,高,高,True,5,1
+Microsoft Defender for IoT是一种适用于IoT/OT环境的资产发现、漏洞管理和威胁监控解决方案。Microsoft Defender for IoT存在远程代码执行漏洞。攻击者,高,中,False,7,1
+Oracle Virtualization是美国甲骨文（Oracle）公司的一套虚拟化解决方案。该方案用于统一管理从应用程序到磁盘的整个硬件和软件体系，可实现从桌面到数据中心的虚拟化。VM Virtu,中,中,True,10,1
+精工云MES，主要针对中小型制造业车间现场管理，基于工业互联网、微服务、云计算、物联网、大数据技术架构，提供低 成本、快部署、易运维的SAAS应用。精工云MES存在SQL注入漏洞。攻击者可利用漏洞获取,高,高,True,1,1
+Apple iOS、Safari和tvOS都是美国苹果（Apple）公司的产品。Apple iOS是为移动设备所开发的一套操作系统；Safari是一款Web浏览器，是Mac OS X和iOS操作系统附,高,高,True,4,1
+phpMyFAQ是一个多语言、完全由数据库驱动的常见问题解答系统。phpMyFAQ 3.1.10之前版本存在跨站脚本漏洞，该漏洞源于存在存储型跨站脚本(XSS)。 目前没有详细的漏洞细节提供。,高,高,True,4,1
+lrzip是一款开源的压缩实用程序，适用于大文件的压缩。lrzip 'get_fileinfo'函数存在栈溢出漏洞，允许远程攻击者利用漏洞提交特殊文件，诱使用户解析，可使应用程序崩溃。,中,中,True,1,1
+FortiPortal是美国飞塔（Fortinet）公司的高级的功能丰富的托管安全分析和管理支持器，可作为可部署在托管服务基础架构上的VM软件解决方案/产品的MSP。FortiPortal存在多个安全,高,高,True,6,1
+Apple iOS是一款运行在苹果iPhone和iPod touch设备上的最新的操作系统。Apple iOS内核存在内存破坏漏洞，允许本地攻击者利用漏洞以内核上下文执行任意代码。,高,高,True,2,1
+Apple Mac OS X是苹果公司开发的操作系统。Apple Mac OS X fontd存在未明输入验证漏洞，允许本地用户利用漏洞提升权限。,高,高,True,2,1
+安卓(Android)是一种基于Linux的自由及开放源代码的操作系统，由谷歌公司和开放手机联盟领导及开发。Google Android 8.0、8.1、9、10中的Framework组件存在权限提升,中,中,True,1,1
+Adobe Flash Player是美国奥多比（Adobe）公司的一款跨平台、基于浏览器的多媒体播放器产品。该产品支持跨屏幕和浏览器查看应用程序、内容和视频。Adobe Flash Player中存,高,高,True,6,1
+时光印记是一款快速、高清、无广告的看图软件，兼容所有的主流图片格式:JPG\PNG\GIF\BMP等；时光印记（Windows客户端）存在拒绝服务漏洞，攻击者可利用该漏洞通过该poc可导致软件崩溃。,中,中,True,1,1
+S-CMS学校建站系统是淄博闪灵网络科技有限公司开发的一款专门为企业建站提供解决方案的产品。S-CMS学校建站系统用户信息修改界面处存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,中,中,True,1,1
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acro,中,中,True,2,1
+Bentley Systems MicroStation是美国Bentley Systems公司的一个用于二维和三维设计和绘图的Cad软件平台。Bentley Systems MicroStation,中,中,True,3,1
+Dell RSA BSAFE Micro Edition Suite是美国戴尔（Dell）公司的一款加密工具包。Dell RSA BSAFE Micro Edition Suite中存在信息泄露漏洞。,低,中,False,1,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。Oracle MySQL Server 8.0.25及更早版本中的Server: DDL组件存在拒绝服务漏洞。攻,中,中,True,4,1
+Adobe Bridge是Adobe公司推出的一款免费数字资产管理应用程序。Adobe Bridge存在内存破坏漏洞。攻击者可利用该漏洞执行任意代码。,中,中,True,1,1
+iCMS是一套采用PHP和MySQL构建的内容管理系统。iCMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,1,1
+IBM InfoSphere Information Server是美国国际商业机器（IBM）公司的一套数据整合平台。该平台可用于整合各种渠道获取的数据信息。IBM InfoSphere Inform,中,中,True,2,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。MySQL Server是其中的一个数据库服务器组件。Oracle MySQL中的MySQL Server组件8,高,中,False,3,1
+cPanel是美国cPanel公司的一套基于Web的自动化主机托管平台。该平台主要用于自动化管理网站和服务器。cPanel 66.0.2之前版本中存在信息泄露漏洞。该漏洞源于网络系统或产品在运行过程中,中,中,True,4,1
+JasPer是加拿大软件开发者Michael Adams所研发的一个JPEG-2000编解码器的开源实现。JasPer存在拒绝服务漏洞。攻击者利用该漏洞使应用程序崩溃，造成拒绝服务。,中,中,True,4,1
+Adobe Photoshop是美国奥多比（Adobe）公司的一套图片处理软件。Adobe Photoshop存在越界写入漏洞。攻击者可利用该漏洞在当前用户的上下文中执行任意代码。,高,高,True,3,1
+友点企业网站管理系统（YouDianCMS）是长沙友点软件科技有限公司开发的一款企业建站系统。YouDianCMS存在XML实体注入漏洞。攻击者可利用漏洞进行任意文件读取、执行系统命令、探测内网端口等,高,高,True,1,1
+Microsoft Office是美国微软（Microsoft）公司开发的一款办公软件套件产品。Equation Editor是其中的一个公式编辑器。Microsoft Office中的Equatio,中,中,True,2,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Qualcomm Audio driver是其中的一个音频驱动组件。Andr,中,高,False,1,1
+Waychar报名系统是一款基于PHP／MYSQL开发的报名系统。Waychar报名系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,1,1
+Foxit Reader是中国福昕（Foxit）软件公司的一款PDF文档阅读器。Foxit Reader中存在信息泄露漏洞。远程攻击者可借助恶意的页面或文件利用该漏洞泄露敏感信息（越边界读取）。,中,中,True,3,1
+ZOHO WebNMS Framework是美国卓豪（ZOHO）公司的一套用于构建网络管理应用的框架。ZOHO WebNMS Framework 5.2和5.2 SP1的版本中存在目录遍历漏洞、信息泄,高,高,True,3,1
+Google Android是一款基于Linux开放性内核的手机操作系统。Broadcom Wi-Fi Driver是使用在其中的一个Broadcom（博通）公司开发的Wi-Fi驱动模块。Google,高,高,True,1,1
+Oracle E-Business Suite（电子商务套件）是美国甲骨文（Oracle）公司的一套全面集成式的全球业务管理软件。该软件提供了客户关系管理、服务管理、财务管理等功能。Email Cen,中,中,True,1,1
+深圳市吉祥腾达科技有限公司（以下简称“腾达”）创立于1999年，是专业的网络通信设备及方案供应商，也是集研发、生产、供应、销售、服务于一体的高新技术企业。腾达企业级AP管理路由器存在命令执行漏洞。攻击,中,中,True,1,2
+Adobe Experience Manager是一款企业内容管理解决方案，可帮助您简化内容和资产的管理和投放。Adobe Experience Manager存在跨站脚本漏洞。攻击者可利用该漏洞执行,高,中,False,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Media framework是其中的一个用于多媒体开发框架。Android,高,高,True,1,1
+WPS Office是珠海金山办公软件有限公司的软件，可以实现办公软件常用的文字、表格、演示等多种功能。WPS Office国际版存在内存破坏漏洞，攻击者可利用该漏洞导致程序崩溃。,中,中,True,14,1
+Oracle Virtualization是美国甲骨文（Oracle）公司的一套虚拟化解决方案。该方案用于统一管理从应用程序到磁盘的整个硬件和软件体系，可实现从桌面到数据中心的虚拟化。VM Virtu,低,低,True,2,1
+Microsoft Windows是美国微软（Microsoft）公司发布的一系列操作系统，Microsoft Forefront是应用在其中的一套面向企业的服务器安全特性解决方案。Microsoft,中,中,True,1,2
+Oracle Java SE用于开发和部署桌面、服务器以及嵌入设备和实时环境中的Java应用程序。Oracle Java SE的Libraries子组件中存在安全漏洞，远程攻击者可利用漏洞构建恶意WE,高,高,True,1,1
+Z-Blog是一款基于Asp和PHP平台的开源程序。Z-Blog存在文件上传漏洞，攻击者可利用该漏洞获取网站服务器控制权。,高,高,True,1,1
+Adobe Commerce是美国奥多比（Adobe）公司的一种面向商家和品牌的全球领先的数字商务解决方案。Adobe Commerce存在安全绕过漏洞，攻击者可利用该漏洞执行未授予权限的操作。,中,中,True,1,1
+Adobe Flash Player是一个解析SWF内容的播放器。Adobe AIR是针对网络与桌面应用的结合所开发出来的技术，可以不必经由浏览器而对网络上的云端程式做控制。Adobe Flash P,高,高,True,1,1
+Adobe Dimension是美国奥多比（Adobe）公司的一套2D和3D合成设计工具。Adobe Dimension存在越界读取漏洞，攻击者可利用此漏洞导致敏感内存泄露。,中,中,True,15,2
+FreeRDP是FreeRDP团队的一款开源的远程桌面协议（RDP）的实现。FreeRDP存在缓冲区溢出漏洞。该漏洞源于网络系统或产品在内存上执行操作时，未正确验证数据边界，导致向关联的其他内存位置上,中,低,False,4,1
+"Java SE是Java平台标准版的简称,用于开发和部署桌面、服务器以及嵌入设备和实时环境中的Java应用程序。Java SE Embedded基于Java SE，并提供特定功能且支持嵌入式系统。Or",中,中,True,6,1
+Microsoft Internet Explorer是美国微软（Microsoft）公司推出的并与Windows操作系统捆绑在一起的流行的Web浏览器。Microsoft Internet Expl,高,高,True,1,1
+Chrome是由谷歌开发的一款Web浏览工具。Google Chrome 73.0.3683.75之前版本中的PDFium存在整数溢出漏洞。攻击者可利用该漏洞通过精心制作的PDF文件可能执行越界内存访,中,中,True,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。MediaFramework是其中的一个用于多媒体开发框架。Android ,高,高,True,1,1
+HP Matrix Operating Environment是美国惠普（HP）公司的一套专为基础架构服务而设计的云管理软件。HP Systems Insight Manager（SIM）是一套面向惠,中,高,False,1,1
+IBM iNotes和Domino都是美国IBM公司的产品。iNotes是一套基于Web的电子邮件软件；Domino是一套用于托管社交商务应用的平台。IBM iNotes和Domino中存在跨站脚本漏,中,中,True,5,1
+Microsoft Edge是美国微软（Microsoft）公司的一款Windows 10之后版本系统附带的Web浏览器。Microsoft Edge (Chromium-based)存在欺骗漏洞，攻,中,中,True,8,1
+SongCMS是一款基于PHP MySQL、ASP Access/SQL Server开发，面向企业，支持多国语言、免费、开源的CMS，帮助企业用户快速建设与部署企业级门户网站。SongCMS后台存在,中,中,True,5,1
+Oracle E-Business Suite（电子商务套件）是美国甲骨文（Oracle）公司的一套全面集成式的全球业务管理软件。该软件提供了客户关系管理、服务管理、财务管理等功能。iSupport是,中,中,True,1,1
+深圳市迅捷通信技术有限公司（以下简称FAST）是中国用户端网络与通信技术和设备提供商。成立于2002年，总部位于深圳高新技术产业带。是一家拥有完整自主研发、制造、营销体系的高新技术企业。FAST FW,中,中,True,1,1
+SAP Netweaver是德国思爱普（SAP）公司的一套面向服务的集成化应用平台。该平台主要为SAP应用程序提供开发和运行环境。SAP NetWeaver AS for ABAP存在内存破坏漏洞，该,中,中,True,2,1
+北京亿赛通科技发展有限责任公司是国内数据安全、网络安全及安全服务三大业务提供商。北京亿赛通科技发展有限责任公司电子文档安全管理系统存在命令执行漏洞，攻击者可利用该漏洞获取服务器控制权。,高,高,True,1,1
+Microsoft Windows Hyper-V是美国微软（Microsoft）公司的一款可提供硬件虚拟化的工具。Microsoft Windows Hyper-V存在拒绝服务漏洞，攻击者可利用该漏,高,高,True,1,1
+LibreOffice是文档基金会（The Document Foundation，TDF）的一套开源的办公软件套件。该产品包含Writer（文本文档）、Calc（电子表格）和Impress（演示文稿,高,高,True,1,1
+Xen是一个开源虚拟机监视器，由Xen Project开发。xen存在拒绝服务漏洞，攻击者可利用漏洞导致拒绝服务。,中,中,True,3,1
+Samsung SmartThings Hub是韩国三星（Samsung）公司的一款智能家居管理设备。video-core HTTP server是其中的一个HTTP服务器。Samsung Smart,高,高,True,1,1
+dhcpcd是一套兼容RFC2131和RFC1541的DHCP客户端守护程序，它用于自动配置IPv4网络。dhcpcd中存在安全漏洞。攻击者可利用该漏洞造成拒绝服务。,中,中,True,1,1
+Apple iOS是苹果公司用于多个智能设备的操作系统。Apple iOS Webkit存在内存破坏漏洞，允许攻击者构建恶意WEB页，诱使用户解析，可使应用程序崩溃或执行任意代码。,高,高,True,4,1
+Adobe Substance 3D Stager是美国奥多比（Adobe）公司的一个虚拟3D工作室。Adobe Substance 3D Stager存在安全漏洞，攻击者可利用该漏洞导致在当前用户的,高,高,True,2,1
+IBM Tivoli Key Lifecycle Manager使您能够在本地创建、分发、备份、存档及管理您的企业中的密钥和证书的生命周期。IBM Tivoli Key Lifecycle Manag,中,中,True,1,1
+光影魔术手是一款针对图像画质进行改善提升及效果处理的软件。深圳市迅雷网文化有限公司光影魔术手存在堆溢出漏洞，攻击者可构造特殊图片导致该软件崩溃，成功利用后还可导致任意代码执行。,中,中,True,1,1
+xdLocalStorage是一款支持跨域数据存储的轻量级JavaScript库。xdLocalStorage存在输入验证错误漏洞。攻击者可利用该漏洞获取敏感信息。,中,中,True,1,1
+安卓（Android）是一种基于Linux的自由及开放源代码的操作系统，由谷歌公司和开放手机联盟领导及开发。Google Android Kernel组件存在权限提升漏洞。攻击者可利用漏洞提升权限。,高,高,True,3,1
+Delta Electronics TPEditor是中国台湾台达电子（Delta Electronics）公司的一款基于Windows的Delta文本面板编程软件。Delta Electronics,中,中,True,2,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。MySQL Server是其中的一个数据库服务器组件。Oracle MySQL中的MySQL Server 8.,中,中,True,1,2
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Storage driver是其中的一个存储驱动程序。Android中的Storage驱,低,低,True,1,1
+Apple iOS、watchOS、macOS和tvOS都是美国苹果（Apple）公司的产品。Apple iOS是为移动设备所开发的一套操作系统；watchOS是一套智能手表操作系统。Audio是其中,高,高,True,1,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,高,中,False,1,2
+Google Pixel是美国谷歌（Google）公司的一款智能手机。Google Pixel存在安全漏洞，攻击者可利用该漏洞导致本地权限提升。,中,高,False,2,1
+XnView Classic for Windows是法国软件开发者Gougelet Pierre-Emmanuel所研发的一套用于Windows平台的图片查看软件。该软件可用于查看、转换、组织和编辑,中,中,True,26,7
+Oracle E-Business Suite是一款由Oracle公司推出的新一代电子商务套件。Oracle E-Business Suite Oracle Application Object Li,低,低,True,1,1
+QNAP File Station 5是中国台湾威联通科技（QNAP）公司的一个文件管理系统。QNAP File Station 5存在代码问题漏洞，该漏洞源于空指针取消引用，攻击者可利用该漏洞导致拒,高,高,True,2,2
+NETGEAR R7800是美国网件（NETGEAR）公司的一款无线路由器。NETGEAR R7800 1.0.2.52之前版本中存在缓冲区溢出漏洞。该漏洞源于网络系统或产品在内存上执行操作时，未正确,中,中,True,1,1
+Microsoft Windows Hyper-V是美国微软（Microsoft）公司的一款可提供硬件虚拟化的工具。Microsoft Windows Hyper-V NT Kernel Integr,高,高,True,1,1
+JeeSite是一个企业信息化开发基础平台。济南卓源软件有限公司Jeesite存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,3,1
+Infovista VistaPortal SE是美国Infovista公司的一款基于Web的应用程序。Infovista VistaPortal SE 5.1 build 51029版本中的Pres,中,中,True,1,1
+"Oracle Java SE是标准版的Java平台是一个Java2的平台，为用户提供一个程序开发环境。Oracle Java SE 6u101, 7u85,8u60,Java SE Embedded ",高,高,True,1,1
+Oracle Database Server是美国甲骨文（Oracle）公司的一套关系数据库管理系统。该数据库管理系统提供数据管理、分布式处理等功能。Application Express（APEX，,低,低,True,5,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Broadcom Wi-Fi driver是使用在其中的一个Broadcom,中,中,True,5,1
+三才期刊采编系统是一款网络化办公平台。三才期刊采编系统存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,高,中,False,2,1
+Adobe Illustrator是一款矢量图编辑器和设计程序。Adobe Illustrator 2022 25.4.1及更早版本存在空指针解引用漏洞。攻击者可利用该漏洞导致该应用程序拒绝服务。,中,中,True,2,1
+Google Android是一款基于Linux开放性内核的手机操作系统。Google Android NVIDIA Crypto Driver存在权限提升漏洞，攻击者可利用漏洞在内核上下文中执行任意,高,高,True,1,1
+Oracle Fusion Middleware是一套适用于云环境和传统环境的应用服务器。Oracle Fusion Middleware Oracle Outside In Technology O,低,低,True,3,1
+LJCMS采 PHP + Mysql架构，是一款对 SEO 非常友好、功能全面、安全稳定、支持多终端展示并且使用起来极其简单的企业建站系统。LJCMS存在SQL注入漏洞，攻击者可以利用漏洞获取数据库信,高,中,False,1,1
+Linux kernel是美国Linux基金会的开源操作系统Linux所使用的内核。Linux kernel存在安全漏洞，该漏洞源于空指针取消引用。目前没有详细的漏洞细节提供。,中,中,True,18,2
+Android是美国Google公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android 8.1、9、10、11中的Framework组件存在权,高,高,True,3,1
+Foxit PDF Reader是一款PDF阅读器。Foxit PDF Reader处理Javascript存在安全漏洞，攻击者可利用漏洞执行任意代码。,中,中,True,3,1
+BlueCMS是一款由开源组合PHP＋MYSQL开发的专业地方门户系统，专注于地方门户CMS。BlueCMS存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,1,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,中,True,1,1
+Insteon Hub是美国Insteon公司的一款Insteon中央控制器产品。该产品可远程控制家中的灯泡、墙壁开关、空调等。使用1012版本固件的Insteon Hub 2245-222中存在缓冲,中,中,True,2,1
+WordPress是WordPress基金会的一套使用PHP语言开发的博客平台。该平台支持在PHP和MySQL的服务器上架设个人博客网站。Elementor Page Builder是使用在其中的一个,低,低,True,1,1
+Apple iOS、iCloud for Windows、iTunes for Windows、Safari和tvOS都是美国苹果（Apple）公司的产品。Apple iOS是一套为专移动设备所开发的,高,中,False,8,2
+Microsoft Windows Kernel是美国微软（Microsoft）公司的Windows操作系统的内核。Microsoft Windows Kernel Memory存在安全漏洞。攻击者可,中,中,True,1,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。MySQL Server是其中的一个数据库服务器组件。Oracle MySQL Server存在未明漏洞。目前暂,中,中,True,2,1
+Magento是美国Magento公司的一套开源的PHP电子商务系统。该系统提供权限管理、搜索引擎和支付网关等功能。Magento 2.1.18之前的2.1版本、2.2.9之前的2.2版本和2.3.2,低,低,True,2,1
+华夏ERP基于SpringBoot框架和SaaS模式，为中小企业提供开源的ERP软件，目前专注进销存+财务+生产功能。华夏ERP存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,24,1
+FlashPlayer是一款高性能的、轻量型且极具表现力的客户端运行时播放器。Adobe AIR是针对网络与桌面应用的结合所开发出来的技术。Adobe Flash Player/AIR在实现上存在内存,高,高,True,7,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Android-11版本PackageManager存在安全漏洞，该漏洞源于缺少权限检查,低,低,True,2,1
+深圳市吉祥腾达科技有限公司是一家集自主研发、生产和销售网络设备的高科技企业。深圳市吉祥腾达科技有限公司多款AC路由器存在拒绝服务漏洞，攻击者可利用该漏洞造成拒绝服务攻击。,中,中,True,7,1
+厦门科拓通讯技术股份有限公司（简称：科拓停车）是专业的智慧停车价值运营商，为客户提供智慧停车服务。科拓全智能停车视频收费系统存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏感信息。,高,高,True,6,3
+Adobe Acrobat和Reader都是美国奥多比（Adobe）公司的产品。Adobe Acrobat是一套PDF文件编辑和转换工具。Reader是一套PDF文档阅读软件。Adobe Acroba,中,中,True,6,1
+Adobe Acrobat和Reader都是美国奥多比（Adobe）公司的产品。Adobe Acrobat是一套PDF文件编辑和转换工具。Reader是一套PDF文档阅读软件。基于Windows和ma,中,中,True,2,1
+Mattermost Server是美国Mattermost公司的一套开源的消息传递平台。Mattermost Server 5.23.0之前版本中存在安全漏洞，攻击者可利用该漏洞造成拒绝服务（无限循,中,中,True,1,1
+Kingsoft WPS Office是一款办公软件套件，常用组件包括：Writer、Spreadsheets和Presentation等。Kingsoft WPS Office存在内存破坏漏洞，允许,高,高,True,4,1
+Siemens Tecnomatix Plant Simulation是面向对象的、图形化的、集成的建模、仿真工具。Siemens Tecnomatix Plant Simulation存在越界写入漏,高,高,True,2,2
+Solid Edge是一个软件工具组合，可解决各种产品开发过程:3D设计，仿真，制造和设计管理。Siemens Solid Edge存在越界读取漏洞，攻击者可利用该漏洞在当前进程的上下文中执行代码。,高,高,True,2,1
+Siemens SENTRON 7KT PAC1260 Data Manager是德国西门子（Siemens）公司的一款用于电力监测和能耗管理的设备。Siemens SENTRON 7KT PAC12,高,高,True,1,1
+Jsish是一款使用C语言编写的、内置数据库的小型JavaScript解析器。Jsish v3.5.0 存在安全漏洞，此漏洞可能导致拒绝服务 (DoS)。,中,中,True,15,2
+Android是一套以Linux为基础的开源操作系统。Android的NVIDIA分析工具存在安全漏洞，允许远程攻击者可利用漏洞构建恶意应用，可获取敏感信息。,中,中,True,1,1
+Google Android是一款基于Linux的应用于智能手机设备的操作系统。Google Android Mediaserver存在拒绝服务漏洞，远程攻击者可利用漏洞构建恶意文件，诱使用户解析，可,高,高,True,1,1
+Android是美国谷歌公司和开放手持设备联盟共同开发的一套以Linux为基础的开源操作系统。Android Mediaserver存在安全漏洞，允许远程攻击者可利用该漏洞构建恶意应用，诱使用户解析，,中,中,True,3,2
+Adobe Substance 3D Stager是美国奥多比（Adobe）公司的一个虚拟3D工作室。Adobe Substance 3D Stager存在不当输入验证漏洞，攻击者可利用该漏洞在当前用,高,高,True,1,1
+IBM DB2是美国国际商业机器（IBM）公司的一套关系型数据库管理系统。该系统的执行环境主要有UNIX、Linux、IBMi、z/OS以及Windows服务器版本。IBM DB2存在拒绝服务漏洞，攻,高,高,True,2,1
+mod_RSsim是一款仿真模拟软件。mod_RSsim存在拒绝服务漏洞，攻击者可利用该漏洞导致拒绝服务。,高,高,True,6,1
+Simcenter Femap是一个先进的仿真应用程序，用于创建，编辑和检查复杂产品或系统的有限元模型。Siemens Simcenter Femap存在越界写入漏洞，攻击者可利用该漏洞在当前进程的上,高,高,True,2,1
+Adobe Experience Manager是Adobe公司推出的企业级内容管理软件（CMS），用于构建、管理和部署网站、移动应用、数字资产及表单等数字体验。Adobe Experience Ma,高,高,True,1,1
+Microsoft Internet Explorer（IE）是美国微软（Microsoft）公司开发的一款Web浏览器，是Windows操作系统附带的默认浏览器。Microsoft Internet,高,高,True,1,1
+Linux kernel是美国Linux基金会的开源操作系统Linux所使用的内核。KVM是其中的一个基于内核的虚拟机。Linux kernel存在安全漏洞，该漏洞源于来宾用户可以强制Linux ne,低,低,True,1,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。MySQL Server是其中的一个数据库服务器组件。Oracle MySQL中的MySQL Server 8.,中,中,True,2,1
+STDU Viewer是一款免费的支持多种格式的文件查看器。该软件支持TIFF、PDF、DjVu、XPS和WWF等格式。STDU Viewer 1.6.375版本中存在安全漏洞。攻击者可借助特制的.j,中,中,True,15,3
+GraphicsMagick是一套简单的图像处理工具。该工具对图像提供尺寸调整、旋转、加亮等功能。GraphicsMagick 1.3.25之前的版本中存在堆缓冲区溢出、拒绝服务和堆越边界读取漏洞。远,中,中,True,1,1
+Foxit PDF Reader是中国福昕（Foxit）公司的一款PDF阅读器。Foxit PDF Reader Annotation存在远程代码执行漏洞，攻击者可利用该漏洞在当前进程的上下文中执行代,高,高,True,1,3
+SPPA-T3000是一种分布式控制系统，主要应用于火力发电厂和大型可再生能源发电厂。MS3000 Migration Server是其中的一个迁移服务器。Siemens SPPA-T3000 MS3,高,高,True,1,1
+Microsoft Windows是美国微软（Microsoft）公司开发的操作系统。Microsoft Windows存在本地提权漏洞。攻击者可利用该漏洞以内核权限执行任意代码。,中,中,True,2,1
+"排队评价综合管理系统 V5.3, 充分利用排队等候时间进行自助填单操作，填单时排队不过号，解除了顾客填单时的后顾之忧。排队评价综合管理系统V5.3前台存在SQL注入漏洞，攻击者可利用漏洞获取数据库敏感",中,高,False,1,1
+Rockwell Automation ArmorStart ST是美国罗克韦尔（Rockwell Automation）公司的一种用于机旁控制架构的简单而经济实用的解决方案。Rockwell Aut,中,中,True,2,2
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Framework是其中的一个Android框架组件。Android中的Framewor,高,高,True,1,1
+DIR-816是友讯D-Link品牌旗下的一款无线路由，生产于中国大陆。D-Link DIR-816路由器存在二进制漏洞，攻击者可利用该漏洞导致服务程序崩溃。,中,中,True,3,1
+Adobe InDesign是美国奥多比（Adobe）公司的一套排版编辑应用程序。Adobe InDesign存在越界读取漏洞，攻击者可利用该漏洞导致内存泄漏。,中,中,True,8,2
+Microsoft Windows是美国微软（Microsoft）公司发布的一系列操作系统。Microsoft Windows中存在本地信息泄露漏洞。本地攻击者可利用该漏洞获取敏感信息。,低,低,True,19,3
+OpenSSO项目是SSO(单一登录)的一个开源实现，为部署在不同Web或不同服务器上的Web应用提供集中身份认证功能。Oracle OpenSSO SAML子件存在安全漏洞，允许远程攻击者利用漏洞影,低,低,True,1,1
+NETGEAR D3600和NETGEAR D6000都是美国网件（NETGEAR）公司的一款无线调制解调器。NETGEAR D3600 1.0.0.76之前版本和D6000 1.0.0.76之前版本,中,低,False,1,1
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acro,中,中,True,41,10
+Apple iOS是一款苹果手机上的操作系统。OS X El Capitan是为Mac计算机所开发的一套专用操作系统。watchOS是一套智能手表操作系统。Apple iOS、watchOS和OS X,中,中,True,3,1
+NVIDIA Windows GPU Display Driver是一套专用于Windows的图形处理器(GPU)显卡驱动程序。NVIDIA Windows GPU Display Driverker,高,高,True,1,1
+Apple Safari是一款苹果公司开发的WEB浏览器。Apple Safari WebKit存在未明内存破坏任意代码执行漏洞，允许远程攻击者构建恶意WEB页，诱使用户解析，可使应用程序崩溃或执行任,中,中,True,10,1
+SEACMS是一套专为不同需求的站长而设计的视频点播系统。SEACMS存在命令执行漏洞，攻击者可利用该漏洞获取服务器控制权。,高,高,True,5,1
+NiuShop开源商城系统是由山西牛酷信息科技有限公司完全自主设计、研发的一套PHP的开源电商系统。NiuShop开源商城系统Goods.php页面存在SQL注入漏洞，攻击者可利用漏洞获得数据库敏感信,中,中,True,1,1
+金航网上阅卷系统可以提供以学生、班级、学校、年级、教师、科目、知识点等为测量依据的各种成绩分析报表，并能提供每个学生历次考试结果的综合分析。金航网上阅卷系统存在SQL注入漏洞。攻击者可利用漏洞获取数据,高,高,True,3,1
+MuYuCMS基于Thinkphp开发的一套轻量级开源内容管理系统，专注为公司企业、个人站长提供快速建站提供解决方案。MuYuCMS存在命令执行漏洞，攻击者可利用该漏洞获取服务器控制权。,高,高,True,1,1
+Car Rental Management System是一个汽车租赁管理系统。Car Rental Management System存在SQL注入漏洞，攻击者可利用该漏洞查看、添加、修改或删除后端,中,中,True,5,2
+Moodle是澳大利亚马丁-多基马（Martin Dougiamas）博士开发的一套免费、开源的电子学习软件平台，也称课程管理系统、学习管理系统或虚拟学习环境。Moodle中存在安全绕过漏洞。攻击者可,中,中,True,8,1
+爱客CMS是一款功能全面，采用PHP + Mysql架构、多语言、响应式展示，适合个人网站建设的CMS建站系统。爱客CMS后台na***_ed***.php存在SQL注入漏洞，攻击者可利用该漏洞获取数,中,中,True,1,1
+Adobe Flash Player是多媒体程序播放器。Adobe Flash Player处理SWF存在内存破坏漏洞，允许远程攻击者利用漏洞提交特殊的SWF文件，诱使用户解析，可使应用程序崩溃或者执,高,高,True,1,1
+IBM WebSphere Application Server（WAS）是美国IBM公司开发并发行的一款应用服务器产品，它是Java EE和Web服务应用程序的平台，也是IBM WebSphere软,中,高,False,1,1
+Cisco WebEx是美国思科（Cisco）公司的一套Web会议工具，该工具可协助异地办公人员进行协调合作。WebEx服务包括Web会议、网真视频会议和企业即时消息(IM)等。Cisco WebEx,中,中,True,1,1
+金山PDF阅读器是一款PDF阅读工具。金山PDF阅读器存在拒绝服务漏洞，攻击者可通过构造特定的pdf文件，利用该漏洞可导致拒绝服务。,中,中,True,6,1
+IBM Rational Quality Manager是跨几乎任何平台和任何类型的测试的业务驱动型软件和系统质量协作中心。该软件可帮助团队无缝共享信息，使用自动化来加快项目进度，并为有针对性的发布决,低,低,True,5,1
+XnView Classic for Windows是法国软件开发者Gougelet Pierre-Emmanuel所研发的一套用于Windows平台的图片查看软件。该软件可用于查看、转换、组织和编辑,中,中,True,6,2
+Cisco RV110W是一款Wireless-N VPN防火墙，Cisco RV130是一款多功能VPN路由器，Cisco RV130W是一款Wireless-N多功能VPN路由器，Cisco RV,高,高,True,56,5
+Adobe Flash Player是美国奥多比（Adobe）公司的一款跨平台、基于浏览器的多媒体播放器产品。该产品支持跨屏幕和浏览器查看应用程序、内容和视频。Adobe Flash Player中存,高,高,True,1,1
+Adobe Media Encoder是美国奥多比（Adobe）公司的一款音、视频编码应用程序。基于Window和macOS平台的Adobe Media Encoder 13.1及之前版本中存在越界读,低,低,True,2,2
+Apple iOS是为移动设备所开发的一套操作系统；OS X是为Mac计算机所开发的一套专用操作系统；tvOS是一套智能电视操作系统；watchOS是一套智能手表操作系统。libxslt是一个为GNO,高,高,True,4,1
+Oracle MySQL是美国甲骨文（Oracle）公司的一套开源的关系数据库管理系统。MySQL Server component是其中的服务器组件。Oracle MySQL中的MySQL Serv,高,高,True,5,1
+Siemens Solid Edge是德国西门子（Siemens）公司的一款三维CAD软件。该软件可用于零件设计、装配设计、钣金设计、焊接设计等行业。Siemens Solid Edge存在越界读取漏,高,高,True,11,1
+Microsoft Office是微软公司开发的一套基于Windows操作系统的办公软件套装。Microsoft Office存在内存破坏漏洞，由于程序未正确处理内存对象。允许远程攻击者通过构造的Of,高,高,True,3,1
+光影看图为一款面向摄影人群和设计师人群的看图软件。深圳市迅雷网文化有限公司光影看图存在二进制漏洞，攻击者可利用该漏洞通过该poc可导致该软件崩溃，造成拒绝服务。,中,中,True,2,1
+LTE数字蜂窝移动通信网MME设备是LTE核心网的重要网元，负责处理信令。LTE数字蜂窝移动通信网MME设备存在拒绝服务漏洞。攻击者可利用漏洞导致拒绝服务攻击。,中,高,False,1,1
+IBM Tivoli Storage Manager FastBack是美国IBM公司的一套为Microsoft Windows和Linux服务器提供持续数据保护和恢复管理功能的软件。IBM Tivo,高,高,True,3,2
+广州本盈计算机科技有限公司致力于构建互联网+商业生态，尤其专注于移动互联网领域，提供APP开发、系统开发，小程序及微信公众号二次开发、网站建设等服务。广州本盈计算机科技有限公司建站系统存在SQL注入漏,高,高,True,3,1
+Microsoft Windows是流行的计算机操作系统。Microsoft Windows Hyper-V存在远程拒绝服务漏洞，攻击者可利用该漏洞造成主机崩溃。,中,中,True,1,1
+ImageMagick是美国ImageMagick Studio公司的一套开源的图象处理软件。该软件可读取、转换、写入多种格式的图片。ImageMagick存在堆缓冲区溢出漏洞，攻击者可以利用该漏洞使,高,高,True,13,3
+极速Office是由北京海腾时代科技有限公司研发的一款自主可控办公学习类软件。极速Office 2019存在拒绝服务漏洞。攻击者可利用该漏洞导致程序崩溃。,中,中,True,8,2
+SIMATIC Drive Controller family产品是为生产自动化而设计的机器，结合了SIMATIC S7-1500 CPU和SINAMICS S120驱动控制的功能。SIMATIC S,高,高,True,2,1
+石家庄九赢网络科技有限公司简称九赢互动，以网站建设、移动互联产品、720度全景展示、VI视觉设计为核心业务。石家庄九赢网络科技有限公司建站系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,1,1
+Foxit Reader是一款小型的PDF文档查看器和打印程序。Foxit Reader在ConvertToPDF_x86.dll中存在安全漏洞，由于缺乏对用户提供的数据的适当验证，导致攻击者可利用漏,中,中,True,1,1
+Adobe Flash Player是一种广泛使用的、专有的多媒体程序播放器。它最初由Macromedia编写，在Macromedia被Adobe收购后由Adobe继续开发并分发。Adobe Flas,高,高,True,40,8
+Android是美国Google公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android 10存在远程代码执行漏洞。该漏洞源于Android中的,中,中,True,26,4
+NETGEAR D3600等都是美国网件（NETGEAR）公司的产品。NETGEAR D3600是一款无线调制解调器。NETGEAR D6100是一款无线调制解调器。NETGEAR R6100是一款无,中,中,True,4,2
+Xen是一款开源虚拟机监视器产品。Xen 4.12.*及更早版本存在拒绝服务漏洞。该漏洞源于对某些位迭代处理不当。攻击者可利用该漏洞导致拒绝服务。,低,低,True,1,1
+Oracle Fusion Middleware（Oracle融合中间件）是美国甲骨文（Oracle）公司的一套面向企业和云环境的业务创新平台。该平台提供了中间件、软件集合等功能。WebLogic S,高,高,True,2,1
+Totolink X5000R是中国Totolink公司的一个路由器。TotoLink A7000R是中国TotoLink公司的一款无线路由器。Totolink路由器的X5000R V9.1.0u.6,高,高,True,1,1
+Adobe Flash Player是一款跨平台、基于浏览器的多媒体播放器产品。Adobe Flash Player存在内存错误引用漏洞，远程攻击者可利用该漏洞构建恶意SWF内容，诱使应用解析，可使应,高,高,True,1,1
+Intel(R) Graphics Driver是英特尔公司的一款显卡驱动程序。Intel(R) Graphics Driver存在安全漏洞。攻击者可利用漏洞权限提升或导致拒绝服务。,中,中,True,1,1
+cPanel是美国cPanel公司的一套基于Web的自动化主机托管平台。该平台主要用于自动化管理网站和服务器。cPanel存在权限许可和访问控制问题漏洞。目前暂无详细的漏洞细节提供。,中,中,True,2,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,19,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,中,True,4,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Media Framework是其中的一个多媒体开发框架。Android 10版本中的M,高,中,False,5,1
+Apple iOS、macOS High Sierra、tvOS和watchOS都是美国苹果（Apple）公司的产品。Apple iOS是为移动设备所开发的一套操作系统；macOS High Sier,中,中,True,2,1
+WAVLINK AC3000是中国睿因（WAVLINK）公司的一个无线路由器。WAVLINK AC3000存在外部配置控制漏洞，攻击者可利用该漏洞导致权限绕过。,高,高,True,5,1
+Portainer是一款用于管理Docker环境和Docker主机的轻量级用户管理界面。Portainer存在权限许可和访问控制问题漏洞，攻击者可利用该漏洞获取敏感信息。,中,中,True,1,1
+Microsoft Windows是美国微软（Microsoft）公司发布的一系列操作系统。Microsoft Windows中存在本地安全绕过漏洞。本地攻击者可利用该漏洞绕过安全限制，执行未授权的操,中,中,True,6,1
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader(也被称为Acrobat Reader)是美国Adobe公司开发的一款PDF文件阅读软件。Adobe Ac,高,高,True,12,1
+金微商超收银专为中小型商超及社区便利店设计的扫码收银工具，商家使用一台可以上网的普通电脑搭配扫码枪即可实现超市收银机的主要功能。金微商超收银存在SQL注入漏洞，攻击者可以利用漏洞获取数据库信息。,高,高,True,1,1
+Apple QuickTime是美国苹果（Apple）公司开发的一款多媒体播放软件。该软件能够处理数字视频、媒体段落等多种资源。Apple QuickTime 7.7.9之前版本中存在安全漏洞。远程攻,中,中,True,7,1
+Apple MacOS是苹果公司专为Macintosh系列电脑开发的图形化操作系统。Apple MacOS存在拒绝服务漏洞，该漏洞源于处理文件导致拒绝服务或泄露内存内容。攻击者可利用该漏洞导致拒绝服务,中,中,True,1,1
+陕西亚皇科技有限公司是西安网站建设，西安网站建设设计，西安网站建设推广，西安网站建设优化的专业网络化公司。陕西亚皇科技有限公司建站系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,2,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,中,中,True,1,1
+Microsoft Edge是内置于Windows 10版本中的网页浏览器。Microsoft Edge未能正确处理内存对象，在实现上存在远程内存破坏漏洞，攻击者可利用漏洞在当前用户上下文中执行任意代,高,高,True,2,1
+Siretta QUARTZ-GOLD是Siretta公司的一款高速双端口千兆以太网工业路由器。Siretta QUARTZ-GOLD存在缓冲区溢出漏洞，攻击者可利用该漏洞通过发送特制的网络包导致任意,高,高,True,5,1
+Oracle E-Business Suite（电子商务套件）是美国甲骨文（Oracle）公司的一套全面集成式的全球业务管理软件。该软件提供了客户关系管理、服务管理、财务管理等功能。Marketing,中,中,True,7,1
+Adobe Digital Editions（DE）是美国奥多比（Adobe）公司的一套电子书阅读管理软件。通过该软件可打开、阅读和管理PDF、XML、Flash文件。Adobe DE 4.5.4及之,中,中,True,4,1
+Android是美国Google公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android 8.1、9、10中的Framework组件存在权限提升,高,高,True,2,1
+ZZCMS是一款内容管理系统。ZZCMS2020后台存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,14,2
+Bentley View是美国Bentley Systems公司的一个免费查看器。Bentley View JT文件解析存在安全漏洞，该漏洞是由于在对对象执行操作之前未验证对象的存在而导致的。攻击者可,高,高,True,1,1
+Cisco NX-OS是适用于思科Nexus系列以太网交换机和MDS系列光纤通道存储区域网络交换机的网络操作系统。Cisco NX-OS的CLI存在命令注入漏洞。该漏洞源于对传递给某些CLI命令的参数,高,高,True,1,1
+ImageMagick是美国ImageMagick Studio公司的一套开源的图象处理软件。ImageMagick的DCM解析器中存在安全漏洞，攻击者可利用该漏洞造成空指针访问和段错误。,中,中,True,1,1
+深圳市吉祥腾达科技有限公司是中国无线网络领域的首批开拓者之一。Tenda W20E V15.11.0.6_CN存在命令执行漏洞，攻击者可利用该漏洞获取服务器权限。,高,高,True,2,1
+WordPress是WordPress基金会的一套使用PHP语言开发的博客平台。该平台支持在PHP和MySQL的服务器上架设个人博客网站。ListingPro theme是使用在其中的一个目录网站主题,低,中,False,2,1
+NETGEAR D6100等都是美国网件（NETGEAR）公司的产品。NETGEAR D6100是一款无线调制解调器。NETGEAR WNDR3700是一款无线路由器。NETGEAR R6100是一款,中,中,True,5,2
+Linux kernel是美国Linux基金会的开源操作系统Linux所使用的内核。Linux kernel存在权限提升漏洞，攻击者可利用该漏洞导致本地权限提升。,中,中,True,5,1
+Android on Nexus 9是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套运行于Nexus 9（平板电脑）中并以Linux为基础的开源操作系统。NVIDIA ca,中,中,True,1,1
+ZOHO ManageEngine Applications Manager是美国卓豪（ZOHO）公司的一套IT运维管理解决方案。该产品具有应用性能管理、故障管理、报表生成和SLA管理等功能。ZOHO,高,高,True,1,1
+北京中成科信科技发展有限公司是一家旅游全产业链服务商。北京中成科信科技发展有限公司综合管理平台存在SQL注入漏洞。攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,8,2
+ISPSoft是新一代的台达PLC编程软件。Delta ISPSoft在处理isp工程文件时存在内存破坏漏洞。攻击者可通过诱骗安装ISPSoft的用户打开恶意isp文件，进而触发漏洞，使程序拒绝服务。,中,中,True,1,1
+Microsoft Windows SMB Server是美国微软（Microsoft）公司的一个网络文件共享协议。它允许计算机上的应用程序读取和写入文件以及从计算机网络中的服务器程序请求服务。Mic,中,中,True,1,1
+Adobe Flash Player是美国Adobe公司开发的一款 是一种广泛使用的、专有的多媒体程序播放器。Adobe Flash Player中存在代码执行漏洞，攻击者可以漏洞在受影响应用程序的用,高,高,True,6,1
+U8 Cloud是一款企业上云数字化平台，集交易、服务、管理于一体的ERP整体解决方案。用友网络科技股份有限公司U8 Cloud存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,4,1
+MyuCMS开源内容管理系统采用ThinkPHP开发而成的社区商城聚合，插件，模板，轻便快捷容易扩展。MyuCMS开源内容管理系统In***.php文件存在SQL注入漏洞。攻击者可利用漏洞获取数据库敏,高,高,True,1,1
+Oracle JD Edwards EnterpriseOne Tools为Oracle JD Edwards EnterpriseOne应用程序提供基础技术。Oracle JD Edwards En,中,中,True,2,2
+Adobe Photoshop，简称“PS”，是由Adobe公司开发和发行的图像处理软件。Adobe Photoshop存在堆缓冲区溢出漏洞。攻击者可利用该漏洞执行任意代码。,高,高,True,1,1
+VisualField(简称VF)系统软件是用于ECS-700系统进行控制系统组态和监控的软件包。浙大中控VisualField VFRemoteCmdImpl.dll组件存在拒绝服务漏洞，攻击者可利,中,中,True,5,1
+FX3U-ENET-L有个4个通讯通道，三菱PLC以太网模块FX3U-ENET-L支持固定缓冲存储区通讯、连接MELSOFT、通过MC系列通讯、电子邮件送信等功能。连接MELSOFT时，通过GX Wo,高,高,True,1,1
+Tenda AC23是中国腾达（Tenda）公司的一款双频千兆无线路由器。Tenda AC23存在堆栈溢出漏洞，攻击者可利用该漏洞执行任意代码。,高,高,True,2,1
+Google Chrome是美国谷歌（Google）公司的一款Web浏览器。Google Chrome存在代码执行漏洞，攻击者可利用该漏洞在系统上执行任意代码。,高,高,True,4,1
+Oracle Transportation Management是一套运输管理系统。为托运方和第三方物流提供商提供了运输计划、运输执行、运费支付等功能。Oracle Supply Chain Prod,中,中,True,3,1
+Google Android是一款基于Linux开放性内核的手机操作系统。Google Android在Mediaserver实现上存在安全漏洞，允许远程攻击者利用漏洞构建特殊的媒体文件，诱使用户解析,高,高,True,4,1
+Microsoft Windows 10和Windows Server 2016都是美国微软（Microsoft）公司的产品。前者是一套供个人电脑使用的操作系统，后者是一套服务器操作系统。Edge是其,高,高,True,1,1
+Microsoft Edge是美国微软（Microsoft）公司开发的一款Web浏览器。Microsoft Edge处理内存对象时在脚本引擎实现上存在内存破坏漏洞，攻击者可通过特制的网站利用该漏洞在当,高,高,True,6,1
+Pjsua Api是一个高级Api。用于构建Sip多媒体用户代理应用程序。PJSUA API存在缓冲区溢出漏洞，攻击者可利用该漏洞通过控制的“filename”参数导致缓冲区溢出。,高,高,True,2,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在权限提升漏洞，攻击者可利用此漏洞获得提升的特权。,高,高,True,3,1
+Adobe Acrobat Reader是美国奥多比（Adobe）公司的一款PDF查看器。Adobe Acrobat and Reader存在越界读取漏洞，攻击者可利用该漏洞获取由越界读取引起的敏感信,中,中,True,4,1
+Microsoft SQL Server是美国微软（Microsoft）公司的一套应用在Microsoft Windows系统下的大型商业数据库系统。Microsoft SQL Server Nati,高,高,True,7,1
+Rust是Mozilla基金会的一款通用、编译型编程语言。Mozilla Rust存在命令注入漏洞，攻击者可利用该漏洞导致内存损坏。,中,中,True,1,1
+Google Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android存在信息泄露漏洞。攻击者可利用此漏,低,低,True,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。WLAN是使用在其中的一个无线连接模块。Android中的WLAN存在缓冲区,中,高,False,2,1
+Adobe Media Encoder是一款视频和音频编码应用程序。Adobe Media Encoder 15.4.1及更早版本存在内存缓冲区越界访问漏洞。攻击者可利用该漏洞执行任意代码。,高,高,True,1,2
+Microsoft OneDrive是一款云备份应用程序。该程序具有自动备份相册、在线办公和文件分享等功能。Microsoft OneDrive Mac版存在dll劫持漏洞。攻击者可利用该漏洞加载恶意,高,高,True,2,1
+OpenStack是美国国家航空航天局（National Aeronautics and Space Administration）和美国Rackspace公司合作研发的一个云平台管理项目。Glanc,中,中,True,1,1
+Adobe DNG Software Development Kit（SDK）是美国奥多比（Adobe）公司的一款提供读取和写入DNG文件功能的软件开发工具包。Adobe DNG Software D,高,高,True,3,1
+Adobe Flash Player是美国奥多比（Adobe）公司的一款跨平台、基于浏览器的多媒体播放器产品。该产品支持跨屏幕和浏览器查看应用程序、内容和视频。Adobe Flash Player中存,高,高,True,26,3
+ECOS Secure Boot Stick（又名SBS）是德国ECOS TECHNOLOGY的一款用于远程访问Citrix、Microsoft Terminal Server、VMware和其它We,高,低,False,1,1
+POLARIS OFFICE 是由韩国的INFRAWARE公司针对移动终端开发的移动办公软件。INFRAWARE POLARIS OFFICE存在内存破坏漏洞，攻击者可利用该漏洞造成拒绝服务攻击。,中,中,True,9,2
+Kinco HMware组态编辑软件是上海步科自动化股份有限公司为MT4000/5000系列HMI开发的专用人机界面组态编辑软件。Kinco HMware组态编辑软件存在二进制漏洞，攻击者可利用该漏洞,中,中,True,3,1
+Adobe Substance 3D Painter是美国奥多比（Adobe）公司的一个3D纹理处理应用程序。Adobe Substance 3D Painter 10.1.0版本及之前版本存在安全漏,高,高,True,3,3
+天地心网络成立于2010年，是一家策略研发型企业，众多大型项目经验，超过上万家中国企业共同选择的网站平台建设者，公司主要专注于企业网站建设、百度首页自然排名，域名注册，空间租用，企业邮局，400电话，,高,高,True,2,1
+Foxit PDF Reader是中国福昕（Foxit）公司的一款PDF阅读器。Foxit PDF Reader存在安全漏洞，该漏洞源于在对对象执行操作之前缺乏验证对象的存在，攻击者可以利用该漏洞在当,中,中,True,2,1
+Rockwell Automation FactoryTalk View SE是美国罗克韦尔（Rockwell Automation）公司的一款工业自动化系统视图界面。Rockwell Automat,高,高,True,1,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。MediaTek Display driver是使用在其中的一个联发科（Me,高,高,True,2,1
+浙江大华技术股份有限公司是全球领先的以视频为核心的智慧物联解决方案提供商和运营服务商。浙江大华技术股份有限公司智能物联综合管理平台存在弱口令漏洞，攻击者可利用该漏洞获取敏感信息。,中,中,True,1,1
+Oracle Communications是美国甲骨文（Oracle）公司的一款产品。为服务提供商和企业提供集成通信和云解决方案，以加速他们的数字化转型。Oracle Communications O,中,中,True,8,1
+Apple macOS是一套运行于苹果Macintosh系列电脑上的操作系统。Apple macOS Sierra存在受限内存读取漏洞，远程攻击者可以利用该漏洞构建恶意应用，读取任意受限内存。,中,中,True,1,1
+LibreDWG是一个用于读写DWG文件的免费C库。LibreDWG存在堆缓冲区溢出漏洞。目前没有详细漏洞细节提供。,中,中,True,2,1
+AutoTrace是一套用于将位图文件（Bitmap）转换为矢量文件（Vector）的软件。AutoTrace 0.31.1版本中的libautotrace.a文件存在拒绝服务漏洞。远程攻击者可利用该,中,中,True,6,1
+IBM Jazz Reporting Service（JRS）是美国IBM公司的一套用于发现跨项目报表的应用程序，它可与IBM Rational CLM的Rational解决方案（用于管理开发项目的所,低,低,True,3,1
+Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理,中,中,True,1,1
+Raw Image Extension是一款由Microsoft开发的图像扩展应用程序，可让您查看Raw格式图像。Raw Image Extension 1.0.32861.0之前版本存在远程代码执行,高,高,True,3,1
+Microsoft Office是美国微软（Microsoft）公司开发的一款办公软件套件产品。常用组件有Word、Excel、Access、Powerpoint、FrontPage等。当Office,高,高,True,3,1
+lshell是一套使用Python编写的用于控制使用者运行环境的shell命令。lshell中存在安全绕过漏洞。攻击者可利用该漏洞绕过安全限制，执行未授权操作。,中,中,True,1,1
+极速PDF编辑器是一款简单好用的PDF编辑器。极速PDF编辑器存在数组越界读取漏洞，攻击者可利用该漏洞造成拒绝服务。,中,中,True,2,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Android中的System存在信息泄露漏洞。攻击者可利用该漏洞获取信息。,中,中,True,1,2
+Oracle Fusion Middleware（Oracle融合中间件）是美国甲骨文（Oracle）公司的一套面向企业和云环境的业务创新平台。该平台提供了中间件、软件集合等功能。Outside In,中,中,True,5,1
+IBM AIX是美国国际商业机器（IBM）公司的一款为IBM Power体系架构开发的一种基于开放标准的UNIX操作系统。IBM AIX存在拒绝服务漏洞，无特权的本地攻击者可利用该漏洞导致拒绝服务。,中,中,True,5,1
+libsolv是一个用于检查软件包依赖的库。libsolv存在安全漏洞，目前没有详细的漏洞细节提供。,中,中,True,6,1
+海洋影视管理系统（seacms，海洋CMS）是基于PHP+MySql技术开发的视频点播系统。seacms后台存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,7,2
+F5 BIG-IP是美国F5公司的一款集成了网络流量管理、应用程序安全管理、负载均衡等功能的应用交付平台。F5 BIG-IP存在安全漏洞，攻击者可利用该漏洞在BIG-IP系统上造成拒绝服务。,中,中,True,1,1
+Microsoft Windows和Microsoft Windows Server都是美国微软（Microsoft）公司的产品。Microsoft Windows是一套个人设备使用的操作系统。Mic,高,高,True,3,1
+Wesnoth是一款开源的战棋游戏。Wesnoth中存在信息泄露漏洞，该漏洞源于程序未能充分过滤用户提交的输入。攻击者可利用该漏洞获取存储在任意文件中的敏感信息的访问权限。,中,中,True,1,1
+Apple iOS等都是美国苹果（Apple）公司的产品。Apple iOS是为移动设备所开发的一套操作系统；Safari是一款Web浏览器，是Mac OS X和iOS操作系统附带的默认浏览器。iCl,中,中,True,3,2
+VLC是一款跨平台多媒体播放器及框架，可播放大多数多媒体文件，以及DVD、音频CD、VCD及各类流媒体协议。VLC播放器存在内存破坏漏洞，攻击者可利用该漏洞导致拒绝服务。,中,中,True,2,1
+Microsoft Exchange Server是美国微软（Microsoft）公司的一套电子邮件服务程序。它提供邮件存取、储存、转发，语音邮件，邮件过滤筛选等功能。Microsoft Exchan,高,高,True,2,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在信息泄露漏洞，攻击者可利用此漏洞导致信息泄露。,中,中,True,9,1
+Elasticsearch Kibana是一套开源的、基于浏览器的分析和搜索Elasticsearch仪表板工具。Elasticsearch Kibana存在跨站脚本漏洞，允许远程攻击者利用漏洞注入恶,中,中,True,3,1
+Vim是一款跨平台的文本编辑器。vim存在二进制漏洞，攻击者可利用该漏洞获取服务器控制权。,高,高,True,2,1
+Adobe Flash Player是一款多媒体播放器产品；Adobe AIR SDK和Adobe AIR SDK & Compiler都是适用于Adobe AIR的标准开发工具包。Adobe Fla,高,高,True,6,1
+Microsoft Office Visio是美国微软（Microsoft）公司的Office软件系列中的负责绘制流程图和示意图的软件。Microsoft Office Visio存在远程代码执行漏洞,高,高,True,4,2
+NETGEAR NMS300是一款ProSAFE网络管理系统。NETGEAR NMS300 1.6.0.27之前版本存在拒绝服务漏洞。目前没有详细的漏洞细节提供。,中,中,True,2,1
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android Qualcomm组件Bootloader存在权,高,高,True,2,1
+GNU Binutils（又名GNU Binary Utilities或binutils）是GNU计划开发的一组编程语言工具程序，它主要用于处理多种格式的目标文件，并提供有连接器、汇编器和其他用于目标,中,中,True,1,1
+Freeware Advanced Audio Decoder是高级音频编码器。Freeware Advanced Audio Decoder 2 (FAAD2) 2.7版本，common/mp4ff,中,中,True,1,1
+Tecnick.com TCExam是英国Tecnick.com公司的一套基于Web的开源电子考试系统。该系统主要用于在线考试等。Tecnick.com TCExam 14.2.2版本中存在跨站脚本漏,中,低,False,1,1
+K7 AntiVirus是家庭用户友好的病毒清除软件，可以保护电脑免遭病毒、木马、恶意软件及间谍软件的威胁。K7 AntiVirus 15.1.0306中的驱动程序文件(K7FWHlpr.sys)存在,中,中,True,7,2
+Adobe Acrobat是由Adobe公司开发的一款PDF编辑软件。Adobe Reader(也被称为Acrobat Reader)是Adobe公司开发的一款PDF文件阅读软件。Adobe Acro,中,中,True,38,5
+Siemens Simcenter Femap是德国西门子（Siemens）公司的一款尖端工程学仿真应用程序。用于创建、编辑和导入/重用复杂产品或系统基于网格的有限元分析模型。Siemens Simc,高,高,True,1,1
+Microsoft Edge是内置于Windows 10版本中的网页浏览器。Microsoft Edge在脚本引擎处理内存对象时存在远程内存破坏漏洞，攻击者可利用漏洞在当前用户上下文中执行任意代码，破,高,高,True,1,1
+"浙江易舸软件有限公司（ZheJiang Eagle Soft Co.,LTD）于2004年11月成立。公司坚持“专注、专业”的经营理念，为企业、行政事业单位提供信息化解决方案和软件服务。公司拥有多项自",高,高,True,7,1
+世纪星组态软件是北京世纪长秋科技有限公司推出的一款阻碍软件，是一个实时的人机界面实用程序生成器，由CSMaker开发系统和CSViewer运行系统组成，CSMaker开发系统是其应用程序的集成开发环境,中,中,True,2,1
+Cisco NX-OS Software是美国思科（Cisco）公司的一套交换机使用的数据中心级操作系统软件。Cisco NX-OS Software中的Image Signature Verific,中,中,True,1,1
+Google Android是一款基于Linux开放性内核的手机操作系统。Google Android在Mediaserver组件实现上存在安全漏洞，允许远程攻击者利用漏洞构建特殊的应用，可获取敏感信,中,中,True,3,1
+Cybozu Remote Service是日本才望子（Cybozu）公司的一套用于访问才望子（Cybozu）内部系统的远程服务管理软件。Cybozu Remote Service管理界面存在跨站脚本,低,低,True,2,1
+Recipes是用于管理食谱、计划膳食、建立购物清单等等的应用程序。Recipes 1.0.5版本到1.2.5版本存在跨站脚本漏洞，该漏洞源于名称参数缺失用户数据的过滤转义。低权限攻击者可利用该漏洞可,低,低,True,1,1
+Android是美国Google公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Google Android中的Framework组件存在权限提升漏洞。攻击者可利用,中,中,True,3,1
+JeecgBoot是一款基于BPM的低代码平台。北京国炬信息技术有限公司jeecg-boot存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,1,1
+Adobe Bridge是Adobe公司推出的一款免费数字资产管理应用程序。Adobe Bridge 11.1及更早版本存在内存越界访问漏洞。攻击者可利用该漏洞执行任意代码。,高,高,True,6,1
+CMSWING是一款基于ThinkJS的电子商务平台及CMS建站系统。西安华尚软件科技有限公司CMSWing存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,中,中,True,1,1
+"QNAP QTS是威联通科技（QNAPSystems,Inc.）开发的NAS操作系统，专为网络附加存储设备设计，提供数据管理、备份、多媒体娱乐等功能。QNAP QuTS hero是威联通（QNAP）为",中,中,True,22,1
+北京清大新洋科技有限公司是北京市新技术产业开发区的高新技术企业，注册资金1000万元人民币，下属多家子公司（北京中科新洋科技有限公司、浙江清大新洋科技有限公司）。公司依托清华大学的技术优势，专业从事图,中,中,True,1,1
+Schneider Electric BMXNOR0200H Ethernet/Serial RTU module是法国施耐德电气（Schneider Electric）公司的一款以太网串行RTU（远,中,中,True,1,1
+cPanel是美国cPanel公司的一套基于Web的自动化主机托管平台。该平台主要用于自动化管理网站和服务器。cPanel 70.0.23之前版本中存在安全漏洞。攻击者可利用该漏洞提升权限。,高,中,False,1,1
+Android是美国谷歌（Google）和开放手持设备联盟（简称OHA）的一套以Linux为基础的开源操作系统。Touch driver是其中的一个触控驱动程序。Android中的Touch驱动程序存,中,中,True,4,1
+Cisco Small Business RV320等都是美国思科（Cisco）公司的一款VPN路由器。多款Cisco产品中的Web管理界面存在缓冲区溢出漏洞，该漏洞源于程序未能正确限制用户输入边界，,高,高,True,2,1
+Lustre是一种平行分布式文件系统，通常用于大型计算机集群和超级电脑，Lustre ptlrpc是其中一个模块。Lustre ptlrpc模块中存在缓冲区溢出漏洞。该漏洞源于网络系统或产品在内存上执,高,高,True,4,1
+Siemens Teamcenter Visualization是一个可为设计2D、3D场景提供团队协作功能的软件。Siemens JT2GO是一款JT文件查看器。Siemens Teamcenter,高,高,True,1,1
+Apple Mac OS X是一款商业性质的操作系统。Apple Mac OS X处理IOAcceleratorFamily存在内存破坏漏洞，允许攻击者利用漏洞运行恶意应用，执行任意代码。,高,高,True,1,1
+XStream是一个开源Java类库，主要用于将对象序列化成XML（JSON）或反序列化为对象。XStream 1.4.17及之前版本存在任意代码执行漏洞，攻击者可利用该漏洞导致任意代码执行。,中,中,True,9,2
+Adobe Commerce是美国奥多比（Adobe）公司的一种面向商家和品牌的全球领先的数字商务解决方案。Adobe Commerce存在权限提升漏洞，攻击者可利用该漏洞导致权限升级。,中,中,True,3,1
+台湾永宏电机专注在高功能的中小型及微型PLC市场领域。永宏FD200存在内存破坏漏洞，攻击者可利用该漏洞导致拒绝服务。,中,中,True,1,1
+Adobe Flash Player是一款Flash文件处理程序。Adobe Flash Player存在未明内存破坏漏洞。允许远程攻击者构建恶意SWF内容，诱使用户解析，可执行任意代码。,高,高,True,4,1
+Oracle Enterprise Manager Base Platform是包含OMS、代理、信息库和管理插件的完整安装程序。Oracle Enterprise Manager Base Plat,中,中,True,21,3
+OFD版式阅读器是一款基于我国自主OFD标准的版式阅读器产品。北京数科网维技术有限责任公司OFD版式阅读器存在二进制漏洞，攻击者可利用该漏洞导致程序崩溃。,中,中,True,3,2
+Android是美国谷歌（Google）公司和开放手持设备联盟（简称OHA）共同开发的一套以Linux为基础的开源操作系统。Qualcomm是使用在其中的一个美国高通（Qualcomm）公司的设备专用,中,中,True,6,3
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在权限提升漏洞，攻击者可利用此漏洞在系统上获得提升的权限。,高,高,True,6,1
+Microsoft Office是一套基于Windows操作系统的办公软件套装。Microsoft SharePoint存在安全功能绕过漏洞，远程攻击者利用此漏洞通过修改webpart，可绕过目标AC,低,中,False,1,1
+RSA Authentication Manager：是RSA SecurID 后面的平台，利用它，可跨多个物理站点集中管理RSA SecurID 环境，包括身份认证方法、用户、应用程序和代理。RSA,中,中,True,1,1
+Foxit PhantomPDF是中国福昕（Foxit）公司的一款PDF文档阅读器。Foxit PhantomPDF 8.3.11之前版本中存在缓冲区溢出漏洞。该漏洞源于网络系统或产品在内存上执行操作,高,中,False,1,1
+SINEMA Remote Connect是一个用于远程网络的管理平台，能够简单管理总部、服务技术人员和已安装机器或工厂之间的隧道连接（VPN）。Siemens SINEMA Remote Conne,高,中,False,1,1
+IrfanView是波黑软件开发者Irfan Skiljan所研发的一款图片浏览器，它支持图片浏览、图片编辑、图片格式转换等。CADImage plugin是其中的一个用于查看CAD文件的插件。Irf,中,中,True,8,1
+用友创立于1988年，是全球先进的企业与公共组织云服务、软件、金融服务提供商。用友网络科技股份有限公司文件服务器配置管理系统存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。,高,高,True,1,1
+Google Chrome是美国谷歌（Google）公司的一款Web浏览器。Google Chrome存在释放后重用漏洞，攻击者可利用该漏洞通过精心制作的HTML页面潜在地利用堆损坏。,高,高,True,1,1
+Google Android是美国谷歌（Google）公司的一套以Linux为基础的开源操作系统。Google Android存在拒绝服务漏洞，攻击者可利用该漏洞导致拒绝服务。,中,高,False,4,1
+Apple macOS Sierra等都是美国苹果（Apple）公司的产品。Apple macOS Sierra是一套为Mac计算机开发的专用操作系统。iOS是为移动设备所开发的一套操作系统；tvOS,中,中,True,1,1
+Microsoft 3D Viewer是美国微软（Microsoft）公司的一款简化且快速的图形编辑应用程序。Microsoft 3D Viewer存在远程代码执行漏洞，攻击者可利用该漏洞在目标主机上,高,高,True,2,1
+Cisco Identity Services Engine (ISE)是下一代身份和访问控制策略平台，使企业能够执行合规性、增强基础架构安全性并简化其服务操作。Cisco Identity Serv,低,低,True,4,1
+GitLab是美国GitLab公司的一款使用Ruby on Rails开发的、自托管的、Git（版本控制系统）项目仓库应用程序。该程序可用于查阅项目的文件内容、提交历史、Bug列表等。GitLab E,中,中,True,1,1
+Microsoft Office是美国微软（Microsoft）公司开发的一款办公软件套件产品。常用组件有Word、Excel、Access、Powerpoint、FrontPage等。Microso,高,高,True,3,1
+Apple iOS是为移动设备所开发的一套操作系统；OS X是为Mac计算机所开发的一套专用操作系统；tvOS是一套智能电视操作系统；watchOS是一套智能手表操作系统。libxslt是一个为GNO,高,高,True,3,1
+Adobe Reader/Acrobat是一款流行的处理PDF文件的应用程序。Adobe Reader/Acrobat存在内存破坏漏洞。允许攻击者构建恶意PDF文件，诱使用户解析，可使应用程序崩溃或执,高,高,True,11,2
+Linux kernel是美国Linux基金会的开源操作系统Linux所使用的内核。Linux kernel存在安全漏洞，该漏洞源于内存释放后重用。目前没有详细的漏洞细节提供。,中,中,True,5,1
+MICROSOFT OFFICE是微软出品的办公软件。MICROSOFT OFFICE 365存在内存破坏漏洞，攻击者可利用该漏洞导致程序崩溃。,中,中,True,8,2

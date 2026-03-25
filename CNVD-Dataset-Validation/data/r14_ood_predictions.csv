@@ -1,0 +1,109 @@
+id,description,severity,title,predicted,true_en,pred_en
+CNVD-2026-13781,"SIMATIC S7-1500 CPU 1518(F)-4 PN/DP MFP‌是西门子（Siemens）S7-1500系列中面向‌高性能、高通信需求和复杂自动化任务‌的中央处理器（CPU）。
+
+Siemens SIMATIC S7-1500 CPU 1518(F)-4 PN/DP MFP附加GNU/Linux子系统存在多个漏洞，攻击者可利用漏洞影响系统的机密性，完整性及可用性。",中,Siemens SIMATIC S7-1500 CPU 1518(F)-4 PN/DP MFP附加GNU/Linux子系统存在多个漏洞,高,Medium,High
+CNVD-2026-13961,"Adobe Experience Manager（AEM）是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理等。
+
+Adobe Experience Manager存在跨站脚本漏洞，该漏洞产生的原因是AEM在处理用户输入时未实施有效过滤。攻击者可利用该漏洞执行任意JavaScript。",中,Adobe Experience Manager跨站脚本漏洞（CNVD-2026-13961）,中,Medium,Medium
+CNVD-2025-15641,"Support Board是WordPress平台的在线客服沟通插件，主要用于提升网站的用户体验和客户服务效率。
+
+WordPress Support Board插件存在路径遍历漏洞，该漏洞源于sb_file_delete函数未严格限制文件路径范围，攻击者可利用该漏洞删除服务器上的关键文件（例如 wp-config.php），进而引发远程代码执行。",高,WordPress Support Board插件路径遍历漏洞,高,High,High
+CNVD-2025-15721,"Tenda AC6是腾达推出的双频无线路由器。
+
+Tenda AC6存在缓冲区溢出漏洞，该漏洞源于/goform/openSchedWifi端点中schedStartTime和schedEndTime参数未能正确验证输入数据的长度大小，目前没有详细的漏洞细节提供。",高,Tenda AC6缓冲区溢出漏洞（CNVD-2025-15721）,中,High,Medium
+CNVD-2025-15841,"Adobe Experience Manager是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理等。
+
+Adobe Experience Manager存在跨站脚本漏洞，攻击者可利用该漏洞在受害者浏览器的上下文中执行。",中,Adobe Experience Manager跨站脚本漏洞（CNVD-2025-15841）,中,Medium,Medium
+CNVD-2025-15881,"Dell iDRAC是戴尔服务器中的嵌入式远程管理控制器，提供硬件监控、远程控制、故障诊断等功能，独立于操作系统运行。
+
+Dell iDRAC存在访问控制错误漏洞，该漏洞源于访问控制不当，攻击者可利用该漏洞进行权限升级，获取更高权限。",中,Dell iDRAC访问控制错误漏洞,中,Medium,Medium
+CNVD-2025-16041,"北京派网软件有限公司是一家专注于为政企行业提供网络应用层解决方案的科技公司。
+
+北京派网软件有限公司panabit日志审计系统存在命令执行漏洞，攻击者可利用漏洞执行任意命令。",高,北京派网软件有限公司panabit日志审计系统存在命令执行漏洞,高,High,High
+CNVD-2025-16081,"Tenda FH1206是腾达公司推出的双频无线路由器，专为光纤大户型家庭设计。
+
+Tenda FH1206存在缓冲区溢出漏洞，该漏洞源于fromSetlpBind函数的page参数中包含一个缓冲区溢出漏洞，攻击者可利用该漏洞导致拒绝服务。",高,Tenda FH1206缓冲区溢出漏洞（CNVD-2025-16081）,高,High,High
+CNVD-2025-16241,"Adobe Experience Manager是美国奥多比（Adobe）公司的一套可用于构建网站、移动应用程序和表单的内容管理解决方案。该方案支持移动内容管理、营销销售活动管理和多站点管理等。
+
+Adobe Experience Manager存在访问控制错误漏洞，攻击者可利用该漏洞导致安全功能绕过。",中,Adobe Experience Manager访问控制错误漏洞（CNVD-2025-16241）,中,Medium,Medium
+CNVD-2025-16321,"Adobe Acrobat Reader是美国奥多比（Adobe）公司的一款PDF查看器。该软件用于打印，签名和注释 PDF。
+
+Adobe Acrobat Reader存在缓冲区错误漏洞，攻击者可利用该漏洞导致任意代码执行。",高,Adobe Acrobat Reader缓冲区溢出漏洞（CNVD-2025-16321）,高,High,High
+CNVD-2025-16361,"OpenImageIO是OpenImageIO开源的一个图像处理库。具有易于使用的界面和大量受支持的图像格式。
+
+OpenImageIO存在缓冲区溢出漏洞，该漏洞源于组件/OpenImageIO/fmath.h在处理不受信任的输入时出现边界错误。目前没有详细的漏洞细节提供。",高,OpenImageIO缓冲区溢出漏洞,高,High,High
+CNVD-2025-16401,"Adobe Illustrator是美国奥多比（Adobe）公司的一套基于向量的图像制作软件。
+
+Adobe Illustrator存在越界写入漏洞，攻击者可利用该漏洞在当前用户的上下文中执行任意代码。",高,Adobe Illustrator越界写入漏洞（CNVD-2025-16401）,高,High,High
+CNVD-2025-16481,"科华数据股份有限公司主要业务涵盖数据中心、高端电源、新能源，服务全球100多个国家和地区的客户。
+
+科华数据股份有限公司监控系统存在弱口令漏洞，攻击者可利用漏洞登录系统，获取敏感信息。",中,科华数据股份有限公司监控系统存在弱口令漏洞,中,Medium,Medium
+CNVD-2025-16521,"Fuji Electric Monitouch V-SFT是富士电机公司提供的一款用于人机界面（HMI）的配置软件。
+
+Fuji Electric Monitouch V-SFT存在缓冲区溢出漏洞，该漏洞源于在将用户提供的数据复制到基于堆栈的缓冲区之前没有对其进行长度的正确验证。攻击者可利用该漏洞执行任意代码。",高,Fuji Electric Monitouch V-SFT缓冲区溢出漏洞,高,High,High
+CNVD-2025-16601,"NETGEAR ProSAFE Network Management System是 NETGEAR 推出的网络管理系统，主要用于对网络设备进行集中管理、监控和配置。
+
+NETGEAR ProSAFE Network Management System存在文件上传漏洞，该漏洞源于应用对上传的文件缺少有效的验证。攻击者可利用该漏洞上传恶意文件从而远程执行任意代码。",高,NETGEAR ProSAFE Network Management System文件上传漏洞,高,High,High
+CNVD-2025-16641,"NETGEAR WNR614是一款面向家庭及小型办公环境的无线路由器，具备基础网络管理功能与150Mbps无线传输性能。
+
+NETGEAR WNR614存在身份验证不当漏洞，该漏洞源于currentsetting.htm的输入，攻击者可利用该漏洞导致机密性、完整性和可用性受影响。",高,NETGEAR WNR614身份验证不当漏洞,高,High,High
+CNVD-2025-16681,"Huawei HarmonyOS是中国华为（Huawei）公司的一个操作系统。提供一个基于微内核的全场景分布式操作系统。
+
+Huawei HarmonyOS存在入参未安全校验漏洞，该漏洞源于HDC模块存在入参未安全校验。攻击者可利用该漏洞导致可用性受影响。",中,Huawei HarmonyOS入参未安全校验漏洞,中,Medium,Medium
+CNVD-2025-16721,"JetBrains TeamCity是一款持续集成（CI/CD）工具，主要用于自动化软件构建、测试及部署流程。
+
+JetBrains TeamCity存在跨站脚本漏洞，攻击者可利用该漏洞在代码检查选项卡上存储XSS。",中,JetBrains TeamCity跨站脚本漏洞（CNVD-2025-16721）,中,Medium,Medium
+CNVD-2025-16761,"IrfanView CADImage Plugin是IrfanView公司的一个CAD插件。
+
+IrfanView CADImage Plugin存在缓冲区溢出漏洞，该漏洞源于解析DXF文件时缺少对用户提供数据的验证，攻击者可利用该漏洞在当前进程的上下文中执行代码。",高,IrfanView CADImage Plugin缓冲区溢出漏洞（CNVD-2025-16761）,高,High,High
+CNVD-2025-16841,"IrfanView CADImage Plugin是IrfanView公司的一个CAD插件。
+
+IrfanView CADImage Plugin存在缓冲区溢出漏洞，该漏洞源于解析DXF文件时缺少对用户提供数据的验证，攻击者可利用该漏洞在当前进程的上下文中执行代码。",高,IrfanView CADImage Plugin缓冲区溢出漏洞（CNVD-2025-16841）,高,High,High
+CNVD-2025-16881,"JetBrains TeamCity是捷克JetBrains公司的一套分布式构建管理和持续集成工具。该工具提供持续单元测试、代码质量分析和构建问题分析报告等功能。
+
+JetBrains TeamCity存在权限问题漏洞，该漏洞源于某些TeamCity API端点未检查用户权限。目前没有详细的漏洞细节提供。",高,JetBrains TeamCity权限问题漏洞,中,High,Medium
+CNVD-2025-16961,"Tenda AC1206是中国腾达（Tenda）公司的一款无线千兆路由器。
+
+Tenda AC1206 15.03.06.23版本存在缓冲区溢出漏洞，该漏洞源于文件/goform/setMacFilterCfg中参数deviceList未能正确验证输入数据的长度大小，远程攻击者可利用该漏洞在系统上执行任意代码或者导致拒绝服务攻击。",高,Tenda AC1206缓冲区溢出漏洞,高,High,High
+CNVD-2025-17041,"IrfanView CADImage Plugin是IrfanView公司的一个CAD插件。
+
+IrfanView CADImage Plugin存在缓冲区溢出漏洞，该漏洞源于解析DWG文件时缺乏对用户数据的验证，攻击者可利用该漏洞在当前进程的上下文中执行代码。",高,IrfanView CADImage Plugin缓冲区溢出漏洞（CNVD-2025-17041）,高,High,High
+CNVD-2025-17121,"Google Android是由美国谷歌公司（Google）主导开发的开放源代码手机操作系统。
+
+Google Android存在越界写入漏洞，该漏洞源于lwis_periodic_io.c文件的prepare_response函数整数溢出，攻击者可利用该漏洞实现本地权限提升。",中,Google Android lwis_periodic_io.c越界写入漏洞,高,Medium,High
+CNVD-2025-17161,"Oracle MySQL Server是美国甲骨文（Oracle）公司的一款关系型数据库。
+
+Oracle MySQL Server存在资源管理错误漏洞，该漏洞源于DDL组件访问控制不当，攻击者可利用该漏洞导致拒绝服务。",中,Oracle MySQL Server资源管理错误漏洞（CNVD-2025-17161）,中,Medium,Medium
+CNVD-2025-17281,"WordPress ELEX WooCommerce Advanced Bulk Edit Products,Prices&Attributes是一款用于批量编辑WooCommerce产品信息、价格及属性的插件，支持简单、变体、外部和捆绑产品。
+
+WordPress ELEX WooCommerce Advanced Bulk Edit Products,Prices&Attributes存在SQL注入漏洞，该漏洞源于特殊元素中和不当，目前没有详细的漏洞细节提供。",高,"WordPress ELEX WooCommerce Advanced Bulk Edit Products,Prices&Attributes SQL注入漏洞",高,High,High
+CNVD-2025-17321,"WordPress WP Pipes是一款用于WordPress的自动采集插件，主要用于将多个RSS源的内容合并成一个新的RSS源，并支持定期更新和自定义筛选功能。
+
+WordPress WP Pipes存在SQL注入漏洞，该漏洞源于SQL命令特殊元素处理不当，目前没有详细的漏洞细节提供。",高,WordPress WP Pipes SQL注入漏洞,高,High,High
+CNVD-2025-17361,"Oracle MySQL Server是美国甲骨文（Oracle）公司的一款关系型数据库。
+
+Oracle MySQL Server存在资源管理错误漏洞，该漏洞源于Optimizer组件访问控制不当，攻击者可利用该漏洞导致拒绝服务。",中,Oracle MySQL Server资源管理错误漏洞（CNVD-2025-17361）,中,Medium,Medium
+CNVD-2025-17401,"D-Link  DIR-619L是一款专为家庭及小型办公环境设计的无线路由器，采用IEEE 802.11n标准，最高传输速率达300Mbps。
+
+D-Link DIR-619L存在缓冲区溢出漏洞，该漏洞源于formSetWanDhcpplus方法存在缓冲区溢出问题。目前没有详细的漏洞细节提供。",高,D-Link DIR-619L缓冲区溢出漏洞,高,High,High
+CNVD-2025-17481,"Microsoft WordPad是美国微软（Microsoft）公司的一个文字处理器。
+
+Microsoft WordPad信息泄露漏洞，攻击者可利用该漏洞获取敏感信息。",高,Microsoft WordPad信息泄露漏洞,中,High,Medium
+CNVD-2025-17521,"TOTOLINK X15是中国吉翁电子（TOTOLINK）公司生产的网络无线扩展器，主要用于扩展Wi-Fi覆盖范围。该设备支持 Wi-Fi 6技术 ，提供AX1500无线传输速率，适用于家庭和小型办公场景。
+
+TOTOLINK X15存在缓冲区溢出漏洞，该漏洞源于HTTP POST请求处理组件中/boafrm/formMultiAPVLAN文件的submit-url参数未对输入数据进行有效边界检查。攻击者可利用该漏洞导致设备拒绝服务或执行任意代码。",高,TOTOLINK X15缓冲区溢出漏洞,高,High,High
+CNVD-2025-17601,"Siemens SCALANCE LPE9403是德国西门子（Siemens）公司的一款用于工业现场数据处理的本地处理引擎。用于捕获、收集和预处理工业现场数据。
+
+Siemens SCALANCE LPE9403存在路径遍历漏洞，攻击者可利用该漏洞导致恢复备份文件夹外的备份。",中,Siemens SCALANCE LPE9403路径遍历漏洞（CNVD-2025-17601）,高,Medium,High
+CNVD-2025-17681,"TOTOLINK T6是中国吉翁电子（TOTOLINK）推出的无线双频路由器，支持MQTT协议和Telnet服务。
+
+TOTOLINK T6存在命令注入漏洞，该漏洞源于组件HTTP POST Request Handler中文件/cgi-bin/cstecgi.cgi的函数delDevice的参数ipAddr未能正确过滤构造命令特殊字符、命令等。目前没有详细的漏洞细节提供。",中,TOTOLINK T6 delDevice函数命令注入漏洞,中,Medium,Medium
+CNVD-2025-17881,"WordPress和WordPress plugin都是WordPress基金会的产品，WordPress plugin是一个应用插件。
+
+WordPress hiWeb Export Posts存在跨站请求伪造漏洞，该漏洞源于缺少或错误的随机数验证，攻击者可利用该漏洞删除任意文件。",高,WordPress hiWeb Export Posts跨站请求伪造漏洞,中,High,Medium
+CNVD-2025-17961,"用友U8Cloud是一款企业级ERP，用于协助企业实现业务协同和流程管理的高效化和数字化。
+
+用友网络科技股份有限公司用友U8Cloud存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。",高,用友网络科技股份有限公司用友U8Cloud存在SQL注入漏洞（CNVD-2025-17961）,高,High,High
+CNVD-2025-18001,"ioLogik E1210-T是一款工业以太网模块。
+
+摩莎科技（上海）有限公司ioLogik E1210-T存在未授权访问漏洞，攻击者可利用该漏洞获取敏感信息。",中,摩莎科技（上海）有限公司ioLogik E1210-T存在未授权访问漏洞,中,Medium,Medium
