@@ -2,6 +2,8 @@
 
 Independent cybersecurity research projects by Eric Romang. Each project is self-contained with its own methodology, data, and findings.
 
+Models and datasets are published on [Hugging Face](https://huggingface.co/eromang).
+
 ---
 
 ## Projects
