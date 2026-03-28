@@ -347,6 +347,20 @@ python3 scripts/analyze_results.py results/Phase_1/<run>.jsonl --outdir results/
 - **Fixed prompt templates**: identical analytical instructions across all conditions
 - **No cloud dependency**: fully local execution via Ollama
 
+## Hugging Face Datasets
+
+The prompts and full response corpus are published on Hugging Face for direct use with the `datasets` library:
+
+- [eromang/eu-cyber-llm-benchmark-prompts](https://huggingface.co/datasets/eromang/eu-cyber-llm-benchmark-prompts) — 728 evaluation prompts (Phase I + Phase II)
+- [eromang/eu-cyber-llm-benchmark-responses](https://huggingface.co/datasets/eromang/eu-cyber-llm-benchmark-responses) — 15,988 model responses across 7 models
+
+```python
+from datasets import load_dataset
+
+prompts = load_dataset("eromang/eu-cyber-llm-benchmark-prompts", split="phase_2")
+responses = load_dataset("eromang/eu-cyber-llm-benchmark-responses")
+```
+
 ## Citation
 
 ```bibtex

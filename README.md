@@ -28,6 +28,7 @@ Tests whether local language models exhibit actor-asymmetric framing when genera
 - **Phase II:** 14,785 prompts across 48 scenarios, 11 conditions (adding US, Iran, DPRK attribution), 7 models including reasoning (qwen3, deepseek-r1) and standard (llama3.1, gemma3n, phi4, mistral, qwen3-nothink)
 - **Key findings:** certainty calibration is universal across all models; Phase I China bias disappears at scale; no systematic geopolitical bias detected; CVE fixation is model-specific (deepseek-r1 on PwnKit, llama3.1/phi4 on Log4Shell); chain-of-thought amplifies calibration, CVE rate, and actor uniformity
 - **Assets:** full JSONL raw data (Git LFS), prompt CSVs, analysis scripts, per-model statistical reports, cross-model comparisons
+- **Hugging Face:** [Prompts](https://huggingface.co/datasets/eromang/eu-cyber-llm-benchmark-prompts) | [Responses](https://huggingface.co/datasets/eromang/eu-cyber-llm-benchmark-responses)
 
 ---
 
