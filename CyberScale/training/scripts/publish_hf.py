@@ -44,12 +44,14 @@ DATASET_REPO = f"{HF_ORG}/cyberscale-training-cves"
 CONTEXTUAL_DATASET_REPO = f"{HF_ORG}/cyberscale-contextual-training"
 TECHNICAL_DATASET_REPO = f"{HF_ORG}/cyberscale-technical-training"
 OPERATIONAL_DATASET_REPO = f"{HF_ORG}/cyberscale-operational-training"
+CURATED_DATASET_REPO = f"{HF_ORG}/cyberscale-curated-incidents"
 
 MODEL_DIR = PROJECT_ROOT / "data" / "models" / "scorer"
 CONTEXTUAL_DIR = PROJECT_ROOT / "data" / "models" / "contextual"
 TECHNICAL_DIR = PROJECT_ROOT / "data" / "models" / "technical"
 OPERATIONAL_DIR = PROJECT_ROOT / "data" / "models" / "operational"
 DATASET_DIR = PROJECT_ROOT / "training" / "data"
+CURATED_SOURCE = PROJECT_ROOT / "data" / "reference" / "curated_incidents.json"
 
 
 # ---------------------------------------------------------------------------
@@ -879,6 +881,150 @@ def publish_incident_dataset(api: HfApi, model_type: str, dry_run: bool = False)
 
 
 # ---------------------------------------------------------------------------
+# Curated incidents dataset
+# ---------------------------------------------------------------------------
+
+def generate_curated_dataset_card(source_path: Path) -> str:
+    """Generate README.md for the curated incidents benchmark dataset."""
+    data = json.loads(source_path.read_text())
+    incidents = data.get("incidents", [])
+    t_dist: dict = {}
+    o_dist: dict = {}
+    for inc in incidents:
+        t = inc.get("expected_t", "?")
+        o = inc.get("expected_o", "?")
+        t_dist[t] = t_dist.get(t, 0) + 1
+        o_dist[o] = o_dist.get(o, 0) + 1
+
+    t_rows = "\n".join(
+        f"| {k} | {v} |" for k, v in sorted(t_dist.items())
+    )
+    o_rows = "\n".join(
+        f"| {k} | {v} |" for k, v in sorted(o_dist.items())
+    )
+
+    return f"""---
+language: en
+license: apache-2.0
+task_categories:
+  - text-classification
+tags:
+  - cybersecurity
+  - incident-classification
+  - technical-severity
+  - operational-severity
+  - nis2
+  - cyber-blueprint
+  - benchmark
+size_categories:
+  - n<1K
+---
+
+# CyberScale Curated Incidents Benchmark
+
+Human-curated benchmark of **{len(incidents)} real-world cyber incidents** with Blueprint T/O ground-truth labels. Used to validate the Phase 3 T-model and O-model against documented, authoritative incident data.
+
+## Dataset Description
+
+- **Source:** Manually curated from ENISA, NCSC, CERT reports, and academic references
+- **Coverage:** High-profile cyber incidents from 2007 to 2024
+- **Labels:** Blueprint Technical (T1–T4) and Operational (O1–O4) severity levels with per-incident rationale
+- **Version:** {data.get("version", "1.0")}
+
+## Schema
+
+Each entry in `curated_incidents.json` contains:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | string | Incident identifier (e.g., INC-001) |
+| `name` | string | Incident name and year |
+| `date` | string | Incident date (ISO 8601) |
+| `sources` | list[string] | Authoritative reference URLs |
+| `description` | string | Narrative description of the incident |
+| `t_fields` | object | Technical severity input fields (disruption, entities, sectors, cascading, data_compromise) |
+| `o_fields` | object | Operational severity input fields (sectors, relevance, ms_affected, cross_border, coordination, capacity_exceeded) |
+| `expected_t` | string | Ground-truth Technical severity (T1–T4) |
+| `expected_o` | string | Ground-truth Operational severity (O1–O4) |
+| `rationale` | object | Human-written justification for each label |
+
+## Label Distribution
+
+### Technical Severity
+
+| Label | Count |
+|-------|-------|
+{t_rows}
+
+### Operational Severity
+
+| Label | Count |
+|-------|-------|
+{o_rows}
+
+## Usage
+
+```python
+from datasets import load_dataset
+
+ds = load_dataset("{CURATED_DATASET_REPO}")
+```
+
+Or load directly:
+
+```python
+import json, urllib.request
+
+url = "https://huggingface.co/datasets/{CURATED_DATASET_REPO}/resolve/main/curated_incidents.json"
+with urllib.request.urlopen(url) as r:
+    data = json.load(r)
+incidents = data["incidents"]
+```
+
+## Citation
+
+Part of the CyberScale project — multi-phase cyber severity assessment MCP server.
+"""
+
+
+def publish_curated_dataset(api: HfApi, dry_run: bool = False) -> None:
+    """Publish the human-curated incidents benchmark dataset."""
+    if not CURATED_SOURCE.exists():
+        print(f"ERROR: Curated incidents not found at {CURATED_SOURCE}")
+        return
+
+    card = generate_curated_dataset_card(CURATED_SOURCE)
+    card_path = CURATED_SOURCE.parent / "curated_incidents_README.md"
+    card_path.write_text(card)
+
+    data = json.loads(CURATED_SOURCE.read_text())
+    n = len(data.get("incidents", []))
+    print(f"\n--- Curated Dataset: {CURATED_DATASET_REPO} ---")
+    print(f"Source: {CURATED_SOURCE.name} ({CURATED_SOURCE.stat().st_size / 1024:.0f} KB, {n} incidents)")
+
+    if dry_run:
+        print("DRY RUN — skipping upload")
+        return
+
+    create_repo(CURATED_DATASET_REPO, repo_type="dataset", exist_ok=True, token=api.token)
+    api.upload_file(
+        path_or_fileobj=str(CURATED_SOURCE),
+        path_in_repo="curated_incidents.json",
+        repo_id=CURATED_DATASET_REPO,
+        repo_type="dataset",
+        commit_message="Upload curated incidents benchmark (40 real-world incidents)",
+    )
+    api.upload_file(
+        path_or_fileobj=str(card_path),
+        path_in_repo="README.md",
+        repo_id=CURATED_DATASET_REPO,
+        repo_type="dataset",
+        commit_message="Upload dataset card",
+    )
+    print(f"Published: https://huggingface.co/datasets/{CURATED_DATASET_REPO}")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -892,6 +1038,7 @@ def main():
     parser.add_argument("--contextual-dataset-only", action="store_true", help="Publish contextual dataset only")
     parser.add_argument("--technical-dataset-only", action="store_true", help="Publish technical dataset only")
     parser.add_argument("--operational-dataset-only", action="store_true", help="Publish operational dataset only")
+    parser.add_argument("--curated-dataset-only", action="store_true", help="Publish curated incidents dataset only")
     parser.add_argument("--all-datasets", action="store_true", help="Publish all datasets")
     parser.add_argument("--dataset-csv", type=str,
                         default=str(DATASET_DIR / "training_cves_v2.csv"),
@@ -911,7 +1058,8 @@ def main():
     any_flag = (args.model_only or args.contextual_only or args.technical_only
                 or args.operational_only or args.dataset_only
                 or args.contextual_dataset_only or args.technical_dataset_only
-                or args.operational_dataset_only or args.all_datasets)
+                or args.operational_dataset_only or args.curated_dataset_only
+                or args.all_datasets)
     publish_all = not any_flag
 
     if args.model_only or publish_all:
@@ -930,6 +1078,8 @@ def main():
         publish_incident_dataset(api, "technical", dry_run=args.dry_run)
     if args.operational_dataset_only or args.all_datasets or publish_all:
         publish_incident_dataset(api, "operational", dry_run=args.dry_run)
+    if args.curated_dataset_only or args.all_datasets or publish_all:
+        publish_curated_dataset(api, dry_run=args.dry_run)
 
 
 if __name__ == "__main__":

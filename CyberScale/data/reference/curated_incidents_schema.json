@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyberscale.ai/schemas/curated_incidents.json",
+  "title": "CyberScale Curated Incident Benchmark Dataset",
+  "description": "JSON Schema for validating curated cyber incident datasets with threat and organizational impact assessments",
+  "type": "object",
+  "required": ["version", "incidents"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the dataset"
+    },
+    "incidents": {
+      "type": "array",
+      "description": "Array of curated incident records",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "date",
+          "sources",
+          "description",
+          "t_fields",
+          "o_fields",
+          "expected_t",
+          "expected_o",
+          "rationale"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^INC-[0-9]{3}$",
+            "description": "Incident identifier in format INC-NNN"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the incident"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "Date of the incident (YYYY-MM-DD)"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "Sources documenting the incident"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 50,
+            "description": "Detailed description of the incident"
+          },
+          "t_fields": {
+            "type": "object",
+            "required": [
+              "service_disruption",
+              "affected_entities",
+              "sectors_affected",
+              "cascading",
+              "data_compromise"
+            ],
+            "properties": {
+              "service_disruption": {
+                "type": "string",
+                "enum": ["partial", "significant", "complete", "sustained"],
+                "description": "Level of service disruption"
+              },
+              "affected_entities": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Number of affected entities"
+              },
+              "sectors_affected": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Number of affected sectors"
+              },
+              "cascading": {
+                "type": "string",
+                "enum": ["none", "limited", "cross_sector", "uncontrolled"],
+                "description": "Degree of cascading effects"
+              },
+              "data_compromise": {
+                "type": "string",
+                "enum": ["none", "operational", "sensitive", "systemic"],
+                "description": "Level of data compromise"
+              }
+            },
+            "description": "Threat assessment fields"
+          },
+          "o_fields": {
+            "type": "object",
+            "required": [
+              "sectors_affected",
+              "entity_relevance",
+              "ms_affected",
+              "cross_border_pattern",
+              "coordination_needs",
+              "capacity_exceeded"
+            ],
+            "properties": {
+              "sectors_affected": {
+                "type": "string",
+                "description": "Affected sectors description"
+              },
+              "entity_relevance": {
+                "type": "string",
+                "enum": ["non_essential", "essential", "high_relevance", "systemic"],
+                "description": "Relevance of affected entities"
+              },
+              "ms_affected": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Number of affected member states"
+              },
+              "cross_border_pattern": {
+                "type": "string",
+                "enum": ["none", "limited", "significant", "systemic"],
+                "description": "Cross-border impact pattern"
+              },
+              "coordination_needs": {
+                "type": "string",
+                "enum": ["national", "eu_info", "eu_active", "full_ipcr"],
+                "description": "Level of coordination needed"
+              },
+              "capacity_exceeded": {
+                "type": "boolean",
+                "description": "Whether response capacity was exceeded"
+              }
+            },
+            "description": "Organizational/operational assessment fields"
+          },
+          "expected_t": {
+            "type": "string",
+            "enum": ["T1", "T2", "T3", "T4"],
+            "description": "Expected threat level classification"
+          },
+          "expected_o": {
+            "type": "string",
+            "enum": ["O1", "O2", "O3", "O4"],
+            "description": "Expected organizational impact classification"
+          },
+          "rationale": {
+            "type": "object",
+            "required": ["t_rationale", "o_rationale"],
+            "properties": {
+              "t_rationale": {
+                "type": "string",
+                "minLength": 20,
+                "description": "Rationale for threat level classification"
+              },
+              "o_rationale": {
+                "type": "string",
+                "minLength": 20,
+                "description": "Rationale for organizational impact classification"
+              }
+            },
+            "description": "Classification rationales"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
