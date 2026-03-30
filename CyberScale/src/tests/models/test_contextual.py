@@ -108,3 +108,26 @@ class TestKeyFactors:
         assert "energy sector" in factors
         assert "cross-border exposure" not in factors
         assert "critical base score" not in factors
+
+
+class TestKeyFactorsV2:
+    def test_deployment_scale_factor(self):
+        clf = ContextualClassifier.__new__(ContextualClassifier)
+        factors = clf._extract_key_factors("health", True, 9.5, deployment_scale="critical_operator")
+        assert "critical_operator deployment" in factors
+
+    def test_entity_type_factor(self):
+        clf = ContextualClassifier.__new__(ContextualClassifier)
+        factors = clf._extract_key_factors("health", True, 9.5, entity_type="hospital")
+        assert "hospital entity" in factors
+
+    def test_small_deployment_factor(self):
+        clf = ContextualClassifier.__new__(ContextualClassifier)
+        factors = clf._extract_key_factors("non_nis2", False, 5.0, deployment_scale="individual")
+        assert "individual deployment" in factors
+
+    def test_no_new_factors_when_none(self):
+        clf = ContextualClassifier.__new__(ContextualClassifier)
+        factors = clf._extract_key_factors("energy", False, 5.0)
+        assert not any("deployment" in f for f in factors)
+        assert not any("entity" in f for f in factors)

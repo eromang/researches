@@ -78,9 +78,14 @@ class ContextualClassifier:
         sector: str,
         cross_border: bool,
         score: Optional[float] = None,
+        deployment_scale: Optional[str] = None,
+        entity_type: Optional[str] = None,
     ) -> ContextualResult:
         """Classify contextual severity with MC dropout confidence."""
-        text = self._format_input(description, sector, cross_border, score=score)
+        text = self._format_input(
+            description, sector, cross_border, score=score,
+            deployment_scale=deployment_scale, entity_type=entity_type,
+        )
         inputs = self.tokenizer(
             text,
             return_tensors="pt",
@@ -107,7 +112,10 @@ class ContextualClassifier:
 
         severity = self.probs_to_severity(mean_probs)
         confidence = self.max_prob_to_confidence(max(mean_probs))
-        key_factors = self._extract_key_factors(sector, cross_border, score)
+        key_factors = self._extract_key_factors(
+            sector, cross_border, score,
+            deployment_scale=deployment_scale, entity_type=entity_type,
+        )
 
         return ContextualResult(
             severity=severity, confidence=confidence, key_factors=key_factors
@@ -154,6 +162,8 @@ class ContextualClassifier:
         sector: str,
         cross_border: bool,
         score: Optional[float],
+        deployment_scale: Optional[str] = None,
+        entity_type: Optional[str] = None,
     ) -> list[str]:
         """Extract key contextual factors for explainability."""
         factors = [f"{sector} sector"]
@@ -161,6 +171,10 @@ class ContextualClassifier:
             factors.append("cross-border exposure")
         if score is not None and score >= 9.0:
             factors.append("critical base score")
+        if deployment_scale is not None:
+            factors.append(f"{deployment_scale} deployment")
+        if entity_type is not None:
+            factors.append(f"{entity_type} entity")
         return factors
 
     @staticmethod
