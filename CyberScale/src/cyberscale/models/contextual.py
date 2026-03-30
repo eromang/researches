@@ -119,6 +119,8 @@ class ContextualClassifier:
         sector: str,
         cross_border: bool,
         score: Optional[float] = None,
+        deployment_scale: Optional[str] = None,
+        entity_type: Optional[str] = None,
     ) -> str:
         """Format input text for the model.
 
@@ -135,6 +137,10 @@ class ContextualClassifier:
         ]
         if score is not None:
             parts.append(f"score: {score}")
+        if deployment_scale is not None:
+            parts.append(f"deployment_scale: {deployment_scale}")
+        if entity_type is not None:
+            parts.append(f"entity_type: {entity_type}")
         return " ".join(parts)
 
     def _enable_dropout(self) -> None:

@@ -59,6 +59,41 @@ class TestClassificationOutput:
         assert ContextualClassifier.max_prob_to_confidence(0.30) == "low"
 
 
+class TestFormatInputV2:
+    def test_with_deployment_scale(self):
+        clf = ContextualClassifier.__new__(ContextualClassifier)
+        text = clf._format_input(
+            "Buffer overflow in X", sector="health", cross_border=True,
+            score=8.5, deployment_scale="enterprise",
+        )
+        assert "deployment_scale: enterprise" in text
+
+    def test_with_entity_type(self):
+        clf = ContextualClassifier.__new__(ContextualClassifier)
+        text = clf._format_input(
+            "Buffer overflow in X", sector="health", cross_border=True,
+            score=8.5, entity_type="hospital",
+        )
+        assert "entity_type: hospital" in text
+
+    def test_with_both_new_fields(self):
+        clf = ContextualClassifier.__new__(ContextualClassifier)
+        text = clf._format_input(
+            "Buffer overflow in X", sector="health", cross_border=False,
+            score=7.0, deployment_scale="critical_operator", entity_type="hospital",
+        )
+        assert "deployment_scale: critical_operator" in text
+        assert "entity_type: hospital" in text
+
+    def test_without_new_fields_unchanged(self):
+        clf = ContextualClassifier.__new__(ContextualClassifier)
+        text = clf._format_input(
+            "Buffer overflow in X", sector="energy", cross_border=False, score=None,
+        )
+        assert "deployment_scale:" not in text
+        assert "entity_type:" not in text
+
+
 class TestKeyFactors:
     def test_basic_factors(self):
         clf = ContextualClassifier.__new__(ContextualClassifier)
