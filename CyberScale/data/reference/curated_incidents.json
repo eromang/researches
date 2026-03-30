@@ -1,0 +1,1286 @@
+{
+  "version": "1.0",
+  "description": "Human-curated benchmark dataset of real-world cyber incidents mapped to Blueprint T/O levels.",
+  "incidents": [
+    {
+      "id": "INC-001",
+      "name": "WannaCry ransomware (2017)",
+      "date": "2017-05-12",
+      "sources": [
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2017",
+        "https://www.ncsc.gov.uk/news/latest-statement-wannacry-ransomware",
+        "https://www.cert.pl/en/news/single/wannacry-ransomware-analysis/"
+      ],
+      "description": "A self-propagating ransomware campaign exploiting the EternalBlue SMB vulnerability spread across 150+ countries within hours, encrypting files on over 300,000 systems. Critical infrastructure including the UK National Health Service, Telefonica, and Deutsche Bahn were among the most visibly impacted organisations. The NHS disruption led to cancelled appointments, diverted ambulances, and widespread operational paralysis in emergency departments. The worm spread without user interaction, overwhelming incident response teams globally. ENISA classified this as the most disruptive ransomware event of the decade.",
+      "t_fields": {
+        "service_disruption": "sustained",
+        "affected_entities": 300000,
+        "sectors_affected": 6,
+        "cascading": "uncontrolled",
+        "data_compromise": "operational"
+      },
+      "o_fields": {
+        "sectors_affected": "health, transport, digital_infrastructure, public administration, manufacturing, banking",
+        "entity_relevance": "systemic",
+        "ms_affected": 27,
+        "cross_border_pattern": "systemic",
+        "coordination_needs": "full_ipcr",
+        "capacity_exceeded": true
+      },
+      "expected_t": "T4",
+      "expected_o": "O4",
+      "rationale": {
+        "t_rationale": "Sustained disruption across hundreds of thousands of entities with uncontrolled cascading across six sectors qualifies as T4 under the highest tier rules.",
+        "o_rationale": "Full IPCR coordination was activated, systemic cross-border impact across 27 Member States with capacity_exceeded=true satisfies the O4 rule for full_ipcr and systemic cross-border + capacity_exceeded."
+      }
+    },
+    {
+      "id": "INC-002",
+      "name": "NotPetya destructive attack (2017)",
+      "date": "2017-06-27",
+      "sources": [
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2017",
+        "https://www.cert.ssi.gouv.fr/actualite/CERTFR-2017-ACT-0031/",
+        "https://www.wired.com/story/notpetya-cyberattack-ukraine-russia-code-crashed-the-world/"
+      ],
+      "description": "NotPetya was a wiper masquerading as ransomware, deployed initially through the compromised M.E.Doc software update mechanism in Ukraine before propagating globally via EternalBlue and credential harvesting. Maersk, Merck, FedEx subsidiary TNT, and Mondelez suffered complete operational shutdowns, with Maersk alone losing approximately $300 million and having to reinstall 45,000 PCs and 4,000 servers. Ukrainian critical infrastructure including power grids, banks, and government agencies sustained simultaneous, coordinated damage. The attack caused an estimated $10 billion in global damages, making it the most destructive cyberattack on record at the time.",
+      "t_fields": {
+        "service_disruption": "sustained",
+        "affected_entities": 2000,
+        "sectors_affected": 7,
+        "cascading": "uncontrolled",
+        "data_compromise": "systemic"
+      },
+      "o_fields": {
+        "sectors_affected": "transport, banking, energy, manufacturing, food, digital_infrastructure, public administration",
+        "entity_relevance": "systemic",
+        "ms_affected": 20,
+        "cross_border_pattern": "systemic",
+        "coordination_needs": "full_ipcr",
+        "capacity_exceeded": true
+      },
+      "expected_t": "T4",
+      "expected_o": "O4",
+      "rationale": {
+        "t_rationale": "Sustained disruption combined with systemic data compromise (permanent destruction of data) and uncontrolled cascading across seven sectors satisfies the T4 highest tier rule.",
+        "o_rationale": "Full IPCR-level coordination was warranted given systemic cross-border impact across 20+ Member States with capacity exceeded at nearly every affected organisation, satisfying the O4 rule."
+      }
+    },
+    {
+      "id": "INC-003",
+      "name": "SolarWinds Orion supply chain (2020)",
+      "date": "2020-12-13",
+      "sources": [
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-for-supply-chain-attacks",
+        "https://www.cisa.gov/news-events/cybersecurity-advisories/aa20-352a",
+        "https://www.microsoft.com/en-us/security/blog/2020/12/18/analyzing-solorigate-the-compromised-dll-file-that-started-a-sophisticated-cyberattack-and-how-microsoft-defender-helps-protect/"
+      ],
+      "description": "A nation-state threat actor compromised the SolarWinds Orion software build pipeline, injecting a backdoor named SUNBURST into signed updates distributed to approximately 18,000 customers worldwide. Around 100 organisations were selectively exploited for follow-on espionage activity, including US federal agencies, Fortune 500 companies, and several European government bodies. The operation remained undetected for nine months. ENISA flagged this as a paradigm-shifting supply chain attack affecting critical government and private sector networks across the EU and beyond, triggering coordinated intelligence sharing under the NIS Cooperation Group.",
+      "t_fields": {
+        "service_disruption": "partial",
+        "affected_entities": 18000,
+        "sectors_affected": 5,
+        "cascading": "cross_sector",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "public administration, digital_infrastructure, banking, energy, defence",
+        "entity_relevance": "high_relevance",
+        "ms_affected": 8,
+        "cross_border_pattern": "significant",
+        "coordination_needs": "eu_active",
+        "capacity_exceeded": true
+      },
+      "expected_t": "T4",
+      "expected_o": "O3",
+      "rationale": {
+        "t_rationale": "Over 18,000 affected entities exceeds the T3 threshold of 50, cross-sector cascading and sensitive data compromise both independently qualify for T3; combined with cross_sector cascading at scale the incident meets T4 criteria due to systemic data compromise across government networks.",
+        "o_rationale": "EU-active coordination was triggered via the NIS Cooperation Group, significant cross-border pattern across 8 Member States, and capacity_exceeded, satisfying the O3 rule for eu_active OR significant cross-border OR capacity_exceeded."
+      }
+    },
+    {
+      "id": "INC-004",
+      "name": "Irish HSE ransomware (2021)",
+      "date": "2021-05-14",
+      "sources": [
+        "https://www.hse.ie/eng/services/publications/sci/hse-cyber-attack-post-incident-review.pdf",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2021",
+        "https://www.ncsc.gov.ie/pdfs/HSE_Conti_140521_UPDATE.pdf"
+      ],
+      "description": "The Conti ransomware group encrypted the entire IT infrastructure of Ireland's Health Service Executive, forcing the shutdown of all national health IT systems including electronic patient records, diagnostic imaging, and laboratory systems. Approximately 80,000 devices were affected and the recovery process lasted several months. Thousands of outpatient appointments were cancelled and cancer treatment schedules were disrupted across the country. The Irish National Cyber Security Centre and an international coalition of vendors assisted with recovery. This was the most significant cyber attack on an Irish state institution.",
+      "t_fields": {
+        "service_disruption": "complete",
+        "affected_entities": 54,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "health",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "eu_info",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O2",
+      "rationale": {
+        "t_rationale": "Complete disruption of national health IT with over 50 affected entities and sensitive data compromise independently qualify for T3 under the complete disruption and sensitive data rules.",
+        "o_rationale": "EU_info coordination was notified given an essential-sector national health system; the incident meets the O2 rule for eu_info coordination needs."
+      }
+    },
+    {
+      "id": "INC-005",
+      "name": "Colonial Pipeline ransomware (2021)",
+      "date": "2021-05-07",
+      "sources": [
+        "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-131a",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2021",
+        "https://www.bbc.com/news/technology-57063636"
+      ],
+      "description": "DarkSide ransomware operators compromised Colonial Pipeline, the largest US fuel pipeline operator supplying approximately 45% of the US East Coast's fuel. The company proactively shut down pipeline operations for nearly a week to contain the infection, triggering fuel shortages across several US states and a federal emergency declaration. The attackers exfiltrated approximately 100 GB of data before deploying ransomware. Colonial paid approximately $4.4 million in ransom, part of which was later recovered by the FBI. The incident highlighted the fragility of critical energy infrastructure against ransomware.",
+      "t_fields": {
+        "service_disruption": "complete",
+        "affected_entities": 1,
+        "sectors_affected": 2,
+        "cascading": "cross_sector",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "energy, transport",
+        "entity_relevance": "high_relevance",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Complete disruption of critical energy infrastructure with cross-sector cascading into transport satisfies T3 under the complete disruption and cross_sector cascading rules.",
+        "o_rationale": "This was a US domestic incident with national-level coordination only; no EU Member States were directly affected, so O1 applies as the default level without EU coordination triggers."
+      }
+    },
+    {
+      "id": "INC-006",
+      "name": "Kaseya VSA supply chain ransomware (2021)",
+      "date": "2021-07-02",
+      "sources": [
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2021",
+        "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-200b",
+        "https://cert.at/de/warnungen/2021/7/kaseya-vsa-supply-chain-angriff/"
+      ],
+      "description": "The REvil ransomware group exploited zero-day vulnerabilities in Kaseya VSA remote management software to push ransomware to approximately 1,500 downstream managed service provider clients across 17 countries simultaneously. Swedish grocery chain Coop was forced to close 800 stores due to point-of-sale system failures. The attack coincided with the US Independence Day holiday weekend. CISA and FBI issued a joint advisory and ENISA tracked significant EU exposure through German, Dutch, and Austrian MSPs. REvil demanded $70 million in ransom for a universal decryptor.",
+      "t_fields": {
+        "service_disruption": "significant",
+        "affected_entities": 1500,
+        "sectors_affected": 4,
+        "cascading": "cross_sector",
+        "data_compromise": "operational"
+      },
+      "o_fields": {
+        "sectors_affected": "ict_service_management, food, manufacturing, digital_providers",
+        "entity_relevance": "high_relevance",
+        "ms_affected": 10,
+        "cross_border_pattern": "significant",
+        "coordination_needs": "eu_active",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O3",
+      "rationale": {
+        "t_rationale": "Over 1,500 affected entities exceeds the T3 threshold of 50, cross-sector cascading and significant disruption independently meet the T3 bar.",
+        "o_rationale": "EU-active coordination was engaged given significant cross-border impact across 10 Member States and high-relevance MSP entities; satisfies O3 under eu_active OR significant cross-border rules."
+      }
+    },
+    {
+      "id": "INC-007",
+      "name": "Belgian MoD Log4Shell exploitation (2021)",
+      "date": "2021-12-16",
+      "sources": [
+        "https://www.zdnet.com/article/belgian-defense-ministry-confirms-cyberattack-through-log4j-vulnerability/",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2021",
+        "https://ccb.belgium.be/en/news/cyber-attack-belgian-ministry-defence"
+      ],
+      "description": "Attackers exploited the Log4Shell vulnerability (CVE-2021-44228) to gain access to parts of the Belgian Ministry of Defence's network. The ministry took several network segments offline as a precautionary measure and initiated a forensic investigation. Email communications experienced partial disruption. The attack was among the earliest confirmed government exploitation of Log4Shell in Europe. The Centre for Cybersecurity Belgium coordinated the national response and the incident was contained to a limited network segment without confirmed data exfiltration.",
+      "t_fields": {
+        "service_disruption": "significant",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "operational"
+      },
+      "o_fields": {
+        "sectors_affected": "defence",
+        "entity_relevance": "high_relevance",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Significant disruption of a single government entity with operational data access satisfies T2 under the significant disruption and operational data rules; no cascading or systemic indicators present.",
+        "o_rationale": "The incident was contained to national scope with national-level coordination by CCB Belgium only; no EU coordination was triggered, placing this squarely at O1."
+      }
+    },
+    {
+      "id": "INC-008",
+      "name": "University of Maastricht ransomware (2019)",
+      "date": "2019-12-24",
+      "sources": [
+        "https://www.maastrichtuniversity.nl/news/cybersecurity-incident-maastricht-university",
+        "https://www.fox-it.com/nl/actueel/whitepapers/maastricht-university-cyber-attack-report/",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2020"
+      ],
+      "description": "The Clop ransomware group compromised Maastricht University's network through a phishing email months before deploying ransomware on Christmas Eve, encrypting approximately 267 servers. All Windows-based systems including email, research data repositories, and student administration were rendered inaccessible. The university paid 30 bitcoin ransom to restore operations before the January examination period. Fox-IT's post-incident analysis revealed the attacker had maintained persistent access for months prior to encryption. The incident highlighted the vulnerability of academic research institutions to ransomware.",
+      "t_fields": {
+        "service_disruption": "significant",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "operational"
+      },
+      "o_fields": {
+        "sectors_affected": "research",
+        "entity_relevance": "non_essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Significant disruption of a single university entity with operational data impact meets the T2 threshold; no cascading, cross-sector, or sensitive data exfiltration was confirmed.",
+        "o_rationale": "A single Dutch university with national-level NCSC-NL notification only; no EU coordination was required, resulting in O1 as the baseline classification."
+      }
+    },
+    {
+      "id": "INC-009",
+      "name": "MOVEit Transfer mass exploitation (2023)",
+      "date": "2023-05-27",
+      "sources": [
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2023",
+        "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-158a",
+        "https://www.bsi.bund.de/DE/Themen/Unternehmen-und-Organisationen/Informationen-und-Empfehlungen/Empfehlungen-nach-Angriffsart/Ransomware/ransomware_node.html"
+      ],
+      "description": "The Cl0p ransomware group exploited a zero-day SQL injection vulnerability (CVE-2023-34362) in Progress Software's MOVEit Transfer managed file transfer platform, exfiltrating data from over 2,700 organisations across more than 60 countries before patches were available. Affected entities included UK government contractor Capita, Shell, British Airways, the BBC, Siemens Energy, and dozens of US federal agencies indirectly through third-party service providers. ENISA described it as the largest mass exploitation event of 2023. The attack triggered NIS2 coordination discussions across the EU as numerous Member State entities were compromised.",
+      "t_fields": {
+        "service_disruption": "partial",
+        "affected_entities": 2700,
+        "sectors_affected": 7,
+        "cascading": "cross_sector",
+        "data_compromise": "systemic"
+      },
+      "o_fields": {
+        "sectors_affected": "public administration, banking, energy, transport, health, manufacturing, digital_providers",
+        "entity_relevance": "systemic",
+        "ms_affected": 12,
+        "cross_border_pattern": "systemic",
+        "coordination_needs": "eu_active",
+        "capacity_exceeded": true
+      },
+      "expected_t": "T4",
+      "expected_o": "O3",
+      "rationale": {
+        "t_rationale": "Systemic data compromise across 2,700+ entities in seven sectors with cross-sector cascading satisfies T4 under the systemic data compromise rule and entities > 50 rule.",
+        "o_rationale": "EU-active coordination and significant cross-border pattern across 12 Member States with capacity exceeded meets O3 rules; O4 is not triggered because full_ipcr was not activated despite the scale."
+      }
+    },
+    {
+      "id": "INC-010",
+      "name": "Change Healthcare ransomware (2024)",
+      "date": "2024-02-21",
+      "sources": [
+        "https://www.aha.org/cybersecurity-resources/change-healthcare-cyberattack",
+        "https://www.hhs.gov/about/news/2024/03/05/hhs-statement-regarding-the-cyberattack-on-change-healthcare.html",
+        "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-060a"
+      ],
+      "description": "The ALPHV/BlackCat ransomware group attacked Change Healthcare, a subsidiary of UnitedHealth Group processing approximately 15 billion transactions annually and handling nearly 40% of US health insurance claims. The attack forced a weeks-long outage of pharmacy benefits processing across virtually all US hospitals, pharmacies, and health insurers. Patients were unable to obtain prescriptions and providers faced severe revenue disruption. UnitedHealth paid approximately $22 million in ransom. A secondary extortion attempt by a splinter group followed. The incident exposed catastrophic single-point-of-failure risks in US healthcare administration.",
+      "t_fields": {
+        "service_disruption": "complete",
+        "affected_entities": 400,
+        "sectors_affected": 1,
+        "cascading": "cross_sector",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "health",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "eu_info",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O2",
+      "rationale": {
+        "t_rationale": "Complete disruption affecting 400+ health entities with cross-sector cascading and sensitive data compromise independently qualify for T3 under the complete disruption, sensitive data, and entities > 50 rules.",
+        "o_rationale": "EU_info classification reflects a US incident with lessons shared at EU level; the essential sector involvement and scale meet the O2 eu_info rule."
+      }
+    },
+    {
+      "id": "INC-011",
+      "name": "Norsk Hydro LockerGoga ransomware (2019)",
+      "date": "2019-03-19",
+      "sources": [
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2019",
+        "https://www.hydro.com/en/media/news/2019/march/hydro-subject-to-cyber-attack/",
+        "https://www.bleepingcomputer.com/news/security/norsk-hydro-aluminum-plants-shut-down-after-ransomware-attack/"
+      ],
+      "description": "LockerGoga ransomware was deployed against Norsk Hydro, one of the world's largest aluminium producers, encrypting systems across 170 sites in 40 countries. The company switched multiple plants to manual operations and took entire business units offline for several weeks. Aluminium production continued in some plants using paper-based processes. Hydro provided unusually transparent public communications during the incident, including daily updates. Estimated financial losses exceeded $70 million. The NorCERT and European CERTs coordinated information sharing, and Hydro declined to pay the ransom.",
+      "t_fields": {
+        "service_disruption": "significant",
+        "affected_entities": 170,
+        "sectors_affected": 2,
+        "cascading": "limited",
+        "data_compromise": "operational"
+      },
+      "o_fields": {
+        "sectors_affected": "manufacturing, energy",
+        "entity_relevance": "essential",
+        "ms_affected": 5,
+        "cross_border_pattern": "limited",
+        "coordination_needs": "eu_info",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O2",
+      "rationale": {
+        "t_rationale": "Significant disruption affecting 170 entities across two sectors with limited cascading and operational data impact meets multiple T2 criteria; no complete disruption, sensitive data, or cross-sector cascading present.",
+        "o_rationale": "EU_info coordination was triggered given essential manufacturing and energy sector exposure across 5 Member States, satisfying the O2 eu_info and essential + ms ≥ 2 rules."
+      }
+    },
+    {
+      "id": "INC-012",
+      "name": "German Landkreis Anhalt-Bitterfeld ransomware (2021)",
+      "date": "2021-07-06",
+      "sources": [
+        "https://www.bsi.bund.de/DE/Service-Navi/Presse/Pressemitteilungen/Presse2021/210714_Anhalt-Bitterfeld.html",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2021",
+        "https://www.spiegel.de/netzwelt/web/landkreis-anhalt-bitterfeld-cyberangriff-loest-ersten-cyber-katastrophenfall-aus-a-78bd20a2-1cb3-4a30-8b42-29cbfc96e6cd"
+      ],
+      "description": "A ransomware attack on the district administration of Landkreis Anhalt-Bitterfeld in Saxony-Anhalt led the local government to declare the first cyber disaster state in German history. All administrative IT systems were encrypted, halting payments to social welfare recipients and rendering citizen services inaccessible. The BSI deployed a crisis team on-site and recovery required over six months. Over 1,000 staff reverted to paper-based processes for extended periods. The incident triggered national-level discussions about resilience requirements for German municipal administrations.",
+      "t_fields": {
+        "service_disruption": "complete",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "limited",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "public administration",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "eu_info",
+        "capacity_exceeded": true
+      },
+      "expected_t": "T3",
+      "expected_o": "O2",
+      "rationale": {
+        "t_rationale": "Complete disruption of a public administration entity with sensitive data compromise satisfies T3 under the complete disruption and sensitive data rules.",
+        "o_rationale": "Capacity was exceeded requiring BSI deployment; eu_info notification was issued; essential sector entity meets O2 criteria under capacity_exceeded and eu_info rules."
+      }
+    },
+    {
+      "id": "INC-013",
+      "name": "Düsseldorf University Hospital ransomware (2020)",
+      "date": "2020-09-10",
+      "sources": [
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2020",
+        "https://www.bsi.bund.de/DE/Service-Navi/Presse/Pressemitteilungen/Presse2020/200917_Duesseldorf_Krankenhaus.html",
+        "https://www.wired.com/story/ransomware-hospital-death-germany/"
+      ],
+      "description": "DoppelPaymer ransomware operators exploited a Citrix VPN vulnerability to encrypt 30 servers at Düsseldorf University Hospital, crippling IT systems and forcing the emergency department to divert patients. This was the first widely reported case of a potential ransomware-related patient death, as a woman requiring emergency care was redirected to a hospital 32 kilometres away. The investigation was initially opened as negligent homicide before being dropped. The BSI assisted in recovery and the attackers reportedly provided the decryption key when informed a hospital was targeted. Authorities attributed the attack to a threat actor targeting Düsseldorf University rather than the hospital.",
+      "t_fields": {
+        "service_disruption": "complete",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "health",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Complete disruption of a hospital with sensitive data at risk and potential life-safety consequences satisfies T3 under the complete disruption and sensitive data rules.",
+        "o_rationale": "The incident was managed with national-level BSI and police response without triggering EU-level coordination; O1 applies as no EU information sharing or coordination threshold was crossed."
+      }
+    },
+    {
+      "id": "INC-014",
+      "name": "Finnish parliament email breach (2020)",
+      "date": "2020-10-28",
+      "sources": [
+        "https://www.kyberturvallisuuskeskus.fi/en/news/national-cyber-security-centre-finland-ncsc-fi-assisted-investigation-parliament-hacking-case",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2021",
+        "https://yle.fi/news/3-11680372"
+      ],
+      "description": "State-sponsored actors breached the email accounts of multiple Finnish parliament members and their staff in an espionage campaign targeting legislative information and diplomatic communications. The Finnish National Cyber Security Centre later attributed the attack with high confidence to APT31, a Chinese state-sponsored threat actor. The intrusion was discovered during routine security monitoring and the scope was limited to email content. Classified systems were not accessed. The incident triggered legislative discussions on parliamentary security practices in Finland and was disclosed publicly in December 2020.",
+      "t_fields": {
+        "service_disruption": "partial",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "public administration",
+        "entity_relevance": "high_relevance",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Sensitive data compromise involving parliament email accounts satisfies T3 under the sensitive data rule, even though service disruption was only partial and limited to one entity.",
+        "o_rationale": "The breach was handled at national level with NCSC-FI coordination; no EU-level notification or cross-border impact was recorded, placing the incident at O1."
+      }
+    },
+    {
+      "id": "INC-015",
+      "name": "EMA COVID vaccine data breach (2020)",
+      "date": "2020-12-09",
+      "sources": [
+        "https://www.ema.europa.eu/en/news/cyberattack-european-medicines-agency",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2021",
+        "https://www.reuters.com/article/us-health-coronavirus-eu-cyber/eu-medicines-agency-targeted-in-cyberattack-covid-19-vaccine-documents-accessed-idUSKBN28J1TB"
+      ],
+      "description": "Attackers breached the European Medicines Agency's IT infrastructure and exfiltrated documentation related to the BioNTech/Pfizer COVID-19 vaccine regulatory submission, including confidential clinical evaluation data. Portions of the stolen documents were later published online in a manipulated form to sow disinformation about vaccine safety. The breach occurred during the critical review phase before the first EU COVID vaccine authorisation. The EMA is an EU agency with a pan-European mandate, and the incident was coordinated across EU health authorities. Law enforcement investigations were launched in multiple Member States.",
+      "t_fields": {
+        "service_disruption": "partial",
+        "affected_entities": 1,
+        "sectors_affected": 2,
+        "cascading": "limited",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "health, public administration",
+        "entity_relevance": "high_relevance",
+        "ms_affected": 4,
+        "cross_border_pattern": "significant",
+        "coordination_needs": "eu_active",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O3",
+      "rationale": {
+        "t_rationale": "Sensitive data compromise at an EU regulatory agency during a critical public health emergency satisfies T3 under the sensitive data rule; limited cascading via disinformation campaigns adds further weight.",
+        "o_rationale": "EU-active coordination was engaged given the EMA's pan-EU mandate and significant cross-border pattern across 4+ Member States; satisfies O3 under eu_active and significant cross-border rules."
+      }
+    },
+    {
+      "id": "INC-016",
+      "name": "Vodafone Portugal DDoS and sabotage (2022)",
+      "date": "2022-02-07",
+      "sources": [
+        "https://www.cncs.gov.pt/en/news/cyber-attack-on-vodafone-portugal/",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2022",
+        "https://www.reuters.com/technology/vodafone-portugal-hit-by-cyber-attack-disrupting-services-2022-02-08/"
+      ],
+      "description": "Vodafone Portugal suffered a destructive cyberattack that disabled 4G and 5G mobile networks, SMS, TV services, and data network infrastructure across Portugal. Emergency services relying on the network were affected, and voice calls fell back to legacy 2G infrastructure. The attack was attributed to deliberate sabotage rather than a financially motivated ransomware group. The CNCS issued public guidance and coordinated with ANACOM, the national telecoms regulator. Services were gradually restored over 48 hours. Vodafone Portugal serves approximately 4 million customers and is critical to Portuguese communications infrastructure.",
+      "t_fields": {
+        "service_disruption": "significant",
+        "affected_entities": 1,
+        "sectors_affected": 2,
+        "cascading": "limited",
+        "data_compromise": "none"
+      },
+      "o_fields": {
+        "sectors_affected": "digital_infrastructure, public administration",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "eu_info",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O2",
+      "rationale": {
+        "t_rationale": "Significant disruption to a national telecommunications provider with limited cascading to emergency services meets T3; the attack's deliberate destructive nature and scope of affected customers supports the T3 classification.",
+        "o_rationale": "EU_info notification was issued by CNCS; essential sector digital infrastructure involvement meets O2 under the eu_info rule."
+      }
+    },
+    {
+      "id": "INC-017",
+      "name": "Costa Rica Conti ransomware (2022)",
+      "date": "2022-04-17",
+      "sources": [
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2022",
+        "https://www.bleepingcomputer.com/news/security/costa-rica-declares-national-emergency-after-conti-ransomware-attacks/",
+        "https://www.reuters.com/technology/costa-rica-declares-national-cyber-emergency-after-ransomware-attack-2022-05-10/"
+      ],
+      "description": "The Conti ransomware group attacked multiple Costa Rican government ministries simultaneously, including the Ministry of Finance, Ministry of Science and Technology, and social security institutions. The attack disrupted tax collection, customs operations, and government payroll systems for weeks. Costa Rica's president declared a national cyber emergency — the first such declaration by any country in response to a ransomware attack. A second wave attributed to HIVE ransomware followed in May 2022, targeting the public health system. Over 670 GB of government data was leaked publicly by the attackers.",
+      "t_fields": {
+        "service_disruption": "sustained",
+        "affected_entities": 27,
+        "sectors_affected": 3,
+        "cascading": "cross_sector",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "public administration, health, banking",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "eu_info",
+        "capacity_exceeded": true
+      },
+      "expected_t": "T4",
+      "expected_o": "O2",
+      "rationale": {
+        "t_rationale": "Sustained multi-week disruption of government operations with cross-sector cascading and sensitive data exfiltration satisfies T4 under the sustained disruption rule.",
+        "o_rationale": "A non-EU country incident shared for situational awareness at EU level; capacity_exceeded and essential sector involvement meets O2 criteria; no direct EU cross-border pattern triggers O3."
+      }
+    },
+    {
+      "id": "INC-018",
+      "name": "European Parliament DDoS (2022)",
+      "date": "2022-11-23",
+      "sources": [
+        "https://www.europarl.europa.eu/news/en/press-room/20221123IPR55705/european-parliament-website-target-of-cyberattack",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2022",
+        "https://www.bbc.com/news/technology-63743020"
+      ],
+      "description": "Pro-Russian hacktivist group Killnet launched a DDoS attack against the European Parliament website following a resolution declaring Russia a state sponsor of terrorism. The europarl.europa.eu website was intermittently inaccessible for several hours. Internal systems and legislative functions were unaffected. The attack was claimed publicly by Killnet on Telegram shortly after the resolution vote. The European Parliament's security team mitigated the attack, and full accessibility was restored within hours. ENISA tracked this as part of a broader wave of Killnet operations against EU institutions.",
+      "t_fields": {
+        "service_disruption": "partial",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "none"
+      },
+      "o_fields": {
+        "sectors_affected": "public administration",
+        "entity_relevance": "high_relevance",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T1",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Only partial disruption of a web presence with no data compromise, no cascading, and a single entity affected falls into the T1 baseline category under the everything else rule.",
+        "o_rationale": "The incident was handled internally by the European Parliament's security team with no EU coordination mechanism triggered; O1 applies as the default level."
+      }
+    },
+    {
+      "id": "INC-019",
+      "name": "KNP Logistics Group ransomware (2023)",
+      "date": "2023-06-08",
+      "sources": [
+        "https://www.bleepingcomputer.com/news/security/knp-logistics-goes-out-of-business-following-ransomware-attack/",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2023",
+        "https://www.theguardian.com/technology/2023/oct/03/ransomware-attack-contributes-to-collapse-of-uk-logistics-firm-knp"
+      ],
+      "description": "A Akira ransomware attack against UK logistics firm KNP Logistics Group encrypted critical business systems including financial management, dispatch, and warehouse management platforms. The attack caused sustained operational disruption that the company was unable to recover from financially, ultimately leading KNP to enter administration and cease trading in October 2023, resulting in approximately 730 redundancies. This represented a rare case of a ransomware attack directly causing a company to permanently close. The Freight Transport Association noted the incident as a warning to smaller logistics operators about cyber resilience.",
+      "t_fields": {
+        "service_disruption": "sustained",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "operational"
+      },
+      "o_fields": {
+        "sectors_affected": "transport",
+        "entity_relevance": "non_essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T4",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Sustained disruption leading to permanent organisational collapse satisfies T4 under the sustained disruption rule, regardless of the limited scope.",
+        "o_rationale": "A single non-essential transport SME with national-level impact only; no EU coordination was triggered and no cross-border effects were observed, resulting in O1."
+      }
+    },
+    {
+      "id": "INC-020",
+      "name": "Viasat KA-SAT modem wiper (2022)",
+      "date": "2022-02-24",
+      "sources": [
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2022",
+        "https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-076a",
+        "https://www.viasat.com/about/newsroom/blog/ka-sat-network-cyber-attack-overview/"
+      ],
+      "description": "Hours before Russia's full-scale invasion of Ukraine, a Russian GRU-attributed wiper attack targeted Viasat's KA-SAT satellite broadband network, deploying the AcidRain wiper against approximately 45,000 modems across Ukraine and Europe. Ukrainian military communications were severely degraded. Collateral damage extended to 5,800 wind turbines in Germany operated by Enercon, which lost remote monitoring and control capabilities. Satellite internet service to tens of thousands of European subscribers was disrupted. The EU, US, UK, and Canada jointly attributed the attack to Russia. ENISA issued a technical advisory and it became a landmark case in EU cyber attribution.",
+      "t_fields": {
+        "service_disruption": "significant",
+        "affected_entities": 45000,
+        "sectors_affected": 3,
+        "cascading": "cross_sector",
+        "data_compromise": "operational"
+      },
+      "o_fields": {
+        "sectors_affected": "digital_infrastructure, energy, defence",
+        "entity_relevance": "high_relevance",
+        "ms_affected": 5,
+        "cross_border_pattern": "significant",
+        "coordination_needs": "eu_active",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O3",
+      "rationale": {
+        "t_rationale": "Over 45,000 affected entities far exceeds the T3 threshold of 50; cross-sector cascading from satellite communications to energy infrastructure further satisfies T3 rules.",
+        "o_rationale": "EU joint attribution and eu_active coordination, significant cross-border pattern affecting 5+ Member States, and high-relevance critical infrastructure entities satisfy the O3 rules."
+      }
+    },
+    {
+      "id": "INC-021",
+      "name": "JBS Foods ransomware (2021)",
+      "date": "2021-05-30",
+      "sources": [
+        "https://www.fbi.gov/news/press-releases/fbi-statement-on-jbs-cyberattack",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2021",
+        "https://www.bbc.com/news/business-57318965"
+      ],
+      "description": "REvil ransomware operators attacked JBS Foods, the world's largest meat processing company, forcing the shutdown of beef processing plants in the United States, Canada, and Australia for multiple days. An FBI statement confirmed the REvil attribution. JBS paid approximately $11 million in ransom to prevent further disruption. The attack temporarily removed approximately 20% of US beef processing capacity from the market, causing regional price spikes. The incident heightened concerns about food supply chain security. Australian and US agricultural authorities both coordinated with the company during recovery.",
+      "t_fields": {
+        "service_disruption": "significant",
+        "affected_entities": 13,
+        "sectors_affected": 1,
+        "cascading": "limited",
+        "data_compromise": "operational"
+      },
+      "o_fields": {
+        "sectors_affected": "food",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "limited",
+        "coordination_needs": "eu_info",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O2",
+      "rationale": {
+        "t_rationale": "Significant disruption affecting 13 food processing sites with limited cascading to supply chains and operational data impact meets multiple T2 criteria; entities > 10 also satisfies T2.",
+        "o_rationale": "EU_info sharing was triggered given EU food security implications; limited cross-border effects and essential food sector involvement meets O2 under eu_info and limited cross-border rules."
+      }
+    },
+    {
+      "id": "INC-022",
+      "name": "Montenegro government ransomware (2022)",
+      "date": "2022-08-20",
+      "sources": [
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2022",
+        "https://www.reuters.com/world/europe/montenegro-says-it-is-under-cyber-attack-2022-08-26/",
+        "https://www.bleepingcomputer.com/news/security/cuba-ransomware-claims-responsibility-for-recent-montenegrin-government-attack/"
+      ],
+      "description": "A coordinated cyberattack attributed to the Cuba ransomware group hit multiple Montenegrin government ministries and state institutions, with over 150 government servers encrypted and sensitive data exfiltrated. Montenegro declared a state of alert across government IT infrastructure. The attack disrupted public services including electronic tax filing, customs, and passport systems. NATO and the US Cybersecurity and Infrastructure Security Agency sent technical teams to assist with recovery. Montenegro's NIMAC coordinated with EU partners given the country's candidate status and critical infrastructure interconnections.",
+      "t_fields": {
+        "service_disruption": "complete",
+        "affected_entities": 10,
+        "sectors_affected": 2,
+        "cascading": "limited",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "public administration, banking",
+        "entity_relevance": "essential",
+        "ms_affected": 2,
+        "cross_border_pattern": "limited",
+        "coordination_needs": "eu_info",
+        "capacity_exceeded": true
+      },
+      "expected_t": "T3",
+      "expected_o": "O2",
+      "rationale": {
+        "t_rationale": "Complete disruption of multiple government ministries with sensitive data exfiltration independently satisfies T3 under the complete disruption and sensitive data rules.",
+        "o_rationale": "EU_info and NATO coordination was activated; capacity exceeded with external assistance required; limited cross-border pattern with EU candidate state involvement meets O2 criteria."
+      }
+    },
+    {
+      "id": "INC-023",
+      "name": "Danish railway Supeo attack (2022)",
+      "date": "2022-11-04",
+      "sources": [
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2022",
+        "https://www.dr.dk/nyheder/indland/cyberangreb-mod-dataleverandoer-standsede-togtrafikken-i-timer",
+        "https://www.bleepingcomputer.com/news/security/trains-stop-in-denmark-after-ransomware-attack-on-it-supplier/"
+      ],
+      "description": "A ransomware attack against Supeo, a third-party IT supplier providing train driver applications to DSB, Denmark's national railway operator, caused train services across Denmark to halt for several hours. The attack affected the driver safety systems application, which drivers are required to run during operation. Without access to the application, DSB could not legally operate trains. The outage affected hundreds of thousands of commuters. The incident highlighted third-party software supply chain risks in rail safety-critical systems and triggered discussions at the Danish Transport Authority about supply chain security requirements.",
+      "t_fields": {
+        "service_disruption": "significant",
+        "affected_entities": 2,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "none"
+      },
+      "o_fields": {
+        "sectors_affected": "transport",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Significant disruption of national rail operations through a supply chain attack meets T2; the disruption was resolved within hours, no data compromise occurred, and only one sector was affected.",
+        "o_rationale": "The incident was handled at national level by DSB and the Danish Transport Authority with no EU-level coordination required; O1 applies as the default classification."
+      }
+    },
+    {
+      "id": "INC-024",
+      "name": "Portuguese TAP Air data breach (2022)",
+      "date": "2022-08-19",
+      "sources": [
+        "https://www.cncs.gov.pt/en/news/cyberattack-on-tap-air-portugal/",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2022",
+        "https://www.bleepingcomputer.com/news/security/tap-air-portugal-confirms-cyberattack-after-ragnar-locker-claims-breach/"
+      ],
+      "description": "Ragnar Locker ransomware operators attacked TAP Air Portugal, the national flag carrier, exfiltrating data on approximately 1.5 million customers including names, email addresses, phone numbers, and in some cases passport information. TAP initially stated that no personal data had been stolen before the attackers publicly released portions of the stolen database. CNCS coordinated the national response and notified the national data protection authority. Operational flight systems were reportedly unaffected, though internal administrative systems experienced disruption.",
+      "t_fields": {
+        "service_disruption": "partial",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "transport",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Sensitive data compromise involving 1.5 million customer records including passport information satisfies T3 under the sensitive data rule.",
+        "o_rationale": "The incident was managed by CNCS with national-level data protection authority notification only; no EU-level operational coordination was activated, resulting in O1."
+      }
+    },
+    {
+      "id": "INC-025",
+      "name": "SAS DDoS (2023)",
+      "date": "2023-01-14",
+      "sources": [
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2023",
+        "https://www.bleepingcomputer.com/news/security/sas-airlines-hit-by-anonymoussud-ddos-attacks-data-breach/",
+        "https://www.theregister.com/2023/02/03/sas_airlines_data_breach/"
+      ],
+      "description": "Anonymous Sudan conducted DDoS attacks against Scandinavian Airlines, taking down the SAS website and mobile application repeatedly during January 2023. An associated data breach exposed flight booking data and customer personal information for approximately 174,000 customers. Passengers were unable to access reservations or check-in online during outage windows. The attack occurred against a backdrop of broader DDoS campaigns targeting Nordic airlines and transport infrastructure. SAS engaged the Swedish NCSA and Nordic cybersecurity teams for incident response coordination.",
+      "t_fields": {
+        "service_disruption": "significant",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "operational"
+      },
+      "o_fields": {
+        "sectors_affected": "transport",
+        "entity_relevance": "essential",
+        "ms_affected": 3,
+        "cross_border_pattern": "limited",
+        "coordination_needs": "eu_info",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O2",
+      "rationale": {
+        "t_rationale": "Significant disruption to a national airline with operational data compromise meets T2; only one entity affected and no cascading effects observed.",
+        "o_rationale": "EU_info coordination across 3 Nordic Member States and limited cross-border pattern satisfies O2 under eu_info and essential + ms ≥ 2 rules."
+      }
+    },
+    {
+      "id": "INC-026",
+      "name": "French hospitals ransomware series (2022-2023)",
+      "date": "2022-08-21",
+      "sources": [
+        "https://www.anssi.fr/fr/actualites/anssi-certfr-2022-act-0062",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2022",
+        "https://www.lemonde.fr/pixels/article/2022/09/25/cyberattaque-contre-le-centre-hospitalier-de-corbeil-essonnes_6143261_4408996.html"
+      ],
+      "description": "A series of ransomware attacks struck French hospitals throughout 2022 and 2023, with the Corbeil-Essonnes hospital near Paris serving as the most prominent case. LOCKBIT and Ragnar Locker operators encrypted patient management systems, forcing affected hospitals to revert to paper-based operations and transfer critical patients. The French Minister of Health and ANSSI coordinated national response frameworks. Data including medical records of thousands of patients was published on dark web forums after hospitals refused to pay ransoms. ANSSI deployed response teams and issued sector-wide guidance to French healthcare providers.",
+      "t_fields": {
+        "service_disruption": "complete",
+        "affected_entities": 8,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "health",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Complete disruption of multiple hospitals with sensitive patient data exfiltration satisfies T3 under both the complete disruption and sensitive data rules.",
+        "o_rationale": "ANSSI coordinated nationally without escalating to EU-level mechanisms; no cross-border impact was observed, resulting in O1 classification."
+      }
+    },
+    {
+      "id": "INC-027",
+      "name": "Italian Agenzia delle Entrate LockBit claim (2022)",
+      "date": "2022-07-31",
+      "sources": [
+        "https://www.agid.gov.it/it/agenzia/stampa-e-comunicazione/notizie/2022/08/02/lockbit-ransomware-attacco-agenzia-entrate",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2022",
+        "https://www.bleepingcomputer.com/news/security/lockbit-claims-ransomware-attack-on-italys-internal-revenue-service/"
+      ],
+      "description": "LockBit ransomware operators claimed to have exfiltrated approximately 78 GB of data from the Italian Tax Agency, Agenzia delle Entrate, threatening to publish the data unless a ransom was paid. The Italian agency and SOGEI, its technology management company, disputed the claim, stating that investigations showed no breach of their systems. The ACN (Italian National Cybersecurity Agency) launched an investigation. Whether data was actually stolen from the Tax Agency's systems or from a third-party supplier remained uncertain throughout the public disclosure period.",
+      "t_fields": {
+        "service_disruption": "partial",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "operational"
+      },
+      "o_fields": {
+        "sectors_affected": "public administration",
+        "entity_relevance": "high_relevance",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Partial disruption with claimed operational data compromise meets T2 criteria; the contested nature of the breach and lack of confirmed service outage prevent escalation to T3.",
+        "o_rationale": "ACN managed the response nationally; no EU-level coordination was triggered and no cross-border impact was confirmed, resulting in O1 classification."
+      }
+    },
+    {
+      "id": "INC-028",
+      "name": "Austrian FMTG hotel chain ransomware (2019)",
+      "date": "2019-01-22",
+      "sources": [
+        "https://www.bleepingcomputer.com/news/security/hackers-hold-hotel-keycards-hostage-to-ransom-staff-and-guests/",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2019",
+        "https://www.bbc.com/news/technology-42993072"
+      ],
+      "description": "Ransomware operators targeted the Romantik Seehotel Jägerwirt, a luxury hotel in the Austrian Alps, encrypting the front desk computer system including the keycard programming system. Hotel staff were temporarily unable to issue new keycards to guests, though existing keycards remained functional. The attack coincided with peak occupancy during a winter season weekend. The hotel management paid approximately 1,500 euros in bitcoin to restore the system. No guest data was confirmed exfiltrated. The hotel subsequently publicised the incident and announced plans to replace computerised keycard systems with traditional locks.",
+      "t_fields": {
+        "service_disruption": "partial",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "none"
+      },
+      "o_fields": {
+        "sectors_affected": "manufacturing",
+        "entity_relevance": "non_essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T1",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Partial disruption of a single non-essential hospitality entity with no data compromise, no cascading, and a single affected entity falls into the T1 baseline category.",
+        "o_rationale": "A localised incident handled without any national cybersecurity authority involvement; no EU coordination triggered, placing the incident firmly at O1."
+      }
+    },
+    {
+      "id": "INC-029",
+      "name": "Romanian hospital ransomware wave (2024)",
+      "date": "2024-02-12",
+      "sources": [
+        "https://www.cert.ro/citeste/atac-ransomware-spitale-romania",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2024",
+        "https://www.reuters.com/technology/cybersecurity/romanian-hospital-systems-offline-after-cyberattack-2024-02-13/"
+      ],
+      "description": "A coordinated ransomware attack struck 21 Romanian hospitals simultaneously, encrypting the national HIS (Hipocrate Information System) used for patient management and clinical records. Hospitals across multiple counties were forced to revert to pen-and-paper processes. Romania's DNSC (National Cyber Security Directorate) declared an incident and deployed response teams. The Ministry of Health coordinated business continuity guidance. ENISA tracked the incident as a significant multi-site healthcare attack. Recovery of encrypted data was possible in some hospitals through offline backups, though full restoration took weeks.",
+      "t_fields": {
+        "service_disruption": "complete",
+        "affected_entities": 21,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "health",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "eu_info",
+        "capacity_exceeded": true
+      },
+      "expected_t": "T3",
+      "expected_o": "O2",
+      "rationale": {
+        "t_rationale": "Complete disruption of 21 hospitals simultaneously with sensitive patient data at risk satisfies T3 under the complete disruption and sensitive data rules.",
+        "o_rationale": "Capacity was exceeded requiring DNSC deployment; eu_info was shared with EU health cybersecurity networks; essential sector involvement meets O2 criteria."
+      }
+    },
+    {
+      "id": "INC-030",
+      "name": "Barcelona Hospital Clínic ransomware (2023)",
+      "date": "2023-03-05",
+      "sources": [
+        "https://www.incibe-cert.es/alerta/ransomware-hospital-clinic-barcelona",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2023",
+        "https://www.bbc.com/news/technology-64868569"
+      ],
+      "description": "RansomHouse operators attacked Barcelona's Hospital Clínic, one of Spain's leading university hospitals and transplant centres, encrypting approximately 4,300 user accounts and 43 servers. Emergency, pharmacy, and laboratory services were severely disrupted. Outpatient appointments and surgical procedures were cancelled for weeks. Approximately 150 GB of sensitive patient and clinical research data was eventually leaked online after the hospital refused to pay the ransom. The CCN-CERT and the Catalan Cybersecurity Agency coordinated recovery and the incident received significant media attention.",
+      "t_fields": {
+        "service_disruption": "complete",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "health",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Complete disruption of a major university hospital with sensitive patient and research data exfiltration satisfies T3 under the complete disruption and sensitive data rules.",
+        "o_rationale": "CCN-CERT managed the national response without escalating to EU-level mechanisms; no cross-border impact warranted O1 classification."
+      }
+    },
+    {
+      "id": "INC-031",
+      "name": "Polish railway GPS spoofing (2023)",
+      "date": "2023-08-25",
+      "sources": [
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2023",
+        "https://www.reuters.com/world/europe/poland-says-hackers-used-radio-frequencies-disrupt-railway-network-2023-08-26/",
+        "https://www.bleepingcomputer.com/news/security/poland-says-russian-hacktivists-disrupted-train-network-with-radio-attacks/"
+      ],
+      "description": "Pro-Russian hacktivists transmitted falsified GPS and radio-stop commands on railway frequencies in Poland, triggering emergency braking in over 20 trains and causing temporary disruption to freight and passenger rail operations. The attacks exploited an unencrypted legacy radio protocol used by Polish railway control systems. Investigators attributed the campaign to Russian and Belarusian actors. The Polish ABW and railway operator PKP PLK coordinated the response. The incident exposed vulnerabilities in unencrypted legacy rail communication protocols and triggered a review of frequency security across European railways.",
+      "t_fields": {
+        "service_disruption": "significant",
+        "affected_entities": 2,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "none"
+      },
+      "o_fields": {
+        "sectors_affected": "transport",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Significant disruption to national rail operations affecting two entities (train operator and infrastructure manager) with no data compromise meets T2; the disruption was transient and no cascading occurred.",
+        "o_rationale": "The incident was managed by Polish authorities and railway operators with national-level coordination only; O1 applies as no EU-level mechanisms were triggered."
+      }
+    },
+    {
+      "id": "INC-032",
+      "name": "Port of Lisbon LockBit ransomware (2023)",
+      "date": "2022-12-25",
+      "sources": [
+        "https://www.cncs.gov.pt/en/news/cyberattack-port-of-lisbon/",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2023",
+        "https://www.bleepingcomputer.com/news/security/port-of-lisbon-website-downed-by-lockbit-ransomware-attack/"
+      ],
+      "description": "LockBit ransomware operators attacked the Port of Lisbon Administration on Christmas Day, taking the port website offline and encrypting administrative systems. The attackers claimed to have exfiltrated financial reports, cargo manifests, and operational documents, publishing data samples online. Port operational systems responsible for vessel traffic and cargo handling were reportedly unaffected. LockBit demanded a ransom and set a deadline, after which they published further stolen data. CNCS coordinated the national response. The port continued physical operations throughout the incident using manual procedures.",
+      "t_fields": {
+        "service_disruption": "significant",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "operational"
+      },
+      "o_fields": {
+        "sectors_affected": "transport",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Significant disruption to port administrative systems with operational data exfiltration meets T2; physical port operations continued and no cascading effects were observed.",
+        "o_rationale": "CNCS managed the response nationally without escalating to EU-level mechanisms; no cross-border impact was observed, resulting in O1."
+      }
+    },
+    {
+      "id": "INC-033",
+      "name": "AnyDesk supply chain breach (2024)",
+      "date": "2024-01-29",
+      "sources": [
+        "https://anydesk.com/en/public-statement-security-audit",
+        "https://www.bsi.bund.de/DE/Service-Navi/Presse/Pressemitteilungen/Presse2024/240202_AnyDesk.html",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2024"
+      ],
+      "description": "AnyDesk, a widely used remote desktop software product with over 170,000 enterprise customers worldwide, disclosed that attackers had compromised their production systems and source code repositories. Code signing certificates were revoked and replaced. AnyDesk partnered with CrowdStrike for the forensic investigation. The BSI issued a warning advisory given AnyDesk's extensive deployment across German critical infrastructure. ENISA tracked EU-wide exposure through the significant installed base in industrial control systems, healthcare, and government networks. The full scope of downstream exploitation remained uncertain at time of disclosure.",
+      "t_fields": {
+        "service_disruption": "partial",
+        "affected_entities": 170000,
+        "sectors_affected": 4,
+        "cascading": "cross_sector",
+        "data_compromise": "operational"
+      },
+      "o_fields": {
+        "sectors_affected": "ict_service_management, public administration, health, manufacturing",
+        "entity_relevance": "high_relevance",
+        "ms_affected": 8,
+        "cross_border_pattern": "significant",
+        "coordination_needs": "eu_active",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O3",
+      "rationale": {
+        "t_rationale": "Operational data compromise with cross-sector cascading potential meets T2; partial disruption only and no confirmed downstream exploitation at time of classification prevents escalation to T3.",
+        "o_rationale": "EU-active coordination was engaged by BSI and ENISA tracking; significant cross-border pattern across 8+ Member States with high-relevance ICT supply chain provider satisfies O3 rules."
+      }
+    },
+    {
+      "id": "INC-034",
+      "name": "Nordex wind turbine ransomware (2022)",
+      "date": "2022-03-31",
+      "sources": [
+        "https://www.nordex-online.com/en/press-releases/nordex-group-detects-it-security-incident/",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2022",
+        "https://www.bleepingcomputer.com/news/security/nordex-group-hit-by-conti-ransomware-attack/"
+      ],
+      "description": "Conti ransomware operators attacked Nordex Group, one of Europe's largest wind turbine manufacturers, encrypting IT systems and forcing the shutdown of remote access and IT infrastructure across multiple European offices. The company proactively disabled remote access to all managed wind turbines globally as a precautionary measure. Approximately 2,000 wind turbines across Europe temporarily lost remote monitoring and control. Wind turbine operations physically continued but without central management capability. Nordex notified relevant authorities and engaged external forensic response. Recovery of IT systems took several weeks.",
+      "t_fields": {
+        "service_disruption": "significant",
+        "affected_entities": 1,
+        "sectors_affected": 2,
+        "cascading": "limited",
+        "data_compromise": "operational"
+      },
+      "o_fields": {
+        "sectors_affected": "energy, manufacturing",
+        "entity_relevance": "essential",
+        "ms_affected": 4,
+        "cross_border_pattern": "limited",
+        "coordination_needs": "eu_info",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O2",
+      "rationale": {
+        "t_rationale": "Significant disruption to wind turbine management systems with limited cascading across energy and manufacturing sectors and operational data impact meets T2 criteria.",
+        "o_rationale": "EU_info was shared given essential energy sector exposure across 4 Member States; limited cross-border pattern and essential sector involvement meets O2 under eu_info and essential + ms ≥ 2 rules."
+      }
+    },
+    {
+      "id": "INC-035",
+      "name": "Medibank data breach (2022)",
+      "date": "2022-10-12",
+      "sources": [
+        "https://www.medibank.com.au/about/media-centre/cyber-crime-event/",
+        "https://www.acsc.gov.au/about-us/media/medibank-cyber-incident-update",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2023"
+      ],
+      "description": "Russian-linked threat actor used stolen credentials to access Medibank Private's systems, exfiltrating health claims data and personal records of approximately 9.7 million current and former customers. The attacker published batches of sensitive health records including mental health diagnoses, HIV status, and drug treatment data in an attempt to extort the insurer after Medibank refused to pay the ransom. The Australian government declared it a nationally significant cyber incident. Criminal charges were later laid against a Russian national. ENISA tracked the case for international lessons on health data protection.",
+      "t_fields": {
+        "service_disruption": "partial",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "health",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Sensitive health data compromise affecting nearly 10 million individuals including highly sensitive medical records satisfies T3 under the sensitive data rule.",
+        "o_rationale": "An Australian incident managed at national level; ENISA tracked for lessons learned without triggering EU operational coordination, resulting in O1 classification."
+      }
+    },
+    {
+      "id": "INC-036",
+      "name": "German DIHK Chamber of Commerce attack (2022)",
+      "date": "2022-08-04",
+      "sources": [
+        "https://www.dihk.de/de/themen-und-positionen/digitalisierung/cybersicherheit/cyberangriff-auf-die-dihk-2022-75086",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2022",
+        "https://www.bsi.bund.de/DE/Service-Navi/Presse/Pressemitteilungen/Presse2022/220815_DIHK.html"
+      ],
+      "description": "A cyberattack against the Association of German Chambers of Commerce and Industry (DIHK) forced the shutdown of IT systems across all 79 German Chambers of Commerce and their international network. The attack disrupted the shared IT infrastructure binding the entire chamber network, disabling email, phone services, and digital member services simultaneously. Recovery required multiple weeks as the DIHK worked with BSI and external forensic responders. The incident disrupted business support services relied upon by over 3.5 million German companies, representing a significant hit to SME advisory services during a period of economic uncertainty.",
+      "t_fields": {
+        "service_disruption": "complete",
+        "affected_entities": 79,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "public administration",
+        "entity_relevance": "high_relevance",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Complete disruption of 79 chambers with sensitive data compromise and entities > 50 independently satisfies T3 under the complete disruption, sensitive data, and entities > 50 rules.",
+        "o_rationale": "BSI coordinated nationally without escalating to EU mechanisms; no cross-border EU operational impact was observed, resulting in O1 classification."
+      }
+    },
+    {
+      "id": "INC-037",
+      "name": "Luxembourg POST telecom breach (2023)",
+      "date": "2023-02-08",
+      "sources": [
+        "https://post.lu/en/news/post-cyberattack",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2023",
+        "https://www.zdnet.com/article/luxembourg-post-suffers-cyberattack/"
+      ],
+      "description": "Luxembourg's national postal and telecommunications operator POST experienced a cyberattack that disrupted portions of its IT infrastructure and customer-facing services. The company took proactive steps to isolate affected systems, impacting some business and government customer connectivity. POST notified the CIRCL (Computer Incident Response Center Luxembourg) and Luxembourg's national cybersecurity authority. Internal investigations and system audits required several days. No major data exfiltration was confirmed, though access to certain administrative databases was gained by the attackers.",
+      "t_fields": {
+        "service_disruption": "significant",
+        "affected_entities": 1,
+        "sectors_affected": 2,
+        "cascading": "none",
+        "data_compromise": "operational"
+      },
+      "o_fields": {
+        "sectors_affected": "digital_infrastructure, postal",
+        "entity_relevance": "essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Significant disruption to a national telecom and postal operator with operational data access meets T2; no cascading, sensitive data exfiltration, or cross-sector effects were observed.",
+        "o_rationale": "CIRCL coordinated the national response without triggering EU-level coordination; a single Member State with no cross-border pattern results in O1 classification."
+      }
+    },
+    {
+      "id": "INC-038",
+      "name": "European Investment Bank DDoS (2023)",
+      "date": "2023-06-19",
+      "sources": [
+        "https://www.eib.org/en/press/news/eib-cyberattack-response.htm",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2023",
+        "https://www.bleepingcomputer.com/news/security/killnet-anonymous-sudan-target-european-investment-bank-in-ddos-attack/"
+      ],
+      "description": "Killnet and Anonymous Sudan launched DDoS attacks against the European Investment Bank, temporarily disrupting access to the EIB website and some customer-facing online services. The EIB confirmed the attack and stated that internal operations and financial systems were unaffected. The attackers claimed the attack was in response to EU financial support for Ukraine. Service disruptions lasted several hours. The CERT-EU provided coordination support. This was part of a broader coordinated hacktivist DDoS campaign targeting EU financial institutions during mid-2023.",
+      "t_fields": {
+        "service_disruption": "partial",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "none"
+      },
+      "o_fields": {
+        "sectors_affected": "banking",
+        "entity_relevance": "high_relevance",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T1",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Partial disruption of a website with no data compromise, no cascading, and a single entity affected falls into the T1 baseline category under the everything else rule.",
+        "o_rationale": "CERT-EU provided advisory coordination but no formal EU operational coordination mechanism was activated; a short-lived DDoS with no material impact results in O1."
+      }
+    },
+    {
+      "id": "INC-039",
+      "name": "Europol EPE portal data theft (2024)",
+      "date": "2024-05-10",
+      "sources": [
+        "https://www.europol.europa.eu/media-press/newsroom/news/europol-confirms-data-breach",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2024",
+        "https://www.bleepingcomputer.com/news/security/europol-confirms-data-breach-linked-to-infostealer-campaign/"
+      ],
+      "description": "A threat actor breached the Europol Platform for Experts, an information sharing portal used by law enforcement agencies across EU Member States, and exfiltrated sensitive documents classified as FOUO including operational briefs, personnel records of senior Europol officials, and strategic intelligence products. The data was advertised for sale on a hacking forum. Europol confirmed the breach and stated that operational systems were not affected but acknowledged the exposure of staff information and law enforcement-sensitive materials. The incident required notifications across numerous Member State police and judicial authorities.",
+      "t_fields": {
+        "service_disruption": "partial",
+        "affected_entities": 27,
+        "sectors_affected": 2,
+        "cascading": "limited",
+        "data_compromise": "sensitive"
+      },
+      "o_fields": {
+        "sectors_affected": "public administration, defence",
+        "entity_relevance": "systemic",
+        "ms_affected": 10,
+        "cross_border_pattern": "significant",
+        "coordination_needs": "eu_active",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O3",
+      "rationale": {
+        "t_rationale": "Sensitive data compromise at a systemic EU law enforcement entity affecting personnel and operational intelligence with 27 connected Member State authorities meets T3 under sensitive data and entities > 50 equivalent rules.",
+        "o_rationale": "EU-active coordination across 10 Member States and significant cross-border pattern with systemic entity relevance satisfies O3 under eu_active and significant cross-border rules."
+      }
+    },
+    {
+      "id": "INC-040",
+      "name": "Small Italian water utility ransomware (2023)",
+      "date": "2023-04-17",
+      "sources": [
+        "https://www.acn.gov.it/en/news/cybersecurity-water-utilities-italy",
+        "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2023",
+        "https://www.bleepingcomputer.com/news/security/italian-water-utility-hit-by-ransomware/"
+      ],
+      "description": "A small municipal water utility in central Italy was hit by ransomware, encrypting the administrative computer systems used for billing and customer management. Water treatment and distribution operations were unaffected and continued normally. A local IT service provider assisted in recovery. No customer data exfiltration was confirmed. The ACN was notified per NIS obligations but assessed the incident as contained and not requiring central response resources. Recovery was completed within days using available backups. The incident was documented as a cautionary example for Italian water sector operators undergoing NIS2 implementation.",
+      "t_fields": {
+        "service_disruption": "partial",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_compromise": "none"
+      },
+      "o_fields": {
+        "sectors_affected": "drinking_water",
+        "entity_relevance": "non_essential",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "coordination_needs": "national",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T1",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Partial disruption of administrative systems only at a single small utility with no data compromise and no cascading effects falls into the T1 baseline category under the everything else rule.",
+        "o_rationale": "ACN notification only, single non-essential entity, no cross-border impact, and no capacity exceedance results in O1 as the default classification."
+      }
+    }
+  ]
+}
