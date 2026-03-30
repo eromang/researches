@@ -121,6 +121,28 @@ def deduplicate_descriptions(cves: list[dict]) -> tuple[list[dict], int]:
 # Parsing CVE JSON 5.0
 # ---------------------------------------------------------------------------
 
+INVALID_CWES = {"CWE-noinfo", "CWE-Other"}
+
+
+def extract_cwe(record: dict) -> str | None:
+    """Extract first valid CWE ID from a cvelistV5 record.
+
+    Looks in containers.cna.problemTypes[].descriptions[].cweId,
+    skipping CWE-noinfo and CWE-Other.
+    """
+    try:
+        problem_types = record["containers"]["cna"]["problemTypes"]
+    except (KeyError, TypeError):
+        return None
+
+    for pt in problem_types:
+        for desc in pt.get("descriptions", []):
+            cwe_id = desc.get("cweId", "")
+            if cwe_id and cwe_id not in INVALID_CWES:
+                return cwe_id
+    return None
+
+
 def parse_cve_file(path: Path) -> dict | None:
     """Parse a single CVE JSON 5.0 file. Returns dict or None if unusable."""
     try:
@@ -185,20 +207,7 @@ def parse_cve_file(path: Path) -> dict | None:
         return None
 
     # CWE
-    cwe = None
-    for pt in cna.get("problemTypes", []):
-        for desc in pt.get("descriptions", []):
-            val = desc.get("cweId") or desc.get("description", "")
-            if "CWE-" in val:
-                # Extract CWE-NNN from description string
-                for token in val.split():
-                    if token.startswith("CWE-"):
-                        cwe = token.rstrip(".,;:")
-                        break
-                if cwe:
-                    break
-        if cwe:
-            break
+    cwe = extract_cwe(data)
 
     return {
         "cve_id": cve_id,
