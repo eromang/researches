@@ -70,3 +70,39 @@ class TestCweExtraction:
             }
         }
         assert extract_cwe(record) == "CWE-787"
+
+
+class TestCVEDatasetCWE:
+    """Verify that the training dataset includes CWE in tokenized text."""
+
+    def test_cwe_included_in_text(self):
+        from transformers import AutoTokenizer
+        from training.scripts.train_scorer import CVEDataset
+
+        tokenizer = AutoTokenizer.from_pretrained("answerdotai/ModernBERT-base")
+        ds = CVEDataset(
+            descriptions=["Buffer overflow in libfoo"],
+            cwes=["CWE-119"],
+            labels=[2],
+            tokenizer=tokenizer,
+            max_length=64,
+        )
+        item = ds[0]
+        decoded = tokenizer.decode(item["input_ids"], skip_special_tokens=True)
+        assert "cwe: CWE-119" in decoded
+
+    def test_cwe_none_omitted(self):
+        from transformers import AutoTokenizer
+        from training.scripts.train_scorer import CVEDataset
+
+        tokenizer = AutoTokenizer.from_pretrained("answerdotai/ModernBERT-base")
+        ds = CVEDataset(
+            descriptions=["Buffer overflow in libfoo"],
+            cwes=[None],
+            labels=[2],
+            tokenizer=tokenizer,
+            max_length=64,
+        )
+        item = ds[0]
+        decoded = tokenizer.decode(item["input_ids"], skip_special_tokens=True)
+        assert "cwe:" not in decoded
