@@ -5,10 +5,15 @@
   "description": "JSON Schema for validating curated cyber incident datasets with threat and organizational impact assessments",
   "type": "object",
   "required": ["version", "incidents"],
+  "additionalProperties": false,
   "properties": {
     "version": {
       "type": "string",
       "description": "Schema version"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the dataset"
     },
     "incidents": {
       "type": "array",

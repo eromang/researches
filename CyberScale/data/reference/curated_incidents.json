@@ -493,10 +493,10 @@
       ],
       "description": "Vodafone Portugal suffered a destructive cyberattack that disabled 4G and 5G mobile networks, SMS, TV services, and data network infrastructure across Portugal. Emergency services relying on the network were affected, and voice calls fell back to legacy 2G infrastructure. The attack was attributed to deliberate sabotage rather than a financially motivated ransomware group. The CNCS issued public guidance and coordinated with ANACOM, the national telecoms regulator. Services were gradually restored over 48 hours. Vodafone Portugal serves approximately 4 million customers and is critical to Portuguese communications infrastructure.",
       "t_fields": {
-        "service_disruption": "significant",
+        "service_disruption": "complete",
         "affected_entities": 1,
         "sectors_affected": 2,
-        "cascading": "limited",
+        "cascading": "cross_sector",
         "data_compromise": "none"
       },
       "o_fields": {
@@ -510,7 +510,7 @@
       "expected_t": "T3",
       "expected_o": "O2",
       "rationale": {
-        "t_rationale": "Significant disruption to a national telecommunications provider with limited cascading to emergency services meets T3; the attack's deliberate destructive nature and scope of affected customers supports the T3 classification.",
+        "t_rationale": "Complete disruption of all telecom services nationwide. Cross-sector cascading to health (emergency services disrupted). No data compromise. Complete disruption + cross-sector cascading = T3.",
         "o_rationale": "EU_info notification was issued by CNCS; essential sector digital infrastructure involvement meets O2 under the eu_info rule."
       }
     },
