@@ -56,16 +56,26 @@ def _assess_with_model(
     sector: str,
     cross_border: bool,
     score: float | None = None,
+    deployment_scale: str | None = None,
+    entity_type: str | None = None,
 ) -> dict:
     """Assess contextual severity using the classifier model."""
-    result = clf.predict(description, sector, cross_border, score)
-    return {
+    result = clf.predict(
+        description, sector, cross_border, score,
+        deployment_scale=deployment_scale, entity_type=entity_type,
+    )
+    out = {
         "severity": result.severity,
         "confidence": result.confidence,
         "key_factors": result.key_factors,
         "sector": sector,
         "cross_border": cross_border,
     }
+    if deployment_scale is not None:
+        out["deployment_scale"] = deployment_scale
+    if entity_type is not None:
+        out["entity_type"] = entity_type
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -81,8 +91,10 @@ def register(mcp: FastMCP) -> None:
         sector: str,
         cross_border: bool,
         severity_score: float | None = None,
+        deployment_scale: str | None = None,
+        entity_type: str | None = None,
     ) -> dict:
-        """Assess context-dependent severity for a vulnerability given NIS2 sector and cross-border exposure."""
+        """Assess context-dependent severity for a vulnerability given NIS2 sector, cross-border exposure, and deployment context."""
         # 1. Validate sector
         ok, err = _validate_sector(sector)
         if not ok:
@@ -94,4 +106,8 @@ def register(mcp: FastMCP) -> None:
             return {"error": "No trained model available. Deploy a model to data/models/contextual/."}
 
         # 3. Assess with model
-        return _assess_with_model(clf, description, sector, cross_border, score=severity_score)
+        return _assess_with_model(
+            clf, description, sector, cross_border,
+            score=severity_score, deployment_scale=deployment_scale,
+            entity_type=entity_type,
+        )

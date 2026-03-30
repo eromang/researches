@@ -63,6 +63,9 @@ TRIGGER_PATTERNS: dict[str, re.Pattern] = {
     ),
 }
 
+DEPLOYMENT_SCALES = ["individual", "small_business", "enterprise", "critical_operator"]
+ENTITY_TYPES = ["individual", "sme", "msp", "hospital", "cloud_provider", "utility", "government", "bank"]
+
 SEVERITY_LEVELS = ["Low", "Medium", "High", "Critical"]
 SEVERITY_INDEX = {name: idx for idx, name in enumerate(SEVERITY_LEVELS)}
 
@@ -231,10 +234,15 @@ def generate_scenarios(
                 ctx_sev = escalate(ctx_sev, cross_border_esc)
 
             # Format input text
+            deployment_scale = rng.choice(DEPLOYMENT_SCALES)
+            entity_type = rng.choice(ENTITY_TYPES)
+
             input_text = (
                 f"{desc} [SEP] sector: {sector_id} "
                 f"cross_border: {str(cross_border).lower()} "
-                f"score: {score}"
+                f"score: {score} "
+                f"deployment_scale: {deployment_scale} "
+                f"entity_type: {entity_type}"
             )
 
             label = SEVERITY_INDEX[ctx_sev]
@@ -249,6 +257,8 @@ def generate_scenarios(
                     "base_severity": base_sev,
                     "contextual_severity": ctx_sev,
                     "label": label,
+                    "deployment_scale": deployment_scale,
+                    "entity_type": entity_type,
                 }
             )
 
@@ -380,6 +390,8 @@ def main() -> None:
         "base_severity",
         "contextual_severity",
         "label",
+        "deployment_scale",
+        "entity_type",
     ]
     with open(args.output, "w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=fieldnames)
