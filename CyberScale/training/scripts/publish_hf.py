@@ -41,6 +41,9 @@ CONTEXTUAL_REPO = f"{HF_ORG}/cyberscale-contextual-v1"
 TECHNICAL_REPO = f"{HF_ORG}/cyberscale-technical-v1"
 OPERATIONAL_REPO = f"{HF_ORG}/cyberscale-operational-v1"
 DATASET_REPO = f"{HF_ORG}/cyberscale-training-cves"
+CONTEXTUAL_DATASET_REPO = f"{HF_ORG}/cyberscale-contextual-training"
+TECHNICAL_DATASET_REPO = f"{HF_ORG}/cyberscale-technical-training"
+OPERATIONAL_DATASET_REPO = f"{HF_ORG}/cyberscale-operational-training"
 
 MODEL_DIR = PROJECT_ROOT / "data" / "models" / "scorer"
 CONTEXTUAL_DIR = PROJECT_ROOT / "data" / "models" / "contextual"
@@ -675,6 +678,206 @@ def publish_dataset(api: HfApi, csv_path: Path, dry_run: bool = False) -> None:
     print(f"Published: https://huggingface.co/datasets/{DATASET_REPO}")
 
 
+def generate_contextual_dataset_card(csv_path: Path) -> str:
+    """Generate README.md for the contextual training dataset."""
+    import pandas as pd
+    df = pd.read_csv(csv_path)
+    label_map = {0: "Low", 1: "Medium", 2: "High", 3: "Critical"}
+    dist = df["label"].value_counts().sort_index()
+
+    return f"""---
+language: en
+license: apache-2.0
+task_categories:
+  - text-classification
+tags:
+  - cybersecurity
+  - vulnerability
+  - nis2
+  - contextual-severity
+size_categories:
+  - 1K<n<10K
+---
+
+# CyberScale Contextual Severity Training Data
+
+Training dataset for the CyberScale contextual severity classifier (Phase 2). Contains {len(df):,} scenarios combining CVE descriptions with NIS2 sector deployment contexts and cross-border exposure.
+
+## Dataset Description
+
+- **Source:** Parametrically generated from CVEs x 19 NIS2 sectors x cross-border conditions
+- **Generation:** `training/scripts/generate_contextual.py` with `data/reference/sector_severity_rules.json`
+- **Labels:** 4-class (Low=0, Medium=1, High=2, Critical=3)
+
+## Schema
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `input_text` | string | Formatted input: `<description> [SEP] sector: <id> cross_border: <bool> score: <float>` |
+| `label` | int | Severity class (0-3) |
+| `sector` | string | NIS2 sector identifier |
+| `cross_border` | bool | Cross-border exposure |
+| `cvss_score` | float | CVSS v3.x base score |
+| `base_severity` | string | CVSS-derived severity |
+| `contextual_severity` | string | Context-adjusted severity |
+
+## Class Distribution
+
+| Label | Name | Count |
+|-------|------|-------|
+{chr(10).join(f"| {i} | {label_map[i]} | {dist.get(i, 0):,} |" for i in range(4))}
+
+## Citation
+
+Part of the CyberScale project — multi-phase cyber severity assessment MCP server.
+"""
+
+
+def generate_incident_dataset_card(csv_path: Path, model_type: str) -> str:
+    """Generate README.md for incident training datasets (T or O)."""
+    import pandas as pd
+    df = pd.read_csv(csv_path)
+    label_col = "label"
+    dist = df[label_col].value_counts().sort_index()
+
+    if model_type == "technical":
+        title = "CyberScale Technical Severity Training Data"
+        desc = "incident technical severity classifier (Phase 3 T-model)"
+        labels = "T1-T4"
+        fields = """| `text` | string | Formatted input: `<description> [SEP] disruption: <level> entities: <N> sectors: <N> cascading: <level> data_compromise: <level>` |
+| `label` | string | Technical severity level (T1/T2/T3/T4) |"""
+    else:
+        title = "CyberScale Operational Severity Training Data"
+        desc = "incident operational severity classifier (Phase 3 O-model)"
+        labels = "O1-O4"
+        fields = """| `text` | string | Formatted input: `<description> [SEP] sectors: <list> relevance: <level> ms_affected: <N> cross_border: <level> coordination: <level> capacity_exceeded: <bool>` |
+| `label` | string | Operational severity level (O1/O2/O3/O4) |"""
+
+    return f"""---
+language: en
+license: apache-2.0
+task_categories:
+  - text-classification
+tags:
+  - cybersecurity
+  - incident-classification
+  - {model_type}-severity
+  - nis2
+  - cyber-blueprint
+size_categories:
+  - 1K<n<10K
+---
+
+# {title}
+
+Training dataset for the CyberScale {desc}. Contains {len(df):,} parametric incident scenarios with deterministic {labels} labels.
+
+## Dataset Description
+
+- **Source:** Parametrically generated from structured field combinations (50 templates x paraphrase variants)
+- **Generation:** `training/scripts/generate_incidents.py`
+- **Labels:** 4-class ({labels})
+- **Balance:** {len(df) // 4:,} per class after balancing
+
+## Schema
+
+| Column | Type | Description |
+|--------|------|-------------|
+{fields}
+
+## Class Distribution
+
+| Label | Count |
+|-------|-------|
+{chr(10).join(f"| {label} | {count:,} |" for label, count in dist.items())}
+
+## Citation
+
+Part of the CyberScale project — multi-phase cyber severity assessment MCP server.
+"""
+
+
+def publish_contextual_dataset(api: HfApi, dry_run: bool = False) -> None:
+    """Publish contextual severity training dataset."""
+    csv_path = DATASET_DIR / "contextual_training.csv"
+    # Try versioned names
+    for name in ["contextual_training_v3.csv", "contextual_training_v2.csv", "contextual_training.csv"]:
+        candidate = DATASET_DIR / name
+        if candidate.exists():
+            csv_path = candidate
+            break
+
+    if not csv_path.exists():
+        print(f"ERROR: Contextual dataset not found in {DATASET_DIR}")
+        return
+
+    card = generate_contextual_dataset_card(csv_path)
+    card_path = DATASET_DIR / "contextual_dataset_README.md"
+    card_path.write_text(card)
+
+    print(f"\n--- Contextual Dataset: {CONTEXTUAL_DATASET_REPO} ---")
+    print(f"CSV: {csv_path.name} ({csv_path.stat().st_size / 1024:.0f} KB)")
+
+    if dry_run:
+        print("DRY RUN — skipping upload")
+        return
+
+    create_repo(CONTEXTUAL_DATASET_REPO, repo_type="dataset", exist_ok=True, token=api.token)
+    api.upload_file(
+        path_or_fileobj=str(csv_path),
+        path_in_repo="contextual_training.csv",
+        repo_id=CONTEXTUAL_DATASET_REPO,
+        repo_type="dataset",
+        commit_message="Upload contextual severity training data",
+    )
+    api.upload_file(
+        path_or_fileobj=str(card_path),
+        path_in_repo="README.md",
+        repo_id=CONTEXTUAL_DATASET_REPO,
+        repo_type="dataset",
+        commit_message="Upload dataset card",
+    )
+    print(f"Published: https://huggingface.co/datasets/{CONTEXTUAL_DATASET_REPO}")
+
+
+def publish_incident_dataset(api: HfApi, model_type: str, dry_run: bool = False) -> None:
+    """Publish incident training dataset (technical or operational)."""
+    csv_path = DATASET_DIR / f"{model_type}_training.csv"
+    repo = TECHNICAL_DATASET_REPO if model_type == "technical" else OPERATIONAL_DATASET_REPO
+
+    if not csv_path.exists():
+        print(f"ERROR: {model_type} dataset not found at {csv_path}")
+        return
+
+    card = generate_incident_dataset_card(csv_path, model_type)
+    card_path = DATASET_DIR / f"{model_type}_dataset_README.md"
+    card_path.write_text(card)
+
+    print(f"\n--- {model_type.title()} Dataset: {repo} ---")
+    print(f"CSV: {csv_path.name} ({csv_path.stat().st_size / 1024:.0f} KB)")
+
+    if dry_run:
+        print("DRY RUN — skipping upload")
+        return
+
+    create_repo(repo, repo_type="dataset", exist_ok=True, token=api.token)
+    api.upload_file(
+        path_or_fileobj=str(csv_path),
+        path_in_repo=f"{model_type}_training.csv",
+        repo_id=repo,
+        repo_type="dataset",
+        commit_message=f"Upload {model_type} severity training data",
+    )
+    api.upload_file(
+        path_or_fileobj=str(card_path),
+        path_in_repo="README.md",
+        repo_id=repo,
+        repo_type="dataset",
+        commit_message="Upload dataset card",
+    )
+    print(f"Published: https://huggingface.co/datasets/{repo}")
+
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -685,7 +888,11 @@ def main():
     parser.add_argument("--contextual-only", action="store_true", help="Publish contextual model only")
     parser.add_argument("--technical-only", action="store_true", help="Publish technical model only")
     parser.add_argument("--operational-only", action="store_true", help="Publish operational model only")
-    parser.add_argument("--dataset-only", action="store_true", help="Publish dataset only")
+    parser.add_argument("--dataset-only", action="store_true", help="Publish Phase 1 dataset only")
+    parser.add_argument("--contextual-dataset-only", action="store_true", help="Publish contextual dataset only")
+    parser.add_argument("--technical-dataset-only", action="store_true", help="Publish technical dataset only")
+    parser.add_argument("--operational-dataset-only", action="store_true", help="Publish operational dataset only")
+    parser.add_argument("--all-datasets", action="store_true", help="Publish all datasets")
     parser.add_argument("--dataset-csv", type=str,
                         default=str(DATASET_DIR / "training_cves_v2.csv"),
                         help="Path to training CSV (default: training_cves_v2.csv)")
@@ -701,8 +908,11 @@ def main():
     api = HfApi(token=token)
 
     # Selective publish based on flags
-    publish_all = not (args.model_only or args.contextual_only or args.technical_only
-                       or args.operational_only or args.dataset_only)
+    any_flag = (args.model_only or args.contextual_only or args.technical_only
+                or args.operational_only or args.dataset_only
+                or args.contextual_dataset_only or args.technical_dataset_only
+                or args.operational_dataset_only or args.all_datasets)
+    publish_all = not any_flag
 
     if args.model_only or publish_all:
         publish_model(api, dry_run=args.dry_run)
@@ -712,8 +922,14 @@ def main():
         publish_technical(api, dry_run=args.dry_run)
     if args.operational_only or publish_all:
         publish_operational(api, dry_run=args.dry_run)
-    if args.dataset_only or publish_all:
+    if args.dataset_only or args.all_datasets or publish_all:
         publish_dataset(api, Path(args.dataset_csv), dry_run=args.dry_run)
+    if args.contextual_dataset_only or args.all_datasets or publish_all:
+        publish_contextual_dataset(api, dry_run=args.dry_run)
+    if args.technical_dataset_only or args.all_datasets or publish_all:
+        publish_incident_dataset(api, "technical", dry_run=args.dry_run)
+    if args.operational_dataset_only or args.all_datasets or publish_all:
+        publish_incident_dataset(api, "operational", dry_run=args.dry_run)
 
 
 if __name__ == "__main__":
