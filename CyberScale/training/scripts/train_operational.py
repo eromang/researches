@@ -54,11 +54,13 @@ class CVEDataset(Dataset):
         labels: list[int],
         tokenizer: AutoTokenizer,
         max_length: int = 256,
+        weights: list[float] | None = None,
     ):
         self.texts = texts
         self.labels = labels
         self.tokenizer = tokenizer
         self.max_length = max_length
+        self.weights = weights or [1.0] * len(texts)
 
     def __len__(self) -> int:
         return len(self.texts)
@@ -76,6 +78,7 @@ class CVEDataset(Dataset):
             "input_ids": encoding["input_ids"].squeeze(0),
             "attention_mask": encoding["attention_mask"].squeeze(0),
             "labels": torch.tensor(self.labels[idx], dtype=torch.long),
+            "weight": torch.tensor(self.weights[idx], dtype=torch.float32),
         }
 
 
@@ -142,6 +145,13 @@ def train(
     else:
         labels = df["label"].astype(int).tolist()
 
+    # Per-sample weights (optional column)
+    if "weight" in df.columns:
+        weights = df["weight"].astype(float).tolist()
+        print(f"Per-sample weights detected: min={min(weights):.2f}, max={max(weights):.2f}")
+    else:
+        weights = [1.0] * len(texts)
+
     # ------------------------------------------------------------------
     # Train / val / test split (stratified by label)
     # ------------------------------------------------------------------
@@ -177,6 +187,7 @@ def train(
             labels=[labels[i] for i in idxs],
             tokenizer=tokenizer,
             max_length=max_length,
+            weights=[weights[i] for i in idxs],
         )
 
     train_ds = make_dataset(train_idx)
@@ -206,7 +217,7 @@ def train(
         weight_tensor = None
 
     label_smoothing = model_cfg.get("label_smoothing", 0.1)
-    loss_fn = torch.nn.CrossEntropyLoss(weight=weight_tensor, label_smoothing=label_smoothing)
+    loss_fn = torch.nn.CrossEntropyLoss(weight=weight_tensor, label_smoothing=label_smoothing, reduction="none")
     print(f"Label smoothing: {label_smoothing}")
 
     # ------------------------------------------------------------------
@@ -274,7 +285,9 @@ def train(
 
             optimizer.zero_grad()
             outputs = model(input_ids=input_ids, attention_mask=attention_mask)
-            loss = loss_fn(outputs.logits, batch_labels)
+            raw_loss = loss_fn(outputs.logits, batch_labels)
+            sample_weights = batch["weight"].to(device)
+            loss = (raw_loss * sample_weights).mean()
             loss.backward()
 
             torch.nn.utils.clip_grad_norm_(model.parameters(), grad_clip)
@@ -305,7 +318,9 @@ def train(
                 batch_labels = batch["labels"].to(device)
 
                 outputs = model(input_ids=input_ids, attention_mask=attention_mask)
-                loss = loss_fn(outputs.logits, batch_labels)
+                raw_loss = loss_fn(outputs.logits, batch_labels)
+                sample_weights = batch["weight"].to(device)
+                loss = (raw_loss * sample_weights).mean()
 
                 val_loss_sum += loss.item()
                 val_steps += 1
