@@ -1,0 +1,23 @@
+{
+  "sectors": [
+    {"id": "energy", "name": "Energy", "annex": "I", "subsectors": ["electricity", "oil", "gas", "hydrogen", "district_heating"]},
+    {"id": "transport", "name": "Transport", "annex": "I", "subsectors": ["air", "rail", "water", "road"]},
+    {"id": "banking", "name": "Banking", "annex": "I", "subsectors": []},
+    {"id": "financial_market", "name": "Financial market infrastructures", "annex": "I", "subsectors": []},
+    {"id": "health", "name": "Health", "annex": "I", "subsectors": ["healthcare_providers", "laboratories", "pharma"]},
+    {"id": "drinking_water", "name": "Drinking water", "annex": "I", "subsectors": []},
+    {"id": "waste_water", "name": "Waste water", "annex": "I", "subsectors": []},
+    {"id": "digital_infrastructure", "name": "Digital infrastructure", "annex": "I", "subsectors": ["dns", "tld", "cloud", "data_centre", "cdn", "trust_service", "ixp"]},
+    {"id": "ict_service_management", "name": "ICT service management", "annex": "I", "subsectors": ["msp", "mssp"]},
+    {"id": "public_administration", "name": "Public administration", "annex": "I", "subsectors": ["central_government"]},
+    {"id": "space", "name": "Space", "annex": "I", "subsectors": []},
+    {"id": "postal", "name": "Postal and courier services", "annex": "II", "subsectors": []},
+    {"id": "waste_management", "name": "Waste management", "annex": "II", "subsectors": []},
+    {"id": "manufacturing", "name": "Manufacturing", "annex": "II", "subsectors": ["medical_devices", "machinery", "motor_vehicles", "electrical_equipment"]},
+    {"id": "chemicals", "name": "Chemicals", "annex": "II", "subsectors": []},
+    {"id": "food", "name": "Food", "annex": "II", "subsectors": []},
+    {"id": "digital_providers", "name": "Digital providers", "annex": "II", "subsectors": ["online_marketplace", "search_engine", "social_network"]},
+    {"id": "research", "name": "Research", "annex": "II", "subsectors": []},
+    {"id": "non_nis2", "name": "Non-NIS2", "annex": null, "subsectors": []}
+  ]
+}

@@ -1,0 +1,201 @@
+"""Phase 3 MCP tools — Incident dual-scale classification with model integration."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+from fastmcp import FastMCP
+
+
+# ---------------------------------------------------------------------------
+# Lazy model loading
+# ---------------------------------------------------------------------------
+
+_t_classifier = None
+_o_classifier = None
+_t_model_path = Path("data/models/technical")
+_o_model_path = Path("data/models/operational")
+
+
+def _get_t_classifier():
+    global _t_classifier
+    if _t_classifier is None:
+        if not _t_model_path.exists():
+            return None
+        from cyberscale.models.technical import TechnicalClassifier
+        _t_classifier = TechnicalClassifier(model_path=_t_model_path)
+    return _t_classifier
+
+
+def _get_o_classifier():
+    global _o_classifier
+    if _o_classifier is None:
+        if not _o_model_path.exists():
+            return None
+        from cyberscale.models.operational import OperationalClassifier
+        _o_classifier = OperationalClassifier(model_path=_o_model_path)
+    return _o_classifier
+
+
+# ---------------------------------------------------------------------------
+# Internal helper functions (testable without MCP)
+# ---------------------------------------------------------------------------
+
+
+def _classify_technical(
+    clf,
+    description: str,
+    service_disruption: str,
+    affected_entities: int,
+    sectors_affected: int,
+    cascading: str,
+    data_compromise: str,
+) -> dict:
+    """Classify technical severity using the T-model."""
+    result = clf.predict(
+        description,
+        service_disruption=service_disruption,
+        affected_entities=affected_entities,
+        sectors_affected=sectors_affected,
+        cascading=cascading,
+        data_compromise=data_compromise,
+    )
+    return result.to_dict()
+
+
+def _classify_operational(
+    clf,
+    description: str,
+    sectors_affected: str,
+    entity_relevance: str,
+    ms_affected: int,
+    cross_border_pattern: str,
+    coordination_needs: str,
+    capacity_exceeded: bool,
+) -> dict:
+    """Classify operational severity using the O-model."""
+    result = clf.predict(
+        description,
+        sectors_affected=sectors_affected,
+        entity_relevance=entity_relevance,
+        ms_affected=ms_affected,
+        cross_border_pattern=cross_border_pattern,
+        coordination_needs=coordination_needs,
+        capacity_exceeded=capacity_exceeded,
+    )
+    return result.to_dict()
+
+
+def _classify_full(
+    t_clf,
+    o_clf,
+    description: str,
+    service_disruption: str,
+    affected_entities: int,
+    sectors_affected: str,
+    cascading: str,
+    data_compromise: str,
+    entity_relevance: str,
+    ms_affected: int,
+    cross_border_pattern: str,
+    coordination_needs: str,
+    capacity_exceeded: bool,
+) -> dict:
+    """Full classification: T-level + O-level + Blueprint matrix lookup."""
+    # Count sectors for T-model (expects int)
+    n_sectors = len([s for s in sectors_affected.split(",") if s.strip()])
+
+    t_result = _classify_technical(
+        t_clf, description, service_disruption, affected_entities,
+        n_sectors, cascading, data_compromise,
+    )
+    o_result = _classify_operational(
+        o_clf, description, sectors_affected, entity_relevance,
+        ms_affected, cross_border_pattern, coordination_needs,
+        capacity_exceeded,
+    )
+
+    from cyberscale.matrix.dual_scale import classify_incident
+    matrix_result = classify_incident(t_result["level"], o_result["level"])
+
+    return {
+        "technical": t_result,
+        "operational": o_result,
+        "classification": matrix_result.classification,
+        "label": matrix_result.label,
+        "provision": matrix_result.provision,
+    }
+
+
+# ---------------------------------------------------------------------------
+# MCP tool registration
+# ---------------------------------------------------------------------------
+
+
+def register(mcp: FastMCP) -> None:
+
+    @mcp.tool(annotations={"readOnlyHint": True})
+    def classify_incident_technical(
+        description: str,
+        service_disruption: str = "partial",
+        affected_entities: int = 1,
+        sectors_affected: int = 1,
+        cascading: str = "none",
+        data_compromise: str = "none",
+    ) -> dict:
+        """Classify incident technical severity (T1-T4)."""
+        clf = _get_t_classifier()
+        if clf is None:
+            return {"error": "No trained model available. Deploy a model to data/models/technical/."}
+        return _classify_technical(
+            clf, description, service_disruption, affected_entities,
+            sectors_affected, cascading, data_compromise,
+        )
+
+    @mcp.tool(annotations={"readOnlyHint": True})
+    def classify_incident_operational(
+        description: str,
+        sectors_affected: str = "",
+        entity_relevance: str = "non-essential",
+        ms_affected: int = 1,
+        cross_border_pattern: str = "none",
+        coordination_needs: str = "national",
+        capacity_exceeded: bool = False,
+    ) -> dict:
+        """Classify incident operational severity (O1-O4)."""
+        clf = _get_o_classifier()
+        if clf is None:
+            return {"error": "No trained model available. Deploy a model to data/models/operational/."}
+        return _classify_operational(
+            clf, description, sectors_affected, entity_relevance,
+            ms_affected, cross_border_pattern, coordination_needs,
+            capacity_exceeded,
+        )
+
+    @mcp.tool(annotations={"readOnlyHint": True})
+    def classify_incident(
+        description: str,
+        service_disruption: str = "partial",
+        affected_entities: int = 1,
+        sectors_affected: str = "",
+        cascading: str = "none",
+        data_compromise: str = "none",
+        entity_relevance: str = "non-essential",
+        ms_affected: int = 1,
+        cross_border_pattern: str = "none",
+        coordination_needs: str = "national",
+        capacity_exceeded: bool = False,
+    ) -> dict:
+        """Full incident classification: T-level + O-level + Blueprint matrix result."""
+        t_clf = _get_t_classifier()
+        if t_clf is None:
+            return {"error": "No trained model available. Deploy a model to data/models/technical/."}
+        o_clf = _get_o_classifier()
+        if o_clf is None:
+            return {"error": "No trained model available. Deploy a model to data/models/operational/."}
+        return _classify_full(
+            t_clf, o_clf, description, service_disruption, affected_entities,
+            sectors_affected, cascading, data_compromise, entity_relevance,
+            ms_affected, cross_border_pattern, coordination_needs,
+            capacity_exceeded,
+        )

@@ -1,0 +1,28 @@
+{
+  "data": {
+    "target_per_class": 2000,
+    "paraphrase_variants": 3
+  },
+  "model": {
+    "base_model": "answerdotai/ModernBERT-base",
+    "max_length": 256,
+    "batch_size": 16,
+    "learning_rate": 1e-5,
+    "dropout": 0.3,
+    "label_smoothing": 0.1,
+    "weight_decay": 0.01,
+    "mc_dropout_passes": 20,
+    "warmup_ratio": 0.1,
+    "gradient_clip": 1.0,
+    "class_weights": true,
+    "epochs": 20,
+    "patience": 5,
+    "seed": 42,
+    "num_labels": 4,
+    "label_map": {"O1": 0, "O2": 1, "O3": 2, "O4": 3}
+  },
+  "evaluation": {
+    "test_split": 0.15,
+    "val_split": 0.15
+  }
+}

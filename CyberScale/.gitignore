@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+.venv/
+
+# Data artifacts (reproducible from scripts)
+data/chromadb/
+data/models/
+training/data/
+
+# Secrets
+.env
+.env.*
+*.token
+
+# Internal development docs (local-only, not published)
+docs/internal/
+
+# IDE
+.idea/
+.vscode/

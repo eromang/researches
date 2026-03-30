@@ -1,0 +1,37 @@
+{
+  "data": {
+    "target_total": 12000,
+    "cvss_version": "3.1",
+    "min_description_length": 50,
+    "band_balance": {
+      "Critical": {"min": 9.0, "max": 10.0, "target_pct": 0.25},
+      "High": {"min": 7.0, "max": 8.9, "target_pct": 0.25},
+      "Medium": {"min": 4.0, "max": 6.9, "target_pct": 0.25},
+      "Low": {"min": 0.1, "max": 3.9, "target_pct": 0.25}
+    }
+  },
+  "model": {
+    "base_model": "answerdotai/ModernBERT-large",
+    "max_length": 192,
+    "batch_size": 8,
+    "learning_rate": 1e-5,
+    "dropout": 0.1,
+    "mc_dropout_passes": 20,
+    "loss": "huber",
+    "huber_delta": 1.0,
+    "warmup_ratio": 0.1,
+    "gradient_clip": 1.0,
+    "boundary_margin": 1.0,
+    "boundary_boost": 2.0,
+    "class_weights": true,
+    "epochs": 20,
+    "patience": 5,
+    "seed": 42
+  },
+  "evaluation": {
+    "test_split": 0.15,
+    "val_split": 0.15,
+    "kfold": 5,
+    "degradation_levels": ["full", "truncated_100", "truncated_50", "paraphrased", "minimal"]
+  }
+}

@@ -30,12 +30,23 @@ Tests whether local language models exhibit actor-asymmetric framing when genera
 - **Assets:** full JSONL raw data (Git LFS), prompt CSVs, analysis scripts, per-model statistical reports, cross-model comparisons
 - **Hugging Face:** [Prompts](https://huggingface.co/datasets/eromang/eu-cyber-llm-benchmark-prompts) | [Responses](https://huggingface.co/datasets/eromang/eu-cyber-llm-benchmark-responses)
 
+### [CyberScale](CyberScale/)
+
+**Multi-phase cyber severity assessment MCP server using fine-tuned ModernBERT classifiers.**
+
+Context-aware vulnerability severity scoring that goes beyond CVSS base scores. Combines three fine-tuned ModernBERT classifiers (vulnerability scorer, contextual severity, incident T/O classifiers) with NIS2 sector rules, a ChromaDB vulnerability knowledge store, and the EU Cyber Blueprint dual-scale incident classification matrix, all exposed via the Model Context Protocol (MCP).
+
+- **Phases:** Vulnerability scoring (0-10), contextual NIS2 severity, incident dual-scale classification (T1-T4 x O1-O4)
+- **Key results:** 88.0% predecessor benchmark (+7.3pp vs baseline); T macro F1 95.4%, O macro F1 96.4%, matrix 96.2%
+- **Assets:** MCP server (8 tools), training pipeline, evaluation benchmarks, reference data
+- **Hugging Face:** [cyberscale-scorer-v1](https://huggingface.co/eromang/cyberscale-scorer-v1) | [cyberscale-contextual-v1](https://huggingface.co/eromang/cyberscale-contextual-v1) | [cyberscale-technical-v1](https://huggingface.co/eromang/cyberscale-technical-v1) | [cyberscale-operational-v1](https://huggingface.co/eromang/cyberscale-operational-v1)
+
 ---
 
 ## Tooling
 
-All research uses Python 3.10+, runs on Apple Silicon, and is designed for full local reproducibility. No cloud APIs are required for any experiment. Claude Code (Anthropic) was used for code generation, analysis, and report drafting across both projects.
+All research uses Python 3.10+, runs on Apple Silicon, and is designed for full local reproducibility. No cloud APIs are required for core experiments. Claude Code (Anthropic) was used for code generation, analysis, and report drafting across all projects.
 
 ## License
 
-[MIT](LLM-Benchmark/LICENSE)
+[MIT](CyberScale/LICENSE)

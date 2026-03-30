@@ -1,0 +1,540 @@
+#!/usr/bin/env python3
+"""Generate parametric incident training data for CyberScale Phase 3.
+
+Produces balanced T-level and O-level classification datasets by:
+1. Enumerating all valid combinations of structured incident fields
+2. Applying deterministic T/O-level assignment rules
+3. Generating parametrized description text with paraphrase variants
+4. Balancing classes to target_per_class via undersampling
+
+Critical design choice: includes non-trigger scenarios where structured
+fields suggest escalation but the description is mundane, and vice versa.
+This prevents the model from learning spurious field-to-label shortcuts.
+"""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import itertools
+import json
+import random
+from collections import Counter
+from functools import partial
+from pathlib import Path
+
+print = partial(print, flush=True)
+
+# ---------------------------------------------------------------------------
+# Structured field value sets
+# ---------------------------------------------------------------------------
+
+DISRUPTIONS = ["partial", "significant", "complete", "sustained"]
+CASCADING = ["none", "limited", "cross_sector", "uncontrolled"]
+DATA_COMPROMISE = ["none", "operational", "sensitive", "systemic"]
+ENTITIES_RANGE = [1, 2, 3, 5, 8, 10, 12, 25, 55, 150]
+
+ENTITY_RELEVANCE = ["non_essential", "essential", "high_relevance", "systemic"]
+CROSS_BORDER = ["none", "limited", "significant", "systemic"]
+COORDINATION = ["national", "eu_info", "eu_active", "full_ipcr"]
+MS_AFFECTED_RANGE = [1, 1, 1, 2, 3, 5, 8]  # Weight toward 1 MS for O1 coverage
+CAPACITY_EXCEEDED = [False, True]
+
+SECTORS = [
+    "energy", "transport", "banking", "financial_market",
+    "health", "drinking_water", "waste_water", "digital_infrastructure",
+    "ict_service_management", "public_administration", "space",
+    "postal_courier", "waste_management", "chemicals",
+    "food_production", "manufacturing", "digital_providers",
+    "research", "education",
+]
+
+SECTORS_AFFECTED_RANGE = [1, 1, 2, 2, 3, 5]  # Weight toward 1-2 for T1/O1 coverage
+
+# ---------------------------------------------------------------------------
+# Description templates (50 base templates)
+# ---------------------------------------------------------------------------
+
+BASE_TEMPLATES = [
+    "Ransomware attack on {sector} provider causing {disruption} disruption to core services affecting {entities} entities across {n_sectors} sectors.",
+    "DDoS campaign targeting {sector} infrastructure resulting in {disruption} service degradation for {entities} downstream organizations.",
+    "Supply chain compromise through {sector} software vendor leading to {data_comp} data exposure across {entities} client organizations.",
+    "Phishing campaign against {sector} operators with {data_comp} credential theft impacting {entities} entities.",
+    "Advanced persistent threat targeting {sector} networks with {cascading} cascading effects across {n_sectors} sectors.",
+    "Zero-day exploitation in {sector} control systems causing {disruption} operational disruption.",
+    "Insider threat at {sector} facility resulting in {data_comp} data compromise affecting {entities} connected entities.",
+    "Wiper malware deployed against {sector} systems causing {disruption} destruction of operational data.",
+    "Man-in-the-middle attack intercepting {sector} communications with {data_comp} data exposure.",
+    "Brute force attack on {sector} authentication systems leading to {disruption} access disruption for {entities} users.",
+    "SQL injection against {sector} databases resulting in {data_comp} data breach across {entities} records systems.",
+    "Firmware tampering in {sector} IoT devices causing {cascading} cascading failures in {n_sectors} sectors.",
+    "Watering hole attack targeting {sector} personnel websites with {data_comp} credential harvesting.",
+    "DNS hijacking affecting {sector} domain resolution causing {disruption} service disruption for {entities} organizations.",
+    "BGP route leak impacting {sector} network connectivity with {disruption} disruption across {n_sectors} sectors.",
+    "Cryptojacking malware on {sector} cloud infrastructure causing {disruption} performance degradation.",
+    "Social engineering attack on {sector} help desk leading to {data_comp} data access for {entities} accounts.",
+    "Vulnerability in {sector} VPN gateway exploited for {data_comp} data exfiltration from {entities} endpoints.",
+    "Privilege escalation in {sector} active directory causing {cascading} lateral movement across {n_sectors} network segments.",
+    "Botnet infection across {sector} endpoints with {disruption} service degradation affecting {entities} sites.",
+    "Business email compromise targeting {sector} financial operations with {data_comp} transaction data exposure.",
+    "Malicious update pushed to {sector} monitoring software affecting {entities} installations with {cascading} cascading impact.",
+    "Credential stuffing attack on {sector} customer portals resulting in {data_comp} account compromise for {entities} users.",
+    "API abuse targeting {sector} cloud services causing {disruption} rate limiting and outages.",
+    "Configuration error in {sector} firewall rules exposing {data_comp} data to unauthorized access.",
+    "Certificate authority compromise affecting {sector} trust chains with {cascading} cascading trust failures across {n_sectors} domains.",
+    "Typosquatting campaign targeting {sector} supply chain with trojanized packages affecting {entities} developers.",
+    "Memory corruption exploit in {sector} SCADA systems causing {disruption} process control disruption.",
+    "Data poisoning attack on {sector} machine learning models with {data_comp} integrity compromise.",
+    "SIM swapping attack targeting {sector} executives leading to {data_comp} two-factor bypass for {entities} accounts.",
+    "Container escape in {sector} Kubernetes clusters causing {cascading} lateral movement across {n_sectors} namespaces.",
+    "Power grid cyber-physical attack on {sector} SCADA causing {disruption} disruption with {cascading} cascading effects.",
+    "Bluetooth vulnerability exploited in {sector} medical devices affecting {entities} hospital systems.",
+    "Satellite communication jamming targeting {sector} ground stations causing {disruption} connectivity loss.",
+    "Ransomware-as-a-service targeting {sector} SMEs causing {disruption} disruption across {entities} businesses.",
+    "Cloud misconfiguration exposing {sector} storage buckets with {data_comp} data of {entities} customers.",
+    "USB-based malware introduced into {sector} air-gapped systems causing {data_comp} data bridge.",
+    "Deepfake-assisted social engineering targeting {sector} leadership with {data_comp} access to {entities} strategic systems.",
+    "SSH key compromise in {sector} jump servers enabling {cascading} lateral access across {n_sectors} network zones.",
+    "Log4j-style vulnerability in {sector} Java applications affecting {entities} instances with {disruption} service impact.",
+    "Side-channel attack on {sector} cryptographic hardware with {data_comp} key material exposure.",
+    "WebSocket injection in {sector} real-time systems causing {disruption} session disruption for {entities} active connections.",
+    "OAuth token theft from {sector} identity providers affecting {entities} federated services.",
+    "Hardware implant discovered in {sector} network equipment with {data_comp} persistent surveillance capability.",
+    "Automated exploit chain targeting {sector} web applications with {cascading} cascading compromise across {n_sectors} sites.",
+    "Operational technology network bridge exploit in {sector} causing {disruption} safety system degradation.",
+    "Mass scanning and exploitation campaign against {sector} exposed services affecting {entities} unpatched systems.",
+    "Encrypted channel abuse by malware in {sector} networks evading detection with {data_comp} data exfiltration.",
+    "GPS spoofing targeting {sector} navigation systems causing {disruption} operational confusion for {entities} vehicles.",
+    "Third-party cloud provider outage affecting {sector} hosted services with {disruption} disruption across {n_sectors} dependent sectors.",
+]
+
+# Synonym substitution pools for paraphrasing
+SYNONYMS = {
+    "attack": ["incident", "breach", "intrusion", "compromise"],
+    "targeting": ["affecting", "impacting", "directed at", "hitting"],
+    "causing": ["resulting in", "leading to", "producing", "triggering"],
+    "disruption": ["outage", "degradation", "interruption", "impairment"],
+    "affecting": ["impacting", "involving", "touching", "reaching"],
+    "organizations": ["entities", "institutions", "operators", "providers"],
+    "systems": ["infrastructure", "platforms", "services", "networks"],
+    "deployed": ["launched", "executed", "activated", "introduced"],
+    "resulting": ["leading", "culminating", "ending", "concluding"],
+    "exposure": ["leak", "breach", "disclosure", "compromise"],
+}
+
+
+def _paraphrase(text: str, variant: int, rng: random.Random) -> str:
+    """Generate a paraphrase variant via synonym substitution and reordering."""
+    words = text.split()
+    result = []
+    for w in words:
+        w_lower = w.lower().rstrip(".,;:")
+        punct = w[len(w_lower):] if len(w) > len(w_lower) else ""
+        if w_lower in SYNONYMS and rng.random() < 0.3 + variant * 0.1:
+            replacement = rng.choice(SYNONYMS[w_lower])
+            if w[0].isupper():
+                replacement = replacement.capitalize()
+            result.append(replacement + punct)
+        else:
+            result.append(w)
+    # For variant 2+, sometimes swap adjacent clause fragments
+    if variant >= 2 and " with " in " ".join(result):
+        text_out = " ".join(result)
+        parts = text_out.split(" with ", 1)
+        if len(parts) == 2 and rng.random() < 0.4:
+            # Restructure: "X with Y" -> "With Y, X"
+            text_out = f"With {parts[1].rstrip('.')}, {parts[0].lower()}."
+            return text_out
+    return " ".join(result)
+
+
+def _fill_template(
+    template: str,
+    sector: str,
+    disruption: str,
+    entities: int,
+    n_sectors: int,
+    cascading: str,
+    data_comp: str,
+) -> str:
+    """Fill a base template with field values."""
+    return template.format(
+        sector=sector.replace("_", " "),
+        disruption=disruption,
+        entities=entities,
+        n_sectors=n_sectors,
+        cascading=cascading.replace("_", " "),
+        data_comp=data_comp.replace("_", " "),
+    )
+
+
+# ---------------------------------------------------------------------------
+# T-level assignment (deterministic)
+# ---------------------------------------------------------------------------
+
+def assign_t_level(
+    disruption: str,
+    data_compromise: str,
+    cascading: str,
+    entities: int,
+) -> str:
+    """Deterministic T-level based on structured fields."""
+    # T4: sustained OR systemic data OR (complete + uncontrolled)
+    if disruption == "sustained":
+        return "T4"
+    if data_compromise == "systemic":
+        return "T4"
+    if disruption == "complete" and cascading == "uncontrolled":
+        return "T4"
+
+    # T3: complete OR sensitive data OR cross_sector cascading OR entities > 50
+    if disruption == "complete":
+        return "T3"
+    if data_compromise == "sensitive":
+        return "T3"
+    if cascading == "cross_sector":
+        return "T3"
+    if entities > 50:
+        return "T3"
+
+    # T2: significant OR operational data OR limited cascading OR entities > 10
+    if disruption == "significant":
+        return "T2"
+    if data_compromise == "operational":
+        return "T2"
+    if cascading == "limited":
+        return "T2"
+    if entities > 10:
+        return "T2"
+
+    # T1: everything else
+    return "T1"
+
+
+# ---------------------------------------------------------------------------
+# O-level assignment (deterministic)
+# ---------------------------------------------------------------------------
+
+def assign_o_level(
+    coordination: str,
+    cross_border: str,
+    capacity_exceeded: bool,
+    entity_relevance: str,
+    ms_affected: int,
+    n_sectors: int,
+) -> str:
+    """Deterministic O-level based on structured fields."""
+    # O4: full_ipcr OR (systemic cross-border + capacity_exceeded)
+    #     OR (systemic entity + 6+ MS)
+    if coordination == "full_ipcr":
+        return "O4"
+    if cross_border == "systemic" and capacity_exceeded:
+        return "O4"
+    if entity_relevance == "systemic" and ms_affected >= 6:
+        return "O4"
+
+    # O3: eu_active OR significant cross-border
+    #     OR (high_relevance + 3+ MS) OR capacity_exceeded
+    if coordination == "eu_active":
+        return "O3"
+    if cross_border == "significant":
+        return "O3"
+    if entity_relevance == "high_relevance" and ms_affected >= 3:
+        return "O3"
+    if capacity_exceeded:
+        return "O3"
+
+    # O2: eu_info OR limited cross-border
+    #     OR (essential + 2+ MS) OR 3+ sectors
+    if coordination == "eu_info":
+        return "O2"
+    if cross_border == "limited":
+        return "O2"
+    if entity_relevance == "essential" and ms_affected >= 2:
+        return "O2"
+    if n_sectors >= 3:
+        return "O2"
+
+    # O1: everything else
+    return "O1"
+
+
+# ---------------------------------------------------------------------------
+# Invalid combination filters
+# ---------------------------------------------------------------------------
+
+def is_valid_t_combination(
+    disruption: str,
+    cascading: str,
+    data_compromise: str,
+    entities: int,
+    n_sectors: int,
+) -> bool:
+    """Filter obviously inconsistent T-level field combinations."""
+    # No cascading but many sectors makes little sense
+    if cascading == "none" and n_sectors > 3:
+        return False
+    # Partial disruption with uncontrolled cascading is unlikely
+    if disruption == "partial" and cascading == "uncontrolled":
+        return False
+    # Single entity with cross-sector or uncontrolled cascading
+    if entities == 1 and cascading in ("cross_sector", "uncontrolled"):
+        return False
+    return True
+
+
+def is_valid_o_combination(
+    ms_affected: int,
+    coordination: str,
+    cross_border: str,
+    entity_relevance: str,
+    n_sectors: int,
+) -> bool:
+    """Filter invalid O-level field combinations per spec."""
+    # 1 MS + full_ipcr -> skip
+    if ms_affected == 1 and coordination == "full_ipcr":
+        return False
+    # non_essential + systemic cross-border -> skip
+    if entity_relevance == "non_essential" and cross_border == "systemic":
+        return False
+    # 1 MS + significant/systemic cross-border -> skip
+    if ms_affected == 1 and cross_border in ("significant", "systemic"):
+        return False
+    # Single MS with eu_active is unlikely
+    if ms_affected == 1 and coordination == "eu_active":
+        return False
+    return True
+
+
+# ---------------------------------------------------------------------------
+# Data generation
+# ---------------------------------------------------------------------------
+
+def generate_t_samples(
+    target_per_class: int,
+    paraphrase_variants: int,
+    seed: int,
+) -> list[dict]:
+    """Generate all T-level training samples."""
+    rng = random.Random(seed)
+    all_samples: list[dict] = []
+    template_count = len(BASE_TEMPLATES)
+
+    # Iterate over a sampled subset of combinations to keep generation tractable
+    combos = list(itertools.product(
+        DISRUPTIONS, CASCADING, DATA_COMPROMISE, ENTITIES_RANGE, SECTORS_AFFECTED_RANGE,
+    ))
+    rng.shuffle(combos)
+
+    for disruption, cascading, data_comp, entities, n_sectors in combos:
+        if not is_valid_t_combination(disruption, cascading, data_comp, entities, n_sectors):
+            continue
+
+        t_level = assign_t_level(disruption, data_comp, cascading, entities)
+        sector = rng.choice(SECTORS)
+
+        # Pick a template deterministically from combo hash
+        tmpl_idx = hash((disruption, cascading, data_comp, entities, n_sectors)) % template_count
+        base_desc = _fill_template(
+            BASE_TEMPLATES[tmpl_idx], sector, disruption, entities, n_sectors, cascading, data_comp,
+        )
+
+        # Original + paraphrase variants
+        descriptions = [base_desc]
+        for v in range(1, paraphrase_variants + 1):
+            descriptions.append(_paraphrase(base_desc, v, rng))
+
+        for desc in descriptions:
+            text = (
+                f"{desc} [SEP] "
+                f"disruption: {disruption} "
+                f"entities: {entities} "
+                f"sectors: {n_sectors} "
+                f"cascading: {cascading} "
+                f"data_compromise: {data_comp}"
+            )
+            all_samples.append({"text": text, "label": t_level})
+
+    return all_samples
+
+
+def generate_o_samples(
+    target_per_class: int,
+    paraphrase_variants: int,
+    seed: int,
+) -> list[dict]:
+    """Generate all O-level training samples."""
+    rng = random.Random(seed + 1)  # Different seed for variety
+    all_samples: list[dict] = []
+    template_count = len(BASE_TEMPLATES)
+
+    combos = list(itertools.product(
+        ENTITY_RELEVANCE, CROSS_BORDER, COORDINATION,
+        MS_AFFECTED_RANGE, CAPACITY_EXCEEDED, SECTORS_AFFECTED_RANGE,
+    ))
+    rng.shuffle(combos)
+
+    for relevance, cross_border, coordination, ms_affected, cap_exceeded, n_sectors in combos:
+        if not is_valid_o_combination(ms_affected, coordination, cross_border, relevance, n_sectors):
+            continue
+
+        o_level = assign_o_level(
+            coordination, cross_border, cap_exceeded, relevance, ms_affected, n_sectors,
+        )
+
+        sector = rng.choice(SECTORS)
+        sectors_str = sector.replace("_", " ")
+        if n_sectors > 1:
+            extra = rng.sample([s for s in SECTORS if s != sector], min(n_sectors - 1, len(SECTORS) - 1))
+            sectors_str = ", ".join(s.replace("_", " ") for s in [sector] + extra[:n_sectors - 1])
+
+        # Pick template
+        tmpl_idx = hash((relevance, cross_border, coordination, ms_affected, cap_exceeded)) % template_count
+        # Use a generic disruption/entities for the description (non-trigger scenarios)
+        disruption_word = rng.choice(["partial", "significant", "complete", "sustained"])
+        entities_count = rng.choice([1, 5, 12, 25, 55])
+        cascading_word = rng.choice(["none", "limited", "cross sector"])
+        data_comp_word = rng.choice(["none", "operational", "sensitive"])
+
+        base_desc = _fill_template(
+            BASE_TEMPLATES[tmpl_idx],
+            sector, disruption_word, entities_count, n_sectors, cascading_word, data_comp_word,
+        )
+
+        descriptions = [base_desc]
+        for v in range(1, paraphrase_variants + 1):
+            descriptions.append(_paraphrase(base_desc, v, rng))
+
+        for desc in descriptions:
+            text = (
+                f"{desc} [SEP] "
+                f"sectors: {sectors_str} "
+                f"relevance: {relevance} "
+                f"ms_affected: {ms_affected} "
+                f"cross_border: {cross_border} "
+                f"coordination: {coordination} "
+                f"capacity_exceeded: {str(cap_exceeded).lower()}"
+            )
+            all_samples.append({"text": text, "label": o_level})
+
+    return all_samples
+
+
+# ---------------------------------------------------------------------------
+# Balancing
+# ---------------------------------------------------------------------------
+
+def balance_classes(
+    samples: list[dict],
+    target_per_class: int,
+    seed: int,
+) -> list[dict]:
+    """Balance dataset by undersampling majority and oversampling minority."""
+    rng = random.Random(seed)
+    by_label: dict[str, list[dict]] = {}
+    for s in samples:
+        by_label.setdefault(s["label"], []).append(s)
+
+    balanced: list[dict] = []
+    for label, items in sorted(by_label.items()):
+        if len(items) >= target_per_class:
+            balanced.extend(rng.sample(items, target_per_class))
+        else:
+            # Oversample with replacement to reach target
+            balanced.extend(items)
+            extra_needed = target_per_class - len(items)
+            balanced.extend(rng.choices(items, k=extra_needed))
+
+    rng.shuffle(balanced)
+    return balanced
+
+
+# ---------------------------------------------------------------------------
+# CSV output
+# ---------------------------------------------------------------------------
+
+def write_csv(samples: list[dict], path: Path) -> None:
+    """Write samples to CSV with text,label columns."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=["text", "label"])
+        writer.writeheader()
+        writer.writerows(samples)
+
+
+def print_distribution(samples: list[dict], name: str) -> None:
+    """Print class distribution stats."""
+    counts = Counter(s["label"] for s in samples)
+    total = len(samples)
+    print(f"\n{name}: {total} samples")
+    for label in sorted(counts):
+        pct = counts[label] / total * 100
+        print(f"  {label}: {counts[label]:>6} ({pct:5.1f}%)")
+
+
+# ---------------------------------------------------------------------------
+# CLI
+# ---------------------------------------------------------------------------
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Generate parametric incident training data for CyberScale Phase 3"
+    )
+    parser.add_argument(
+        "--output-t", type=Path,
+        default=Path("training/data/technical_training.csv"),
+        help="Output path for technical (T-level) training CSV",
+    )
+    parser.add_argument(
+        "--output-o", type=Path,
+        default=Path("training/data/operational_training.csv"),
+        help="Output path for operational (O-level) training CSV",
+    )
+    parser.add_argument(
+        "--config-t", type=Path,
+        default=Path("training/configs/technical_cls.json"),
+        help="Technical classifier config",
+    )
+    parser.add_argument(
+        "--config-o", type=Path,
+        default=Path("training/configs/operational_cls.json"),
+        help="Operational classifier config",
+    )
+    args = parser.parse_args()
+
+    # Load configs
+    with open(args.config_t) as f:
+        cfg_t = json.load(f)
+    with open(args.config_o) as f:
+        cfg_o = json.load(f)
+
+    seed = cfg_t["model"]["seed"]
+    t_target = cfg_t["data"]["target_per_class"]
+    t_variants = cfg_t["data"]["paraphrase_variants"]
+    o_target = cfg_o["data"]["target_per_class"]
+    o_variants = cfg_o["data"]["paraphrase_variants"]
+
+    # Generate T-level data
+    print("Generating T-level samples...")
+    t_raw = generate_t_samples(t_target, t_variants, seed)
+    print_distribution(t_raw, "T-level (raw)")
+    t_balanced = balance_classes(t_raw, t_target, seed)
+    print_distribution(t_balanced, "T-level (balanced)")
+
+    # Generate O-level data
+    print("\nGenerating O-level samples...")
+    o_raw = generate_o_samples(o_target, o_variants, seed)
+    print_distribution(o_raw, "O-level (raw)")
+    o_balanced = balance_classes(o_raw, o_target, seed)
+    print_distribution(o_balanced, "O-level (balanced)")
+
+    # Write outputs
+    write_csv(t_balanced, args.output_t)
+    print(f"\nWrote {len(t_balanced)} T-level samples to {args.output_t}")
+
+    write_csv(o_balanced, args.output_o)
+    print(f"Wrote {len(o_balanced)} O-level samples to {args.output_o}")
+
+
+if __name__ == "__main__":
+    main()

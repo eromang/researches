@@ -1,0 +1,177 @@
+{
+  "total": 1833,
+  "correct": 1613,
+  "accuracy": 0.8799781778505182,
+  "per_severity": {
+    "Critical": {
+      "total": 302,
+      "correct": 297,
+      "accuracy": 0.9834437086092715
+    },
+    "High": {
+      "total": 433,
+      "correct": 383,
+      "accuracy": 0.8845265588914549
+    },
+    "Medium": {
+      "total": 530,
+      "correct": 505,
+      "accuracy": 0.9528301886792453
+    },
+    "Low": {
+      "total": 568,
+      "correct": 428,
+      "accuracy": 0.7535211267605634
+    }
+  },
+  "per_sector": {
+    "banking": {
+      "total": 61,
+      "correct": 61,
+      "accuracy": 1.0
+    },
+    "digital_infrastructure": {
+      "total": 406,
+      "correct": 404,
+      "accuracy": 0.9950738916256158
+    },
+    "digital_providers": {
+      "total": 75,
+      "correct": 75,
+      "accuracy": 1.0
+    },
+    "drinking_water": {
+      "total": 18,
+      "correct": 17,
+      "accuracy": 0.9444444444444444
+    },
+    "energy": {
+      "total": 81,
+      "correct": 81,
+      "accuracy": 1.0
+    },
+    "financial_market": {
+      "total": 6,
+      "correct": 6,
+      "accuracy": 1.0
+    },
+    "health": {
+      "total": 228,
+      "correct": 226,
+      "accuracy": 0.9912280701754386
+    },
+    "ict_service_management": {
+      "total": 117,
+      "correct": 117,
+      "accuracy": 1.0
+    },
+    "manufacturing": {
+      "total": 64,
+      "correct": 63,
+      "accuracy": 0.984375
+    },
+    "non_nis2": {
+      "total": 617,
+      "correct": 403,
+      "accuracy": 0.653160453808752
+    },
+    "public_administration": {
+      "total": 116,
+      "correct": 116,
+      "accuracy": 1.0
+    },
+    "transport": {
+      "total": 44,
+      "correct": 44,
+      "accuracy": 1.0
+    }
+  },
+  "per_scenario_type": {
+    "banking": {
+      "total": 42,
+      "correct": 42,
+      "accuracy": 1.0
+    },
+    "cross-border": {
+      "total": 340,
+      "correct": 339,
+      "accuracy": 0.9970588235294118
+    },
+    "digital-infrastructure": {
+      "total": 339,
+      "correct": 338,
+      "accuracy": 0.9970501474926253
+    },
+    "energy": {
+      "total": 45,
+      "correct": 45,
+      "accuracy": 1.0
+    },
+    "enterprise": {
+      "total": 339,
+      "correct": 275,
+      "accuracy": 0.8112094395280236
+    },
+    "essential-service": {
+      "total": 229,
+      "correct": 227,
+      "accuracy": 0.9912663755458515
+    },
+    "health": {
+      "total": 61,
+      "correct": 61,
+      "accuracy": 1.0
+    },
+    "manufacturing": {
+      "total": 33,
+      "correct": 32,
+      "accuracy": 0.9696969696969697
+    },
+    "public-admin": {
+      "total": 60,
+      "correct": 60,
+      "accuracy": 1.0
+    },
+    "small-deployment": {
+      "total": 308,
+      "correct": 157,
+      "accuracy": 0.5097402597402597
+    },
+    "transport": {
+      "total": 29,
+      "correct": 29,
+      "accuracy": 1.0
+    },
+    "water": {
+      "total": 8,
+      "correct": 8,
+      "accuracy": 1.0
+    }
+  },
+  "confusion": {
+    "Critical": {
+      "Critical": 297,
+      "High": 5
+    },
+    "Medium": {
+      "Low": 14,
+      "Medium": 505,
+      "High": 11
+    },
+    "High": {
+      "High": 383,
+      "Medium": 32,
+      "Low": 17,
+      "Critical": 1
+    },
+    "Low": {
+      "Low": 428,
+      "Medium": 114,
+      "High": 26
+    }
+  },
+  "confidence_distribution": {
+    "high": 1437,
+    "medium": 396
+  }
+}

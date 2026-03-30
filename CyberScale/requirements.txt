@@ -1,0 +1,8 @@
+# CyberScale core dependencies
+# For full dependency management, use: poetry install
+fastmcp>=3.1.1,<4.0.0
+requests>=2.31.0,<3.0.0
+chromadb>=0.5.0,<1.0.0
+sentence-transformers>=3.0.0,<4.0.0
+torch>=2.2.0,<3.0.0
+transformers>=4.40.0,<5.0.0

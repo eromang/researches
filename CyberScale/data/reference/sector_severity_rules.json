@@ -1,0 +1,116 @@
+{
+  "version": "1.0",
+  "source": "NIS2 Directive (EU) 2022/2555, Implementing Regulation (EU) 2024/2690",
+  "rules": {
+    "escalation_triggers": {
+      "health": {
+        "triggers": ["rce", "availability", "data_compromise", "clinical_system"],
+        "escalation": "+1",
+        "rationale": "Patient safety and health data (Art. 23 + GDPR Art. 9)"
+      },
+      "energy": {
+        "triggers": ["scada", "ics", "ot", "availability"],
+        "escalation": "+1",
+        "rationale": "Essential service continuity, cascading failure risk"
+      },
+      "digital_infrastructure": {
+        "triggers": ["availability", "dns", "cloud", "cdn", "trust_service"],
+        "escalation": "+1",
+        "rationale": "Amplification effect — downstream impact on dependent services"
+      },
+      "ict_service_management": {
+        "triggers": ["supply_chain", "rce", "availability"],
+        "escalation": "+1",
+        "rationale": "MSP/MSSP compromise affects multiple downstream entities"
+      },
+      "transport": {
+        "triggers": ["safety_system", "availability", "ics"],
+        "escalation": "+1",
+        "rationale": "Physical safety risk, public transport disruption"
+      },
+      "banking": {
+        "triggers": ["data_compromise", "availability", "authentication_bypass"],
+        "escalation": "+1",
+        "rationale": "Financial stability, payment system disruption"
+      },
+      "financial_market": {
+        "triggers": ["availability", "data_compromise", "integrity"],
+        "escalation": "+1",
+        "rationale": "Market stability, trading system integrity"
+      },
+      "drinking_water": {
+        "triggers": ["scada", "ics", "availability"],
+        "escalation": "+1",
+        "rationale": "Public health, essential service"
+      },
+      "waste_water": {
+        "triggers": ["scada", "ics", "availability"],
+        "escalation": "+1",
+        "rationale": "Environmental protection, public health"
+      },
+      "public_administration": {
+        "triggers": ["data_compromise", "availability", "authentication_bypass"],
+        "escalation": "+1",
+        "rationale": "Citizen services, democratic function"
+      },
+      "space": {
+        "triggers": ["availability", "integrity", "command_injection"],
+        "escalation": "+1",
+        "rationale": "Satellite operations, positioning services"
+      },
+      "postal": {
+        "triggers": ["availability"],
+        "escalation": "0",
+        "rationale": "Important but limited cascading potential"
+      },
+      "waste_management": {
+        "triggers": ["availability"],
+        "escalation": "0",
+        "rationale": "Important but limited cascading potential"
+      },
+      "manufacturing": {
+        "triggers": ["ics", "ot", "safety_system"],
+        "escalation": "+1",
+        "rationale": "Production disruption, worker safety"
+      },
+      "chemicals": {
+        "triggers": ["ics", "ot", "safety_system"],
+        "escalation": "+1",
+        "rationale": "COMAH/Seveso facilities, environmental risk"
+      },
+      "food": {
+        "triggers": ["availability", "integrity"],
+        "escalation": "0",
+        "rationale": "Supply chain disruption, limited escalation"
+      },
+      "digital_providers": {
+        "triggers": ["data_compromise", "availability"],
+        "escalation": "0",
+        "rationale": "Important entities, lower regulatory threshold"
+      },
+      "research": {
+        "triggers": ["data_compromise", "ip_theft"],
+        "escalation": "0",
+        "rationale": "Intellectual property, limited cascading"
+      },
+      "non_nis2": {
+        "triggers": [],
+        "escalation": "0",
+        "rationale": "No NIS2 regulatory escalation"
+      }
+    },
+    "cross_border_rule": {
+      "escalation": "+1",
+      "condition": "cross_border == true",
+      "rationale": "Multi-state cascading impact (NIS2 Art. 23(3))"
+    },
+    "base_severity_from_cvss": {
+      "Critical": {"min": 9.0, "max": 10.0},
+      "High": {"min": 7.0, "max": 8.9},
+      "Medium": {"min": 4.0, "max": 6.9},
+      "Low": {"min": 0.1, "max": 3.9}
+    },
+    "severity_cap": "Critical",
+    "severity_floor": "Low"
+  }
+}

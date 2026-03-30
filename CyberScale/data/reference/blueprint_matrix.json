@@ -1,0 +1,16 @@
+{
+  "version": "0.1",
+  "source": "Council Recommendation C/2025/3445, Provision 30",
+  "matrix": {
+    "T4": {"O4": "cyber_crisis", "O3": "cyber_crisis", "O2": "large_scale", "O1": "large_scale"},
+    "T3": {"O4": "cyber_crisis", "O3": "large_scale", "O2": "large_scale", "O1": "significant"},
+    "T2": {"O4": "large_scale", "O3": "large_scale", "O2": "significant", "O1": "significant"},
+    "T1": {"O4": "large_scale", "O3": "significant", "O2": "significant", "O1": "below_threshold"}
+  },
+  "classifications": {
+    "below_threshold": {"label": "Below threshold", "provision": "7(a)"},
+    "significant": {"label": "Significant", "provision": "7(b)"},
+    "large_scale": {"label": "Large-scale", "provision": "7(c)"},
+    "cyber_crisis": {"label": "Cyber crisis", "provision": "7(d)"}
+  }
+}
