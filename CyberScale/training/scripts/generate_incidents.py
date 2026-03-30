@@ -32,12 +32,12 @@ print = partial(print, flush=True)
 DISRUPTIONS = ["partial", "significant", "complete", "sustained"]
 CASCADING = ["none", "limited", "cross_sector", "uncontrolled"]
 DATA_COMPROMISE = ["none", "operational", "sensitive", "systemic"]
-ENTITIES_RANGE = [1, 2, 3, 5, 8, 10, 12, 25, 55, 150]
+ENTITIES_RANGE = [1, 1, 2, 2, 3, 3, 5, 8, 10, 12, 25, 55, 150]
 
 ENTITY_RELEVANCE = ["non_essential", "essential", "high_relevance", "systemic"]
 CROSS_BORDER = ["none", "limited", "significant", "systemic"]
 COORDINATION = ["national", "eu_info", "eu_active", "full_ipcr"]
-MS_AFFECTED_RANGE = [1, 1, 1, 2, 3, 5, 8]  # Weight toward 1 MS for O1 coverage
+MS_AFFECTED_RANGE = [1, 1, 1, 1, 1, 2, 3, 5, 8]  # Weight toward 1 MS for O1 coverage
 CAPACITY_EXCEEDED = [False, True]
 
 SECTORS = [
@@ -49,7 +49,7 @@ SECTORS = [
     "research", "education",
 ]
 
-SECTORS_AFFECTED_RANGE = [1, 1, 2, 2, 3, 5]  # Weight toward 1-2 for T1/O1 coverage
+SECTORS_AFFECTED_RANGE = [1, 1, 1, 1, 2, 2, 3, 5]  # Weight toward 1-2 for T1/O1 coverage
 
 # ---------------------------------------------------------------------------
 # Description templates (50 base templates)
@@ -106,6 +106,24 @@ BASE_TEMPLATES = [
     "Encrypted channel abuse by malware in {sector} networks evading detection with {data_comp} data exfiltration.",
     "GPS spoofing targeting {sector} navigation systems causing {disruption} operational confusion for {entities} vehicles.",
     "Third-party cloud provider outage affecting {sector} hosted services with {disruption} disruption across {n_sectors} dependent sectors.",
+]
+
+LOW_SEVERITY_TEMPLATES = [
+    "Automated port scan detected on {sector} external-facing web server. No exploitation attempted. Standard reconnaissance activity logged by IDS.",
+    "Failed phishing email campaign targeting {sector} employees. All emails caught by spam filter. No credentials compromised. Security awareness team notified.",
+    "Routine vulnerability scan found unpatched {sector} test server with {data_comp} exposure risk. Server is isolated from production networks.",
+    "Single failed SSH brute force attempt against {sector} bastion host. Account locked after 5 attempts. No successful authentication.",
+    "Expired SSL certificate on {sector} internal documentation portal caused browser warnings for {entities} users. No data exposure, certificate renewed within hours.",
+    "Minor configuration drift detected in {sector} firewall rules. One non-critical port briefly exposed. No evidence of exploitation. Remediated same day.",
+    "Commodity adware found on single {sector} employee workstation during routine scan. No lateral movement. Workstation reimaged per standard procedure.",
+    "Low-confidence threat intelligence alert for {sector} IP range. Investigation found no indicators of compromise. Alert classified as false positive.",
+    "Unauthorized USB device connected to {sector} workstation. Device contained no malware. Policy violation documented and employee counseled.",
+    "Brief DNS resolution delay affecting {sector} internal services for {entities} users. Root cause was upstream provider maintenance, not an attack.",
+    "Outdated {sector} web application flagged by automated scanner. Application is public-facing but read-only with no sensitive data.",
+    "Test credentials found in {sector} code repository. Credentials were for development environment only with no production access.",
+    "Minor defacement of low-traffic {sector} informational website. Content restored from backup within one hour. No data access.",
+    "Suspicious login attempt on {sector} VPN from unusual geography. Multi-factor authentication prevented access. User confirmed no compromise.",
+    "Scheduled penetration test triggered {sector} IDS alerts. All activity was authorized and within scope. No actual security incident.",
 ]
 
 # Synonym substitution pools for paraphrasing
@@ -334,15 +352,31 @@ def generate_t_samples(
         sector = rng.choice(SECTORS)
 
         # Pick a template deterministically from combo hash
-        tmpl_idx = hash((disruption, cascading, data_comp, entities, n_sectors)) % template_count
+        # For T1 scenarios, use low-severity templates 50% of the time
+        all_templates = BASE_TEMPLATES
+        if assign_t_level(disruption, data_comp, cascading, entities) == "T1" and rng.random() < 0.5:
+            all_templates = LOW_SEVERITY_TEMPLATES
+        tmpl_idx = hash((disruption, cascading, data_comp, entities, n_sectors)) % len(all_templates)
         base_desc = _fill_template(
-            BASE_TEMPLATES[tmpl_idx], sector, disruption, entities, n_sectors, cascading, data_comp,
+            all_templates[tmpl_idx], sector, disruption, entities, n_sectors, cascading, data_comp,
         )
 
         # Original + paraphrase variants
         descriptions = [base_desc]
         for v in range(1, paraphrase_variants + 1):
             descriptions.append(_paraphrase(base_desc, v, rng))
+
+        # For T1 scenarios, also emit descriptions from the complementary template set
+        # to ensure sufficient raw sample count (T1 combos are naturally sparse)
+        if t_level == "T1":
+            complement_templates = LOW_SEVERITY_TEMPLATES if all_templates is BASE_TEMPLATES else BASE_TEMPLATES
+            c_tmpl_idx = hash((disruption, cascading, data_comp, entities, n_sectors, "complement")) % len(complement_templates)
+            c_desc = _fill_template(
+                complement_templates[c_tmpl_idx], sector, disruption, entities, n_sectors, cascading, data_comp,
+            )
+            descriptions.append(c_desc)
+            for v in range(1, paraphrase_variants + 1):
+                descriptions.append(_paraphrase(c_desc, v, rng))
 
         for desc in descriptions:
             text = (
@@ -404,6 +438,18 @@ def generate_o_samples(
         descriptions = [base_desc]
         for v in range(1, paraphrase_variants + 1):
             descriptions.append(_paraphrase(base_desc, v, rng))
+
+        # For O1 scenarios, also emit descriptions from low-severity templates
+        # to ensure sufficient raw sample count (O1 combos are naturally sparse)
+        if o_level == "O1":
+            ls_tmpl_idx = hash((relevance, cross_border, coordination, ms_affected, cap_exceeded, "low")) % len(LOW_SEVERITY_TEMPLATES)
+            ls_desc = _fill_template(
+                LOW_SEVERITY_TEMPLATES[ls_tmpl_idx],
+                sector, disruption_word, entities_count, n_sectors, cascading_word, data_comp_word,
+            )
+            descriptions.append(ls_desc)
+            for v in range(1, paraphrase_variants + 1):
+                descriptions.append(_paraphrase(ls_desc, v, rng))
 
         for desc in descriptions:
             text = (
