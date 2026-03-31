@@ -500,6 +500,36 @@ assess_incident(
 
 **Effort:** High — new MCP tool with multi-entity orchestration, aggregation, and O-model inference.
 
+#### 8. Multi-entity aggregation benchmark
+
+Before building the full `assess_incident` MCP tool, validate that multi-entity aggregation + O-model produces correct classifications.
+
+**Benchmark dataset:** 50 curated multi-entity incident scenarios. Each scenario defines:
+- 2-10 affected entities with individual Phase 2 outputs (impact fields, sector, MS)
+- Expected aggregation results (worst-case, counts, derived fields)
+- Expected T-level (from deterministic rules)
+- Expected O-level
+- Expected matrix classification + coordination level
+
+**Validation steps:**
+
+| Step | What | Type | Pass criteria |
+|---|---|---|---|
+| 1 | Single entity → Phase 2 → correct assessment | Already proven (v3) | Baseline |
+| 2 | Multiple entities → aggregation → correct worst-case/counts | Deterministic (unit tests) | 100% (no ML, pure logic) |
+| 3 | Aggregation → T-level derivation | Deterministic (unit tests) | 100% (rule lookup) |
+| 4 | Aggregated inputs → O-model → correct O-level | ML model (benchmark) | > 70% on curated scenarios |
+| 5 | T+O → matrix → correct classification | Deterministic | 100% (lookup table) |
+| 6 | End-to-end: entities → aggregation → T+O → matrix | Full pipeline | > 70% end-to-end |
+
+**Step 4 is the key validation.** The current O-model (v3) was trained on single-entity inputs. Running it on multi-entity aggregated inputs will reveal:
+- If the O-model generalises to aggregated data → concept proven, proceed to MCP tool
+- If not → O-model retrain with multi-entity training data needed first (priority #7)
+
+**Scenario sources:** ENISA annual threat reports, EU-CyCLONe incident summaries, vault RETEX notes with multi-entity incidents (SolarWinds, NotPetya, WannaCry, MOVEit, etc.)
+
+**Effort:** Medium — curated scenario creation + benchmark script + analysis.
+
 ---
 
 ## Suggested next iteration priority
@@ -514,10 +544,10 @@ Based on impact/effort ratio and the Phase 1 accuracy gap:
 | 4 | IR threshold reference data | Entity | Definitive significant_incident for digital entities |
 | 5 | `assess_entity_incident` MCP tool | Entity | Single-entity incident assessment + early warning |
 | 6 | Eliminate T-model → deterministic T-level in aggregation | Authority | Simpler, faster, 100% predictable |
-| 7 | O-model retrain (remove coordination_needs, add consequence dims) | Authority | Fixes circularity + adds financial/safety/persons |
-| 8 | `assess_incident` MCP tool | Authority | Multi-notification → aggregation → O-model → matrix |
-| 9 | CVSS vector multi-task | Entity | +5-10pp Phase 1 accuracy |
-| 10 | Expand curated incidents to 100+ | Authority | Phase 3 benchmark reliability |
+| 7 | Multi-entity aggregation benchmark (50 scenarios) | Authority | Validates concept before building full pipeline |
+| 8 | O-model retrain (remove coordination_needs, add consequence dims) | Authority | Fixes circularity + adds financial/safety/persons |
+| 9 | `assess_incident` MCP tool | Authority | Multi-notification → aggregation → O-model → matrix |
+| 10 | CVSS vector multi-task | Entity | +5-10pp Phase 1 accuracy |
 
 ---
 
