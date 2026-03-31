@@ -160,3 +160,58 @@ class TestRunPipeline:
             cross_border=False,
         )
         assert calls == [7.5]
+
+
+class TestCerCriticalEntityPassthrough:
+    def test_pipeline_passes_cer_to_contextual(self):
+        calls = []
+        class TrackingContextual:
+            def predict(self, description, sector, cross_border, score=None, **kwargs):
+                calls.append(kwargs.get("cer_critical_entity"))
+                @dataclass
+                class R:
+                    severity: str = "High"
+                    confidence: str = "high"
+                    key_factors: list = None
+                    def __post_init__(self):
+                        self.key_factors = self.key_factors or []
+                return R()
+
+        run_pipeline(
+            scorer=FakeScorer(),
+            contextual=TrackingContextual(),
+            description="DoS in food supply",
+            sector="food",
+            cross_border=False,
+            cer_critical_entity=True,
+        )
+        assert calls == [True]
+
+    def test_pipeline_cer_none_by_default(self):
+        calls = []
+        class TrackingContextual:
+            def predict(self, description, sector, cross_border, score=None, **kwargs):
+                calls.append(kwargs.get("cer_critical_entity"))
+                @dataclass
+                class R:
+                    severity: str = "Medium"
+                    confidence: str = "medium"
+                    key_factors: list = None
+                    def __post_init__(self):
+                        self.key_factors = self.key_factors or []
+                return R()
+
+        run_pipeline(
+            scorer=FakeScorer(),
+            contextual=TrackingContextual(),
+            description="Buffer overflow",
+            sector="energy",
+            cross_border=False,
+        )
+        assert calls == [None]
+
+    def test_pipeline_rejects_deployment_scale(self):
+        """deployment_scale was removed in v3."""
+        import inspect
+        sig = inspect.signature(run_pipeline)
+        assert "deployment_scale" not in sig.parameters

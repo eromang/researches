@@ -41,8 +41,8 @@ def run_pipeline(
     sector: str,
     cross_border: bool,
     cwe: Optional[str] = None,
-    deployment_scale: Optional[str] = None,
     entity_type: Optional[str] = None,
+    cer_critical_entity: Optional[bool] = None,
     # Phase 3 fields (all optional — omit to skip Phase 3)
     technical=None,
     operational=None,
@@ -70,8 +70,8 @@ def run_pipeline(
     p2 = contextual.predict(
         description, sector, cross_border,
         score=p1.score,
-        deployment_scale=deployment_scale,
         entity_type=entity_type,
+        cer_critical_entity=cer_critical_entity,
     )
 
     # --- Phase 3: Incident classification (optional) ---
