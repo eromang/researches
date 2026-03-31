@@ -521,6 +521,20 @@ Based on impact/effort ratio and the Phase 1 accuracy gap:
 
 ---
 
+## Future: Secure notification channel (beyond v4)
+
+CyberScale is an assessment tool, not a notification platform. However, future versions should conceptualise the **secure transmission of Phase 2 outputs to concerned CSIRTs** and the **ingestion of entity notifications by the authority pipeline (Phase 3)**. This includes:
+
+- Structured notification export format (aligned with any harmonised EU format that emerges)
+- Secure communication channel to national CSIRT (each MS has its own: CIRCL in LU, BSI in DE, ANSSI in FR, etc.)
+- CSIRT Network information sharing format for cross-border incidents (NIS2 Art. 15)
+- Authentication and integrity of entity notifications
+- TLP marking and handling restrictions
+
+This is not scoped for v4 but should inform architectural decisions — Phase 2 output format and Phase 3 input format should be designed with future interoperability in mind.
+
+---
+
 ## Key lessons informing priorities
 
 1. **Feature additions have diminishing returns on Phase 1** — CWE didn't help; the problem is description quality, not feature coverage. Architectural changes (multi-task, contrastive) are more likely to break through.
