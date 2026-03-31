@@ -1,0 +1,131 @@
+{
+  "version": "4.0",
+  "description": "Unified impact taxonomy for CyberScale v4. Single source of truth for field names, values, and per-phase routing across all phases.",
+  "dimensions": {
+    "service_impact": {
+      "description": "Degree of disruption to essential or important services",
+      "values": ["none", "partial", "degraded", "unavailable", "sustained"],
+      "phases": {
+        "phase_2": {"used": true, "optional": true, "default": "none"},
+        "phase_3t": {"used": true, "required": true, "default": "partial"}
+      },
+      "value_mapping_from_v3": {
+        "partial": "partial",
+        "significant": "degraded",
+        "complete": "unavailable",
+        "sustained": "sustained"
+      }
+    },
+    "data_impact": {
+      "description": "Degree of data compromise or exfiltration",
+      "values": ["none", "accessed", "exfiltrated", "compromised", "systemic"],
+      "phases": {
+        "phase_2": {"used": true, "optional": true, "default": "none"},
+        "phase_3t": {"used": true, "required": true, "default": "none"}
+      },
+      "value_mapping_from_v3": {
+        "none": "none",
+        "operational": "accessed",
+        "sensitive": "exfiltrated",
+        "systemic": "systemic"
+      }
+    },
+    "financial_impact": {
+      "description": "Severity of direct and indirect financial losses",
+      "values": ["none", "minor", "significant", "severe"],
+      "phases": {
+        "phase_2": {"used": false, "planned": "phase_b"},
+        "phase_3o": {"used": false, "planned": "phase_c"}
+      }
+    },
+    "safety_impact": {
+      "description": "Impact on human health and safety",
+      "values": ["none", "health_risk", "health_damage", "death"],
+      "phases": {
+        "phase_2": {"used": false, "planned": "phase_b"},
+        "phase_3o": {"used": false, "planned": "phase_c"}
+      }
+    },
+    "affected_persons_count": {
+      "description": "Number of natural or legal persons affected",
+      "type": "int",
+      "phases": {
+        "phase_2": {"used": false, "planned": "phase_b"},
+        "phase_3o": {"used": false, "planned": "phase_c"}
+      }
+    },
+    "cascading": {
+      "description": "Degree of cascading effects across sectors or services",
+      "values": ["none", "limited", "cross_sector", "uncontrolled"],
+      "phases": {
+        "phase_3t": {"used": true, "required": true, "default": "none"}
+      }
+    }
+  },
+  "operational_fields": {
+    "entity_relevance": {
+      "description": "NIS2 relevance level of the affected entity",
+      "values": ["non_essential", "essential", "high_relevance", "systemic"],
+      "phases": {
+        "phase_3o": {"used": true, "required": true, "default": "non_essential"}
+      }
+    },
+    "cross_border_pattern": {
+      "description": "Pattern of cross-border impact across EU member states",
+      "values": ["none", "limited", "significant", "systemic"],
+      "phases": {
+        "phase_3o": {"used": true, "required": true, "default": "none"}
+      }
+    },
+    "capacity_exceeded": {
+      "description": "Whether national response capacity has been exceeded",
+      "type": "bool",
+      "phases": {
+        "phase_3o": {"used": true, "required": true, "default": false}
+      }
+    },
+    "sectors_affected": {
+      "description": "Number of NIS2 sectors affected by the incident",
+      "type": "int",
+      "phases": {
+        "phase_3t": {"used": true, "required": true, "default": 1},
+        "phase_3o": {"used": true, "required": true, "default": 1}
+      }
+    },
+    "affected_entities": {
+      "description": "Number of entities affected by the incident",
+      "type": "int",
+      "phases": {
+        "phase_3t": {"used": true, "required": true, "default": 1}
+      }
+    },
+    "ms_affected": {
+      "description": "Number of EU member states affected",
+      "type": "int",
+      "phases": {
+        "phase_3o": {"used": true, "required": true, "default": 1}
+      }
+    }
+  },
+  "contextual_fields": {
+    "ms_established": {
+      "description": "ISO 3166-1 alpha-2 code of the member state where the entity is established",
+      "type": "str",
+      "example": "DE",
+      "phases": {
+        "phase_2": {"used": true, "required": true, "default": "EU"}
+      }
+    },
+    "ms_affected_list": {
+      "description": "List of ISO 3166-1 alpha-2 codes of affected member states",
+      "type": "list[str]",
+      "example": ["DE", "FR", "NL"],
+      "phases": {
+        "phase_2": {"used": true, "optional": true, "default": []}
+      },
+      "derived": {
+        "cross_border": "len(ms_affected_list) > 0 and any ms != ms_established"
+      }
+    }
+  }
+}
