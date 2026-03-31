@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate contextual severity training data for CyberScale Phase 2.
 
-Combines CVEs × sectors × cross_border with deterministic NIS2 severity rules
+Combines CVEs x sectors x cross_border with deterministic NIS2 severity rules
 to produce labelled classification training data.
 """
 
@@ -63,9 +63,6 @@ TRIGGER_PATTERNS: dict[str, re.Pattern] = {
     ),
 }
 
-DEPLOYMENT_SCALES = ["individual", "small_business", "enterprise", "critical_operator"]
-ENTITY_TYPES = ["individual", "sme", "msp", "hospital", "cloud_provider", "utility", "government", "bank"]
-
 SEVERITY_LEVELS = ["Low", "Medium", "High", "Critical"]
 SEVERITY_INDEX = {name: idx for idx, name in enumerate(SEVERITY_LEVELS)}
 
@@ -73,6 +70,16 @@ SEVERITY_INDEX = {name: idx for idx, name in enumerate(SEVERITY_LEVELS)}
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+
+def load_entity_types(reference_path: Path) -> dict[str, list[dict]]:
+    """Load NIS2 entity types and build sector -> entity_type mapping."""
+    with open(reference_path, encoding="utf-8") as fh:
+        data = json.load(fh)
+    sector_to_entities: dict[str, list[dict]] = {}
+    for et in data["entity_types"]:
+        sector_to_entities.setdefault(et["sector"], []).append(et)
+    return sector_to_entities
 
 
 def detect_triggers(description: str) -> set[str]:
@@ -144,22 +151,9 @@ def generate_scenarios(
     non_trigger_ratio: float,
     cross_border_escalation_prob: float,
     seed: int,
+    sector_entity_map: dict[str, list[dict]] | None = None,
 ) -> list[dict]:
-    """Generate contextual severity scenarios for all CVEs.
-
-    Two types of scenarios per sector:
-    1. Trigger-matched: CVE triggers overlap sector triggers → escalation applied
-    2. Non-triggered: CVE is in sector but doesn't affect critical systems → base
-       severity preserved (e.g., XSS in hospital admin portal, not clinical system)
-
-    non_trigger_ratio controls what fraction of each NIS2 sector's scenarios are
-    non-triggered (base severity). This prevents the model from learning that
-    regulated sector = always escalate.
-
-    cross_border_escalation_prob controls the probability that cross-border
-    actually triggers escalation (real-world: not every cross-border scenario
-    warrants escalation).
-    """
+    """Generate contextual severity scenarios for all CVEs."""
     rng = random.Random(seed)
 
     escalation_cfg = rules["rules"]["escalation_triggers"]
@@ -187,7 +181,6 @@ def generate_scenarios(
                 triggered_sectors.append(sector_id)
 
         # --- Non-triggered sectors (base severity, no escalation) ---
-        # Pick random NIS2 sectors that this CVE did NOT trigger
         non_triggered_pool = [s for s in nis2_sectors if s not in triggered_sectors]
         n_non_triggered = max(1, int(len(triggered_sectors) * non_trigger_ratio))
         if non_triggered_pool:
@@ -198,23 +191,19 @@ def generate_scenarios(
             non_triggered_sectors = []
 
         # --- Build candidate scenarios ---
-        candidates: list[tuple[str, bool, bool]] = []  # (sector, cross_border, is_triggered)
+        candidates: list[tuple[str, bool, bool]] = []
 
-        # Triggered sectors
         for sector_id in triggered_sectors:
             candidates.append((sector_id, False, True))
             candidates.append((sector_id, True, True))
 
-        # Non-triggered sectors (base severity)
         for sector_id in non_triggered_sectors:
             candidates.append((sector_id, False, False))
             candidates.append((sector_id, True, False))
 
-        # Always include non_nis2 (never escalates)
         candidates.append(("non_nis2", False, False))
         candidates.append(("non_nis2", True, False))
 
-        # Cap scenarios per CVE
         if len(candidates) > max_scenarios_per_cve:
             candidates = rng.sample(candidates, max_scenarios_per_cve)
 
@@ -222,28 +211,40 @@ def generate_scenarios(
             sector_cfg = escalation_cfg[sector_id]
             sector_esc = parse_escalation(sector_cfg["escalation"])
 
-            # Compute contextual severity
             ctx_sev = base_sev
 
-            # Sector escalation: only if trigger-matched
             if is_triggered:
                 ctx_sev = escalate(ctx_sev, sector_esc)
 
-            # Cross-border escalation: probabilistic
             if cross_border and rng.random() < cross_border_escalation_prob:
                 ctx_sev = escalate(ctx_sev, cross_border_esc)
 
-            # Format input text
-            deployment_scale = rng.choice(DEPLOYMENT_SCALES)
-            entity_type = rng.choice(ENTITY_TYPES)
+            # Select entity type constrained to sector
+            if sector_entity_map:
+                sector_entities = sector_entity_map.get(sector_id, [])
+                if sector_entities:
+                    entity_info = rng.choice(sector_entities)
+                    entity_type = entity_info["id"]
+                    cer_critical_entity = entity_info["cer_eligible"] and rng.random() < 0.1
+                else:
+                    entity_type = "generic_enterprise"
+                    cer_critical_entity = False
+            else:
+                entity_type = "generic_enterprise"
+                cer_critical_entity = False
+
+            # CER critical entity escalation: treated as essential
+            if cer_critical_entity and sector_id not in ["non_nis2"]:
+                ctx_sev = escalate(ctx_sev, 1)
 
             input_text = (
                 f"{desc} [SEP] sector: {sector_id} "
                 f"cross_border: {str(cross_border).lower()} "
                 f"score: {score} "
-                f"deployment_scale: {deployment_scale} "
                 f"entity_type: {entity_type}"
             )
+            if cer_critical_entity:
+                input_text += " cer_critical_entity: true"
 
             label = SEVERITY_INDEX[ctx_sev]
 
@@ -257,8 +258,8 @@ def generate_scenarios(
                     "base_severity": base_sev,
                     "contextual_severity": ctx_sev,
                     "label": label,
-                    "deployment_scale": deployment_scale,
                     "entity_type": entity_type,
+                    "cer_critical_entity": cer_critical_entity,
                 }
             )
 
@@ -332,6 +333,11 @@ def main() -> None:
     with open(args.rules, encoding="utf-8") as fh:
         rules = json.load(fh)
 
+    # Load entity types
+    entity_types_path = Path(__file__).parent.parent.parent / "data" / "reference" / "nis2_entity_types.json"
+    sector_entity_map = load_entity_types(entity_types_path)
+    print(f"Loaded entity types for {len(sector_entity_map)} sectors")
+
     # Load CVEs
     print(f"Loading CVEs from {args.cves} ...")
     cves = load_cves(args.cves)
@@ -347,6 +353,7 @@ def main() -> None:
         non_trigger_ratio=data_cfg.get("non_trigger_ratio", 1.0),
         cross_border_escalation_prob=data_cfg.get("cross_border_escalation_prob", 0.5),
         seed=seed,
+        sector_entity_map=sector_entity_map,
     )
     print(f"  Generated {len(rows)} raw scenarios")
 
@@ -363,6 +370,12 @@ def main() -> None:
         label_name = SEVERITY_LEVELS[label_idx]
         print(f"  {label_name} ({label_idx}): {class_counts[label_idx]}")
 
+    # Print entity type distribution
+    et_counts = Counter(r["entity_type"] for r in rows)
+    print(f"\nUnique entity types: {len(et_counts)}")
+    cer_count = sum(1 for r in rows if r["cer_critical_entity"])
+    print(f"CER critical entity scenarios: {cer_count} ({100*cer_count/len(rows):.1f}%)")
+
     # Balance if configured
     if data_cfg.get("target_balance", False):
         min_per_class = data_cfg["min_per_class"]
@@ -370,7 +383,6 @@ def main() -> None:
         rows = balance_classes(rows, min_per_class, seed)
         print(f"  Balanced to {len(rows)} scenarios")
 
-        # Print per-class distribution after balancing
         class_counts = Counter(r["label"] for r in rows)
         print("\nPer-class distribution (after balancing):")
         for label_idx in sorted(class_counts.keys()):
@@ -390,8 +402,8 @@ def main() -> None:
         "base_severity",
         "contextual_severity",
         "label",
-        "deployment_scale",
         "entity_type",
+        "cer_critical_entity",
     ]
     with open(args.output, "w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=fieldnames)
