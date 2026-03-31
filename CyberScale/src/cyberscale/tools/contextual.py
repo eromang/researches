@@ -54,23 +54,32 @@ def _assess_with_model(
     clf,
     description: str,
     sector: str,
-    cross_border: bool,
+    ms_established: str = "EU",
+    ms_affected: list[str] | None = None,
     score: float | None = None,
     entity_type: str | None = None,
     cer_critical_entity: bool | None = None,
 ) -> dict:
     """Assess contextual severity using the classifier model."""
     result = clf.predict(
-        description, sector, cross_border, score,
-        entity_type=entity_type, cer_critical_entity=cer_critical_entity,
+        description, sector,
+        ms_established=ms_established, ms_affected=ms_affected,
+        score=score, entity_type=entity_type,
+        cer_critical_entity=cer_critical_entity,
+    )
+    cross_border = bool(
+        ms_affected and any(ms != ms_established for ms in ms_affected)
     )
     out = {
         "severity": result.severity,
         "confidence": result.confidence,
         "key_factors": result.key_factors,
         "sector": sector,
+        "ms_established": ms_established,
         "cross_border": cross_border,
     }
+    if ms_affected:
+        out["ms_affected"] = ms_affected
     if entity_type is not None:
         out["entity_type"] = entity_type
     if cer_critical_entity:
@@ -89,12 +98,13 @@ def register(mcp: FastMCP) -> None:
     def assess_contextual_severity(
         description: str,
         sector: str,
-        cross_border: bool,
+        ms_established: str = "EU",
+        ms_affected: list[str] | None = None,
         severity_score: float | None = None,
         entity_type: str | None = None,
         cer_critical_entity: bool | None = None,
     ) -> dict:
-        """Assess context-dependent severity for a vulnerability given NIS2 sector, cross-border exposure, and deployment context."""
+        """Assess context-dependent severity for a vulnerability given NIS2 sector, member state geography, and deployment context."""
         # 1. Validate sector
         ok, err = _validate_sector(sector)
         if not ok:
@@ -107,7 +117,8 @@ def register(mcp: FastMCP) -> None:
 
         # 3. Assess with model
         return _assess_with_model(
-            clf, description, sector, cross_border,
+            clf, description, sector,
+            ms_established=ms_established, ms_affected=ms_affected,
             score=severity_score, entity_type=entity_type,
             cer_critical_entity=cer_critical_entity,
         )

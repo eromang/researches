@@ -27,7 +27,7 @@ class FakeScorer:
 @dataclass
 class FakeContextual:
     """Stub Phase 2 classifier."""
-    def predict(self, description, sector, cross_border, score=None, **kwargs):
+    def predict(self, description, sector, ms_established="EU", ms_affected=None, score=None, **kwargs):
         @dataclass
         class R:
             severity: str = "High"
@@ -81,14 +81,15 @@ class TestRunPipeline:
             operational=FakeOperational(),
             description="Critical RCE in hospital system",
             sector="health",
-            cross_border=True,
+            ms_established="DE",
+            ms_affected=["FR", "NL"],
             service_impact="unavailable",
             affected_entities=50,
             sectors_affected=2,
             cascading="cross_sector",
             data_impact="exfiltrated",
             entity_relevance="high_relevance",
-            ms_affected=3,
+            p3_ms_affected=3,
             cross_border_pattern="significant",
             capacity_exceeded=False,
         )
@@ -107,7 +108,6 @@ class TestRunPipeline:
             contextual=FakeContextual(),
             description="SQL injection in banking portal",
             sector="banking",
-            cross_border=False,
         )
         assert result.phase1_score == 7.5
         assert result.phase2_severity == "High"
@@ -132,7 +132,6 @@ class TestRunPipeline:
             contextual=FakeContextual(),
             description="Buffer overflow",
             sector="energy",
-            cross_border=False,
             cwe="CWE-119",
         )
         assert calls == ["CWE-119"]
@@ -140,7 +139,7 @@ class TestRunPipeline:
     def test_pipeline_passes_score_to_contextual(self):
         calls = []
         class TrackingContextual:
-            def predict(self, description, sector, cross_border, score=None, **kwargs):
+            def predict(self, description, sector, ms_established="EU", ms_affected=None, score=None, **kwargs):
                 calls.append(score)
                 @dataclass
                 class R:
@@ -156,8 +155,7 @@ class TestRunPipeline:
             contextual=TrackingContextual(),
             description="Buffer overflow",
             sector="energy",
-            cross_border=False,
-        )
+            )
         assert calls == [7.5]
 
 
@@ -165,7 +163,7 @@ class TestCerCriticalEntityPassthrough:
     def test_pipeline_passes_cer_to_contextual(self):
         calls = []
         class TrackingContextual:
-            def predict(self, description, sector, cross_border, score=None, **kwargs):
+            def predict(self, description, sector, ms_established="EU", ms_affected=None, score=None, **kwargs):
                 calls.append(kwargs.get("cer_critical_entity"))
                 @dataclass
                 class R:
@@ -181,7 +179,6 @@ class TestCerCriticalEntityPassthrough:
             contextual=TrackingContextual(),
             description="DoS in food supply",
             sector="food",
-            cross_border=False,
             cer_critical_entity=True,
         )
         assert calls == [True]
@@ -189,7 +186,7 @@ class TestCerCriticalEntityPassthrough:
     def test_pipeline_cer_none_by_default(self):
         calls = []
         class TrackingContextual:
-            def predict(self, description, sector, cross_border, score=None, **kwargs):
+            def predict(self, description, sector, ms_established="EU", ms_affected=None, score=None, **kwargs):
                 calls.append(kwargs.get("cer_critical_entity"))
                 @dataclass
                 class R:

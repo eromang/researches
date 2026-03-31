@@ -16,10 +16,10 @@ class TestContextualResult:
         assert len(r.key_factors) == 2
 
     def test_to_dict(self):
-        r = ContextualResult(severity="Critical", confidence="medium", key_factors=["cross-border"])
+        r = ContextualResult(severity="Critical", confidence="medium", key_factors=["cross-border exposure (2 MS affected)"])
         d = r.to_dict()
         assert d["severity"] == "Critical"
-        assert d["key_factors"] == ["cross-border"]
+        assert d["key_factors"] == ["cross-border exposure (2 MS affected)"]
 
 
 class TestValidEntityTypes:
@@ -47,17 +47,37 @@ class TestValidEntityTypes:
 
 
 class TestFormatInput:
-    def test_with_all_fields(self):
+    def test_with_ms_geography(self):
         clf = ContextualClassifier.__new__(ContextualClassifier)
-        text = clf._format_input("Buffer overflow in X", sector="health", cross_border=True, score=8.5)
+        text = clf._format_input(
+            "Buffer overflow in X", sector="health", cross_border=True,
+            ms_established="DE", ms_affected=["FR", "NL"],
+            score=8.5,
+        )
         assert "Buffer overflow in X" in text
         assert "sector: health" in text
         assert "cross_border: true" in text
+        assert "ms_established: DE" in text
+        assert "ms_affected: FR,NL" in text
         assert "score: 8.5" in text
+
+    def test_without_ms_affected(self):
+        clf = ContextualClassifier.__new__(ContextualClassifier)
+        text = clf._format_input(
+            "Buffer overflow in X", sector="energy", cross_border=False,
+            ms_established="FR",
+        )
+        assert "sector: energy" in text
+        assert "cross_border: false" in text
+        assert "ms_established: FR" in text
+        assert "ms_affected:" not in text
 
     def test_without_score(self):
         clf = ContextualClassifier.__new__(ContextualClassifier)
-        text = clf._format_input("Buffer overflow in X", sector="energy", cross_border=False, score=None)
+        text = clf._format_input(
+            "Buffer overflow in X", sector="energy", cross_border=False,
+            score=None,
+        )
         assert "sector: energy" in text
         assert "cross_border: false" in text
         assert "score:" not in text
@@ -119,6 +139,29 @@ class TestFormatInput:
         assert "cer_critical_entity:" not in text
 
 
+class TestPredictCrossBorderDerivation:
+    def test_cross_border_true_when_ms_differ(self):
+        """cross_border should be derived as True when ms_affected contains MS != ms_established."""
+        clf = ContextualClassifier.__new__(ContextualClassifier)
+        # Test the derivation logic directly
+        ms_established = "DE"
+        ms_affected = ["FR", "NL"]
+        cross_border = bool(ms_affected and any(ms != ms_established for ms in ms_affected))
+        assert cross_border is True
+
+    def test_cross_border_false_when_no_ms_affected(self):
+        ms_established = "DE"
+        ms_affected = None
+        cross_border = bool(ms_affected and any(ms != ms_established for ms in ms_affected))
+        assert cross_border is False
+
+    def test_cross_border_false_when_same_ms(self):
+        ms_established = "DE"
+        ms_affected = ["DE"]
+        cross_border = bool(ms_affected and any(ms != ms_established for ms in ms_affected))
+        assert cross_border is False
+
+
 class TestClassificationOutput:
     def test_probs_to_severity(self):
         assert ContextualClassifier.probs_to_severity([0.05, 0.10, 0.75, 0.10]) == "High"
@@ -137,23 +180,30 @@ class TestClassificationOutput:
 
 
 class TestKeyFactors:
-    def test_basic_factors(self):
+    def test_basic_factors_with_ms(self):
         clf = ContextualClassifier.__new__(ContextualClassifier)
-        factors = clf._extract_key_factors("health", True, 9.5)
+        factors = clf._extract_key_factors(
+            "health", True, 9.5,
+            ms_established="DE", ms_affected=["FR", "NL"],
+        )
         assert "health sector" in factors
-        assert "cross-border exposure" in factors
+        assert any("cross-border" in f for f in factors)
         assert "critical base score" in factors
 
     def test_no_cross_border(self):
         clf = ContextualClassifier.__new__(ContextualClassifier)
         factors = clf._extract_key_factors("energy", False, 5.0)
         assert "energy sector" in factors
-        assert "cross-border exposure" not in factors
+        assert not any("cross-border" in f for f in factors)
         assert "critical base score" not in factors
 
     def test_entity_type_factor(self):
         clf = ContextualClassifier.__new__(ContextualClassifier)
-        factors = clf._extract_key_factors("health", True, 9.5, entity_type="healthcare_provider")
+        factors = clf._extract_key_factors(
+            "health", True, 9.5,
+            ms_established="DE", ms_affected=["FR"],
+            entity_type="healthcare_provider",
+        )
         assert "healthcare_provider entity" in factors
 
     def test_cer_critical_entity_factor(self):

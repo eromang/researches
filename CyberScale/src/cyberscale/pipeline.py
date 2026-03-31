@@ -39,7 +39,8 @@ def run_pipeline(
     contextual,
     description: str,
     sector: str,
-    cross_border: bool,
+    ms_established: str = "EU",
+    ms_affected: Optional[list[str]] = None,
     cwe: Optional[str] = None,
     entity_type: Optional[str] = None,
     cer_critical_entity: Optional[bool] = None,
@@ -52,7 +53,7 @@ def run_pipeline(
     cascading: Optional[str] = None,
     data_impact: Optional[str] = None,
     entity_relevance: Optional[str] = None,
-    ms_affected: Optional[int] = None,
+    p3_ms_affected: Optional[int] = None,
     cross_border_pattern: Optional[str] = None,
     capacity_exceeded: Optional[bool] = None,
 ) -> PipelineResult:
@@ -67,7 +68,8 @@ def run_pipeline(
 
     # --- Phase 2: Contextual severity (receives Phase 1 score) ---
     p2 = contextual.predict(
-        description, sector, cross_border,
+        description, sector,
+        ms_established=ms_established, ms_affected=ms_affected,
         score=p1.score,
         entity_type=entity_type,
         cer_critical_entity=cer_critical_entity,
@@ -93,7 +95,7 @@ def run_pipeline(
             description,
             sectors_affected=sectors_affected,
             entity_relevance=entity_relevance,
-            ms_affected=ms_affected,
+            ms_affected=p3_ms_affected,
             cross_border_pattern=cross_border_pattern,
             capacity_exceeded=capacity_exceeded,
         )

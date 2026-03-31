@@ -108,15 +108,22 @@ class ContextualClassifier:
         self,
         description: str,
         sector: str,
-        cross_border: bool,
+        ms_established: str = "EU",
+        ms_affected: Optional[list[str]] = None,
         score: Optional[float] = None,
         entity_type: Optional[str] = None,
         cer_critical_entity: Optional[bool] = None,
     ) -> ContextualResult:
         """Classify contextual severity with MC dropout confidence."""
+        cross_border = bool(
+            ms_affected
+            and any(ms != ms_established for ms in ms_affected)
+        )
         text = self._format_input(
-            description, sector, cross_border, score=score,
-            entity_type=entity_type, cer_critical_entity=cer_critical_entity,
+            description, sector, cross_border,
+            ms_established=ms_established, ms_affected=ms_affected,
+            score=score, entity_type=entity_type,
+            cer_critical_entity=cer_critical_entity,
         )
         inputs = self.tokenizer(
             text,
@@ -146,6 +153,7 @@ class ContextualClassifier:
         confidence = self.max_prob_to_confidence(max(mean_probs))
         key_factors = self._extract_key_factors(
             sector, cross_border, score,
+            ms_established=ms_established, ms_affected=ms_affected,
             entity_type=entity_type, cer_critical_entity=cer_critical_entity,
         )
 
@@ -158,6 +166,8 @@ class ContextualClassifier:
         description: str,
         sector: str,
         cross_border: bool,
+        ms_established: str = "EU",
+        ms_affected: Optional[list[str]] = None,
         score: Optional[float] = None,
         entity_type: Optional[str] = None,
         cer_critical_entity: Optional[bool] = None,
@@ -166,6 +176,9 @@ class ContextualClassifier:
 
         Raises ValueError if sector is not in VALID_SECTORS or entity_type is
         not in VALID_ENTITY_TYPES.
+
+        The model still sees cross_border: true/false as a derived feature,
+        plus the new ms_established and ms_affected fields.
         """
         if sector not in VALID_SECTORS:
             raise ValueError(f"Unknown sector: {sector}")
@@ -177,7 +190,10 @@ class ContextualClassifier:
             description,
             f"[SEP] sector: {sector}",
             f"cross_border: {cross_border_str}",
+            f"ms_established: {ms_established}",
         ]
+        if ms_affected:
+            parts.append(f"ms_affected: {','.join(ms_affected)}")
         if score is not None:
             parts.append(f"score: {score}")
         if entity_type is not None:
@@ -197,13 +213,16 @@ class ContextualClassifier:
         sector: str,
         cross_border: bool,
         score: Optional[float],
+        ms_established: str = "EU",
+        ms_affected: Optional[list[str]] = None,
         entity_type: Optional[str] = None,
         cer_critical_entity: Optional[bool] = None,
     ) -> list[str]:
         """Extract key contextual factors for explainability."""
         factors = [f"{sector} sector"]
         if cross_border:
-            factors.append("cross-border exposure")
+            n_ms = len(ms_affected) if ms_affected else 0
+            factors.append(f"cross-border exposure ({n_ms} MS affected)")
         if score is not None and score >= 9.0:
             factors.append("critical base score")
         if entity_type is not None:

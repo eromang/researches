@@ -66,6 +66,12 @@ TRIGGER_PATTERNS: dict[str, re.Pattern] = {
 SEVERITY_LEVELS = ["Low", "Medium", "High", "Critical"]
 SEVERITY_INDEX = {name: idx for idx, name in enumerate(SEVERITY_LEVELS)}
 
+EU_MEMBER_STATES = [
+    "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "ES", "FI",
+    "FR", "GR", "HR", "HU", "IE", "IT", "LT", "LU", "LV", "MT",
+    "NL", "PL", "PT", "RO", "SE", "SI", "SK",
+]
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -237,12 +243,24 @@ def generate_scenarios(
             if cer_critical_entity and sector_id not in ["non_nis2"]:
                 ctx_sev = escalate(ctx_sev, 1)
 
+            # Generate MS geography
+            ms_established = rng.choice(EU_MEMBER_STATES)
+            if cross_border:
+                n_ms = rng.randint(1, 5)
+                ms_pool = [ms for ms in EU_MEMBER_STATES if ms != ms_established]
+                ms_affected_list = rng.sample(ms_pool, min(n_ms, len(ms_pool)))
+            else:
+                ms_affected_list = []
+
+            cross_border_str = "true" if cross_border else "false"
             input_text = (
                 f"{desc} [SEP] sector: {sector_id} "
-                f"cross_border: {str(cross_border).lower()} "
-                f"score: {score} "
-                f"entity_type: {entity_type}"
+                f"cross_border: {cross_border_str} "
+                f"ms_established: {ms_established}"
             )
+            if ms_affected_list:
+                input_text += f" ms_affected: {','.join(ms_affected_list)}"
+            input_text += f" score: {score} entity_type: {entity_type}"
             if cer_critical_entity:
                 input_text += " cer_critical_entity: true"
 
@@ -254,6 +272,8 @@ def generate_scenarios(
                     "input_text": input_text,
                     "sector": sector_id,
                     "cross_border": cross_border,
+                    "ms_established": ms_established,
+                    "ms_affected": ",".join(ms_affected_list) if ms_affected_list else "",
                     "cvss_score": score,
                     "base_severity": base_sev,
                     "contextual_severity": ctx_sev,
@@ -398,6 +418,8 @@ def main() -> None:
         "input_text",
         "sector",
         "cross_border",
+        "ms_established",
+        "ms_affected",
         "cvss_score",
         "base_severity",
         "contextual_severity",
