@@ -118,13 +118,34 @@ def _classify_full(
     from cyberscale.matrix.dual_scale import classify_incident
     matrix_result = classify_incident(t_result["level"], o_result["level"])
 
-    return {
+    result = {
         "technical": t_result,
         "operational": o_result,
         "classification": matrix_result.classification,
         "label": matrix_result.label,
         "provision": matrix_result.provision,
     }
+
+    # Cross-model consistency warnings for extreme asymmetric results
+    t_level = t_result["level"]
+    o_level = o_result["level"]
+    warnings = []
+    if t_level == "T4" and o_level == "O1":
+        warnings.append(
+            "Asymmetric result: maximum technical severity (T4) with minimum "
+            "operational impact (O1). Verify that operational fields accurately "
+            "reflect coordination needs and cross-border impact."
+        )
+    if t_level == "T1" and o_level == "O4":
+        warnings.append(
+            "Asymmetric result: minimum technical severity (T1) with maximum "
+            "operational impact (O4). Verify that technical fields accurately "
+            "reflect service disruption and data compromise."
+        )
+    if warnings:
+        result["warnings"] = warnings
+
+    return result
 
 
 # ---------------------------------------------------------------------------
