@@ -160,7 +160,7 @@ v4 addresses three architectural gaps:
 
 ### Design corrections
 
-**Remove `coordination_needs` from Phase 3 O-model inputs.** Coordination level is determined by the matrix classification, not the other way around:
+**1. Remove `coordination_needs` from Phase 3 O-model inputs.** Coordination level is determined by the matrix classification, not the other way around:
 
 | Matrix result | Coordination (output, not input) |
 |---|---|
@@ -169,25 +169,51 @@ v4 addresses three architectural gaps:
 | Large-scale | EU-CyCLONe activated (NIS2 Art. 16) |
 | Cyber crisis | IPCR activated (Council level) |
 
-**Replace `cross_border` boolean with concrete MS geography.** Per entity:
+**2. Replace `cross_border` boolean with concrete MS geography.** Per entity:
 - `ms_established` (str) — where entity is established
 - `ms_affected` (list[str]) — where entity's services are impacted
 
-This enables deriving `cross_border_pattern` and `ms_affected` count from data rather than analyst judgment.
+**3. Align impact taxonomy across Phase 2 and Phase 3.** Currently Phase 2 and Phase 3 use different terms for the same concepts (`degraded` vs `significant`, `exfiltrated` vs `sensitive`). v4 uses a single shared taxonomy — same field names, same values — so the aggregation layer is a pass-through, not a translation.
 
-### 1. Impact inputs for Phase 2
+**4. Add consequence dimensions to Phase 3 O-model.** The O-model currently has no impact inputs — only entity/sector/MS fields. Adding financial, safety, and affected persons gives it the consequence dimension NIS2 requires.
 
-Add incident impact fields per entity:
+### 1. Unified impact taxonomy
+
+All phases use the same field names and values. Six impact dimensions aligned with NIS2 Art. 23(3) and Implementing Regulation (EU) 2024/2690:
+
+| Dimension | Values | Phase 2 (per entity) | Phase 3T (aggregated) | Phase 3O (aggregated) | NIS2 source |
+|---|---|---|---|---|---|
+| `service_impact` | none / partial / degraded / unavailable / sustained | Input | Worst-case | — | Art. 23(3), IR Arts. 5-14 |
+| `data_impact` | none / accessed / exfiltrated / compromised / systemic | Input | Worst-case | — | Art. 23(3), IR Arts. 5-14 |
+| `financial_impact` | none / minor / significant / severe | Input | — | Worst-case | Art. 23(3), IR Art. 3(1)(a) |
+| `safety_impact` | none / health_risk / health_damage / death | Input | — | Worst-case | Art. 23(3), IR Art. 3 |
+| `physical_access_breach` | bool | Input (IR only) | — | — | IR Arts. 8, 14 |
+| `affected_persons_count` | int | Input | — | Aggregated sum | IR Arts. 7-14, Art. 23(3) |
+
+**Design principle:**
+- **Phase 3T** (technical severity) uses: `service_impact` + `data_impact` — observable technical damage
+- **Phase 3O** (operational severity) uses: `financial_impact` + `safety_impact` + `affected_persons_count` — societal/operational consequence
+- **Phase 2** collects all dimensions per entity; aggregation routes each to the right Phase 3 model
+
+**Sustained = unavailable + duration.** `sustained` means unavailable > 24h. Phase 2 also accepts `impact_duration_hours` (int) to determine whether `unavailable` should be escalated to `sustained` during aggregation.
+
+**Effort:** Medium — define shared enums, update Phase 2 + Phase 3 inputs, regenerate training data.
+
+### 2. Per-entity inputs for Phase 2
+
+Each entity in an incident provides:
 
 **Common inputs (all entities):**
 
 | Input | Type | Values | Description |
 |-------|------|--------|-------------|
-| `entity_affected` | bool | true/false | Vulnerability confirmed exploited at this entity |
-| `service_impact` | str | none / degraded / unavailable | Impact on entity's services |
-| `data_impact` | str | none / accessed / exfiltrated / compromised | Impact on entity's data |
+| `entity_affected` | bool | true/false | Vulnerability confirmed exploited |
+| `service_impact` | str | none / partial / degraded / unavailable / sustained | Service availability impact |
+| `data_impact` | str | none / accessed / exfiltrated / compromised / systemic | Data confidentiality/integrity impact |
 | `financial_impact` | str | none / minor / significant / severe | Financial loss assessment |
 | `safety_impact` | str | none / health_risk / health_damage / death | Physical safety impact |
+| `impact_duration_hours` | int | 0+ | Hours since impact started |
+| `affected_persons_count` | int | 0+ | Number of affected users/persons |
 | `ms_established` | str | ISO 3166-1 alpha-2 | MS where entity is established |
 | `ms_affected` | list[str] | ISO 3166-1 alpha-2 | MS where services are impacted |
 
@@ -321,19 +347,29 @@ A single incident can affect multiple entities with different impact levels. Pha
 }
 ```
 
-**Phase 3 inputs: fully derived from Phase 2 aggregation**
+**Phase 3 inputs: fully derived from Phase 2 aggregation (unified taxonomy)**
 
-| Phase 3 field | Aggregation rule | Example |
+**Phase 3T (technical severity) — aggregated technical damage:**
+
+| Phase 3T field | Aggregation rule | Example |
 |---|---|---|
-| `affected_entities` | Count entities where entity_affected=true | 2 |
-| `sectors_affected` | Count distinct sectors where entity_affected=true | 2 (digital_infrastructure + health) |
-| `service_disruption` | Worst-case service_impact across affected entities | "complete" (from unavailable) |
-| `data_compromise` | Worst-case data_impact across affected entities | "operational" (from compromised) |
-| `entity_relevance` | Highest relevance among affected entities (from entity_type mapping) | "essential" (healthcare_provider) |
-| `ms_affected` | Count distinct MS in union of all ms_affected lists | 3 (LU + DE + BE) |
-| `cross_border_pattern` | Derived: 1 MS=none, 2=limited, 3-5=significant, 6+=systemic | "significant" (3 MS) |
-| `cascading` | Derived: 1 sector=none/limited, 2+=cross_sector | "cross_sector" (2 sectors) |
-| `capacity_exceeded` | Heuristic: affected_entities>50 AND ms_affected>=3 → true | false |
+| `service_impact` | Worst-case across affected entities (+ duration → sustained) | "unavailable" |
+| `data_impact` | Worst-case across affected entities | "compromised" |
+| `affected_entities` | Count where entity_affected=true | 2 |
+| `sectors_affected` | Count distinct sectors with affected entities | 2 |
+| `cascading` | 1 sector=none/limited, 2+=cross_sector | "cross_sector" |
+
+**Phase 3O (operational severity) — aggregated consequence + scope:**
+
+| Phase 3O field | Aggregation rule | Example |
+|---|---|---|
+| `entity_relevance` | Highest relevance (from entity_type mapping) | "essential" |
+| `ms_affected` | Count distinct MS in union of all ms_affected[] | 3 |
+| `cross_border_pattern` | 1 MS=none, 2=limited, 3-5=significant, 6+=systemic | "significant" |
+| `financial_impact` | Worst-case across affected entities | "significant" |
+| `safety_impact` | Worst-case across affected entities | "health_risk" |
+| `affected_persons_count` | Sum across affected entities | 15000 |
+| `capacity_exceeded` | Heuristic: entities>50 AND ms>=3 → true | false |
 
 **Note:** `coordination_needs` is NOT an input — it's an output of the Blueprint Matrix.
 
@@ -341,22 +377,38 @@ A single incident can affect multiple entities with different impact levels. Pha
 
 **Effort:** High — multi-entity schema, aggregation logic, entity_type → entity_relevance mapping, per-entity routing.
 
-### 5. Phase 3 O-model retrain
+### 5. Phase 3 retrain (T-model + O-model)
 
-Remove `coordination_needs` from O-model inputs. The O-model predicts operational severity from observable indicators only:
+**T-model changes:**
+- Rename `service_disruption` → `service_impact` (unified taxonomy)
+- Rename `data_compromise` → `data_impact` (unified taxonomy)
+- Values aligned: none/partial/degraded/unavailable/sustained (service), none/accessed/exfiltrated/compromised/systemic (data)
+- No new fields — T-model stays focused on technical damage
 
-| O-model input | Source |
-|---|---|
-| `description` | Incident description (enriched with entity impact summaries) |
-| `sectors_affected` | Aggregated from Phase 2 |
-| `entity_relevance` | Aggregated from Phase 2 |
-| `ms_affected` | Aggregated from Phase 2 |
-| `cross_border_pattern` | Derived from ms_affected |
-| `capacity_exceeded` | Heuristic default or analyst override |
+**O-model changes:**
+- Remove `coordination_needs` (circular — is a matrix output)
+- Add `financial_impact` (none/minor/significant/severe)
+- Add `safety_impact` (none/health_risk/health_damage/death)
+- Add `affected_persons_count` (int)
+- These give the O-model the **consequence dimension** NIS2 requires
 
-Removed: `coordination_needs` (was circular — is a matrix output, not an input).
+**Revised O-model inputs (v4):**
 
-**Effort:** Medium — retrain O-model with updated input schema + regenerate training data.
+| Input | Source | New? |
+|---|---|---|
+| `description` | Enriched with entity summaries | Existing |
+| `sectors_affected` | Aggregated from Phase 2 | Existing |
+| `entity_relevance` | From entity_type mapping | Existing |
+| `ms_affected` | From ms_affected[] union | Existing |
+| `cross_border_pattern` | Derived from ms_affected count | Existing |
+| `capacity_exceeded` | Heuristic default | Existing |
+| `financial_impact` | Aggregated worst-case | **New** |
+| `safety_impact` | Aggregated worst-case | **New** |
+| `affected_persons_count` | Aggregated sum | **New** |
+
+Removed: `coordination_needs` (was circular).
+
+**Effort:** Medium — retrain both models with unified taxonomy + new O-model fields + regenerate training data.
 
 ### 6. `assess_incident` MCP tool
 
@@ -364,21 +416,27 @@ Single MCP tool: vulnerability description + entity list → full pipeline → m
 
 ```
 assess_incident(
-    description="Supply chain compromise of cloud provider",
+    description="Supply chain compromise of cloud provider software update",
     cwe="CWE-494",
     entities=[
         {entity_type: "cloud_computing_provider", sector: "digital_infrastructure",
-         entity_affected: true, service_impact: "unavailable",
-         unavailability_duration_min: 45,
+         entity_affected: true,
+         service_impact: "unavailable", data_impact: "compromised",
+         financial_impact: "severe", safety_impact: "none",
+         impact_duration_hours: 2, affected_persons_count: 50000,
+         unavailability_duration_min: 45, malicious_access: true,
          ms_established: "LU", ms_affected: ["LU", "DE", "BE"]},
         {entity_type: "healthcare_provider", sector: "health",
-         entity_affected: true, service_impact: "degraded",
+         entity_affected: true,
+         service_impact: "degraded", data_impact: "none",
+         financial_impact: "minor", safety_impact: "health_risk",
+         impact_duration_hours: 2, affected_persons_count: 500,
          ms_established: "DE", ms_affected: ["DE"]},
     ],
 )
 ```
 
-**Output:**
+**Output (unified taxonomy throughout):**
 
 ```json
 {
@@ -387,31 +445,39 @@ assess_incident(
     "entity_results": [
       {"entity_type": "cloud_computing_provider", "model": "IR",
        "severity": "Critical", "significant_incident": true,
-       "triggered_criteria": ["Art. 7: unavailability > 30min"]},
+       "triggered_criteria": ["Art. 7: unavailability > 30min",
+                              "Art. 3(1)(a): malicious access"]},
       {"entity_type": "healthcare_provider", "model": "NIS2",
        "severity": "High",
-       "reporting_hint": "Service degraded at essential entity"}
+       "reporting_hint": "Service degraded at essential entity, health risk"}
     ]
   },
   "aggregation": {
-    "affected_entities": 2,
-    "sectors_affected": 2,
-    "ms_affected": 3,
-    "ms_with_service_impact": ["LU", "DE", "BE"],
-    "service_disruption": "complete",
-    "data_compromise": "operational",
-    "entity_relevance": "essential",
-    "cross_border_pattern": "significant",
-    "cascading": "cross_sector",
-    "capacity_exceeded": false
+    "phase3t_inputs": {
+      "service_impact": "unavailable",
+      "data_impact": "compromised",
+      "affected_entities": 2,
+      "sectors_affected": 2,
+      "cascading": "cross_sector"
+    },
+    "phase3o_inputs": {
+      "entity_relevance": "essential",
+      "ms_affected": 3,
+      "ms_list": ["LU", "DE", "BE"],
+      "cross_border_pattern": "significant",
+      "financial_impact": "severe",
+      "safety_impact": "health_risk",
+      "affected_persons_count": 50500,
+      "capacity_exceeded": false
+    }
   },
   "phase3": {
-    "technical": {"level": "T3", "key_factors": ["2 entities affected",
-                  "2 sectors affected", "cross_sector cascading",
-                  "operational data compromise"]},
+    "technical": {"level": "T3", "key_factors": ["unavailable service impact",
+                  "compromised data", "2 entities", "cross_sector cascading"]},
     "operational": {"level": "O3", "key_factors": ["essential entity",
-                    "3 member states affected",
-                    "significant cross-border pattern"]}
+                    "3 member states", "significant cross-border",
+                    "severe financial impact", "health_risk safety impact",
+                    "50500 persons affected"]}
   },
   "matrix": {
     "classification": "large_scale",
