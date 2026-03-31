@@ -15,7 +15,7 @@
     "dropout": 0.3,
     "label_smoothing": 0.1,
     "weight_decay": 0.01,
-    "mc_dropout_passes": 20,
+    "mc_dropout_passes": 5,
     "warmup_ratio": 0.1,
     "gradient_clip": 1.0,
     "class_weights": true,

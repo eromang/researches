@@ -34,7 +34,7 @@ from cyberscale.models.scorer import SeverityScorer  # noqa: E402
 # Default config values (matches scorer.json)
 DEFAULT_TEST_SPLIT = 0.15
 DEFAULT_SEED = 42
-DEFAULT_MC_PASSES = 20
+DEFAULT_MC_PASSES = 5
 DEFAULT_MAX_LENGTH = 192
 DEGRADATION_SAMPLE = 200
 MAX_DROP_THRESHOLD = 0.15  # 15%

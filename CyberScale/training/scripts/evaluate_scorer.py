@@ -105,7 +105,7 @@ def evaluate(
 ) -> dict:
     """Run full evaluation and write markdown report."""
     model_cfg = config["model"]
-    mc_passes = model_cfg.get("mc_dropout_passes", 20)
+    mc_passes = model_cfg.get("mc_dropout_passes", 5)
 
     # Load model
     print(f"Loading model from {model_path} ...", flush=True)
@@ -241,7 +241,7 @@ def generate_markdown_report(metrics: dict, config: dict) -> str:
         "",
         f"**Generated:** {ts}",
         f"**Test samples:** {metrics['test_samples']}",
-        f"**MC dropout passes:** {config['model'].get('mc_dropout_passes', 20)}",
+        f"**MC dropout passes:** {config['model'].get('mc_dropout_passes', 5)}",
         f"**Overall:** {overall}",
         "",
         "## Summary Metrics",

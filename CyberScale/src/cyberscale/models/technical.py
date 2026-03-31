@@ -43,7 +43,7 @@ class TechnicalClassifier:
     def __init__(
         self,
         model_path: str | Path,
-        mc_passes: int = 20,
+        mc_passes: int = 5,
         max_length: int = 256,
         device: Optional[str] = None,
     ):
