@@ -252,50 +252,154 @@ Create `data/reference/ir_incident_thresholds.json` with per-entity-type thresho
 
 **Effort:** Low — structured extraction from existing vault reference data.
 
-### 4. Phase 2 → Phase 3 field mapping
+### 4. Multi-entity incident model
 
-When Phase 2 recommends Phase 3 assessment, provide suggested default values:
+A single incident can affect multiple entities with different impact levels. Phase 2 runs **once per entity**, Phase 3 **aggregates** across all affected entities.
 
-| Phase 2 field | Phase 3 field | Mapping |
-|--------------|---------------|---------|
-| `sector` | `sectors_affected` | Direct pass-through |
-| `entity_type` | `entity_relevance` | healthcare_provider → essential, generic_sme → non_essential |
-| `cross_border` | `cross_border_pattern` | true → "limited" (minimum), false → "none" |
-| `cer_critical_entity` | `entity_relevance` | true → "high_relevance" |
-| `service_impact` | `service_disruption` | unavailable → "complete", degraded → "significant" |
-| `data_impact` | `data_compromise` | exfiltrated → "sensitive", compromised → "operational" |
+**Phase 2 input: list of entity assessments**
 
-Suggestions, not overrides — the analyst confirms or adjusts before Phase 3 runs.
+Each entity in the incident gets its own Phase 2 assessment:
 
-**Effort:** Medium — entity_type → entity_relevance mapping table, pipeline wiring.
+```json
+{
+  "description": "Supply chain compromise of cloud provider software update",
+  "entities": [
+    {
+      "entity_type": "cloud_computing_provider",
+      "sector": "digital_infrastructure",
+      "cross_border": true,
+      "entity_affected": true,
+      "service_impact": "unavailable",
+      "data_impact": "compromised",
+      "unavailability_duration_min": 45,
+      "ms": "LU"
+    },
+    {
+      "entity_type": "healthcare_provider",
+      "sector": "health",
+      "cross_border": true,
+      "entity_affected": true,
+      "service_impact": "degraded",
+      "data_impact": "none",
+      "ms": "DE"
+    },
+    {
+      "entity_type": "credit_institution",
+      "sector": "banking",
+      "cross_border": false,
+      "entity_affected": false,
+      "service_impact": "none",
+      "data_impact": "none",
+      "ms": "FR"
+    }
+  ]
+}
+```
 
-### 5. `assess_full_incident_pipeline` MCP tool
+**Phase 2 output: per-entity results**
 
-A single MCP tool that chains Phase 1 → Phase 2 (routed) → (if incident warranted) → Phase 3, using the field mapping above:
+Each entity gets its own severity assessment via the router (IR or NIS2 model):
+
+```json
+{
+  "entity_results": [
+    {
+      "entity_type": "cloud_computing_provider",
+      "model": "IR",
+      "severity": "Critical",
+      "significant_incident": true,
+      "triggered_criteria": ["Art. 7: unavailability > 30min"]
+    },
+    {
+      "entity_type": "healthcare_provider",
+      "model": "NIS2",
+      "severity": "High",
+      "reporting_hint": "Monitor — service degraded at essential entity"
+    },
+    {
+      "entity_type": "credit_institution",
+      "model": "NIS2",
+      "severity": "Low",
+      "reporting_hint": null
+    }
+  ],
+  "phase3_recommended": true,
+  "reason": "1 entity with significant_incident, 1 entity with service impact"
+}
+```
+
+**Phase 3 aggregation: worst-case + counts across affected entities**
+
+| Phase 3 field | Aggregation rule | Example |
+|---|---|---|
+| `sectors_affected` | Count of distinct sectors where entity_affected=true | 2 (digital_infrastructure + health) |
+| `affected_entities` | Count of entities where service_impact != none | 2 |
+| `service_disruption` | Worst-case across affected entities | "complete" (from unavailable) |
+| `data_compromise` | Worst-case across affected entities | "operational" (from compromised) |
+| `entity_relevance` | Highest relevance among affected entities | "essential" (healthcare_provider) |
+| `ms_affected` | Count of distinct MS with affected entities | 2 (LU + DE) |
+| `cross_border_pattern` | Derived from ms_affected count | "limited" (2 MS) |
+| `cascading` | Derived from sectors_affected count | "cross_sector" (2+ sectors) |
+
+**Analyst only needs to confirm/adjust:**
+- `coordination_needs` — authority decision, not derivable
+- `capacity_exceeded` — runtime CSIRT assessment, not predictable
+
+**Effort:** High — multi-entity input schema, aggregation logic, per-entity routing, new MCP tool.
+
+### 5. `assess_incident` MCP tool
+
+A single MCP tool that accepts a vulnerability description + list of affected entities, runs Phase 1 → Phase 2 (per-entity, routed) → aggregation → Phase 3 → Matrix:
 
 ```
-Phase 1 (score=7.8)
-  → Phase 2-NIS2 (severity=Critical, entity_affected=true,
-                   service_impact=unavailable)
-      phase3_recommended: true
-      suggested Phase 3 defaults: sectors=health, relevance=essential,
-        service_disruption=complete, cross_border=limited
-    → Analyst confirms/adjusts
-      → Phase 3 (T3+O2)
-        → Matrix: Large-scale — 7(c) EU-CyCLONe
+assess_incident(
+    description="Supply chain compromise of cloud provider",
+    cwe="CWE-494",
+    entities=[
+        {entity_type: "cloud_computing_provider", sector: "digital_infrastructure",
+         entity_affected: true, service_impact: "unavailable",
+         unavailability_duration_min: 45, ms: "LU", ...},
+        {entity_type: "healthcare_provider", sector: "health",
+         entity_affected: true, service_impact: "degraded", ms: "DE", ...},
+    ],
+    # Phase 3 overrides (analyst-provided, optional)
+    coordination_needs="eu_active",
+    capacity_exceeded=false,
+)
 ```
 
-For IR entities:
-```
-Phase 1 (score=8.5)
-  → Phase 2-IR (severity=Critical, significant_incident=true,
-                triggered_criteria=["Art. 7: unavailability > 30min",
-                                    "Art. 3(1)(a): financial > EUR 500K"])
-      → Phase 3 auto-triggered with mapped defaults
-        → Matrix: Large-scale — 7(c)
+**Output:**
+
+```json
+{
+  "phase1": {"score": 8.5, "band": "High"},
+  "phase2": {
+    "entity_results": [...],
+    "worst_severity": "Critical",
+    "significant_incidents": 1
+  },
+  "phase3": {
+    "technical": {"level": "T3", "key_factors": [...]},
+    "operational": {"level": "O3", "key_factors": [...]},
+    "aggregated_from": {
+      "affected_entities": 2,
+      "sectors_affected": 2,
+      "ms_affected": 2,
+      "service_disruption": "complete",
+      "data_compromise": "operational",
+      "entity_relevance": "essential",
+      "cascading": "cross_sector"
+    }
+  },
+  "matrix": {
+    "classification": "large_scale",
+    "label": "Large-scale",
+    "provision": "7(c)"
+  }
+}
 ```
 
-**Effort:** Medium — new MCP tool combining router + existing tools + field mapping.
+**Effort:** High — new MCP tool with multi-entity orchestration, aggregation, and full pipeline chaining.
 
 ---
 
@@ -307,8 +411,8 @@ Based on impact/effort ratio and the Phase 1 accuracy gap:
 |----------|-------------|-------|---------------|
 | 1 | Impact inputs + IR/NIS2 model split + router | 2 | Incident-aware Phase 2, regulatory-aligned |
 | 2 | IR threshold reference data | 2 | Quantitative significant_incident for digital entities |
-| 3 | Phase 2 → Phase 3 field mapping | 2+3 | Automated handoff with suggested defaults |
-| 4 | `assess_full_incident_pipeline` MCP tool | All | End-to-end single-call assessment |
+| 3 | Multi-entity model + aggregation | 2+3 | Per-entity assessment, worst-case aggregation for Phase 3 |
+| 4 | `assess_incident` MCP tool | All | Multi-entity end-to-end pipeline |
 | 5 | CVSS vector multi-task | 1 | +5-10pp (biggest accuracy gap) |
 | 6 | Product/vendor signal | 1 | +3-5pp |
 | 7 | LLM description augmentation | 3 | Robustness |
