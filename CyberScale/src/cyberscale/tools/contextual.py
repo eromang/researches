@@ -56,13 +56,13 @@ def _assess_with_model(
     sector: str,
     cross_border: bool,
     score: float | None = None,
-    deployment_scale: str | None = None,
     entity_type: str | None = None,
+    cer_critical_entity: bool | None = None,
 ) -> dict:
     """Assess contextual severity using the classifier model."""
     result = clf.predict(
         description, sector, cross_border, score,
-        deployment_scale=deployment_scale, entity_type=entity_type,
+        entity_type=entity_type, cer_critical_entity=cer_critical_entity,
     )
     out = {
         "severity": result.severity,
@@ -71,10 +71,10 @@ def _assess_with_model(
         "sector": sector,
         "cross_border": cross_border,
     }
-    if deployment_scale is not None:
-        out["deployment_scale"] = deployment_scale
     if entity_type is not None:
         out["entity_type"] = entity_type
+    if cer_critical_entity:
+        out["cer_critical_entity"] = cer_critical_entity
     return out
 
 
@@ -91,8 +91,8 @@ def register(mcp: FastMCP) -> None:
         sector: str,
         cross_border: bool,
         severity_score: float | None = None,
-        deployment_scale: str | None = None,
         entity_type: str | None = None,
+        cer_critical_entity: bool | None = None,
     ) -> dict:
         """Assess context-dependent severity for a vulnerability given NIS2 sector, cross-border exposure, and deployment context."""
         # 1. Validate sector
@@ -108,6 +108,6 @@ def register(mcp: FastMCP) -> None:
         # 3. Assess with model
         return _assess_with_model(
             clf, description, sector, cross_border,
-            score=severity_score, deployment_scale=deployment_scale,
-            entity_type=entity_type,
+            score=severity_score, entity_type=entity_type,
+            cer_critical_entity=cer_critical_entity,
         )
