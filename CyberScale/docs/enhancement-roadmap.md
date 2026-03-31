@@ -360,7 +360,7 @@ Single entity assesses one incident. Input: entity context + observed impact. Ou
 
 ### Authority-facing tools (Aggregation + O-model + Matrix)
 
-The authority receives entity notifications and classifies the incident at EU level. **Phase 3T is eliminated** — the T-level becomes a deterministic derivation in the aggregation layer, because all T-level inputs (service_impact, data_impact, affected_entities, sectors, cascading) are observable facts that map mechanically to T1-T4.
+The authority manually enters entity notification data received through national reporting channels and CSIRT Network communication. **Phase 3T is eliminated** — the T-level becomes a deterministic derivation from the entered data, because all T-level inputs (service_impact, data_impact, affected_entities, sectors, cascading) are observable facts that map mechanically to T1-T4. The authority reviews all suggested values before proceeding.
 
 Phase 3O (operational severity) remains as an ML model because operational severity requires **judgment** — the same entity count and MS count can warrant different O-levels depending on entity relevance, financial impact, and safety consequences.
 
