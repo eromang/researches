@@ -22,6 +22,38 @@ VALID_SECTORS = {
     "food", "digital_providers", "research", "non_nis2",
 }
 
+VALID_ENTITY_TYPES = {
+    # Annex I — Essential
+    "electricity_undertaking", "distribution_system_operator", "transmission_system_operator",
+    "oil_undertaking", "gas_undertaking", "hydrogen_operator", "district_heating_operator",
+    "electricity_market_operator",
+    "air_carrier", "airport_operator", "traffic_management_operator", "rail_infrastructure_manager",
+    "railway_undertaking", "shipping_company", "port_operator", "inland_waterway_operator",
+    "road_authority", "its_operator",
+    "credit_institution",
+    "trading_venue_operator", "central_counterparty",
+    "healthcare_provider", "eu_reference_laboratory", "pharma_rd_manufacturer", "medical_device_manufacturer",
+    "drinking_water_supplier",
+    "waste_water_operator",
+    "ixp_operator", "dns_service_provider", "tld_registry", "cloud_computing_provider",
+    "data_centre_operator", "cdn_provider", "trust_service_provider",
+    "public_ecn_provider", "public_ecs_provider",
+    "managed_service_provider", "managed_security_service_provider",
+    "central_government_entity", "regional_government_entity",
+    "space_operator",
+    # Annex II — Important
+    "postal_service_provider", "courier_service_provider",
+    "waste_management_operator",
+    "medical_device_manufacturer_ii", "machinery_manufacturer", "motor_vehicle_manufacturer",
+    "electrical_equipment_manufacturer",
+    "chemicals_manufacturer", "chemicals_distributor",
+    "food_producer", "food_distributor",
+    "online_marketplace_provider", "search_engine_provider", "social_network_provider",
+    "research_organisation",
+    # Non-NIS2
+    "generic_enterprise", "generic_sme", "generic_individual",
+}
+
 LABEL_MAP = {0: "Low", 1: "Medium", 2: "High", 3: "Critical"}
 
 
@@ -78,13 +110,13 @@ class ContextualClassifier:
         sector: str,
         cross_border: bool,
         score: Optional[float] = None,
-        deployment_scale: Optional[str] = None,
         entity_type: Optional[str] = None,
+        cer_critical_entity: Optional[bool] = None,
     ) -> ContextualResult:
         """Classify contextual severity with MC dropout confidence."""
         text = self._format_input(
             description, sector, cross_border, score=score,
-            deployment_scale=deployment_scale, entity_type=entity_type,
+            entity_type=entity_type, cer_critical_entity=cer_critical_entity,
         )
         inputs = self.tokenizer(
             text,
@@ -114,7 +146,7 @@ class ContextualClassifier:
         confidence = self.max_prob_to_confidence(max(mean_probs))
         key_factors = self._extract_key_factors(
             sector, cross_border, score,
-            deployment_scale=deployment_scale, entity_type=entity_type,
+            entity_type=entity_type, cer_critical_entity=cer_critical_entity,
         )
 
         return ContextualResult(
@@ -127,15 +159,18 @@ class ContextualClassifier:
         sector: str,
         cross_border: bool,
         score: Optional[float] = None,
-        deployment_scale: Optional[str] = None,
         entity_type: Optional[str] = None,
+        cer_critical_entity: Optional[bool] = None,
     ) -> str:
         """Format input text for the model.
 
-        Raises ValueError if sector is not in VALID_SECTORS.
+        Raises ValueError if sector is not in VALID_SECTORS or entity_type is
+        not in VALID_ENTITY_TYPES.
         """
         if sector not in VALID_SECTORS:
             raise ValueError(f"Unknown sector: {sector}")
+        if entity_type is not None and entity_type not in VALID_ENTITY_TYPES:
+            raise ValueError(f"Unknown entity_type: {entity_type}")
 
         cross_border_str = "true" if cross_border else "false"
         parts = [
@@ -145,10 +180,10 @@ class ContextualClassifier:
         ]
         if score is not None:
             parts.append(f"score: {score}")
-        if deployment_scale is not None:
-            parts.append(f"deployment_scale: {deployment_scale}")
         if entity_type is not None:
             parts.append(f"entity_type: {entity_type}")
+        if cer_critical_entity:
+            parts.append("cer_critical_entity: true")
         return " ".join(parts)
 
     def _enable_dropout(self) -> None:
@@ -162,8 +197,8 @@ class ContextualClassifier:
         sector: str,
         cross_border: bool,
         score: Optional[float],
-        deployment_scale: Optional[str] = None,
         entity_type: Optional[str] = None,
+        cer_critical_entity: Optional[bool] = None,
     ) -> list[str]:
         """Extract key contextual factors for explainability."""
         factors = [f"{sector} sector"]
@@ -171,10 +206,10 @@ class ContextualClassifier:
             factors.append("cross-border exposure")
         if score is not None and score >= 9.0:
             factors.append("critical base score")
-        if deployment_scale is not None:
-            factors.append(f"{deployment_scale} deployment")
         if entity_type is not None:
             factors.append(f"{entity_type} entity")
+        if cer_critical_entity:
+            factors.append("CER critical entity (essential override)")
         return factors
 
     @staticmethod
