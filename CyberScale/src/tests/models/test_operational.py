@@ -7,7 +7,6 @@ import pytest
 
 VALID_ENTITY_RELEVANCE = {"non_essential", "essential", "high_relevance", "systemic"}
 VALID_CROSS_BORDER = {"none", "limited", "significant", "systemic"}
-VALID_COORDINATION = {"national", "eu_info", "eu_active", "full_ipcr"}
 O_LABEL_MAP = {0: "O1", 1: "O2", 2: "O3", 3: "O4"}
 
 
@@ -17,19 +16,17 @@ class TestInputFormatting:
 
         text = OperationalClassifier.format_input(
             description="Ransomware disrupts 3 EU hospitals",
-            sectors_affected="health,energy",
+            sectors_affected=2,
             entity_relevance="systemic",
             ms_affected=5,
             cross_border_pattern="significant",
-            coordination_needs="eu_active",
             capacity_exceeded=True,
         )
         assert "Ransomware disrupts 3 EU hospitals" in text
-        assert "sectors: health,energy" in text
+        assert "sectors: 2" in text
         assert "relevance: systemic" in text
         assert "ms_affected: 5" in text
         assert "cross_border: significant" in text
-        assert "coordination: eu_active" in text
         assert "capacity_exceeded: true" in text
 
     def test_format_defaults(self):
@@ -38,11 +35,18 @@ class TestInputFormatting:
         text = OperationalClassifier.format_input(
             description="Minor phishing campaign",
         )
+        assert "sectors: 1" in text
         assert "relevance: non_essential" in text
         assert "ms_affected: 1" in text
         assert "cross_border: none" in text
-        assert "coordination: national" in text
         assert "capacity_exceeded: false" in text
+
+    def test_coordination_needs_not_accepted(self):
+        """coordination_needs was removed in v4."""
+        from cyberscale.models.operational import OperationalClassifier
+        import inspect
+        sig = inspect.signature(OperationalClassifier.format_input)
+        assert "coordination_needs" not in sig.parameters
 
 
 class TestOLabelMap:

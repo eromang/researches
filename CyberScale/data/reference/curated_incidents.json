@@ -20,11 +20,10 @@
         "data_impact": "accessed"
       },
       "o_fields": {
-        "sectors_affected": "health, transport, digital_infrastructure, public administration, manufacturing, banking",
+        "sectors_affected": 6,
         "entity_relevance": "systemic",
         "ms_affected": 27,
         "cross_border_pattern": "systemic",
-        "coordination_needs": "full_ipcr",
         "capacity_exceeded": true
       },
       "expected_t": "T4",
@@ -52,11 +51,10 @@
         "data_impact": "systemic"
       },
       "o_fields": {
-        "sectors_affected": "transport, banking, energy, manufacturing, food, digital_infrastructure, public administration",
+        "sectors_affected": 7,
         "entity_relevance": "systemic",
         "ms_affected": 20,
         "cross_border_pattern": "systemic",
-        "coordination_needs": "full_ipcr",
         "capacity_exceeded": true
       },
       "expected_t": "T4",
@@ -84,11 +82,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "public administration, digital_infrastructure, banking, energy, defence",
+        "sectors_affected": 5,
         "entity_relevance": "high_relevance",
         "ms_affected": 8,
         "cross_border_pattern": "significant",
-        "coordination_needs": "eu_active",
         "capacity_exceeded": true
       },
       "expected_t": "T4",
@@ -116,11 +113,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "health",
+        "sectors_affected": 1,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "eu_info",
         "capacity_exceeded": false
       },
       "expected_t": "T3",
@@ -148,11 +144,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "energy, transport",
+        "sectors_affected": 2,
         "entity_relevance": "high_relevance",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T3",
@@ -180,11 +175,10 @@
         "data_impact": "accessed"
       },
       "o_fields": {
-        "sectors_affected": "ict_service_management, food, manufacturing, digital_providers",
+        "sectors_affected": 4,
         "entity_relevance": "high_relevance",
         "ms_affected": 10,
         "cross_border_pattern": "significant",
-        "coordination_needs": "eu_active",
         "capacity_exceeded": false
       },
       "expected_t": "T3",
@@ -212,11 +206,10 @@
         "data_impact": "accessed"
       },
       "o_fields": {
-        "sectors_affected": "defence",
+        "sectors_affected": 1,
         "entity_relevance": "high_relevance",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T2",
@@ -244,11 +237,10 @@
         "data_impact": "accessed"
       },
       "o_fields": {
-        "sectors_affected": "research",
+        "sectors_affected": 1,
         "entity_relevance": "non_essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T2",
@@ -276,11 +268,10 @@
         "data_impact": "systemic"
       },
       "o_fields": {
-        "sectors_affected": "public administration, banking, energy, transport, health, manufacturing, digital_providers",
+        "sectors_affected": 7,
         "entity_relevance": "systemic",
         "ms_affected": 12,
         "cross_border_pattern": "systemic",
-        "coordination_needs": "eu_active",
         "capacity_exceeded": true
       },
       "expected_t": "T4",
@@ -308,11 +299,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "health",
+        "sectors_affected": 1,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "eu_info",
         "capacity_exceeded": false
       },
       "expected_t": "T3",
@@ -340,11 +330,10 @@
         "data_impact": "accessed"
       },
       "o_fields": {
-        "sectors_affected": "manufacturing, energy",
+        "sectors_affected": 2,
         "entity_relevance": "essential",
         "ms_affected": 5,
         "cross_border_pattern": "limited",
-        "coordination_needs": "eu_info",
         "capacity_exceeded": false
       },
       "expected_t": "T2",
@@ -372,11 +361,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "public administration",
+        "sectors_affected": 1,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "eu_info",
         "capacity_exceeded": true
       },
       "expected_t": "T3",
@@ -404,11 +392,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "health",
+        "sectors_affected": 1,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T3",
@@ -436,11 +423,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "public administration",
+        "sectors_affected": 1,
         "entity_relevance": "high_relevance",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T3",
@@ -468,11 +454,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "health, public administration",
+        "sectors_affected": 2,
         "entity_relevance": "high_relevance",
         "ms_affected": 4,
         "cross_border_pattern": "significant",
-        "coordination_needs": "eu_active",
         "capacity_exceeded": false
       },
       "expected_t": "T3",
@@ -500,11 +485,10 @@
         "data_impact": "none"
       },
       "o_fields": {
-        "sectors_affected": "digital_infrastructure, public administration",
+        "sectors_affected": 2,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "eu_info",
         "capacity_exceeded": false
       },
       "expected_t": "T3",
@@ -532,11 +516,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "public administration, health, banking",
+        "sectors_affected": 3,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "eu_info",
         "capacity_exceeded": true
       },
       "expected_t": "T4",
@@ -564,11 +547,10 @@
         "data_impact": "none"
       },
       "o_fields": {
-        "sectors_affected": "public administration",
+        "sectors_affected": 1,
         "entity_relevance": "high_relevance",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T1",
@@ -596,11 +578,10 @@
         "data_impact": "accessed"
       },
       "o_fields": {
-        "sectors_affected": "transport",
+        "sectors_affected": 1,
         "entity_relevance": "non_essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T4",
@@ -628,11 +609,10 @@
         "data_impact": "accessed"
       },
       "o_fields": {
-        "sectors_affected": "digital_infrastructure, energy, defence",
+        "sectors_affected": 3,
         "entity_relevance": "high_relevance",
         "ms_affected": 5,
         "cross_border_pattern": "significant",
-        "coordination_needs": "eu_active",
         "capacity_exceeded": false
       },
       "expected_t": "T3",
@@ -660,11 +640,10 @@
         "data_impact": "accessed"
       },
       "o_fields": {
-        "sectors_affected": "food",
+        "sectors_affected": 1,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "limited",
-        "coordination_needs": "eu_info",
         "capacity_exceeded": false
       },
       "expected_t": "T2",
@@ -692,11 +671,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "public administration, banking",
+        "sectors_affected": 2,
         "entity_relevance": "essential",
         "ms_affected": 2,
         "cross_border_pattern": "limited",
-        "coordination_needs": "eu_info",
         "capacity_exceeded": true
       },
       "expected_t": "T3",
@@ -724,11 +702,10 @@
         "data_impact": "none"
       },
       "o_fields": {
-        "sectors_affected": "transport",
+        "sectors_affected": 1,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T2",
@@ -756,11 +733,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "transport",
+        "sectors_affected": 1,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T3",
@@ -788,11 +764,10 @@
         "data_impact": "accessed"
       },
       "o_fields": {
-        "sectors_affected": "transport",
+        "sectors_affected": 1,
         "entity_relevance": "essential",
         "ms_affected": 3,
         "cross_border_pattern": "limited",
-        "coordination_needs": "eu_info",
         "capacity_exceeded": false
       },
       "expected_t": "T2",
@@ -820,11 +795,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "health",
+        "sectors_affected": 1,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T3",
@@ -852,11 +826,10 @@
         "data_impact": "accessed"
       },
       "o_fields": {
-        "sectors_affected": "public administration",
+        "sectors_affected": 1,
         "entity_relevance": "high_relevance",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T2",
@@ -884,11 +857,10 @@
         "data_impact": "none"
       },
       "o_fields": {
-        "sectors_affected": "manufacturing",
+        "sectors_affected": 1,
         "entity_relevance": "non_essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T1",
@@ -916,11 +888,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "health",
+        "sectors_affected": 1,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "eu_info",
         "capacity_exceeded": true
       },
       "expected_t": "T3",
@@ -948,11 +919,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "health",
+        "sectors_affected": 1,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T3",
@@ -980,11 +950,10 @@
         "data_impact": "none"
       },
       "o_fields": {
-        "sectors_affected": "transport",
+        "sectors_affected": 1,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T2",
@@ -1012,11 +981,10 @@
         "data_impact": "accessed"
       },
       "o_fields": {
-        "sectors_affected": "transport",
+        "sectors_affected": 1,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T2",
@@ -1044,11 +1012,10 @@
         "data_impact": "accessed"
       },
       "o_fields": {
-        "sectors_affected": "ict_service_management, public administration, health, manufacturing",
+        "sectors_affected": 4,
         "entity_relevance": "high_relevance",
         "ms_affected": 8,
         "cross_border_pattern": "significant",
-        "coordination_needs": "eu_active",
         "capacity_exceeded": false
       },
       "expected_t": "T2",
@@ -1076,11 +1043,10 @@
         "data_impact": "accessed"
       },
       "o_fields": {
-        "sectors_affected": "energy, manufacturing",
+        "sectors_affected": 2,
         "entity_relevance": "essential",
         "ms_affected": 4,
         "cross_border_pattern": "limited",
-        "coordination_needs": "eu_info",
         "capacity_exceeded": false
       },
       "expected_t": "T2",
@@ -1108,11 +1074,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "health",
+        "sectors_affected": 1,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T3",
@@ -1140,11 +1105,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "public administration",
+        "sectors_affected": 1,
         "entity_relevance": "high_relevance",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T3",
@@ -1172,11 +1136,10 @@
         "data_impact": "accessed"
       },
       "o_fields": {
-        "sectors_affected": "digital_infrastructure, postal",
+        "sectors_affected": 2,
         "entity_relevance": "essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T2",
@@ -1204,11 +1167,10 @@
         "data_impact": "none"
       },
       "o_fields": {
-        "sectors_affected": "banking",
+        "sectors_affected": 1,
         "entity_relevance": "high_relevance",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T1",
@@ -1236,11 +1198,10 @@
         "data_impact": "exfiltrated"
       },
       "o_fields": {
-        "sectors_affected": "public administration, defence",
+        "sectors_affected": 2,
         "entity_relevance": "systemic",
         "ms_affected": 10,
         "cross_border_pattern": "significant",
-        "coordination_needs": "eu_active",
         "capacity_exceeded": false
       },
       "expected_t": "T3",
@@ -1268,11 +1229,10 @@
         "data_impact": "none"
       },
       "o_fields": {
-        "sectors_affected": "drinking_water",
+        "sectors_affected": 1,
         "entity_relevance": "non_essential",
         "ms_affected": 1,
         "cross_border_pattern": "none",
-        "coordination_needs": "national",
         "capacity_exceeded": false
       },
       "expected_t": "T1",

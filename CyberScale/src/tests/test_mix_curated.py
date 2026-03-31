@@ -30,11 +30,10 @@ def sample_incident():
             "data_impact": "exfiltrated",
         },
         "o_fields": {
-            "sectors_affected": "health, digital infrastructure",
+            "sectors_affected": 2,
             "entity_relevance": "high_relevance",
             "ms_affected": 4,
             "cross_border_pattern": "significant",
-            "coordination_needs": "eu_active",
             "capacity_exceeded": True,
         },
         "expected_t": "T3",

@@ -32,11 +32,10 @@ def sample_dataset(tmp_path):
                     "data_impact": "exfiltrated",
                 },
                 "o_fields": {
-                    "sectors_affected": "health",
+                    "sectors_affected": 1,
                     "entity_relevance": "essential",
                     "ms_affected": 1,
                     "cross_border_pattern": "none",
-                    "coordination_needs": "national",
                     "capacity_exceeded": False,
                 },
                 "expected_t": "T3",
@@ -93,9 +92,8 @@ def test_invalid_t_level_raises(tmp_path):
                 "sectors_affected": 1, "cascading": "none", "data_impact": "none",
             },
             "o_fields": {
-                "sectors_affected": "health", "entity_relevance": "essential",
+                "sectors_affected": 1, "entity_relevance": "essential",
                 "ms_affected": 1, "cross_border_pattern": "none",
-                "coordination_needs": "national", "capacity_exceeded": False,
             },
             "expected_t": "T5",
             "expected_o": "O1",

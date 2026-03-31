@@ -74,7 +74,6 @@ def evaluate_o_model(
             entity_relevance=inc.o_fields["entity_relevance"],
             ms_affected=inc.o_fields["ms_affected"],
             cross_border_pattern=inc.o_fields["cross_border_pattern"],
-            coordination_needs=inc.o_fields["coordination_needs"],
             capacity_exceeded=inc.o_fields["capacity_exceeded"],
         )
         y_true.append(inc.expected_o)

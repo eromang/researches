@@ -40,7 +40,6 @@ from generate_incidents import (
     DATA_IMPACTS,
     ENTITY_RELEVANCE,
     CROSS_BORDER,
-    COORDINATION,
     MS_AFFECTED_RANGE,
     CAPACITY_EXCEEDED,
     ENTITIES_RANGE,
@@ -71,11 +70,10 @@ ILLUSTRATIVE_CASES = [
             "data_impact": "none",
         },
         "o_fields": {
-            "sectors_affected": "research",
+            "sectors_affected": 1,
             "entity_relevance": "non_essential",
             "ms_affected": 1,
             "cross_border_pattern": "none",
-            "coordination_needs": "national",
             "capacity_exceeded": False,
         },
         "expected_t": "T1",
@@ -92,11 +90,10 @@ ILLUSTRATIVE_CASES = [
             "data_impact": "none",
         },
         "o_fields": {
-            "sectors_affected": "banking",
+            "sectors_affected": 1,
             "entity_relevance": "essential",
             "ms_affected": 2,
             "cross_border_pattern": "limited",
-            "coordination_needs": "eu_info",
             "capacity_exceeded": False,
         },
         "expected_t": "T2",
@@ -104,7 +101,7 @@ ILLUSTRATIVE_CASES = [
     },
     {
         "name": "Large-scale (T3/O3)",
-        "description": "Ransomware at hospital chain, complete disruption, 4 MS, EU-active coordination",
+        "description": "Ransomware at hospital chain, unavailable services, 4 MS, significant cross-border",
         "t_fields": {
             "service_impact": "unavailable",
             "affected_entities": 25,
@@ -113,11 +110,10 @@ ILLUSTRATIVE_CASES = [
             "data_impact": "exfiltrated",
         },
         "o_fields": {
-            "sectors_affected": "health, digital infrastructure",
+            "sectors_affected": 2,
             "entity_relevance": "high_relevance",
             "ms_affected": 4,
             "cross_border_pattern": "significant",
-            "coordination_needs": "eu_active",
             "capacity_exceeded": True,
         },
         "expected_t": "T3",
@@ -125,7 +121,7 @@ ILLUSTRATIVE_CASES = [
     },
     {
         "name": "Cyber crisis (T4/O4)",
-        "description": "Supply chain compromise of digital infrastructure, sustained disruption, systemic cascade, 8 MS, full IPCR",
+        "description": "Supply chain compromise of digital infrastructure, sustained disruption, systemic cascade, 8 MS",
         "t_fields": {
             "service_impact": "sustained",
             "affected_entities": 150,
@@ -134,11 +130,10 @@ ILLUSTRATIVE_CASES = [
             "data_impact": "systemic",
         },
         "o_fields": {
-            "sectors_affected": "digital infrastructure, energy, transport, banking, health",
+            "sectors_affected": 5,
             "entity_relevance": "systemic",
             "ms_affected": 8,
             "cross_border_pattern": "systemic",
-            "coordination_needs": "full_ipcr",
             "capacity_exceeded": True,
         },
         "expected_t": "T4",
@@ -155,11 +150,10 @@ ILLUSTRATIVE_CASES = [
             "data_impact": "systemic",
         },
         "o_fields": {
-            "sectors_affected": "research",
+            "sectors_affected": 1,
             "entity_relevance": "non_essential",
             "ms_affected": 1,
             "cross_border_pattern": "none",
-            "coordination_needs": "national",
             "capacity_exceeded": False,
         },
         "expected_t": "T4",
@@ -167,7 +161,7 @@ ILLUSTRATIVE_CASES = [
     },
     {
         "name": "Asymmetric low-T/high-O (T1/O4)",
-        "description": "Minor phishing at systemic digital infrastructure provider, 7 MS, full IPCR (political sensitivity)",
+        "description": "Minor phishing at systemic digital infrastructure provider, 7 MS, systemic cross-border",
         "t_fields": {
             "service_impact": "partial",
             "affected_entities": 1,
@@ -176,11 +170,10 @@ ILLUSTRATIVE_CASES = [
             "data_impact": "none",
         },
         "o_fields": {
-            "sectors_affected": "digital infrastructure",
+            "sectors_affected": 1,
             "entity_relevance": "systemic",
             "ms_affected": 7,
             "cross_border_pattern": "systemic",
-            "coordination_needs": "full_ipcr",
             "capacity_exceeded": True,
         },
         "expected_t": "T1",
@@ -420,7 +413,7 @@ def extract_o_fields_from_text(text: str) -> dict:
         return {}
     fields_str = text[sep_idx + 6:].strip()
     fields = {}
-    keys = ["sectors", "relevance", "ms_affected", "cross_border", "coordination", "capacity_exceeded"]
+    keys = ["sectors", "relevance", "ms_affected", "cross_border", "capacity_exceeded"]
     for i, key in enumerate(keys):
         start = fields_str.find(f"{key}:")
         if start < 0:
@@ -478,11 +471,10 @@ def evaluate_o_model(
 
         result = o_model.predict(
             description=description,
-            sectors_affected=fields.get("sectors", ""),
+            sectors_affected=int(fields.get("sectors", "1")),
             entity_relevance=fields.get("relevance", "non_essential"),
             ms_affected=int(fields.get("ms_affected", "1")),
             cross_border_pattern=fields.get("cross_border", "none"),
-            coordination_needs=fields.get("coordination", "national"),
             capacity_exceeded=fields.get("capacity_exceeded", "false").lower() == "true",
         )
         y_true.append(sample["label"])

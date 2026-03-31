@@ -38,7 +38,7 @@ def test_t_dataset_defaults_weight_to_1(sample_tokenizer):
 
 
 def test_o_dataset_returns_weight_when_present(sample_tokenizer):
-    texts = ["test text [SEP] sectors: health relevance: essential ms_affected: 1 cross_border: none coordination: national capacity_exceeded: false"]
+    texts = ["test text [SEP] sectors: 1 relevance: essential ms_affected: 1 cross_border: none capacity_exceeded: false"]
     labels = [0]
     weights = [0.8]
     ds = OCVEDataset(texts, labels, sample_tokenizer, weights=weights)

@@ -15,7 +15,6 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 VALID_ENTITY_RELEVANCE = {"non_essential", "essential", "high_relevance", "systemic"}
 VALID_CROSS_BORDER = {"none", "limited", "significant", "systemic"}
-VALID_COORDINATION = {"national", "eu_info", "eu_active", "full_ipcr"}
 
 O_LABEL_MAP = {0: "O1", 1: "O2", 2: "O3", 3: "O4"}
 
@@ -69,11 +68,10 @@ class OperationalClassifier:
     @staticmethod
     def format_input(
         description: str,
-        sectors_affected: str = "",
+        sectors_affected: int = 1,
         entity_relevance: str = "non_essential",
         ms_affected: int = 1,
         cross_border_pattern: str = "none",
-        coordination_needs: str = "national",
         capacity_exceeded: bool = False,
     ) -> str:
         """Format input fields as all-as-text for the model."""
@@ -83,24 +81,22 @@ class OperationalClassifier:
             f"relevance: {entity_relevance} "
             f"ms_affected: {ms_affected} "
             f"cross_border: {cross_border_pattern} "
-            f"coordination: {coordination_needs} "
             f"capacity_exceeded: {str(capacity_exceeded).lower()}"
         )
 
     def predict(
         self,
         description: str,
-        sectors_affected: str = "",
+        sectors_affected: int = 1,
         entity_relevance: str = "non_essential",
         ms_affected: int = 1,
         cross_border_pattern: str = "none",
-        coordination_needs: str = "national",
         capacity_exceeded: bool = False,
     ) -> OperationalResult:
         """Classify incident operational severity with MC dropout."""
         text = self.format_input(
             description, sectors_affected, entity_relevance,
-            ms_affected, cross_border_pattern, coordination_needs,
+            ms_affected, cross_border_pattern,
             capacity_exceeded,
         )
         inputs = self.tokenizer(
@@ -125,7 +121,7 @@ class OperationalClassifier:
 
         key_factors = self._extract_key_factors(
             sectors_affected, entity_relevance, ms_affected,
-            cross_border_pattern, coordination_needs, capacity_exceeded,
+            cross_border_pattern, capacity_exceeded,
         )
 
         return OperationalResult(level=level, confidence=confidence, key_factors=key_factors)
@@ -137,11 +133,10 @@ class OperationalClassifier:
 
     @staticmethod
     def _extract_key_factors(
-        sectors_affected: str,
+        sectors_affected: int,
         entity_relevance: str,
         ms_affected: int,
         cross_border_pattern: str,
-        coordination_needs: str,
         capacity_exceeded: bool,
     ) -> list[str]:
         """Extract human-readable key factors from structured fields."""
@@ -152,11 +147,8 @@ class OperationalClassifier:
             factors.append(f"{ms_affected} member states affected")
         if cross_border_pattern in ("significant", "systemic"):
             factors.append(f"{cross_border_pattern} cross-border pattern")
-        if coordination_needs in ("eu_active", "full_ipcr"):
-            factors.append(f"{coordination_needs} coordination")
         if capacity_exceeded:
             factors.append("national capacity exceeded")
-        n_sectors = len([s for s in sectors_affected.split(",") if s.strip()])
-        if n_sectors > 1:
-            factors.append(f"{n_sectors} sectors affected")
+        if sectors_affected > 1:
+            factors.append(f"{sectors_affected} sectors affected")
         return factors

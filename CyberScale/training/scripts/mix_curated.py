@@ -83,7 +83,6 @@ def convert_to_o_csv(
         f"relevance: {of['entity_relevance']} "
         f"ms_affected: {of['ms_affected']} "
         f"cross_border: {of['cross_border_pattern']} "
-        f"coordination: {of['coordination_needs']} "
         f"capacity_exceeded: {str(of['capacity_exceeded']).lower()}"
     )
 
@@ -98,7 +97,6 @@ def convert_to_o_csv(
             f"relevance: {of['entity_relevance']} "
             f"ms_affected: {of['ms_affected']} "
             f"cross_border: {of['cross_border_pattern']} "
-            f"coordination: {of['coordination_needs']} "
             f"capacity_exceeded: {str(of['capacity_exceeded']).lower()}"
         )
         rows.append({"text": para_text, "label": label, "weight": 1.0})

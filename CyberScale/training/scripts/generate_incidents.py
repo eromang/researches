@@ -36,7 +36,6 @@ ENTITIES_RANGE = [1, 1, 2, 2, 3, 3, 5, 8, 10, 12, 25, 55, 150]
 
 ENTITY_RELEVANCE = ["non_essential", "essential", "high_relevance", "systemic"]
 CROSS_BORDER = ["none", "limited", "significant", "systemic"]
-COORDINATION = ["national", "eu_info", "eu_active", "full_ipcr"]
 MS_AFFECTED_RANGE = [1, 1, 1, 1, 1, 2, 3, 5, 8]  # Weight toward 1 MS for O1 coverage
 CAPACITY_EXCEEDED = [False, True]
 
@@ -236,43 +235,49 @@ def assign_t_level(
 # ---------------------------------------------------------------------------
 
 def assign_o_level(
-    coordination: str,
     cross_border: str,
     capacity_exceeded: bool,
     entity_relevance: str,
     ms_affected: int,
     n_sectors: int,
 ) -> str:
-    """Deterministic O-level based on structured fields."""
-    # O4: full_ipcr OR (systemic cross-border + capacity_exceeded)
+    """Deterministic O-level based on structured fields.
+
+    coordination_needs was removed in v4 — O-level is derived from
+    observable cross-border pattern, entity relevance, and capacity.
+    """
+    # O4: (systemic cross-border + capacity_exceeded)
     #     OR (systemic entity + 6+ MS)
-    if coordination == "full_ipcr":
-        return "O4"
+    #     OR (systemic cross-border + systemic entity)
     if cross_border == "systemic" and capacity_exceeded:
         return "O4"
     if entity_relevance == "systemic" and ms_affected >= 6:
         return "O4"
+    if cross_border == "systemic" and entity_relevance == "systemic":
+        return "O4"
 
-    # O3: eu_active OR significant cross-border
+    # O3: significant cross-border
     #     OR (high_relevance + 3+ MS) OR capacity_exceeded
-    if coordination == "eu_active":
-        return "O3"
+    #     OR (systemic entity + 3+ MS)
     if cross_border == "significant":
         return "O3"
     if entity_relevance == "high_relevance" and ms_affected >= 3:
         return "O3"
     if capacity_exceeded:
         return "O3"
+    if entity_relevance == "systemic" and ms_affected >= 3:
+        return "O3"
 
-    # O2: eu_info OR limited cross-border
+    # O2: limited cross-border
     #     OR (essential + 2+ MS) OR 3+ sectors
-    if coordination == "eu_info":
-        return "O2"
+    #     OR (high_relevance + 2+ MS)
     if cross_border == "limited":
         return "O2"
     if entity_relevance == "essential" and ms_affected >= 2:
         return "O2"
     if n_sectors >= 3:
+        return "O2"
+    if entity_relevance == "high_relevance" and ms_affected >= 2:
         return "O2"
 
     # O1: everything else
@@ -305,23 +310,16 @@ def is_valid_t_combination(
 
 def is_valid_o_combination(
     ms_affected: int,
-    coordination: str,
     cross_border: str,
     entity_relevance: str,
     n_sectors: int,
 ) -> bool:
     """Filter invalid O-level field combinations per spec."""
-    # 1 MS + full_ipcr -> skip
-    if ms_affected == 1 and coordination == "full_ipcr":
-        return False
     # non_essential + systemic cross-border -> skip
     if entity_relevance == "non_essential" and cross_border == "systemic":
         return False
     # 1 MS + significant/systemic cross-border -> skip
     if ms_affected == 1 and cross_border in ("significant", "systemic"):
-        return False
-    # Single MS with eu_active is unlikely
-    if ms_affected == 1 and coordination == "eu_active":
         return False
     return True
 
@@ -405,27 +403,23 @@ def generate_o_samples(
     template_count = len(BASE_TEMPLATES)
 
     combos = list(itertools.product(
-        ENTITY_RELEVANCE, CROSS_BORDER, COORDINATION,
+        ENTITY_RELEVANCE, CROSS_BORDER,
         MS_AFFECTED_RANGE, CAPACITY_EXCEEDED, SECTORS_AFFECTED_RANGE,
     ))
     rng.shuffle(combos)
 
-    for relevance, cross_border, coordination, ms_affected, cap_exceeded, n_sectors in combos:
-        if not is_valid_o_combination(ms_affected, coordination, cross_border, relevance, n_sectors):
+    for relevance, cross_border, ms_affected, cap_exceeded, n_sectors in combos:
+        if not is_valid_o_combination(ms_affected, cross_border, relevance, n_sectors):
             continue
 
         o_level = assign_o_level(
-            coordination, cross_border, cap_exceeded, relevance, ms_affected, n_sectors,
+            cross_border, cap_exceeded, relevance, ms_affected, n_sectors,
         )
 
         sector = rng.choice(SECTORS)
-        sectors_str = sector.replace("_", " ")
-        if n_sectors > 1:
-            extra = rng.sample([s for s in SECTORS if s != sector], min(n_sectors - 1, len(SECTORS) - 1))
-            sectors_str = ", ".join(s.replace("_", " ") for s in [sector] + extra[:n_sectors - 1])
 
         # Pick template
-        tmpl_idx = hash((relevance, cross_border, coordination, ms_affected, cap_exceeded)) % template_count
+        tmpl_idx = hash((relevance, cross_border, ms_affected, cap_exceeded)) % template_count
         # Use a generic service_impact/entities for the description (non-trigger scenarios)
         svc_impact_word = rng.choice(["partial", "degraded", "unavailable", "sustained"])
         entities_count = rng.choice([1, 5, 12, 25, 55])
@@ -444,7 +438,7 @@ def generate_o_samples(
         # For O1 scenarios, also emit descriptions from low-severity templates
         # to ensure sufficient raw sample count (O1 combos are naturally sparse)
         if o_level == "O1":
-            ls_tmpl_idx = hash((relevance, cross_border, coordination, ms_affected, cap_exceeded, "low")) % len(LOW_SEVERITY_TEMPLATES)
+            ls_tmpl_idx = hash((relevance, cross_border, ms_affected, cap_exceeded, "low")) % len(LOW_SEVERITY_TEMPLATES)
             ls_desc = _fill_template(
                 LOW_SEVERITY_TEMPLATES[ls_tmpl_idx],
                 sector, svc_impact_word, entities_count, n_sectors, cascading_word, data_impact_word,
@@ -456,11 +450,10 @@ def generate_o_samples(
         for desc in descriptions:
             text = (
                 f"{desc} [SEP] "
-                f"sectors: {sectors_str} "
+                f"sectors: {n_sectors} "
                 f"relevance: {relevance} "
                 f"ms_affected: {ms_affected} "
                 f"cross_border: {cross_border} "
-                f"coordination: {coordination} "
                 f"capacity_exceeded: {str(cap_exceeded).lower()}"
             )
             all_samples.append({"text": text, "label": o_level})

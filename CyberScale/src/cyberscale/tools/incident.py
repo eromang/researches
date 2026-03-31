@@ -66,11 +66,10 @@ def _classify_technical(
 def _classify_operational(
     clf,
     description: str,
-    sectors_affected: str,
+    sectors_affected: int,
     entity_relevance: str,
     ms_affected: int,
     cross_border_pattern: str,
-    coordination_needs: str,
     capacity_exceeded: bool,
 ) -> dict:
     """Classify operational severity using the O-model."""
@@ -80,7 +79,6 @@ def _classify_operational(
         entity_relevance=entity_relevance,
         ms_affected=ms_affected,
         cross_border_pattern=cross_border_pattern,
-        coordination_needs=coordination_needs,
         capacity_exceeded=capacity_exceeded,
     )
     return result.to_dict()
@@ -172,11 +170,10 @@ def register(mcp: FastMCP) -> None:
     @mcp.tool(annotations={"readOnlyHint": True})
     def classify_incident_operational(
         description: str,
-        sectors_affected: str = "",
-        entity_relevance: str = "non-essential",
+        sectors_affected: int = 1,
+        entity_relevance: str = "non_essential",
         ms_affected: int = 1,
         cross_border_pattern: str = "none",
-        coordination_needs: str = "national",
         capacity_exceeded: bool = False,
     ) -> dict:
         """Classify incident operational severity (O1-O4)."""
@@ -185,7 +182,7 @@ def register(mcp: FastMCP) -> None:
             return {"error": "No trained model available. Deploy a model to data/models/operational/."}
         return _classify_operational(
             clf, description, sectors_affected, entity_relevance,
-            ms_affected, cross_border_pattern, coordination_needs,
+            ms_affected, cross_border_pattern,
             capacity_exceeded,
         )
 
