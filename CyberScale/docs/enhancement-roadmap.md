@@ -358,131 +358,59 @@ Single entity assesses one incident. Input: entity context + observed impact. Ou
 
 ---
 
-### Authority-facing tools (Phase 3 + Matrix)
+### Authority-facing tools (Aggregation + O-model + Matrix)
 
-Phase 3 is used by the **competent authority or CSIRT** after receiving multiple entity early warnings and incident notifications. The authority aggregates reports to determine EU-level classification.
+The authority receives entity notifications and classifies the incident at EU level. **Phase 3T is eliminated** — the T-level becomes a deterministic derivation in the aggregation layer, because all T-level inputs (service_impact, data_impact, affected_entities, sectors, cascading) are observable facts that map mechanically to T1-T4.
 
-#### 5. Multi-entity incident classification
+Phase 3O (operational severity) remains as an ML model because operational severity requires **judgment** — the same entity count and MS count can warrant different O-levels depending on entity relevance, financial impact, and safety consequences.
 
-The authority receives notifications from multiple entities about the same incident. Phase 3 aggregates these into a single classification.
+#### 5. Aggregation layer (replaces Phase 3T)
 
-**Input: multiple entity notifications (from Phase 2 incident mode outputs)**
+The authority feeds entity notifications into the aggregation layer, which:
+1. Computes worst-case/counts/sums from entity reports
+2. **Derives T-level deterministically** (no ML model)
+3. Feeds O-model inputs
 
-```json
-{
-  "description": "Supply chain compromise of cloud provider software update",
-  "entities": [
-    {
-      "entity_type": "cloud_computing_provider",
-      "sector": "digital_infrastructure",
-      "entity_affected": true,
-      "service_impact": "unavailable",
-      "data_impact": "compromised",
-      "unavailability_duration_min": 45,
-      "ms_established": "LU",
-      "ms_affected": ["LU", "DE", "BE"]
-    },
-    {
-      "entity_type": "healthcare_provider",
-      "sector": "health",
-      "entity_affected": true,
-      "service_impact": "degraded",
-      "data_impact": "none",
-      "ms_established": "DE",
-      "ms_affected": ["DE"]
-    },
-    {
-      "entity_type": "credit_institution",
-      "sector": "banking",
-      "entity_affected": false,
-      "service_impact": "none",
-      "data_impact": "none",
-      "ms_established": "FR",
-      "ms_affected": []
-    }
-  ]
-}
-```
+**T-level derivation rules (deterministic):**
 
-**Phase 2 incident mode outputs (received by authority):**
+| T-level | Condition |
+|---|---|
+| T4 | `service_impact` = sustained OR `data_impact` = systemic OR (unavailable + uncontrolled cascading) |
+| T3 | `service_impact` = unavailable OR `data_impact` = exfiltrated OR cross_sector cascading OR entities > 50 |
+| T2 | `service_impact` = degraded OR `data_impact` = accessed OR limited cascading OR entities > 10 |
+| T1 | Everything else |
 
-```json
-{
-  "entity_results": [
-    {
-      "entity_type": "cloud_computing_provider",
-      "model": "IR",
-      "severity": "Critical",
-      "significant_incident": true,
-      "triggered_criteria": ["Art. 7: unavailability > 30min"]
-    },
-    {
-      "entity_type": "healthcare_provider",
-      "model": "NIS2",
-      "severity": "High",
-      "reporting_hint": "Monitor — service degraded at essential entity"
-    },
-    {
-      "entity_type": "credit_institution",
-      "model": "NIS2",
-      "severity": "Low",
-      "reporting_hint": null
-    }
-  ]
-}
-```
+These are the same rules that were used to generate Phase 3T training data — the model simply learned them. A deterministic lookup is faster, 100% predictable, and has no model to maintain.
 
-**Phase 3 inputs: fully derived from Phase 2 aggregation (unified taxonomy)**
+**Full aggregation output:**
 
-**Phase 3T (technical severity) — aggregated technical damage:**
+| Field | Aggregation rule | Destination | Example |
+|---|---|---|---|
+| `service_impact` | Worst-case (+ duration → sustained) | T-level derivation | "unavailable" |
+| `data_impact` | Worst-case | T-level derivation | "compromised" |
+| `affected_entities` | Count where entity_affected=true | T-level + O-model | 2 |
+| `sectors_affected` | Count distinct sectors | T-level + O-model | 2 |
+| `cascading` | Derived from sectors count | T-level derivation | "cross_sector" |
+| **`t_level`** | **Deterministic from above** | **Matrix** | **T3** |
+| `entity_relevance` | Highest (from entity_type mapping) | O-model | "essential" |
+| `ms_affected` | Count distinct MS from ms_affected[] union | O-model | 3 |
+| `cross_border_pattern` | Derived from MS count | O-model | "significant" |
+| `financial_impact` | Worst-case | O-model | "severe" |
+| `safety_impact` | Worst-case | O-model | "health_risk" |
+| `affected_persons_count` | Sum | O-model | 50500 |
+| `capacity_exceeded` | Heuristic | O-model | false |
 
-| Phase 3T field | Aggregation rule | Example |
-|---|---|---|
-| `service_impact` | Worst-case across affected entities (+ duration → sustained) | "unavailable" |
-| `data_impact` | Worst-case across affected entities | "compromised" |
-| `affected_entities` | Count where entity_affected=true | 2 |
-| `sectors_affected` | Count distinct sectors with affected entities | 2 |
-| `cascading` | 1 sector=none/limited, 2+=cross_sector | "cross_sector" |
+#### 6. O-model retrain
 
-**Phase 3O (operational severity) — aggregated consequence + scope:**
+The O-model is the **only remaining ML model** in the authority pipeline. It predicts operational severity from consequence and scope indicators that require judgment.
 
-| Phase 3O field | Aggregation rule | Example |
-|---|---|---|
-| `entity_relevance` | Highest relevance (from entity_type mapping) | "essential" |
-| `ms_affected` | Count distinct MS in union of all ms_affected[] | 3 |
-| `cross_border_pattern` | 1 MS=none, 2=limited, 3-5=significant, 6+=systemic | "significant" |
-| `financial_impact` | Worst-case across affected entities | "significant" |
-| `safety_impact` | Worst-case across affected entities | "health_risk" |
-| `affected_persons_count` | Sum across affected entities | 15000 |
-| `capacity_exceeded` | Heuristic: entities>50 AND ms>=3 → true | false |
+**O-model inputs (v4):**
 
-**Note:** `coordination_needs` is NOT an input — it's an output of the Blueprint Matrix.
-
-**Zero mandatory analyst inputs.** Everything is derived. Analyst can override any field if the defaults are wrong.
-
-**Effort:** High — multi-entity schema, aggregation logic, entity_type → entity_relevance mapping, per-entity routing.
-
-#### 6. Phase 3 retrain (T-model + O-model)
-
-**T-model changes:**
-- Rename `service_disruption` → `service_impact` (unified taxonomy)
-- Rename `data_compromise` → `data_impact` (unified taxonomy)
-- Values aligned: none/partial/degraded/unavailable/sustained (service), none/accessed/exfiltrated/compromised/systemic (data)
-- No new fields — T-model stays focused on technical damage
-
-**O-model changes:**
-- Remove `coordination_needs` (circular — is a matrix output)
-- Add `financial_impact` (none/minor/significant/severe)
-- Add `safety_impact` (none/health_risk/health_damage/death)
-- Add `affected_persons_count` (int)
-- These give the O-model the **consequence dimension** NIS2 requires
-
-**Revised O-model inputs (v4):**
-
-| Input | Source | New? |
+| Input | Source | Change from v3 |
 |---|---|---|
 | `description` | Enriched with entity summaries | Existing |
-| `sectors_affected` | Aggregated from Phase 2 | Existing |
+| `affected_entities` | Aggregated count | **New** (was only in T-model) |
+| `sectors_affected` | Aggregated count (int, not str) | **Type fixed** |
 | `entity_relevance` | From entity_type mapping | Existing |
 | `ms_affected` | From ms_affected[] union | Existing |
 | `cross_border_pattern` | Derived from ms_affected count | Existing |
@@ -491,25 +419,24 @@ The authority receives notifications from multiple entities about the same incid
 | `safety_impact` | Aggregated worst-case | **New** |
 | `affected_persons_count` | Aggregated sum | **New** |
 
-Removed: `coordination_needs` (was circular).
+**Removed:** `coordination_needs` (matrix output, not input).
+**Added:** `financial_impact`, `safety_impact`, `affected_persons_count`, `affected_entities`.
 
-**Effort:** Medium — retrain both models with unified taxonomy + new O-model fields + regenerate training data.
+**Effort:** Medium — retrain O-model with new fields, regenerate training data. T-model eliminated.
 
 #### 7. `assess_incident` MCP tool (authority-facing)
 
-Authority tool: accepts entity notifications + incident description → aggregation → Phase 3 → matrix classification + coordination level:
+Authority tool: entity notifications → aggregation (with deterministic T-level) → O-model → matrix → classification + coordination:
 
 ```
 assess_incident(
     description="Supply chain compromise of cloud provider software update",
-    cwe="CWE-494",
     entities=[
         {entity_type: "cloud_computing_provider", sector: "digital_infrastructure",
          entity_affected: true,
          service_impact: "unavailable", data_impact: "compromised",
          financial_impact: "severe", safety_impact: "none",
          impact_duration_hours: 2, affected_persons_count: 50000,
-         unavailability_duration_min: 45, malicious_access: true,
          ms_established: "LU", ms_affected: ["LU", "DE", "BE"]},
         {entity_type: "healthcare_provider", sector: "health",
          entity_affected: true,
@@ -521,48 +448,41 @@ assess_incident(
 )
 ```
 
-**Output (unified taxonomy throughout):**
+**Output:**
 
 ```json
 {
-  "phase1": {"score": 8.5, "band": "High"},
   "phase2": {
     "entity_results": [
       {"entity_type": "cloud_computing_provider", "model": "IR",
        "severity": "Critical", "significant_incident": true,
-       "triggered_criteria": ["Art. 7: unavailability > 30min",
-                              "Art. 3(1)(a): malicious access"]},
+       "triggered_criteria": ["Art. 7: unavailability > 30min"]},
       {"entity_type": "healthcare_provider", "model": "NIS2",
        "severity": "High",
        "reporting_hint": "Service degraded at essential entity, health risk"}
     ]
   },
   "aggregation": {
-    "phase3t_inputs": {
-      "service_impact": "unavailable",
-      "data_impact": "compromised",
-      "affected_entities": 2,
-      "sectors_affected": 2,
-      "cascading": "cross_sector"
-    },
-    "phase3o_inputs": {
-      "entity_relevance": "essential",
-      "ms_affected": 3,
-      "ms_list": ["LU", "DE", "BE"],
-      "cross_border_pattern": "significant",
-      "financial_impact": "severe",
-      "safety_impact": "health_risk",
-      "affected_persons_count": 50500,
-      "capacity_exceeded": false
-    }
+    "service_impact": "unavailable",
+    "data_impact": "compromised",
+    "affected_entities": 2,
+    "sectors_affected": 2,
+    "cascading": "cross_sector",
+    "t_level": "T3",
+    "t_level_basis": "unavailable + compromised + cross_sector cascading",
+    "entity_relevance": "essential",
+    "ms_affected": 3,
+    "cross_border_pattern": "significant",
+    "financial_impact": "severe",
+    "safety_impact": "health_risk",
+    "affected_persons_count": 50500,
+    "capacity_exceeded": false
   },
-  "phase3": {
-    "technical": {"level": "T3", "key_factors": ["unavailable service impact",
-                  "compromised data", "2 entities", "cross_sector cascading"]},
-    "operational": {"level": "O3", "key_factors": ["essential entity",
-                    "3 member states", "significant cross-border",
-                    "severe financial impact", "health_risk safety impact",
-                    "50500 persons affected"]}
+  "operational": {
+    "level": "O3",
+    "key_factors": ["essential entity", "3 member states",
+                    "significant cross-border", "severe financial impact",
+                    "health_risk", "50500 persons affected"]
   },
   "matrix": {
     "classification": "large_scale",
@@ -573,9 +493,12 @@ assess_incident(
 }
 ```
 
-**Key design principle:** `coordination` is in the matrix output, not the input. The pipeline determines coordination needs — the analyst doesn't pre-select them.
+**Key design principles:**
+- T-level is in `aggregation` (deterministic), not a separate `phase3.technical` section
+- `coordination` is in the matrix output, not an input
+- O-level is the only ML prediction in the authority pipeline
 
-**Effort:** High — new MCP tool with multi-entity orchestration, aggregation, and full pipeline chaining.
+**Effort:** High — new MCP tool with multi-entity orchestration, aggregation, and O-model inference.
 
 ---
 
@@ -590,9 +513,9 @@ Based on impact/effort ratio and the Phase 1 accuracy gap:
 | 3 | IR/NIS2 model split + router | Entity | Regulatory-aligned, quantitative for IR entities |
 | 4 | IR threshold reference data | Entity | Definitive significant_incident for digital entities |
 | 5 | `assess_entity_incident` MCP tool | Entity | Single-entity incident assessment + early warning |
-| 6 | Remove coordination_needs from O-model + retrain | Authority | Fixes circular dependency |
-| 7 | Multi-entity aggregation from entity reports | Authority | Aggregate notifications → Phase 3 inputs |
-| 8 | `assess_incident` MCP tool | Authority | Multi-notification → classification + coordination |
+| 6 | Eliminate T-model → deterministic T-level in aggregation | Authority | Simpler, faster, 100% predictable |
+| 7 | O-model retrain (remove coordination_needs, add consequence dims) | Authority | Fixes circularity + adds financial/safety/persons |
+| 8 | `assess_incident` MCP tool | Authority | Multi-notification → aggregation → O-model → matrix |
 | 9 | CVSS vector multi-task | Entity | +5-10pp Phase 1 accuracy |
 | 10 | Expand curated incidents to 100+ | Authority | Phase 3 benchmark reliability |
 
