@@ -151,16 +151,35 @@ Reference data: `data/reference/nis2_entity_types.json`
 
 ---
 
-## v4 — Incident-Aware Multi-Entity Pipeline
+## v4 — Entity/Authority Separation + NIS2 Incident Support
 
-v4 addresses three architectural gaps:
+v4 reframes CyberScale around two distinct user perspectives aligned with NIS2 roles:
+
+- **Entity perspective (Phase 1 + 2):** "Is this a significant incident? Should I send an early warning?"
+- **Authority perspective (Phase 3 + Matrix):** "What is the EU-level classification? What coordination is needed?"
+
+This addresses four architectural gaps:
 1. Phase 2 has no awareness of whether the entity is actually affected
-2. Phase 3 has no automated link from Phase 2
-3. `coordination_needs` is an input to Phase 3 O-model but is actually an **output** of the Blueprint Matrix — a circular dependency
+2. Phase 3 is used as an entity tool but is actually an authority tool (aggregates multiple entity reports)
+3. `coordination_needs` is an input to Phase 3 O-model but is actually an **output** of the Blueprint Matrix
+4. Impact taxonomy is inconsistent between Phase 2 and Phase 3
+
+### Architecture: who uses what
+
+| Stage | Timing | CyberScale tool | User | NIS2 role | Question |
+|---|---|---|---|---|---|
+| Pre-incident | Before exploitation | Phase 1 + Phase 2 (vulnerability mode) | Entity / analyst | Risk assessment | "How severe is this CVE in our deployment?" |
+| Early warning | 0-24h | Phase 2 (incident mode) | **Entity** | Art. 23(4)(a) notifier | "Is this significant? Should I notify?" |
+| Incident notification | 24-72h | Phase 2 (updated assessment) | **Entity** | Art. 23(4)(b) notifier | "Updated assessment with more data" |
+| Crisis classification | 72h+ | **Phase 3 + Matrix** | **Authority / CSIRT** | NIS2 Art. 14-16 | "What is the EU-level response?" |
+
+Phase 2 and Phase 3 do **not chain automatically**. The authority manually feeds entity reports into Phase 3.
 
 ### Design corrections
 
-**1. Remove `coordination_needs` from Phase 3 O-model inputs.** Coordination level is determined by the matrix classification, not the other way around:
+**1. Entity/authority separation.** Phase 2 is entity-facing (single entity, single incident, "should I report?"). Phase 3 is authority-facing (multiple entity notifications aggregated, "what coordination level?"). The `assess_incident` MCP tool is an authority tool, not an entity tool.
+
+**2. Remove `coordination_needs` from Phase 3 O-model inputs.** Coordination is determined by the matrix output:
 
 | Matrix result | Coordination (output, not input) |
 |---|---|
@@ -169,15 +188,15 @@ v4 addresses three architectural gaps:
 | Large-scale | EU-CyCLONe activated (NIS2 Art. 16) |
 | Cyber crisis | IPCR activated (Council level) |
 
-**2. Replace `cross_border` boolean with concrete MS geography.** Per entity:
-- `ms_established` (str) — where entity is established
-- `ms_affected` (list[str]) — where entity's services are impacted
+**3. Replace `cross_border` boolean with concrete MS geography.** Per entity: `ms_established` (str) + `ms_affected` (list[str]).
 
-**3. Align impact taxonomy across Phase 2 and Phase 3.** Currently Phase 2 and Phase 3 use different terms for the same concepts (`degraded` vs `significant`, `exfiltrated` vs `sensitive`). v4 uses a single shared taxonomy — same field names, same values — so the aggregation layer is a pass-through, not a translation.
+**4. Unified impact taxonomy across Phase 2 and Phase 3.** Same field names and values — no translation between phases.
 
-**4. Add consequence dimensions to Phase 3 O-model.** The O-model currently has no impact inputs — only entity/sector/MS fields. Adding financial, safety, and affected persons gives it the consequence dimension NIS2 requires.
+**5. Phase 2 works in two modes** aligned with NIS2 reporting phases. Optional fields default to `none` — early warning mode has fewer fields populated.
 
-### 1. Unified impact taxonomy
+### Entity-facing tools (Phase 1 + 2)
+
+#### 1. Unified impact taxonomy
 
 All phases use the same field names and values. Six impact dimensions aligned with NIS2 Art. 23(3) and Implementing Regulation (EU) 2024/2690:
 
@@ -277,11 +296,77 @@ Create `data/reference/ir_incident_thresholds.json` with per-entity-type thresho
 
 **Effort:** Low — structured extraction from existing vault reference data.
 
-### 4. Multi-entity incident model
+#### 4. Phase 2 incident mode + early warning recommendation
 
-A single incident can affect multiple entities with different impact levels. Phase 2 runs **once per entity** (routed IR/NIS2). Phase 3 inputs are **fully derived** from Phase 2 results — no analyst input required for structured fields.
+Phase 2 operates in two modes based on available information:
 
-**Phase 2 input: list of entity assessments**
+| Mode | Timing | Minimum inputs | Output |
+|---|---|---|---|
+| **Vulnerability** | Pre-incident | description, sector, entity_type, score | Contextual severity |
+| **Incident** | 0-24h+ | description, sector, entity_type, entity_affected=true, service_impact | Severity + significant_incident assessment + early warning recommendation |
+
+Both modes use the same model — optional fields default to `none`. Incident mode simply has impact fields populated.
+
+**Incident mode output:**
+
+For IR entities (definitive — quantitative thresholds):
+```json
+{
+  "severity": "Critical",
+  "significant_incident": true,
+  "basis": "IR Art. 7: cloud service unavailable > 30 min",
+  "early_warning": {
+    "recommended": true,
+    "deadline": "24h from becoming aware",
+    "required_content": {
+      "suspected_malicious": true,
+      "cross_border_impact": true,
+      "cross_border_ms": ["LU", "DE", "BE"]
+    },
+    "next_step": "Incident notification within 72h with initial assessment + IoCs"
+  }
+}
+```
+
+For NIS2 entities (advisory — qualitative criteria):
+```json
+{
+  "severity": "Critical",
+  "significant_incident": "likely",
+  "basis": "Art. 23(3)(a): service unavailable at essential entity",
+  "early_warning": {
+    "recommended": true,
+    "deadline": "24h from becoming aware",
+    "required_content": {
+      "suspected_malicious": true,
+      "cross_border_impact": false
+    },
+    "advisory": "Consult competent authority if uncertain"
+  }
+}
+```
+
+Key distinction:
+- IR entities: `significant_incident: true/false` (definitive)
+- NIS2 entities: `significant_incident: "likely"/"unlikely"/"uncertain"` (advisory — final determination by competent authority)
+
+**`assess_entity_incident` MCP tool (entity-facing):**
+
+Single entity assesses one incident. Input: entity context + observed impact. Output: significant_incident assessment + early warning recommendation.
+
+**Effort:** Medium — incident mode training data, early warning output logic, new MCP tool.
+
+---
+
+### Authority-facing tools (Phase 3 + Matrix)
+
+Phase 3 is used by the **competent authority or CSIRT** after receiving multiple entity early warnings and incident notifications. The authority aggregates reports to determine EU-level classification.
+
+#### 5. Multi-entity incident classification
+
+The authority receives notifications from multiple entities about the same incident. Phase 3 aggregates these into a single classification.
+
+**Input: multiple entity notifications (from Phase 2 incident mode outputs)**
 
 ```json
 {
@@ -319,7 +404,7 @@ A single incident can affect multiple entities with different impact levels. Pha
 }
 ```
 
-**Phase 2 output: per-entity results**
+**Phase 2 incident mode outputs (received by authority):**
 
 ```json
 {
@@ -377,7 +462,7 @@ A single incident can affect multiple entities with different impact levels. Pha
 
 **Effort:** High — multi-entity schema, aggregation logic, entity_type → entity_relevance mapping, per-entity routing.
 
-### 5. Phase 3 retrain (T-model + O-model)
+#### 6. Phase 3 retrain (T-model + O-model)
 
 **T-model changes:**
 - Rename `service_disruption` → `service_impact` (unified taxonomy)
@@ -410,9 +495,9 @@ Removed: `coordination_needs` (was circular).
 
 **Effort:** Medium — retrain both models with unified taxonomy + new O-model fields + regenerate training data.
 
-### 6. `assess_incident` MCP tool
+#### 7. `assess_incident` MCP tool (authority-facing)
 
-Single MCP tool: vulnerability description + entity list → full pipeline → matrix classification + coordination level:
+Authority tool: accepts entity notifications + incident description → aggregation → Phase 3 → matrix classification + coordination level:
 
 ```
 assess_incident(
@@ -498,18 +583,18 @@ assess_incident(
 
 Based on impact/effort ratio and the Phase 1 accuracy gap:
 
-| Priority | Enhancement | Phase | Expected gain |
-|----------|-------------|-------|---------------|
-| 1 | Remove coordination_needs from O-model + retrain | 3 | Fixes circular dependency |
-| 2 | Replace cross_border bool with ms_established + ms_affected | 2 | Concrete geography, derived cross_border_pattern |
-| 3 | Impact inputs + IR/NIS2 model split + router | 2 | Incident-aware Phase 2, regulatory-aligned |
-| 4 | IR threshold reference data | 2 | Quantitative significant_incident for digital entities |
-| 5 | Multi-entity aggregation | 2+3 | Per-entity assessment, fully derived Phase 3 inputs |
-| 6 | `assess_incident` MCP tool | All | Multi-entity end-to-end pipeline |
-| 7 | CVSS vector multi-task | 1 | +5-10pp (biggest accuracy gap) |
-| 8 | Product/vendor signal | 1 | +3-5pp |
-| 9 | LLM description augmentation | 3 | Robustness |
-| 10 | Expand curated incidents to 100+ | 3 | Benchmark reliability |
+| Priority | Enhancement | User | Expected gain |
+|----------|-------------|------|---------------|
+| 1 | Unified impact taxonomy (6 dimensions) | Both | Coherent data flow between phases |
+| 2 | Phase 2 incident mode + early warning recommendation | Entity | NIS2 Art. 23 compliance support |
+| 3 | IR/NIS2 model split + router | Entity | Regulatory-aligned, quantitative for IR entities |
+| 4 | IR threshold reference data | Entity | Definitive significant_incident for digital entities |
+| 5 | `assess_entity_incident` MCP tool | Entity | Single-entity incident assessment + early warning |
+| 6 | Remove coordination_needs from O-model + retrain | Authority | Fixes circular dependency |
+| 7 | Multi-entity aggregation from entity reports | Authority | Aggregate notifications → Phase 3 inputs |
+| 8 | `assess_incident` MCP tool | Authority | Multi-notification → classification + coordination |
+| 9 | CVSS vector multi-task | Entity | +5-10pp Phase 1 accuracy |
+| 10 | Expand curated incidents to 100+ | Authority | Phase 3 benchmark reliability |
 
 ---
 
