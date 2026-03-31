@@ -29,9 +29,9 @@ print = partial(print, flush=True)
 # Structured field value sets
 # ---------------------------------------------------------------------------
 
-DISRUPTIONS = ["partial", "significant", "complete", "sustained"]
+SERVICE_IMPACTS = ["none", "partial", "degraded", "unavailable", "sustained"]
 CASCADING = ["none", "limited", "cross_sector", "uncontrolled"]
-DATA_COMPROMISE = ["none", "operational", "sensitive", "systemic"]
+DATA_IMPACTS = ["none", "accessed", "exfiltrated", "compromised", "systemic"]
 ENTITIES_RANGE = [1, 1, 2, 2, 3, 3, 5, 8, 10, 12, 25, 55, 150]
 
 ENTITY_RELEVANCE = ["non_essential", "essential", "high_relevance", "systemic"]
@@ -131,7 +131,7 @@ SYNONYMS = {
     "attack": ["incident", "breach", "intrusion", "compromise"],
     "targeting": ["affecting", "impacting", "directed at", "hitting"],
     "causing": ["resulting in", "leading to", "producing", "triggering"],
-    "disruption": ["outage", "degradation", "interruption", "impairment"],
+    "impact": ["outage", "degradation", "interruption", "impairment"],
     "affecting": ["impacting", "involving", "touching", "reaching"],
     "organizations": ["entities", "institutions", "operators", "providers"],
     "systems": ["infrastructure", "platforms", "services", "networks"],
@@ -169,20 +169,20 @@ def _paraphrase(text: str, variant: int, rng: random.Random) -> str:
 def _fill_template(
     template: str,
     sector: str,
-    disruption: str,
+    service_impact: str,
     entities: int,
     n_sectors: int,
     cascading: str,
-    data_comp: str,
+    data_impact: str,
 ) -> str:
     """Fill a base template with field values."""
     return template.format(
         sector=sector.replace("_", " "),
-        disruption=disruption,
+        disruption=service_impact,
         entities=entities,
         n_sectors=n_sectors,
         cascading=cascading.replace("_", " "),
-        data_comp=data_comp.replace("_", " "),
+        data_comp=data_impact.replace("_", " "),
     )
 
 
@@ -191,41 +191,43 @@ def _fill_template(
 # ---------------------------------------------------------------------------
 
 def assign_t_level(
-    disruption: str,
-    data_compromise: str,
+    service_impact: str,
+    data_impact: str,
     cascading: str,
     entities: int,
 ) -> str:
     """Deterministic T-level based on structured fields."""
-    # T4: sustained OR systemic data OR (complete + uncontrolled)
-    if disruption == "sustained":
+    # T4: sustained OR systemic data OR (unavailable + uncontrolled)
+    if service_impact == "sustained":
         return "T4"
-    if data_compromise == "systemic":
+    if data_impact == "systemic":
         return "T4"
-    if disruption == "complete" and cascading == "uncontrolled":
+    if service_impact == "unavailable" and cascading == "uncontrolled":
         return "T4"
 
-    # T3: complete OR sensitive data OR cross_sector cascading OR entities > 50
-    if disruption == "complete":
+    # T3: unavailable OR exfiltrated data OR cross_sector cascading OR entities > 50
+    if service_impact == "unavailable":
         return "T3"
-    if data_compromise == "sensitive":
+    if data_impact == "exfiltrated":
         return "T3"
     if cascading == "cross_sector":
         return "T3"
     if entities > 50:
         return "T3"
 
-    # T2: significant OR operational data OR limited cascading OR entities > 10
-    if disruption == "significant":
+    # T2: degraded OR accessed data OR compromised data OR limited cascading OR entities > 10
+    if service_impact == "degraded":
         return "T2"
-    if data_compromise == "operational":
+    if data_impact == "accessed":
+        return "T2"
+    if data_impact == "compromised":
         return "T2"
     if cascading == "limited":
         return "T2"
     if entities > 10:
         return "T2"
 
-    # T1: everything else
+    # T1: everything else (none, partial service_impact + none data_impact)
     return "T1"
 
 
@@ -282,9 +284,9 @@ def assign_o_level(
 # ---------------------------------------------------------------------------
 
 def is_valid_t_combination(
-    disruption: str,
+    service_impact: str,
     cascading: str,
-    data_compromise: str,
+    data_impact: str,
     entities: int,
     n_sectors: int,
 ) -> bool:
@@ -292,8 +294,8 @@ def is_valid_t_combination(
     # No cascading but many sectors makes little sense
     if cascading == "none" and n_sectors > 3:
         return False
-    # Partial disruption with uncontrolled cascading is unlikely
-    if disruption == "partial" and cascading == "uncontrolled":
+    # None/partial service impact with uncontrolled cascading is unlikely
+    if service_impact in ("none", "partial") and cascading == "uncontrolled":
         return False
     # Single entity with cross-sector or uncontrolled cascading
     if entities == 1 and cascading in ("cross_sector", "uncontrolled"):
@@ -340,25 +342,25 @@ def generate_t_samples(
 
     # Iterate over a sampled subset of combinations to keep generation tractable
     combos = list(itertools.product(
-        DISRUPTIONS, CASCADING, DATA_COMPROMISE, ENTITIES_RANGE, SECTORS_AFFECTED_RANGE,
+        SERVICE_IMPACTS, CASCADING, DATA_IMPACTS, ENTITIES_RANGE, SECTORS_AFFECTED_RANGE,
     ))
     rng.shuffle(combos)
 
-    for disruption, cascading, data_comp, entities, n_sectors in combos:
-        if not is_valid_t_combination(disruption, cascading, data_comp, entities, n_sectors):
+    for svc_impact, cascading, data_impact, entities, n_sectors in combos:
+        if not is_valid_t_combination(svc_impact, cascading, data_impact, entities, n_sectors):
             continue
 
-        t_level = assign_t_level(disruption, data_comp, cascading, entities)
+        t_level = assign_t_level(svc_impact, data_impact, cascading, entities)
         sector = rng.choice(SECTORS)
 
         # Pick a template deterministically from combo hash
         # For T1 scenarios, use low-severity templates 50% of the time
         all_templates = BASE_TEMPLATES
-        if assign_t_level(disruption, data_comp, cascading, entities) == "T1" and rng.random() < 0.5:
+        if t_level == "T1" and rng.random() < 0.5:
             all_templates = LOW_SEVERITY_TEMPLATES
-        tmpl_idx = hash((disruption, cascading, data_comp, entities, n_sectors)) % len(all_templates)
+        tmpl_idx = hash((svc_impact, cascading, data_impact, entities, n_sectors)) % len(all_templates)
         base_desc = _fill_template(
-            all_templates[tmpl_idx], sector, disruption, entities, n_sectors, cascading, data_comp,
+            all_templates[tmpl_idx], sector, svc_impact, entities, n_sectors, cascading, data_impact,
         )
 
         # Original + paraphrase variants
@@ -370,9 +372,9 @@ def generate_t_samples(
         # to ensure sufficient raw sample count (T1 combos are naturally sparse)
         if t_level == "T1":
             complement_templates = LOW_SEVERITY_TEMPLATES if all_templates is BASE_TEMPLATES else BASE_TEMPLATES
-            c_tmpl_idx = hash((disruption, cascading, data_comp, entities, n_sectors, "complement")) % len(complement_templates)
+            c_tmpl_idx = hash((svc_impact, cascading, data_impact, entities, n_sectors, "complement")) % len(complement_templates)
             c_desc = _fill_template(
-                complement_templates[c_tmpl_idx], sector, disruption, entities, n_sectors, cascading, data_comp,
+                complement_templates[c_tmpl_idx], sector, svc_impact, entities, n_sectors, cascading, data_impact,
             )
             descriptions.append(c_desc)
             for v in range(1, paraphrase_variants + 1):
@@ -381,11 +383,11 @@ def generate_t_samples(
         for desc in descriptions:
             text = (
                 f"{desc} [SEP] "
-                f"disruption: {disruption} "
+                f"service_impact: {svc_impact} "
                 f"entities: {entities} "
                 f"sectors: {n_sectors} "
                 f"cascading: {cascading} "
-                f"data_compromise: {data_comp}"
+                f"data_impact: {data_impact}"
             )
             all_samples.append({"text": text, "label": t_level})
 
@@ -424,15 +426,15 @@ def generate_o_samples(
 
         # Pick template
         tmpl_idx = hash((relevance, cross_border, coordination, ms_affected, cap_exceeded)) % template_count
-        # Use a generic disruption/entities for the description (non-trigger scenarios)
-        disruption_word = rng.choice(["partial", "significant", "complete", "sustained"])
+        # Use a generic service_impact/entities for the description (non-trigger scenarios)
+        svc_impact_word = rng.choice(["partial", "degraded", "unavailable", "sustained"])
         entities_count = rng.choice([1, 5, 12, 25, 55])
         cascading_word = rng.choice(["none", "limited", "cross sector"])
-        data_comp_word = rng.choice(["none", "operational", "sensitive"])
+        data_impact_word = rng.choice(["none", "accessed", "exfiltrated"])
 
         base_desc = _fill_template(
             BASE_TEMPLATES[tmpl_idx],
-            sector, disruption_word, entities_count, n_sectors, cascading_word, data_comp_word,
+            sector, svc_impact_word, entities_count, n_sectors, cascading_word, data_impact_word,
         )
 
         descriptions = [base_desc]
@@ -445,7 +447,7 @@ def generate_o_samples(
             ls_tmpl_idx = hash((relevance, cross_border, coordination, ms_affected, cap_exceeded, "low")) % len(LOW_SEVERITY_TEMPLATES)
             ls_desc = _fill_template(
                 LOW_SEVERITY_TEMPLATES[ls_tmpl_idx],
-                sector, disruption_word, entities_count, n_sectors, cascading_word, data_comp_word,
+                sector, svc_impact_word, entities_count, n_sectors, cascading_word, data_impact_word,
             )
             descriptions.append(ls_desc)
             for v in range(1, paraphrase_variants + 1):

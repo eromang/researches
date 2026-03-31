@@ -19,7 +19,7 @@ def sample_tokenizer():
 
 
 def test_t_dataset_returns_weight_when_present(sample_tokenizer):
-    texts = ["test text [SEP] disruption: partial entities: 1 sectors: 1 cascading: none data_compromise: none"]
+    texts = ["test text [SEP] service_impact: partial entities: 1 sectors: 1 cascading: none data_impact: none"]
     labels = [0]
     weights = [0.8]
     ds = TCVEDataset(texts, labels, sample_tokenizer, weights=weights)
@@ -29,7 +29,7 @@ def test_t_dataset_returns_weight_when_present(sample_tokenizer):
 
 
 def test_t_dataset_defaults_weight_to_1(sample_tokenizer):
-    texts = ["test text [SEP] disruption: partial entities: 1 sectors: 1 cascading: none data_compromise: none"]
+    texts = ["test text [SEP] service_impact: partial entities: 1 sectors: 1 cascading: none data_impact: none"]
     labels = [0]
     ds = TCVEDataset(texts, labels, sample_tokenizer)
     item = ds[0]

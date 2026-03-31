@@ -25,11 +25,11 @@ def sample_dataset(tmp_path):
                 "sources": ["https://example.com"],
                 "description": "A test ransomware attack on a hospital that disrupted all IT systems for several days",
                 "t_fields": {
-                    "service_disruption": "complete",
+                    "service_impact": "unavailable",
                     "affected_entities": 1,
                     "sectors_affected": 1,
                     "cascading": "none",
-                    "data_compromise": "sensitive",
+                    "data_impact": "exfiltrated",
                 },
                 "o_fields": {
                     "sectors_affected": "health",
@@ -69,9 +69,9 @@ def test_curated_incident_has_required_fields(sample_dataset):
 
 def test_curated_incident_t_fields(sample_dataset):
     incident = load_curated_incidents(sample_dataset)[0]
-    assert incident.t_fields["service_disruption"] == "complete"
+    assert incident.t_fields["service_impact"] == "unavailable"
     assert incident.t_fields["affected_entities"] == 1
-    assert incident.t_fields["data_compromise"] == "sensitive"
+    assert incident.t_fields["data_impact"] == "exfiltrated"
 
 
 def test_curated_incident_o_fields(sample_dataset):
@@ -89,8 +89,8 @@ def test_invalid_t_level_raises(tmp_path):
             "sources": ["https://example.com"],
             "description": "A test incident with invalid T level that should fail validation checks",
             "t_fields": {
-                "service_disruption": "complete", "affected_entities": 1,
-                "sectors_affected": 1, "cascading": "none", "data_compromise": "none",
+                "service_impact": "unavailable", "affected_entities": 1,
+                "sectors_affected": 1, "cascading": "none", "data_impact": "none",
             },
             "o_fields": {
                 "sectors_affected": "health", "entity_relevance": "essential",

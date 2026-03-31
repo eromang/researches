@@ -14,9 +14,9 @@ import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 
-VALID_DISRUPTIONS = {"partial", "significant", "complete", "sustained"}
+VALID_SERVICE_IMPACT = {"none", "partial", "degraded", "unavailable", "sustained"}
 VALID_CASCADING = {"none", "limited", "cross_sector", "uncontrolled"}
-VALID_DATA_COMPROMISE = {"none", "operational", "sensitive", "systemic"}
+VALID_DATA_IMPACT = {"none", "accessed", "exfiltrated", "compromised", "systemic"}
 
 T_LABEL_MAP = {0: "T1", 1: "T2", 2: "T3", 3: "T4"}
 
@@ -70,35 +70,35 @@ class TechnicalClassifier:
     @staticmethod
     def format_input(
         description: str,
-        service_disruption: str = "partial",
+        service_impact: str = "partial",
         affected_entities: int = 1,
         sectors_affected: int = 1,
         cascading: str = "none",
-        data_compromise: str = "none",
+        data_impact: str = "none",
     ) -> str:
         """Format input fields as all-as-text for the model."""
         return (
             f"{description} [SEP] "
-            f"disruption: {service_disruption} "
+            f"service_impact: {service_impact} "
             f"entities: {affected_entities} "
             f"sectors: {sectors_affected} "
             f"cascading: {cascading} "
-            f"data_compromise: {data_compromise}"
+            f"data_impact: {data_impact}"
         )
 
     def predict(
         self,
         description: str,
-        service_disruption: str = "partial",
+        service_impact: str = "partial",
         affected_entities: int = 1,
         sectors_affected: int = 1,
         cascading: str = "none",
-        data_compromise: str = "none",
+        data_impact: str = "none",
     ) -> TechnicalResult:
         """Classify incident technical severity with MC dropout."""
         text = self.format_input(
-            description, service_disruption, affected_entities,
-            sectors_affected, cascading, data_compromise,
+            description, service_impact, affected_entities,
+            sectors_affected, cascading, data_impact,
         )
         inputs = self.tokenizer(
             text, return_tensors="pt", truncation=True,
@@ -121,8 +121,8 @@ class TechnicalClassifier:
         confidence = "high" if max_prob > 0.7 else "medium" if max_prob > 0.4 else "low"
 
         key_factors = self._extract_key_factors(
-            service_disruption, affected_entities, sectors_affected,
-            cascading, data_compromise,
+            service_impact, affected_entities, sectors_affected,
+            cascading, data_impact,
         )
 
         return TechnicalResult(level=level, confidence=confidence, key_factors=key_factors)
@@ -134,22 +134,22 @@ class TechnicalClassifier:
 
     @staticmethod
     def _extract_key_factors(
-        service_disruption: str,
+        service_impact: str,
         affected_entities: int,
         sectors_affected: int,
         cascading: str,
-        data_compromise: str,
+        data_impact: str,
     ) -> list[str]:
         """Extract human-readable key factors from structured fields."""
         factors = []
-        if service_disruption in ("complete", "sustained"):
-            factors.append(f"{service_disruption} service disruption")
+        if service_impact in ("unavailable", "sustained"):
+            factors.append(f"{service_impact} service impact")
         if affected_entities > 10:
             factors.append(f"{affected_entities} entities affected")
         if sectors_affected > 1:
             factors.append(f"{sectors_affected} sectors affected")
         if cascading in ("cross_sector", "uncontrolled"):
             factors.append(f"{cascading} cascading")
-        if data_compromise in ("sensitive", "systemic"):
-            factors.append(f"{data_compromise} data compromise")
+        if data_impact in ("exfiltrated", "systemic"):
+            factors.append(f"{data_impact} data impact")
         return factors

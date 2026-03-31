@@ -45,20 +45,20 @@ def _get_o_classifier():
 def _classify_technical(
     clf,
     description: str,
-    service_disruption: str,
+    service_impact: str,
     affected_entities: int,
     sectors_affected: int,
     cascading: str,
-    data_compromise: str,
+    data_impact: str,
 ) -> dict:
     """Classify technical severity using the T-model."""
     result = clf.predict(
         description,
-        service_disruption=service_disruption,
+        service_impact=service_impact,
         affected_entities=affected_entities,
         sectors_affected=sectors_affected,
         cascading=cascading,
-        data_compromise=data_compromise,
+        data_impact=data_impact,
     )
     return result.to_dict()
 
@@ -90,28 +90,24 @@ def _classify_full(
     t_clf,
     o_clf,
     description: str,
-    service_disruption: str,
+    service_impact: str,
     affected_entities: int,
-    sectors_affected: str,
+    sectors_affected: int,
     cascading: str,
-    data_compromise: str,
+    data_impact: str,
     entity_relevance: str,
     ms_affected: int,
     cross_border_pattern: str,
-    coordination_needs: str,
     capacity_exceeded: bool,
 ) -> dict:
     """Full classification: T-level + O-level + Blueprint matrix lookup."""
-    # Count sectors for T-model (expects int)
-    n_sectors = len([s for s in sectors_affected.split(",") if s.strip()])
-
     t_result = _classify_technical(
-        t_clf, description, service_disruption, affected_entities,
-        n_sectors, cascading, data_compromise,
+        t_clf, description, service_impact, affected_entities,
+        sectors_affected, cascading, data_impact,
     )
     o_result = _classify_operational(
         o_clf, description, sectors_affected, entity_relevance,
-        ms_affected, cross_border_pattern, coordination_needs,
+        ms_affected, cross_border_pattern,
         capacity_exceeded,
     )
 
@@ -158,19 +154,19 @@ def register(mcp: FastMCP) -> None:
     @mcp.tool(annotations={"readOnlyHint": True})
     def classify_incident_technical(
         description: str,
-        service_disruption: str = "partial",
+        service_impact: str = "partial",
         affected_entities: int = 1,
         sectors_affected: int = 1,
         cascading: str = "none",
-        data_compromise: str = "none",
+        data_impact: str = "none",
     ) -> dict:
         """Classify incident technical severity (T1-T4)."""
         clf = _get_t_classifier()
         if clf is None:
             return {"error": "No trained model available. Deploy a model to data/models/technical/."}
         return _classify_technical(
-            clf, description, service_disruption, affected_entities,
-            sectors_affected, cascading, data_compromise,
+            clf, description, service_impact, affected_entities,
+            sectors_affected, cascading, data_impact,
         )
 
     @mcp.tool(annotations={"readOnlyHint": True})
@@ -196,15 +192,14 @@ def register(mcp: FastMCP) -> None:
     @mcp.tool(annotations={"readOnlyHint": True})
     def classify_incident(
         description: str,
-        service_disruption: str = "partial",
+        service_impact: str = "partial",
         affected_entities: int = 1,
-        sectors_affected: str = "",
+        sectors_affected: int = 1,
         cascading: str = "none",
-        data_compromise: str = "none",
-        entity_relevance: str = "non-essential",
+        data_impact: str = "none",
+        entity_relevance: str = "non_essential",
         ms_affected: int = 1,
         cross_border_pattern: str = "none",
-        coordination_needs: str = "national",
         capacity_exceeded: bool = False,
     ) -> dict:
         """Full incident classification: T-level + O-level + Blueprint matrix result."""
@@ -215,8 +210,8 @@ def register(mcp: FastMCP) -> None:
         if o_clf is None:
             return {"error": "No trained model available. Deploy a model to data/models/operational/."}
         return _classify_full(
-            t_clf, o_clf, description, service_disruption, affected_entities,
-            sectors_affected, cascading, data_compromise, entity_relevance,
-            ms_affected, cross_border_pattern, coordination_needs,
+            t_clf, o_clf, description, service_impact, affected_entities,
+            sectors_affected, cascading, data_impact, entity_relevance,
+            ms_affected, cross_border_pattern,
             capacity_exceeded,
         )

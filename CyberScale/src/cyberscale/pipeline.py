@@ -46,15 +46,14 @@ def run_pipeline(
     # Phase 3 fields (all optional — omit to skip Phase 3)
     technical=None,
     operational=None,
-    service_disruption: Optional[str] = None,
+    service_impact: Optional[str] = None,
     affected_entities: Optional[int] = None,
-    sectors_affected: Optional[str] = None,
+    sectors_affected: Optional[int] = None,
     cascading: Optional[str] = None,
-    data_compromise: Optional[str] = None,
+    data_impact: Optional[str] = None,
     entity_relevance: Optional[str] = None,
     ms_affected: Optional[int] = None,
     cross_border_pattern: Optional[str] = None,
-    coordination_needs: Optional[str] = None,
     capacity_exceeded: Optional[bool] = None,
 ) -> PipelineResult:
     """Run the composable assessment pipeline.
@@ -78,18 +77,17 @@ def run_pipeline(
     has_phase3 = (
         technical is not None
         and operational is not None
-        and service_disruption is not None
+        and service_impact is not None
     )
 
     if has_phase3:
-        n_sectors = len([s for s in sectors_affected.split(",") if s.strip()])
         t_result = technical.predict(
             description,
-            service_disruption=service_disruption,
+            service_impact=service_impact,
             affected_entities=affected_entities,
-            sectors_affected=n_sectors,
+            sectors_affected=sectors_affected,
             cascading=cascading,
-            data_compromise=data_compromise,
+            data_impact=data_impact,
         )
         o_result = operational.predict(
             description,
@@ -97,7 +95,6 @@ def run_pipeline(
             entity_relevance=entity_relevance,
             ms_affected=ms_affected,
             cross_border_pattern=cross_border_pattern,
-            coordination_needs=coordination_needs,
             capacity_exceeded=capacity_exceeded,
         )
 

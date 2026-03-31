@@ -82,15 +82,14 @@ class TestRunPipeline:
             description="Critical RCE in hospital system",
             sector="health",
             cross_border=True,
-            service_disruption="complete",
+            service_impact="unavailable",
             affected_entities=50,
-            sectors_affected="health,digital_infrastructure",
+            sectors_affected=2,
             cascading="cross_sector",
-            data_compromise="sensitive",
+            data_impact="exfiltrated",
             entity_relevance="high_relevance",
             ms_affected=3,
             cross_border_pattern="significant",
-            coordination_needs="eu_active",
             capacity_exceeded=False,
         )
         assert result.phase1_score == 7.5

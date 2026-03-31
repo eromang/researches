@@ -43,11 +43,11 @@ def convert_to_t_csv(
 
     base_text = (
         f"{desc} [SEP] "
-        f"disruption: {tf['service_disruption']} "
+        f"service_impact: {tf['service_impact']} "
         f"entities: {tf['affected_entities']} "
         f"sectors: {tf['sectors_affected']} "
         f"cascading: {tf['cascading']} "
-        f"data_compromise: {tf['data_compromise']}"
+        f"data_impact: {tf['data_impact']}"
     )
 
     rows = [{"text": base_text, "label": label, "weight": 1.0}]
@@ -57,11 +57,11 @@ def convert_to_t_csv(
         para_desc = _paraphrase(desc, v, rng)
         para_text = (
             f"{para_desc} [SEP] "
-            f"disruption: {tf['service_disruption']} "
+            f"service_impact: {tf['service_impact']} "
             f"entities: {tf['affected_entities']} "
             f"sectors: {tf['sectors_affected']} "
             f"cascading: {tf['cascading']} "
-            f"data_compromise: {tf['data_compromise']}"
+            f"data_impact: {tf['data_impact']}"
         )
         rows.append({"text": para_text, "label": label, "weight": 1.0})
 

@@ -26,8 +26,8 @@ def curated_dataset(tmp_path):
                 "sources": ["https://example.com"],
                 "description": "A minor port scan detected at a small research lab with no data compromise or service impact",
                 "t_fields": {
-                    "service_disruption": "partial", "affected_entities": 1,
-                    "sectors_affected": 1, "cascading": "none", "data_compromise": "none",
+                    "service_impact": "partial", "affected_entities": 1,
+                    "sectors_affected": 1, "cascading": "none", "data_impact": "none",
                 },
                 "o_fields": {
                     "sectors_affected": "research", "entity_relevance": "non_essential",
@@ -42,8 +42,8 @@ def curated_dataset(tmp_path):
                 "sources": ["https://example.com"],
                 "description": "A DDoS attack disrupted banking services across two EU member states for several hours",
                 "t_fields": {
-                    "service_disruption": "significant", "affected_entities": 5,
-                    "sectors_affected": 1, "cascading": "none", "data_compromise": "operational",
+                    "service_impact": "degraded", "affected_entities": 5,
+                    "sectors_affected": 1, "cascading": "none", "data_impact": "accessed",
                 },
                 "o_fields": {
                     "sectors_affected": "banking", "entity_relevance": "essential",
@@ -58,8 +58,8 @@ def curated_dataset(tmp_path):
                 "sources": ["https://example.com"],
                 "description": "Ransomware encrypted hospital systems completely, sensitive patient data exfiltrated and published online",
                 "t_fields": {
-                    "service_disruption": "complete", "affected_entities": 25,
-                    "sectors_affected": 2, "cascading": "cross_sector", "data_compromise": "sensitive",
+                    "service_impact": "unavailable", "affected_entities": 25,
+                    "sectors_affected": 2, "cascading": "cross_sector", "data_impact": "exfiltrated",
                 },
                 "o_fields": {
                     "sectors_affected": "health, digital infrastructure",
@@ -75,8 +75,8 @@ def curated_dataset(tmp_path):
                 "sources": ["https://example.com"],
                 "description": "Supply chain compromise caused sustained disruption across critical infrastructure in multiple EU member states",
                 "t_fields": {
-                    "service_disruption": "sustained", "affected_entities": 150,
-                    "sectors_affected": 5, "cascading": "uncontrolled", "data_compromise": "systemic",
+                    "service_impact": "sustained", "affected_entities": 150,
+                    "sectors_affected": 5, "cascading": "uncontrolled", "data_impact": "systemic",
                 },
                 "o_fields": {
                     "sectors_affected": "energy, transport, health, digital infrastructure, banking",

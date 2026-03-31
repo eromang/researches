@@ -35,9 +35,9 @@ from generate_incidents import (
     balance_classes,
     BASE_TEMPLATES,
     SECTORS,
-    DISRUPTIONS,
+    SERVICE_IMPACTS,
     CASCADING,
-    DATA_COMPROMISE,
+    DATA_IMPACTS,
     ENTITY_RELEVANCE,
     CROSS_BORDER,
     COORDINATION,
@@ -64,11 +64,11 @@ ILLUSTRATIVE_CASES = [
         "name": "Below threshold (T1/O1)",
         "description": "Minor port scan at a small non-essential research lab, national only",
         "t_fields": {
-            "service_disruption": "partial",
+            "service_impact": "partial",
             "affected_entities": 1,
             "sectors_affected": 1,
             "cascading": "none",
-            "data_compromise": "none",
+            "data_impact": "none",
         },
         "o_fields": {
             "sectors_affected": "research",
@@ -85,11 +85,11 @@ ILLUSTRATIVE_CASES = [
         "name": "Significant (T2/O2)",
         "description": "DDoS on essential banking service, 2 MS, limited cross-border",
         "t_fields": {
-            "service_disruption": "significant",
+            "service_impact": "degraded",
             "affected_entities": 5,
             "sectors_affected": 1,
             "cascading": "none",
-            "data_compromise": "none",
+            "data_impact": "none",
         },
         "o_fields": {
             "sectors_affected": "banking",
@@ -106,11 +106,11 @@ ILLUSTRATIVE_CASES = [
         "name": "Large-scale (T3/O3)",
         "description": "Ransomware at hospital chain, complete disruption, 4 MS, EU-active coordination",
         "t_fields": {
-            "service_disruption": "complete",
+            "service_impact": "unavailable",
             "affected_entities": 25,
             "sectors_affected": 2,
             "cascading": "cross_sector",
-            "data_compromise": "sensitive",
+            "data_impact": "exfiltrated",
         },
         "o_fields": {
             "sectors_affected": "health, digital infrastructure",
@@ -127,11 +127,11 @@ ILLUSTRATIVE_CASES = [
         "name": "Cyber crisis (T4/O4)",
         "description": "Supply chain compromise of digital infrastructure, sustained disruption, systemic cascade, 8 MS, full IPCR",
         "t_fields": {
-            "service_disruption": "sustained",
+            "service_impact": "sustained",
             "affected_entities": 150,
             "sectors_affected": 5,
             "cascading": "uncontrolled",
-            "data_compromise": "systemic",
+            "data_impact": "systemic",
         },
         "o_fields": {
             "sectors_affected": "digital infrastructure, energy, transport, banking, health",
@@ -148,11 +148,11 @@ ILLUSTRATIVE_CASES = [
         "name": "Asymmetric high-T/low-O (T4/O1)",
         "description": "Systemic data exfiltration from single non-essential research lab, national only",
         "t_fields": {
-            "service_disruption": "sustained",
+            "service_impact": "sustained",
             "affected_entities": 1,
             "sectors_affected": 1,
             "cascading": "none",
-            "data_compromise": "systemic",
+            "data_impact": "systemic",
         },
         "o_fields": {
             "sectors_affected": "research",
@@ -169,11 +169,11 @@ ILLUSTRATIVE_CASES = [
         "name": "Asymmetric low-T/high-O (T1/O4)",
         "description": "Minor phishing at systemic digital infrastructure provider, 7 MS, full IPCR (political sensitivity)",
         "t_fields": {
-            "service_disruption": "partial",
+            "service_impact": "partial",
             "affected_entities": 1,
             "sectors_affected": 1,
             "cascading": "none",
-            "data_compromise": "none",
+            "data_impact": "none",
         },
         "o_fields": {
             "sectors_affected": "digital infrastructure",
@@ -389,14 +389,14 @@ def generate_test_set(n_per_class: int, seed: int) -> tuple[list[dict], list[dic
 
 def extract_t_fields_from_text(text: str) -> dict:
     """Parse structured fields from the [SEP]-delimited text format."""
-    # Text format: "description [SEP] disruption: X entities: Y sectors: Z cascading: W data_compromise: V"
+    # Text format: "description [SEP] service_impact: X entities: Y sectors: Z cascading: W data_impact: V"
     sep_idx = text.find("[SEP]")
     if sep_idx < 0:
         return {}
     fields_str = text[sep_idx + 6:].strip()
     fields = {}
     # Parse key: value pairs (values may be multi-word but keys are known)
-    keys = ["disruption", "entities", "sectors", "cascading", "data_compromise"]
+    keys = ["service_impact", "entities", "sectors", "cascading", "data_impact"]
     for i, key in enumerate(keys):
         start = fields_str.find(f"{key}:")
         if start < 0:
@@ -452,11 +452,11 @@ def evaluate_t_model(
 
         result = t_model.predict(
             description=description,
-            service_disruption=fields.get("disruption", "partial"),
+            service_impact=fields.get("service_impact", "partial"),
             affected_entities=int(fields.get("entities", "1")),
             sectors_affected=int(fields.get("sectors", "1")),
             cascading=fields.get("cascading", "none"),
-            data_compromise=fields.get("data_compromise", "none"),
+            data_impact=fields.get("data_impact", "none"),
         )
         y_true.append(sample["label"])
         y_pred.append(result.level)

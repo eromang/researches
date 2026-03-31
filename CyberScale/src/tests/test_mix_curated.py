@@ -23,11 +23,11 @@ def sample_incident():
         "sources": ["https://example.com"],
         "description": "A ransomware attack disrupted hospital systems causing complete shutdown of IT services for days",
         "t_fields": {
-            "service_disruption": "complete",
+            "service_impact": "unavailable",
             "affected_entities": 25,
             "sectors_affected": 2,
             "cascading": "cross_sector",
-            "data_compromise": "sensitive",
+            "data_impact": "exfiltrated",
         },
         "o_fields": {
             "sectors_affected": "health, digital infrastructure",
@@ -51,9 +51,9 @@ def test_convert_to_t_csv_format(sample_incident):
     assert len(rows) == 1
     row = rows[0]
     assert "[SEP]" in row["text"]
-    assert "disruption: complete" in row["text"]
+    assert "service_impact: unavailable" in row["text"]
     assert "entities: 25" in row["text"]
-    assert "data_compromise: sensitive" in row["text"]
+    assert "data_impact: exfiltrated" in row["text"]
     assert row["label"] == "T3"
     assert row["weight"] == 1.0
 

@@ -43,11 +43,11 @@ def evaluate_t_model(
     for inc in incidents:
         result = t_model.predict(
             description=inc.description,
-            service_disruption=inc.t_fields["service_disruption"],
+            service_impact=inc.t_fields["service_impact"],
             affected_entities=inc.t_fields["affected_entities"],
             sectors_affected=inc.t_fields["sectors_affected"],
             cascading=inc.t_fields["cascading"],
-            data_compromise=inc.t_fields["data_compromise"],
+            data_impact=inc.t_fields["data_impact"],
         )
         y_true.append(inc.expected_t)
         y_pred.append(result.level)
