@@ -1,0 +1,83 @@
+{
+  "version": "1.0",
+  "source": "NIS2 Directive (EU) 2022/2555 Annex I & II, CER Directive (EU) 2022/2557",
+  "entity_types": [
+    {"id": "electricity_undertaking", "label": "Electricity undertaking", "sector": "energy", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "distribution_system_operator", "label": "Distribution system operator", "sector": "energy", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "transmission_system_operator", "label": "Transmission system operator", "sector": "energy", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "oil_undertaking", "label": "Oil undertaking", "sector": "energy", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "gas_undertaking", "label": "Gas undertaking", "sector": "energy", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "hydrogen_operator", "label": "Hydrogen operator", "sector": "energy", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "district_heating_operator", "label": "District heating/cooling operator", "sector": "energy", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "electricity_market_operator", "label": "Electricity market operator (NEMO)", "sector": "energy", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+
+    {"id": "air_carrier", "label": "Air carrier", "sector": "transport", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "airport_operator", "label": "Airport managing body", "sector": "transport", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "traffic_management_operator", "label": "Traffic management control operator", "sector": "transport", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "rail_infrastructure_manager", "label": "Railway infrastructure manager", "sector": "transport", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "railway_undertaking", "label": "Railway undertaking", "sector": "transport", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "shipping_company", "label": "Shipping company", "sector": "transport", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "port_operator", "label": "Port managing body", "sector": "transport", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "inland_waterway_operator", "label": "Inland waterway transport operator", "sector": "transport", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "road_authority", "label": "Road authority", "sector": "transport", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "its_operator", "label": "Intelligent transport systems operator", "sector": "transport", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+
+    {"id": "credit_institution", "label": "Credit institution", "sector": "banking", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+
+    {"id": "trading_venue_operator", "label": "Trading venue operator", "sector": "financial_market", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "central_counterparty", "label": "Central counterparty (CCP)", "sector": "financial_market", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+
+    {"id": "healthcare_provider", "label": "Healthcare provider", "sector": "health", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "eu_reference_laboratory", "label": "EU reference laboratory", "sector": "health", "annex": "I", "nis2_status": "essential", "cer_eligible": false},
+    {"id": "pharma_rd_manufacturer", "label": "Pharmaceutical R&D/manufacturer", "sector": "health", "annex": "I", "nis2_status": "essential", "cer_eligible": false},
+    {"id": "medical_device_manufacturer", "label": "Medical device manufacturer (critical)", "sector": "health", "annex": "I", "nis2_status": "essential", "cer_eligible": false},
+
+    {"id": "drinking_water_supplier", "label": "Drinking water supplier/distributor", "sector": "drinking_water", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+
+    {"id": "waste_water_operator", "label": "Waste water collection/treatment operator", "sector": "waste_water", "annex": "I", "nis2_status": "essential", "cer_eligible": false},
+
+    {"id": "ixp_operator", "label": "Internet exchange point operator", "sector": "digital_infrastructure", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "dns_service_provider", "label": "DNS service provider", "sector": "digital_infrastructure", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "tld_registry", "label": "TLD name registry", "sector": "digital_infrastructure", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "cloud_computing_provider", "label": "Cloud computing service provider", "sector": "digital_infrastructure", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "data_centre_operator", "label": "Data centre service provider", "sector": "digital_infrastructure", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "cdn_provider", "label": "Content delivery network provider", "sector": "digital_infrastructure", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "trust_service_provider", "label": "Trust service provider", "sector": "digital_infrastructure", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "public_ecn_provider", "label": "Public electronic communications network provider", "sector": "digital_infrastructure", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "public_ecs_provider", "label": "Public electronic communications service provider", "sector": "digital_infrastructure", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+
+    {"id": "managed_service_provider", "label": "Managed service provider (MSP)", "sector": "ict_service_management", "annex": "I", "nis2_status": "essential", "cer_eligible": false},
+    {"id": "managed_security_service_provider", "label": "Managed security service provider (MSSP)", "sector": "ict_service_management", "annex": "I", "nis2_status": "essential", "cer_eligible": false},
+
+    {"id": "central_government_entity", "label": "Central government entity", "sector": "public_administration", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+    {"id": "regional_government_entity", "label": "Regional government entity", "sector": "public_administration", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+
+    {"id": "space_operator", "label": "Operator of ground-based infrastructure (space)", "sector": "space", "annex": "I", "nis2_status": "essential", "cer_eligible": true},
+
+    {"id": "postal_service_provider", "label": "Postal service provider", "sector": "postal", "annex": "II", "nis2_status": "important", "cer_eligible": false},
+    {"id": "courier_service_provider", "label": "Courier service provider", "sector": "postal", "annex": "II", "nis2_status": "important", "cer_eligible": false},
+
+    {"id": "waste_management_operator", "label": "Waste management undertaking", "sector": "waste_management", "annex": "II", "nis2_status": "important", "cer_eligible": false},
+
+    {"id": "medical_device_manufacturer_ii", "label": "Medical device manufacturer (non-critical, Annex II)", "sector": "manufacturing", "annex": "II", "nis2_status": "important", "cer_eligible": false},
+    {"id": "machinery_manufacturer", "label": "Machinery & equipment manufacturer", "sector": "manufacturing", "annex": "II", "nis2_status": "important", "cer_eligible": false},
+    {"id": "motor_vehicle_manufacturer", "label": "Motor vehicle manufacturer", "sector": "manufacturing", "annex": "II", "nis2_status": "important", "cer_eligible": false},
+    {"id": "electrical_equipment_manufacturer", "label": "Electrical equipment manufacturer", "sector": "manufacturing", "annex": "II", "nis2_status": "important", "cer_eligible": false},
+
+    {"id": "chemicals_manufacturer", "label": "Chemicals manufacturer", "sector": "chemicals", "annex": "II", "nis2_status": "important", "cer_eligible": false},
+    {"id": "chemicals_distributor", "label": "Chemicals distributor", "sector": "chemicals", "annex": "II", "nis2_status": "important", "cer_eligible": false},
+
+    {"id": "food_producer", "label": "Food production undertaking", "sector": "food", "annex": "II", "nis2_status": "important", "cer_eligible": true},
+    {"id": "food_distributor", "label": "Food distribution undertaking", "sector": "food", "annex": "II", "nis2_status": "important", "cer_eligible": true},
+
+    {"id": "online_marketplace_provider", "label": "Online marketplace provider", "sector": "digital_providers", "annex": "II", "nis2_status": "important", "cer_eligible": false},
+    {"id": "search_engine_provider", "label": "Online search engine provider", "sector": "digital_providers", "annex": "II", "nis2_status": "important", "cer_eligible": false},
+    {"id": "social_network_provider", "label": "Social networking service provider", "sector": "digital_providers", "annex": "II", "nis2_status": "important", "cer_eligible": false},
+
+    {"id": "research_organisation", "label": "Research organisation", "sector": "research", "annex": "II", "nis2_status": "important", "cer_eligible": false},
+
+    {"id": "generic_enterprise", "label": "Generic enterprise (non-NIS2)", "sector": "non_nis2", "annex": null, "nis2_status": "not_applicable", "cer_eligible": false},
+    {"id": "generic_sme", "label": "Generic SME (non-NIS2)", "sector": "non_nis2", "annex": null, "nis2_status": "not_applicable", "cer_eligible": false},
+    {"id": "generic_individual", "label": "Individual (non-NIS2)", "sector": "non_nis2", "annex": null, "nis2_status": "not_applicable", "cer_eligible": false}
+  ]
+}
