@@ -67,3 +67,23 @@ Phase 3 was implemented via subagent-driven development (7 tasks, spec-reviewed)
 
 > [!tip] Future implication
 > For ML training tasks, prefer foreground execution with explicit timeout management over background agents. Long-running GPU processes should not be delegated to agents that may be killed by session timeouts.
+
+
+## 16. NIS2-aligned entity types replace generic categories
+
+v2 used 8 generic entity types (individual, sme, msp, hospital, cloud_provider, utility, government, bank) and 4 deployment scales (individual, small_business, enterprise, critical_operator). These were independent of sector, causing impossible combinations (e.g., "hospital" in "energy" sector).
+
+v3 replaced both with ~59 NIS2 Annex I+II entity types, each sector-locked. A `healthcare_provider` only appears with `sector=health`. The entity type implicitly encodes deployment scale — a `transmission_system_operator` is inherently critical-scale — so `deployment_scale` was removed as redundant.
+
+Result: 80.5% accuracy / 80.5% macro F1 — matching v2 performance despite the more granular entity taxonomy.
+
+> [!tip] Future implication
+> Entity type is now the primary contextual signal alongside sector. Adding more entity types (e.g., splitting "healthcare_provider" into hospital/clinic/pharmacy) should be done by updating `data/reference/nis2_entity_types.json` and regenerating — no code changes needed.
+
+
+## 17. CER critical entity flag captures essential-override pathway
+
+NIS2 Article 3(1)(f) makes CER-designated entities essential regardless of their Annex II status. This is modelled as an optional `cer_critical_entity` boolean with +1 escalation. During training, 10% of CER-eligible entities receive this flag, producing ~3.8% of scenarios with CER escalation.
+
+> [!tip] Future implication
+> The 10% CER probability is a generation parameter, not a model parameter. If real-world CER designations are more common, adjust the probability in `generate_contextual.py` and regenerate.

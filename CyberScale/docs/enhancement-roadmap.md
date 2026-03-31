@@ -23,7 +23,7 @@ Concrete enhancement paths prioritised by expected impact. Updated after v2 impl
 | Phase | Model | Key metric | Target | Status |
 |-------|-------|------------|--------|--------|
 | 1 | Scorer | 60.2% band accuracy | > 75% | Not met |
-| 2 | Contextual | 80.5% accuracy, non_nis2 76.5% | > 75% | Met |
+| 2 | Contextual (v3) | 80.5% accuracy, 80.5% macro F1 | > 75% | Met |
 | 3 | Technical (T) | 97.5% curated accuracy | > 75% | Met |
 | 3 | Operational (O) | 100% curated accuracy | > 75% | Met |
 | 3 | Matrix (end-to-end) | 97.5% curated accuracy | > 70% | Met |
