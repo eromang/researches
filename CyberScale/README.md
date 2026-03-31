@@ -69,6 +69,175 @@ poetry run cyberscale
 poetry run pytest src/tests/ -v
 ```
 
+## Usage
+
+Models must be available locally before running inference. Either train them (see Training below) or download from HuggingFace:
+
+```bash
+poetry run python -c "
+from huggingface_hub import snapshot_download
+for model, target in [
+    ('cyberscale-scorer-v1', 'scorer'),
+    ('cyberscale-contextual-v1', 'contextual'),
+    ('cyberscale-technical-v1', 'technical'),
+    ('cyberscale-operational-v1', 'operational'),
+]:
+    snapshot_download(f'eromang/{model}', local_dir=f'data/models/{target}')
+    print(f'Downloaded: {model} -> data/models/{target}')
+"
+```
+
+### Phase 1: Vulnerability scoring
+
+Predicts a CVSS-compatible severity score (0-10) from a vulnerability description.
+
+```python
+import sys; sys.path.insert(0, 'src')
+from cyberscale.models.scorer import SeverityScorer
+
+scorer = SeverityScorer('data/models/scorer')
+result = scorer.predict('Buffer overflow in OpenSSL allows remote code execution via crafted certificate')
+
+print(f'Score: {result.score:.1f}/10')  # 7.8
+print(f'Band: {result.band}')           # High
+print(f'Confidence: {result.confidence}') # high
+```
+
+### Phase 2: Contextual severity
+
+Adjusts severity based on NIS2 sector, cross-border exposure, and deployment context. Optionally accepts Phase 1 score.
+
+```python
+from cyberscale.models.contextual import ContextualClassifier
+
+ctx = ContextualClassifier('data/models/contextual')
+result = ctx.predict(
+    description='SQL injection in patient records system',
+    sector='health',          # Any of 19 NIS2 sectors
+    cross_border=True,
+    score=7.8,                # Optional — from Phase 1 or CVSS
+)
+
+print(f'Severity: {result.severity}')       # Critical
+print(f'Confidence: {result.confidence}')   # high
+print(f'Key factors: {result.key_factors}') # ['health sector', 'cross-border exposure']
+```
+
+Valid sectors: `energy`, `transport`, `banking`, `financial_market`, `health`, `drinking_water`, `waste_water`, `digital_infrastructure`, `ict_service_management`, `public_administration`, `space`, `postal`, `waste_management`, `manufacturing`, `chemicals`, `food`, `digital_providers`, `research`, `non_nis2`.
+
+### Phase 3: Incident classification
+
+Two independent models (technical + operational) feed into the Blueprint matrix.
+
+**Technical severity (T1-T4):**
+
+```python
+from cyberscale.models.technical import TechnicalClassifier
+
+tech = TechnicalClassifier('data/models/technical')
+result = tech.predict(
+    description='Ransomware encrypted hospital network systems',
+    service_disruption='complete',    # partial | significant | complete | sustained
+    affected_entities=50,
+    sectors_affected=3,
+    cascading='cross_sector',         # none | limited | cross_sector | uncontrolled
+    data_compromise='sensitive',      # none | operational | sensitive | systemic
+)
+
+print(f'Level: {result.level}')             # T3
+print(f'Key factors: {result.key_factors}') # ['complete service disruption', '50 entities affected', ...]
+```
+
+**Operational severity (O1-O4):**
+
+```python
+from cyberscale.models.operational import OperationalClassifier
+
+ops = OperationalClassifier('data/models/operational')
+result = ops.predict(
+    description='Ransomware disrupts 3 EU hospitals',
+    sectors_affected='health,energy',
+    entity_relevance='high_relevance',  # non_essential | essential | high_relevance | systemic
+    ms_affected=5,
+    cross_border_pattern='significant', # none | limited | significant | systemic
+    coordination_needs='eu_active',     # national | eu_info | eu_active | full_ipcr
+    capacity_exceeded=True,
+)
+
+print(f'Level: {result.level}')             # O3
+print(f'Key factors: {result.key_factors}') # ['high_relevance entity', '5 member states affected', ...]
+```
+
+**Blueprint matrix lookup (T + O -> classification):**
+
+```python
+from cyberscale.matrix.dual_scale import classify_incident
+
+matrix = classify_incident('T3', 'O3')
+
+print(f'Classification: {matrix.label}')  # Large-scale
+print(f'Provision: {matrix.provision}')   # 7(c)
+```
+
+Matrix outcomes: Below threshold (7a), Significant (7b), Large-scale (7c), Cyber crisis (7d).
+
+### Full chain: Phase 1 -> 2 -> 3
+
+Chain all phases for end-to-end assessment:
+
+```python
+import sys; sys.path.insert(0, 'src')
+from cyberscale.models.scorer import SeverityScorer
+from cyberscale.models.contextual import ContextualClassifier
+from cyberscale.models.technical import TechnicalClassifier
+from cyberscale.models.operational import OperationalClassifier
+from cyberscale.matrix.dual_scale import classify_incident
+
+description = 'SQL injection in hospital patient records allows data exfiltration'
+
+# Phase 1: Raw severity
+scorer = SeverityScorer('data/models/scorer')
+p1 = scorer.predict(description)
+print(f'Phase 1: {p1.score:.1f}/10 ({p1.band})')
+
+# Phase 2: Contextual severity (using Phase 1 score)
+ctx = ContextualClassifier('data/models/contextual')
+p2 = ctx.predict(description, sector='health', cross_border=True, score=p1.score)
+print(f'Phase 2: {p2.severity} ({p2.key_factors})')
+
+# Phase 3: Incident classification
+tech = TechnicalClassifier('data/models/technical')
+p3t = tech.predict(description, service_disruption='significant',
+    affected_entities=12, sectors_affected=1, cascading='limited',
+    data_compromise='sensitive')
+
+ops = OperationalClassifier('data/models/operational')
+p3o = ops.predict(description, sectors_affected='health',
+    entity_relevance='essential', ms_affected=3,
+    cross_border_pattern='limited', coordination_needs='eu_info',
+    capacity_exceeded=False)
+
+# Matrix
+matrix = classify_incident(p3t.level, p3o.level)
+print(f'Phase 3: {p3t.level} + {p3o.level} = {matrix.label} (Provision {matrix.provision})')
+```
+
+### MCP tools
+
+When running as an MCP server (`poetry run cyberscale`), the following tools are available:
+
+| Tool | Phase | Description |
+|------|-------|-------------|
+| `score_vulnerability` | 1 | Score a CVE description (0-10) |
+| `lookup_vulnerability` | 1 | Look up a CVE by ID from NVD/EUVD/CIRCL |
+| `search_similar` | 1 | Find similar vulnerabilities in ChromaDB |
+| `assess_contextual_severity` | 2 | Contextual severity with NIS2 sector |
+| `classify_incident_technical` | 3 | Technical severity (T1-T4) |
+| `classify_incident_operational` | 3 | Operational severity (O1-O4) |
+| `classify_incident` | 3 | Full T + O + Blueprint matrix |
+| `assess_full_pipeline` | All | Phase 1 -> 2 -> 3 in one call |
+| `refresh_store` | Infra | Refresh ChromaDB vector store |
+
 ## Training
 
 All models can be reproduced from scratch. Training data is not committed (reproducible via scripts).
