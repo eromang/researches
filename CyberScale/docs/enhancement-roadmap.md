@@ -151,25 +151,45 @@ Reference data: `data/reference/nis2_entity_types.json`
 
 ---
 
-## v4 — Incident-Aware Phase 2 + Vulnerability-to-Incident Bridge
+## v4 — Incident-Aware Multi-Entity Pipeline
 
-Phase 2 currently assesses vulnerability severity in deployment context but has no awareness of whether the entity is actually affected. Phase 3 classifies incidents but has no automated link from Phase 2. v4 addresses both gaps by making Phase 2 incident-aware and splitting it into two regulatory-aligned models.
+v4 addresses three architectural gaps:
+1. Phase 2 has no awareness of whether the entity is actually affected
+2. Phase 3 has no automated link from Phase 2
+3. `coordination_needs` is an input to Phase 3 O-model but is actually an **output** of the Blueprint Matrix — a circular dependency
+
+### Design corrections
+
+**Remove `coordination_needs` from Phase 3 O-model inputs.** Coordination level is determined by the matrix classification, not the other way around:
+
+| Matrix result | Coordination (output, not input) |
+|---|---|
+| Below threshold | National CSIRT only |
+| Significant | Art. 23 reporting to competent authority + CSIRT |
+| Large-scale | EU-CyCLONe activated (NIS2 Art. 16) |
+| Cyber crisis | IPCR activated (Council level) |
+
+**Replace `cross_border` boolean with concrete MS geography.** Per entity:
+- `ms_established` (str) — where entity is established
+- `ms_affected` (list[str]) — where entity's services are impacted
+
+This enables deriving `cross_border_pattern` and `ms_affected` count from data rather than analyst judgment.
 
 ### 1. Impact inputs for Phase 2
 
-Add incident impact fields to Phase 2 so it can assess both vulnerability severity and early incident indicators:
+Add incident impact fields per entity:
 
 **Common inputs (all entities):**
 
-| Input | Type | Values | Source |
-|-------|------|--------|--------|
-| `entity_affected` | bool | true/false | Has the vulnerability been exploited? |
+| Input | Type | Values | Description |
+|-------|------|--------|-------------|
+| `entity_affected` | bool | true/false | Vulnerability confirmed exploited at this entity |
 | `service_impact` | str | none / degraded / unavailable | Impact on entity's services |
 | `data_impact` | str | none / accessed / exfiltrated / compromised | Impact on entity's data |
-| `financial_impact` | str | none / minor / significant / severe | Caller's assessment against applicable threshold |
+| `financial_impact` | str | none / minor / significant / severe | Financial loss assessment |
 | `safety_impact` | str | none / health_risk / health_damage / death | Physical safety impact |
-
-All optional, default to `none`. When provided, they escalate severity and trigger reporting hints.
+| `ms_established` | str | ISO 3166-1 alpha-2 | MS where entity is established |
+| `ms_affected` | list[str] | ISO 3166-1 alpha-2 | MS where services are impacted |
 
 **Effort:** Medium — new input fields, training data generation, retrain.
 
@@ -178,50 +198,30 @@ All optional, default to `none`. When provided, they escalate severity and trigg
 Split Phase 2 into two specialised models behind a deterministic router:
 
 ```
-Phase 2 Router (MCP tool)
+Phase 2 Router
   │
   ├── entity_type in IR_ENTITIES? ──→ Phase 2-IR model (quantitative)
-  │                                    Additional inputs: unavailability_duration_min,
-  │                                      affected_users_pct, affected_users_count,
-  │                                      financial_loss_eur
-  │                                    Output: severity + significant_incident (bool)
+  │     Additional inputs: unavailability_duration_min, affected_users_pct,
+  │       affected_users_count, financial_loss_eur, malicious_access
+  │     Output: severity + significant_incident (bool) + triggered_criteria
   │
   └── all other entities ──→ Phase 2-NIS2 model (qualitative)
-                              Inputs: common impact fields above
-                              Output: severity + reporting_hint (advisory)
+        Inputs: common impact fields
+        Output: severity + reporting_hint (advisory)
 ```
 
 **IR entities (11 types):** `dns_service_provider`, `tld_registry`, `cloud_computing_provider`, `data_centre_operator`, `cdn_provider`, `managed_service_provider`, `managed_security_service_provider`, `online_marketplace_provider`, `search_engine_provider`, `social_network_provider`, `trust_service_provider`
 
 **Why split:**
-- IR model can be trained on precise threshold rules from Implementing Regulation (EU) 2024/2690 Arts. 5-14 → higher accuracy, definitive significant_incident output
-- NIS2 model is not polluted by IR-specific numeric features irrelevant to hospitals or utilities
-- Each model has a focused input schema matching its regulatory framework
-- The MCP tool interface stays unified — the caller doesn't know which model runs
-
-**IR model additional inputs:**
-
-| Input | Type | Values | Used by |
-|-------|------|--------|---------|
-| `unavailability_duration_min` | int | Minutes of complete unavailability | Arts. 5-14 (thresholds: 20-30 min) |
-| `affected_users_pct` | float | % of EU users affected | Arts. 7-13 (threshold: 5%) |
-| `affected_users_count` | int | Absolute EU user count | Arts. 7-13 (threshold: 1M, 200K for trust) |
-| `financial_loss_eur` | int | Financial loss in EUR | Art. 3(1)(a) (threshold: EUR 500,000) |
-| `malicious_access` | bool | Suspectedly malicious? | Arts. 5-14 (any malicious → significant) |
-
-**IR model output includes:**
-- `significant_incident` (bool) — definitive, based on threshold rules
-- `triggered_criteria` (list) — which IR article/threshold was exceeded
-
-**NIS2 model output includes:**
-- `reporting_hint` (str) — advisory, based on qualitative assessment
-- `phase3_recommended` (bool) — whether Phase 3 assessment is warranted
+- IR model trained on precise Implementing Regulation (EU) 2024/2690 threshold rules (Arts. 5-14) → definitive `significant_incident` output
+- NIS2 model not polluted by IR-specific numeric features irrelevant to hospitals or utilities
+- Unified MCP interface — caller doesn't know which model runs
 
 **Effort:** High — two models, new training data, threshold reference data, router logic.
 
 ### 3. Entity-specific threshold reference data
 
-Create `data/reference/ir_incident_thresholds.json` with per-entity-type thresholds from the Implementing Regulation:
+Create `data/reference/ir_incident_thresholds.json` with per-entity-type thresholds:
 
 ```json
 {
@@ -235,8 +235,7 @@ Create `data/reference/ir_incident_thresholds.json` with per-entity-type thresho
   },
   "tld_registry": {
     "article": 6,
-    "complete_unavailability_min": 0,
-    ...
+    "complete_unavailability_min": 0
   },
   "trust_service_provider": {
     "article": 14,
@@ -254,11 +253,9 @@ Create `data/reference/ir_incident_thresholds.json` with per-entity-type thresho
 
 ### 4. Multi-entity incident model
 
-A single incident can affect multiple entities with different impact levels. Phase 2 runs **once per entity**, Phase 3 **aggregates** across all affected entities.
+A single incident can affect multiple entities with different impact levels. Phase 2 runs **once per entity** (routed IR/NIS2). Phase 3 inputs are **fully derived** from Phase 2 results — no analyst input required for structured fields.
 
 **Phase 2 input: list of entity assessments**
-
-Each entity in the incident gets its own Phase 2 assessment:
 
 ```json
 {
@@ -267,38 +264,36 @@ Each entity in the incident gets its own Phase 2 assessment:
     {
       "entity_type": "cloud_computing_provider",
       "sector": "digital_infrastructure",
-      "cross_border": true,
       "entity_affected": true,
       "service_impact": "unavailable",
       "data_impact": "compromised",
       "unavailability_duration_min": 45,
-      "ms": "LU"
+      "ms_established": "LU",
+      "ms_affected": ["LU", "DE", "BE"]
     },
     {
       "entity_type": "healthcare_provider",
       "sector": "health",
-      "cross_border": true,
       "entity_affected": true,
       "service_impact": "degraded",
       "data_impact": "none",
-      "ms": "DE"
+      "ms_established": "DE",
+      "ms_affected": ["DE"]
     },
     {
       "entity_type": "credit_institution",
       "sector": "banking",
-      "cross_border": false,
       "entity_affected": false,
       "service_impact": "none",
       "data_impact": "none",
-      "ms": "FR"
+      "ms_established": "FR",
+      "ms_affected": []
     }
   ]
 }
 ```
 
 **Phase 2 output: per-entity results**
-
-Each entity gets its own severity assessment via the router (IR or NIS2 model):
 
 ```json
 {
@@ -322,34 +317,50 @@ Each entity gets its own severity assessment via the router (IR or NIS2 model):
       "severity": "Low",
       "reporting_hint": null
     }
-  ],
-  "phase3_recommended": true,
-  "reason": "1 entity with significant_incident, 1 entity with service impact"
+  ]
 }
 ```
 
-**Phase 3 aggregation: worst-case + counts across affected entities**
+**Phase 3 inputs: fully derived from Phase 2 aggregation**
 
 | Phase 3 field | Aggregation rule | Example |
 |---|---|---|
-| `sectors_affected` | Count of distinct sectors where entity_affected=true | 2 (digital_infrastructure + health) |
-| `affected_entities` | Count of entities where service_impact != none | 2 |
-| `service_disruption` | Worst-case across affected entities | "complete" (from unavailable) |
-| `data_compromise` | Worst-case across affected entities | "operational" (from compromised) |
-| `entity_relevance` | Highest relevance among affected entities | "essential" (healthcare_provider) |
-| `ms_affected` | Count of distinct MS with affected entities | 2 (LU + DE) |
-| `cross_border_pattern` | Derived from ms_affected count | "limited" (2 MS) |
-| `cascading` | Derived from sectors_affected count | "cross_sector" (2+ sectors) |
+| `affected_entities` | Count entities where entity_affected=true | 2 |
+| `sectors_affected` | Count distinct sectors where entity_affected=true | 2 (digital_infrastructure + health) |
+| `service_disruption` | Worst-case service_impact across affected entities | "complete" (from unavailable) |
+| `data_compromise` | Worst-case data_impact across affected entities | "operational" (from compromised) |
+| `entity_relevance` | Highest relevance among affected entities (from entity_type mapping) | "essential" (healthcare_provider) |
+| `ms_affected` | Count distinct MS in union of all ms_affected lists | 3 (LU + DE + BE) |
+| `cross_border_pattern` | Derived: 1 MS=none, 2=limited, 3-5=significant, 6+=systemic | "significant" (3 MS) |
+| `cascading` | Derived: 1 sector=none/limited, 2+=cross_sector | "cross_sector" (2 sectors) |
+| `capacity_exceeded` | Heuristic: affected_entities>50 AND ms_affected>=3 → true | false |
 
-**Analyst only needs to confirm/adjust:**
-- `coordination_needs` — authority decision, not derivable
-- `capacity_exceeded` — runtime CSIRT assessment, not predictable
+**Note:** `coordination_needs` is NOT an input — it's an output of the Blueprint Matrix.
 
-**Effort:** High — multi-entity input schema, aggregation logic, per-entity routing, new MCP tool.
+**Zero mandatory analyst inputs.** Everything is derived. Analyst can override any field if the defaults are wrong.
 
-### 5. `assess_incident` MCP tool
+**Effort:** High — multi-entity schema, aggregation logic, entity_type → entity_relevance mapping, per-entity routing.
 
-A single MCP tool that accepts a vulnerability description + list of affected entities, runs Phase 1 → Phase 2 (per-entity, routed) → aggregation → Phase 3 → Matrix:
+### 5. Phase 3 O-model retrain
+
+Remove `coordination_needs` from O-model inputs. The O-model predicts operational severity from observable indicators only:
+
+| O-model input | Source |
+|---|---|
+| `description` | Incident description (enriched with entity impact summaries) |
+| `sectors_affected` | Aggregated from Phase 2 |
+| `entity_relevance` | Aggregated from Phase 2 |
+| `ms_affected` | Aggregated from Phase 2 |
+| `cross_border_pattern` | Derived from ms_affected |
+| `capacity_exceeded` | Heuristic default or analyst override |
+
+Removed: `coordination_needs` (was circular — is a matrix output, not an input).
+
+**Effort:** Medium — retrain O-model with updated input schema + regenerate training data.
+
+### 6. `assess_incident` MCP tool
+
+Single MCP tool: vulnerability description + entity list → full pipeline → matrix classification + coordination level:
 
 ```
 assess_incident(
@@ -358,13 +369,12 @@ assess_incident(
     entities=[
         {entity_type: "cloud_computing_provider", sector: "digital_infrastructure",
          entity_affected: true, service_impact: "unavailable",
-         unavailability_duration_min: 45, ms: "LU", ...},
+         unavailability_duration_min: 45,
+         ms_established: "LU", ms_affected: ["LU", "DE", "BE"]},
         {entity_type: "healthcare_provider", sector: "health",
-         entity_affected: true, service_impact: "degraded", ms: "DE", ...},
+         entity_affected: true, service_impact: "degraded",
+         ms_established: "DE", ms_affected: ["DE"]},
     ],
-    # Phase 3 overrides (analyst-provided, optional)
-    coordination_needs="eu_active",
-    capacity_exceeded=false,
 )
 ```
 
@@ -374,30 +384,45 @@ assess_incident(
 {
   "phase1": {"score": 8.5, "band": "High"},
   "phase2": {
-    "entity_results": [...],
-    "worst_severity": "Critical",
-    "significant_incidents": 1
+    "entity_results": [
+      {"entity_type": "cloud_computing_provider", "model": "IR",
+       "severity": "Critical", "significant_incident": true,
+       "triggered_criteria": ["Art. 7: unavailability > 30min"]},
+      {"entity_type": "healthcare_provider", "model": "NIS2",
+       "severity": "High",
+       "reporting_hint": "Service degraded at essential entity"}
+    ]
+  },
+  "aggregation": {
+    "affected_entities": 2,
+    "sectors_affected": 2,
+    "ms_affected": 3,
+    "ms_with_service_impact": ["LU", "DE", "BE"],
+    "service_disruption": "complete",
+    "data_compromise": "operational",
+    "entity_relevance": "essential",
+    "cross_border_pattern": "significant",
+    "cascading": "cross_sector",
+    "capacity_exceeded": false
   },
   "phase3": {
-    "technical": {"level": "T3", "key_factors": [...]},
-    "operational": {"level": "O3", "key_factors": [...]},
-    "aggregated_from": {
-      "affected_entities": 2,
-      "sectors_affected": 2,
-      "ms_affected": 2,
-      "service_disruption": "complete",
-      "data_compromise": "operational",
-      "entity_relevance": "essential",
-      "cascading": "cross_sector"
-    }
+    "technical": {"level": "T3", "key_factors": ["2 entities affected",
+                  "2 sectors affected", "cross_sector cascading",
+                  "operational data compromise"]},
+    "operational": {"level": "O3", "key_factors": ["essential entity",
+                    "3 member states affected",
+                    "significant cross-border pattern"]}
   },
   "matrix": {
     "classification": "large_scale",
     "label": "Large-scale",
-    "provision": "7(c)"
+    "provision": "7(c)",
+    "coordination": "EU-CyCLONe activated (NIS2 Art. 16)"
   }
 }
 ```
+
+**Key design principle:** `coordination` is in the matrix output, not the input. The pipeline determines coordination needs — the analyst doesn't pre-select them.
 
 **Effort:** High — new MCP tool with multi-entity orchestration, aggregation, and full pipeline chaining.
 
@@ -409,16 +434,16 @@ Based on impact/effort ratio and the Phase 1 accuracy gap:
 
 | Priority | Enhancement | Phase | Expected gain |
 |----------|-------------|-------|---------------|
-| 1 | Impact inputs + IR/NIS2 model split + router | 2 | Incident-aware Phase 2, regulatory-aligned |
-| 2 | IR threshold reference data | 2 | Quantitative significant_incident for digital entities |
-| 3 | Multi-entity model + aggregation | 2+3 | Per-entity assessment, worst-case aggregation for Phase 3 |
-| 4 | `assess_incident` MCP tool | All | Multi-entity end-to-end pipeline |
-| 5 | CVSS vector multi-task | 1 | +5-10pp (biggest accuracy gap) |
-| 6 | Product/vendor signal | 1 | +3-5pp |
-| 7 | LLM description augmentation | 3 | Robustness |
-| 8 | Expand curated incidents to 100+ | 3 | Benchmark reliability |
-| 9 | Richer cross-border encoding | 2 | +2-3pp |
-| 10 | Active learning loop | All | Continuous improvement |
+| 1 | Remove coordination_needs from O-model + retrain | 3 | Fixes circular dependency |
+| 2 | Replace cross_border bool with ms_established + ms_affected | 2 | Concrete geography, derived cross_border_pattern |
+| 3 | Impact inputs + IR/NIS2 model split + router | 2 | Incident-aware Phase 2, regulatory-aligned |
+| 4 | IR threshold reference data | 2 | Quantitative significant_incident for digital entities |
+| 5 | Multi-entity aggregation | 2+3 | Per-entity assessment, fully derived Phase 3 inputs |
+| 6 | `assess_incident` MCP tool | All | Multi-entity end-to-end pipeline |
+| 7 | CVSS vector multi-task | 1 | +5-10pp (biggest accuracy gap) |
+| 8 | Product/vendor signal | 1 | +3-5pp |
+| 9 | LLM description augmentation | 3 | Robustness |
+| 10 | Expand curated incidents to 100+ | 3 | Benchmark reliability |
 
 ---
 
