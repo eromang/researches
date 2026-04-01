@@ -205,12 +205,32 @@ All large artifacts are reproducible from scripts. Secrets (`.env`, `*.token`) a
 
 ### 6.5 Hugging Face Hub
 
-| Repo | Content | Script |
-|------|---------|--------|
-| `CyberScale/cyberscale-scorer-v1` | Model weights, tokenizer, config, metrics, model card | `publish_hf.py` |
-| `CyberScale/cyberscale-training-cves` | Training CSV, pre-analysis report, dataset card | `publish_hf.py --dataset-only` |
+**Active models (ML, Phase 1+2 only):**
 
-Token via `HF_TOKEN` environment variable (never committed). Supports `--dry-run`.
+| Repo | Content |
+|------|---------|
+| `eromang/cyberscale-scorer-v1` | Phase 1 model weights, tokenizer, config, metrics |
+| `eromang/cyberscale-contextual-v1` | Phase 2 model weights (v4: impact inputs + MS geography) |
+
+**Deprecated models (Phase 3, replaced by deterministic rules in v5):**
+
+| Repo | Status |
+|------|--------|
+| `eromang/cyberscale-technical-v1` | Deprecated — replaced by `derive_t_level()` |
+| `eromang/cyberscale-operational-v1` | Deprecated — replaced by `derive_o_level()` |
+
+**Reference datasets:**
+
+| Repo | Content |
+|------|---------|
+| `eromang/cyberscale-curated-incidents` | 40 real-world single-entity benchmark scenarios |
+| `eromang/cyberscale-curated-multi-entity` | 50 multi-entity incident scenarios |
+| `eromang/cyberscale-impact-taxonomy` | Unified impact taxonomy (field names/values) |
+| `eromang/cyberscale-ir-thresholds` | IR Arts. 5-14 per-entity-type thresholds |
+| `eromang/cyberscale-sector-dependencies` | Directed sector dependency graph |
+| `eromang/cyberscale-training-cves` | Phase 1 training CVEs |
+
+Token via `HF_TOKEN` environment variable (never committed). Publish with `publish_hf.py`.
 
 
 ## 8. Key design decisions

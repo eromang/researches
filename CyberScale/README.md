@@ -53,15 +53,27 @@ Authority path: assess_incident → aggregation → T-level (deterministic) → 
 
 ## Models
 
-| Model | Task | Key metric |
-|-------|------|------------|
-| `cyberscale-scorer-v1` | Vulnerability severity (0-10) | 60.5% band accuracy |
-| `cyberscale-contextual-v4` | NIS2 contextual severity + incident mode | 81.5% macro F1 |
-| T-level | Deterministic from impact fields | 100% (rules-based) |
-| O-level | Deterministic from consequence dimensions | 100% (rules-based) |
-| IR thresholds | Per-entity-type significance | 100% (deterministic) |
+| Model | Task | Key metric | HuggingFace |
+|-------|------|------------|-------------|
+| Scorer v1 | Vulnerability severity (0-10) | 60.5% band accuracy | [eromang/cyberscale-scorer-v1](https://huggingface.co/eromang/cyberscale-scorer-v1) |
+| Contextual v1 | NIS2 contextual severity + incident mode | 81.5% macro F1 | [eromang/cyberscale-contextual-v1](https://huggingface.co/eromang/cyberscale-contextual-v1) |
+| T-level | Deterministic from impact fields | 100% (rules-based) | — |
+| O-level | Deterministic from consequence dimensions | 100% (rules-based) | — |
+| IR thresholds | Per-entity-type significance | 100% (deterministic) | [eromang/cyberscale-ir-thresholds](https://huggingface.co/datasets/eromang/cyberscale-ir-thresholds) |
 
 ML models (Phase 1+2 only) are ModernBERT-base (149M params) with Monte Carlo dropout confidence estimation (5 passes). Phase 3 is fully deterministic.
+
+### Reference datasets on HuggingFace
+
+| Dataset | Content |
+|---------|---------|
+| [cyberscale-curated-incidents](https://huggingface.co/datasets/eromang/cyberscale-curated-incidents) | 40 real-world single-entity incident scenarios |
+| [cyberscale-curated-multi-entity](https://huggingface.co/datasets/eromang/cyberscale-curated-multi-entity) | 50 multi-entity incident scenarios |
+| [cyberscale-impact-taxonomy](https://huggingface.co/datasets/eromang/cyberscale-impact-taxonomy) | Unified impact field names/values (NIS2 Art. 23) |
+| [cyberscale-ir-thresholds](https://huggingface.co/datasets/eromang/cyberscale-ir-thresholds) | IR Arts. 5-14 per-entity-type significance thresholds |
+| [cyberscale-sector-dependencies](https://huggingface.co/datasets/eromang/cyberscale-sector-dependencies) | Directed sector dependency graph (ENISA/CER) |
+
+Deprecated models (kept for reference): [cyberscale-technical-v1](https://huggingface.co/eromang/cyberscale-technical-v1), [cyberscale-operational-v1](https://huggingface.co/eromang/cyberscale-operational-v1) — replaced by `derive_t_level()` / `derive_o_level()` in v5.
 
 ## Quick start
 
