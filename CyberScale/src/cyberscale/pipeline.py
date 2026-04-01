@@ -45,7 +45,6 @@ def run_pipeline(
     entity_type: Optional[str] = None,
     cer_critical_entity: Optional[bool] = None,
     # Phase 3 fields (all optional — omit to skip Phase 3)
-    technical=None,
     operational=None,
     service_impact: Optional[str] = None,
     affected_entities: Optional[int] = None,
@@ -77,19 +76,15 @@ def run_pipeline(
 
     # --- Phase 3: Incident classification (optional) ---
     has_phase3 = (
-        technical is not None
-        and operational is not None
+        operational is not None
         and service_impact is not None
     )
 
     if has_phase3:
-        t_result = technical.predict(
-            description,
-            service_impact=service_impact,
-            affected_entities=affected_entities,
-            sectors_affected=sectors_affected,
-            cascading=cascading,
-            data_impact=data_impact,
+        from cyberscale.aggregation import derive_t_level
+        t_level, _ = derive_t_level(
+            service_impact, data_impact or "none",
+            cascading or "none", affected_entities or 1,
         )
         o_result = operational.predict(
             description,
@@ -101,7 +96,7 @@ def run_pipeline(
         )
 
         from cyberscale.matrix.dual_scale import classify_incident
-        matrix = classify_incident(t_result.level, o_result.level)
+        matrix = classify_incident(t_level, o_result.level)
 
         return PipelineResult(
             phase1_score=p1.score,
@@ -110,7 +105,7 @@ def run_pipeline(
             phase2_severity=p2.severity,
             phase2_confidence=p2.confidence,
             phase2_key_factors=p2.key_factors,
-            phase3_t_level=t_result.level,
+            phase3_t_level=t_level,
             phase3_o_level=o_result.level,
             classification=matrix.classification,
             label=matrix.label,

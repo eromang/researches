@@ -77,7 +77,6 @@ class TestRunPipeline:
         result = run_pipeline(
             scorer=FakeScorer(),
             contextual=FakeContextual(),
-            technical=FakeTechnical(),
             operational=FakeOperational(),
             description="Critical RCE in hospital system",
             sector="health",
