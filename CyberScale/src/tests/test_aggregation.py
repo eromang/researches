@@ -9,9 +9,10 @@ from cyberscale.aggregation import (
     aggregate_entity_notifications,
     derive_t_level,
     derive_o_level,
+    propagate_cascading,
     AggregationResult,
     _worst_case,
-    _derive_cascading,
+    _derive_cascading_from_count,
     _derive_cross_border_pattern,
     _derive_capacity_exceeded,
     _SERVICE_IMPACT_ORDER,
@@ -54,19 +55,70 @@ class TestWorstCase:
 
 class TestDeriveCascading:
     def test_1_sector(self):
-        assert _derive_cascading(1) == "none"
+        assert _derive_cascading_from_count(1) == "none"
 
     def test_2_sectors(self):
-        assert _derive_cascading(2) == "limited"
+        assert _derive_cascading_from_count(2) == "limited"
 
     def test_3_sectors(self):
-        assert _derive_cascading(3) == "cross_sector"
+        assert _derive_cascading_from_count(3) == "cross_sector"
 
     def test_5_sectors(self):
-        assert _derive_cascading(5) == "uncontrolled"
+        assert _derive_cascading_from_count(5) == "uncontrolled"
 
     def test_10_sectors(self):
-        assert _derive_cascading(10) == "uncontrolled"
+        assert _derive_cascading_from_count(10) == "uncontrolled"
+
+
+class TestPropagateCascading:
+    def test_energy_unavailable_propagates_to_health(self):
+        sectors = {"energy"}
+        impacts = {"energy": "unavailable"}
+        all_sectors, cascading = propagate_cascading(sectors, impacts)
+        assert "health" in all_sectors
+        assert "transport" in all_sectors
+        assert "drinking_water" in all_sectors
+        assert len(all_sectors) > 1
+
+    def test_energy_partial_no_propagation(self):
+        """Partial impact doesn't cascade to dependents."""
+        sectors = {"energy"}
+        impacts = {"energy": "partial"}
+        all_sectors, cascading = propagate_cascading(sectors, impacts)
+        assert all_sectors == {"energy"}
+        assert cascading == "none"
+
+    def test_energy_sustained_propagates_indirect(self):
+        sectors = {"energy"}
+        impacts = {"energy": "sustained"}
+        all_sectors, _ = propagate_cascading(sectors, impacts)
+        # Direct + indirect
+        assert "health" in all_sectors
+        assert "banking" in all_sectors  # indirect
+
+    def test_postal_no_fan_out(self):
+        """Postal has no dependencies defined — no propagation."""
+        sectors = {"postal"}
+        impacts = {"postal": "unavailable"}
+        all_sectors, cascading = propagate_cascading(sectors, impacts)
+        assert all_sectors == {"postal"}
+        assert cascading == "none"
+
+    def test_energy_vs_postal_different_cascading(self):
+        """Energy unavailable should cascade more than postal unavailable."""
+        e_sectors, e_cascading = propagate_cascading(
+            {"energy"}, {"energy": "unavailable"},
+        )
+        p_sectors, p_cascading = propagate_cascading(
+            {"postal"}, {"postal": "unavailable"},
+        )
+        assert len(e_sectors) > len(p_sectors)
+
+    def test_multiple_sectors_combine(self):
+        sectors = {"energy", "digital_infrastructure"}
+        impacts = {"energy": "unavailable", "digital_infrastructure": "unavailable"}
+        all_sectors, cascading = propagate_cascading(sectors, impacts)
+        assert cascading == "uncontrolled"  # very high fan-out from both
 
 
 class TestDeriveCrossBorderPattern:
@@ -266,9 +318,11 @@ class TestAggregateEntityNotifications:
         assert result.safety_impact == "death"
         assert result.affected_persons_count == 6000  # sum
         assert result.affected_entities == 2
-        assert result.sectors_affected == 2
+        # energy unavailable cascades to 8 downstream sectors + health + energy = many
+        assert result.sectors_affected >= 5
         assert result.ms_affected == 3  # DE, FR, NL
-        assert result.t_level == "T3"  # unavailable
+        # Energy unavailable + uncontrolled cascading → T4
+        assert result.t_level == "T4"
 
     def test_crisis_scenario_t4(self):
         """WannaCry-style: sustained disruption, systemic data, 5+ sectors."""
@@ -285,7 +339,7 @@ class TestAggregateEntityNotifications:
         ]
         result = aggregate_entity_notifications(notifications)
         assert result.t_level == "T4"  # sustained
-        assert result.cascading == "cross_sector"  # 3 sectors
+        assert result.cascading == "uncontrolled"  # 3 reported + propagated dependents
         assert result.capacity_exceeded is True
         assert result.affected_persons_count == 170000
 

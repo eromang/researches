@@ -13,7 +13,9 @@ Produces:
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass, field
+from pathlib import Path
 
 
 # Ordered severity scales for worst-case selection
@@ -30,8 +32,57 @@ def _worst_case(values: list[str], order: dict[str, int]) -> str:
     return max(values, key=lambda v: order.get(v, 0))
 
 
-def _derive_cascading(sectors_affected: int) -> str:
-    """Derive cascading level from number of sectors affected."""
+_DEPS_PATH = Path(__file__).parent.parent.parent / "data" / "reference" / "sector_dependencies.json"
+_cached_deps: dict | None = None
+
+
+def _load_sector_dependencies() -> dict:
+    global _cached_deps
+    if _cached_deps is None:
+        if _DEPS_PATH.exists():
+            with open(_DEPS_PATH, encoding="utf-8") as f:
+                _cached_deps = json.load(f)
+        else:
+            _cached_deps = {"dependencies": {}}
+    return _cached_deps
+
+
+def propagate_cascading(
+    impacted_sectors: set[str],
+    sector_impacts: dict[str, str],
+) -> tuple[set[str], str]:
+    """Propagate impact through sector dependency graph.
+
+    Args:
+        impacted_sectors: Set of sectors with reported entities.
+        sector_impacts: Map of sector → worst service_impact for that sector.
+
+    Returns:
+        (all_affected_sectors, cascading_level) where all_affected_sectors
+        includes propagated downstream sectors.
+    """
+    deps = _load_sector_dependencies().get("dependencies", {})
+    all_sectors = set(impacted_sectors)
+
+    for sector in impacted_sectors:
+        impact = sector_impacts.get(sector, "none")
+        sector_deps = deps.get(sector, {})
+
+        # Direct dependencies: propagate if unavailable or sustained
+        if impact in ("unavailable", "sustained"):
+            for downstream in sector_deps.get("direct", []):
+                all_sectors.add(downstream)
+
+        # Indirect dependencies: propagate only if sustained
+        if impact == "sustained":
+            for downstream in sector_deps.get("indirect", []):
+                all_sectors.add(downstream)
+
+    return all_sectors, _derive_cascading_from_count(len(all_sectors))
+
+
+def _derive_cascading_from_count(sectors_affected: int) -> str:
+    """Derive cascading level from total number of affected sectors."""
     if sectors_affected >= 5:
         return "uncontrolled"
     if sectors_affected >= 3:
@@ -294,6 +345,8 @@ def aggregate_entity_notifications(notifications: list[dict]) -> AggregationResu
     sectors = set()
     ms_set = set()
 
+    sector_impacts: dict[str, list[str]] = {}  # sector → list of service_impacts
+
     for n in notifications:
         service_impacts.append(n.get("service_impact", "none"))
         data_impacts.append(n.get("data_impact", "none"))
@@ -303,6 +356,7 @@ def aggregate_entity_notifications(notifications: list[dict]) -> AggregationResu
 
         if "sector" in n:
             sectors.add(n["sector"])
+            sector_impacts.setdefault(n["sector"], []).append(n.get("service_impact", "none"))
         if "ms_established" in n:
             ms_set.add(n["ms_established"])
         for ms in n.get("ms_affected", []):
@@ -315,11 +369,15 @@ def aggregate_entity_notifications(notifications: list[dict]) -> AggregationResu
     safety = _worst_case(safety_impacts, _SAFETY_IMPACT_ORDER)
 
     affected_entities = len(notifications)
-    n_sectors = len(sectors)
     n_ms = len(ms_set)
 
-    # Derived fields
-    cascading = _derive_cascading(n_sectors)
+    # Sector dependency-aware cascading
+    per_sector_worst = {
+        s: _worst_case(impacts, _SERVICE_IMPACT_ORDER)
+        for s, impacts in sector_impacts.items()
+    }
+    all_affected_sectors, cascading = propagate_cascading(sectors, per_sector_worst)
+    n_sectors = len(all_affected_sectors)
     cross_border_pattern = _derive_cross_border_pattern(n_ms)
     capacity_exceeded = _derive_capacity_exceeded(
         affected_entities, n_sectors, n_ms, safety,
@@ -348,6 +406,6 @@ def aggregate_entity_notifications(notifications: list[dict]) -> AggregationResu
         t_basis=t_basis,
         o_level=o_level,
         o_basis=o_basis,
-        sector_list=sorted(sectors),
+        sector_list=sorted(all_affected_sectors),
         ms_list=sorted(ms_set),
     )

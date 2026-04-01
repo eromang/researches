@@ -1,0 +1,83 @@
+{
+  "version": "1.0",
+  "description": "Directed sector dependency graph for cascading impact propagation. Sources: ENISA NIS Investments Report 2023, CER Directive (EU) 2022/2557 Annex, ENISA Threat Landscape 2024.",
+  "dependencies": {
+    "energy": {
+      "direct": ["health", "transport", "drinking_water", "waste_water", "digital_infrastructure", "manufacturing", "food", "chemicals"],
+      "indirect": ["banking", "financial_market", "public_administration", "ict_service_management"],
+      "fan_out": "highest",
+      "rationale": "Energy underpins nearly all critical sectors. Hospital generators last 24-72h. Water pumps, transport signalling, data centres all depend on grid power."
+    },
+    "digital_infrastructure": {
+      "direct": ["banking", "financial_market", "health", "public_administration", "ict_service_management", "digital_providers"],
+      "indirect": ["energy", "transport", "postal"],
+      "fan_out": "very_high",
+      "rationale": "DNS, cloud, CDN, trust services underpin digital operations across all sectors. Payment systems, government portals, telehealth all depend on connectivity."
+    },
+    "transport": {
+      "direct": ["health", "food", "postal", "manufacturing"],
+      "indirect": ["energy", "chemicals"],
+      "fan_out": "high",
+      "rationale": "Ambulances, medical supply chains, food distribution, mail delivery all depend on transport infrastructure."
+    },
+    "drinking_water": {
+      "direct": ["health", "food"],
+      "indirect": [],
+      "fan_out": "medium",
+      "rationale": "Hospitals and food production require clean water. Contamination or supply failure has direct health consequences."
+    },
+    "ict_service_management": {
+      "direct": ["banking", "health", "public_administration", "digital_providers"],
+      "indirect": ["energy", "transport"],
+      "fan_out": "high",
+      "rationale": "MSPs/MSSPs manage IT for many sectors. A supply chain compromise through an MSP cascades to all managed clients."
+    },
+    "banking": {
+      "direct": ["financial_market"],
+      "indirect": [],
+      "fan_out": "low",
+      "rationale": "Banking disruption affects financial markets but limited direct cascade to physical infrastructure."
+    },
+    "financial_market": {
+      "direct": ["banking"],
+      "indirect": [],
+      "fan_out": "low",
+      "rationale": "Trading venue/CCP disruption affects banking but limited physical cascade."
+    },
+    "health": {
+      "direct": [],
+      "indirect": [],
+      "fan_out": "none",
+      "rationale": "Health is primarily a dependency sink, not a source. Disruption affects patients directly but doesn't cascade to other sectors."
+    },
+    "public_administration": {
+      "direct": [],
+      "indirect": [],
+      "fan_out": "none",
+      "rationale": "Government IT disruption affects citizens but doesn't cascade to other sector operations."
+    },
+    "space": {
+      "direct": ["transport", "digital_infrastructure"],
+      "indirect": ["energy"],
+      "fan_out": "medium",
+      "rationale": "GNSS/satellite timing underpins transport navigation, telecom synchronisation, and energy grid coordination."
+    },
+    "food": {
+      "direct": [],
+      "indirect": [],
+      "fan_out": "none",
+      "rationale": "Food disruption affects consumers directly. Supply chain issues are sourced from transport/energy dependencies."
+    },
+    "chemicals": {
+      "direct": ["drinking_water", "health"],
+      "indirect": ["food"],
+      "fan_out": "low",
+      "rationale": "Chemical supply disruption affects water treatment and pharmaceutical production."
+    }
+  },
+  "propagation_rules": {
+    "direct_dependency": "If sector X is impacted at unavailable/sustained and sector Y has direct dependency on X, Y receives implicit degraded impact",
+    "indirect_dependency": "If sector X is impacted at sustained and sector Y has indirect dependency on X, Y receives implicit partial impact",
+    "cascading_derivation": "Count all impacted sectors (explicit + propagated) for cascading level"
+  }
+}
