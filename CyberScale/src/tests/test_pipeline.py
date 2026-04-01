@@ -202,7 +202,6 @@ class TestCerCriticalEntityPassthrough:
             contextual=TrackingContextual(),
             description="Buffer overflow",
             sector="energy",
-            cross_border=False,
         )
         assert calls == [None]
 

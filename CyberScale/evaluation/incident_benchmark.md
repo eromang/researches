@@ -1,11 +1,11 @@
 # CyberScale Phase 3 — Incident Classification Benchmark
 
-**Date:** 2026-03-30 22:18
+**Date:** 2026-04-01 03:20
 **T-model:** `data/models/technical`
 **O-model:** `data/models/operational`
 **Test scenarios:** 1000
 **Seed:** 999
-**Elapsed:** 83.2s
+**Elapsed:** 48.7s
 
 ## T-model Results
 
@@ -32,39 +32,39 @@
 
 ## O-model Results
 
-- **Accuracy:** 99.60%
-- **Macro F1:** 0.9960
+- **Accuracy:** 89.20%
+- **Macro F1:** 0.8926
 
 ### Per-level F1
 
 | Level | F1 |
 |-------|-----|
-| O1 | 0.9919 |
-| O2 | 0.9921 |
-| O3 | 1.0000 |
-| O4 | 1.0000 |
+| O1 | 0.8493 |
+| O2 | 0.8410 |
+| O3 | 0.9302 |
+| O4 | 0.9500 |
 
 ### Confusion Matrix
 
 | Actual \ Predicted | O1 | O2 | O3 | O4 |
 |---|---|---|---|---|
-| **O1** | 123 | 2 | 0 | 0 |
-| **O2** | 0 | 125 | 0 | 0 |
-| **O3** | 0 | 0 | 125 | 0 |
-| **O4** | 0 | 0 | 0 | 125 |
+| **O1** | 93 | 31 | 1 | 0 |
+| **O2** | 0 | 119 | 5 | 1 |
+| **O3** | 1 | 4 | 120 | 0 |
+| **O4** | 0 | 4 | 7 | 114 |
 
 ## End-to-end Matrix Results
 
-- **Accuracy:** 100.00%
+- **Accuracy:** 94.40%
 
 ### Classification Distribution
 
 | Classification | Count | Pct |
 |---------------|-------|-----|
-| below_threshold | 30 | 6.0% |
-| significant | 155 | 31.0% |
-| large_scale | 223 | 44.6% |
-| cyber_crisis | 92 | 18.4% |
+| below_threshold | 27 | 5.4% |
+| significant | 152 | 30.4% |
+| large_scale | 234 | 46.8% |
+| cyber_crisis | 87 | 17.4% |
 
 ## Illustrative Use Cases
 
@@ -82,7 +82,7 @@
 | Metric | Target | Actual | Status |
 |--------|--------|--------|--------|
 | T-model macro F1 | > 75% | 100.0% | PASS |
-| O-model macro F1 | > 75% | 99.6% | PASS |
-| Matrix end-to-end | > 70% | 100.0% | PASS |
+| O-model macro F1 | > 75% | 89.3% | PASS |
+| Matrix end-to-end | > 70% | 94.4% | PASS |
 | Illustrative cases | 6/6 | 6/6 | PASS |
 | **Overall** | **All pass** | | **PASS** |

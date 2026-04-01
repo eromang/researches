@@ -75,7 +75,7 @@ def test_curated_incident_t_fields(sample_dataset):
 
 def test_curated_incident_o_fields(sample_dataset):
     incident = load_curated_incidents(sample_dataset)[0]
-    assert incident.o_fields["sectors_affected"] == "health"
+    assert incident.o_fields["sectors_affected"] == 1
     assert incident.o_fields["entity_relevance"] == "essential"
     assert incident.o_fields["capacity_exceeded"] is False
 
