@@ -139,6 +139,52 @@ class TestFormatInput:
         assert "cer_critical_entity:" not in text
 
 
+class TestImpactFieldFormatting:
+    def test_entity_affected_with_impacts(self):
+        clf = ContextualClassifier.__new__(ContextualClassifier)
+        text = clf._format_input(
+            "Ransomware attack", sector="health", cross_border=False,
+            entity_affected=True,
+            service_impact="unavailable",
+            data_impact="exfiltrated",
+            financial_impact="severe",
+            safety_impact="health_damage",
+            affected_persons_count=50000,
+            suspected_malicious=True,
+            impact_duration_hours=72,
+        )
+        assert "entity_affected: true" in text
+        assert "service_impact: unavailable" in text
+        assert "data_impact: exfiltrated" in text
+        assert "financial_impact: severe" in text
+        assert "safety_impact: health_damage" in text
+        assert "affected_persons: 50000" in text
+        assert "suspected_malicious: true" in text
+        assert "duration_hours: 72" in text
+
+    def test_entity_affected_false_no_impact_fields(self):
+        clf = ContextualClassifier.__new__(ContextualClassifier)
+        text = clf._format_input(
+            "Buffer overflow", sector="energy", cross_border=False,
+            entity_affected=False,
+            service_impact="unavailable",
+        )
+        assert "entity_affected:" not in text
+        assert "service_impact:" not in text
+
+    def test_entity_affected_none_fields_omitted(self):
+        clf = ContextualClassifier.__new__(ContextualClassifier)
+        text = clf._format_input(
+            "Buffer overflow", sector="energy", cross_border=False,
+            entity_affected=True,
+            service_impact="none",
+            data_impact="none",
+        )
+        assert "entity_affected: true" in text
+        assert "service_impact:" not in text
+        assert "data_impact:" not in text
+
+
 class TestPredictCrossBorderDerivation:
     def test_cross_border_true_when_ms_differ(self):
         """cross_border should be derived as True when ms_affected contains MS != ms_established."""
