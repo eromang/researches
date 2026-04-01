@@ -1,0 +1,32 @@
+{
+  "model": {
+    "base_model": "answerdotai/ModernBERT-base",
+    "max_length": 256,
+    "batch_size": 16,
+    "learning_rate": 1e-5,
+    "dropout": 0.3,
+    "label_smoothing": 0.1,
+    "weight_decay": 0.01,
+    "mc_dropout_passes": 5,
+    "warmup_ratio": 0.1,
+    "gradient_clip": 1.0,
+    "epochs": 20,
+    "patience": 5,
+    "seed": 42,
+    "lambda_components": 0.3,
+    "component_configs": {
+      "av": {"num_labels": 4, "weight": 1.0},
+      "ac": {"num_labels": 2, "weight": 0.8},
+      "pr": {"num_labels": 3, "weight": 1.0},
+      "ui": {"num_labels": 2, "weight": 0.8},
+      "scope": {"num_labels": 2, "weight": 0.8},
+      "conf": {"num_labels": 3, "weight": 1.0},
+      "integ": {"num_labels": 3, "weight": 1.0},
+      "avail": {"num_labels": 3, "weight": 1.0}
+    }
+  },
+  "evaluation": {
+    "test_split": 0.15,
+    "val_split": 0.15
+  }
+}
