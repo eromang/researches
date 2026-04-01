@@ -94,13 +94,18 @@ When Phase 3 is fully deterministic (v5 target #1), the rules need a calibration
 
 | Enhancement | Phase | Impact | Effort |
 |-------------|-------|--------|--------|
-| Temporal incident tracking (initial→update→final) | 2+3 | Support evolving incidents with state between calls | High |
 | Real incident validation dataset | All | Validate against actual ENISA/CSIRT reports | High (data) |
 | Phase 1 CVSS vector multi-task learning | 1 | Expected +5-10pp on band accuracy | Medium |
 | National layer (per-MS thresholds) | 2 | On hold — only Luxembourg rules available; not generalizable to other MS yet | Medium |
-| Sector dependency-aware aggregation | 3 | Replace naive sector count with dependency graph propagation (see below) | Medium |
-| Authority feedback loop (rule calibration) | 3 | Store authority override decisions, regression-test rules against ground truth (see below) | Medium |
-| Standardized Art. 23 notification schema | 2 | Match actual NIS2 notification fields | Medium |
+
+### Future (v6+): Incident lifecycle management
+
+| Enhancement | Phase | Impact | Effort |
+|-------------|-------|--------|--------|
+| Standardized Art. 23 notification schema | 2 | Structured input per notification stage (early warning/72h/final) — prerequisite for temporal tracking | Medium |
+| Temporal incident tracking (initial→update→final) | 2+3 | Support evolving incidents with state between calls, incident timeline | High |
+
+These two form a natural pair — the schema defines the data format, temporal tracking manages the lifecycle. Deferred until a CSIRT pilot or real user validates the need.
 
 ---
 
