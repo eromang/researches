@@ -173,6 +173,7 @@ def parse_cve_file(path: Path) -> dict | None:
     # CVSS v3.1 score (prefer v3.1, fall back to v3.0)
     cvss_score = None
     cvss_version = None
+    cvss_vector = None
     for metric_block in cna.get("metrics", []):
         # Try v3.1 first
         for key in ("cvssV3_1", "cvssV31", "cvssV3_0", "cvssV30"):
@@ -183,6 +184,7 @@ def parse_cve_file(path: Path) -> dict | None:
                 if score is not None and version is not None:
                     cvss_score = float(score)
                     cvss_version = str(version)
+                    cvss_vector = m.get("vectorString")
                     break
         if cvss_score is not None:
             break
@@ -199,6 +201,7 @@ def parse_cve_file(path: Path) -> dict | None:
                         if score is not None and version is not None:
                             cvss_score = float(score)
                             cvss_version = str(version)
+                            cvss_vector = m.get("vectorString")
                             break
                 if cvss_score is not None:
                     break
@@ -214,9 +217,68 @@ def parse_cve_file(path: Path) -> dict | None:
         "description": description,
         "cvss_score": cvss_score,
         "cvss_version": cvss_version,
+        "cvss_vector": cvss_vector,
         "cwe": cwe,
         "source": "cvelistV5",
     }
+
+
+# ---------------------------------------------------------------------------
+# CVSS vector parsing
+# ---------------------------------------------------------------------------
+
+# Maps CVSS v3.x vector abbreviations to output column names
+_VECTOR_KEY_MAP = {
+    "AV": "av",
+    "AC": "ac",
+    "PR": "pr",
+    "UI": "ui",
+    "S": "scope",
+    "C": "conf",
+    "I": "integ",
+    "A": "avail",
+}
+
+CVSS_COMPONENT_COLS = list(_VECTOR_KEY_MAP.values())
+
+
+def parse_cvss_vector(vector: str | None) -> dict[str, str | None]:
+    """Parse a CVSS v3.x vector string into 8 component columns.
+
+    Example input:  "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+    Example output: {"av": "N", "ac": "L", "pr": "N", "ui": "N",
+                     "scope": "U", "conf": "H", "integ": "H", "avail": "H"}
+
+    Returns dict with None values for all components if vector is None or
+    cannot be parsed.
+    """
+    empty = {col: None for col in CVSS_COMPONENT_COLS}
+    if not vector:
+        return empty
+
+    # Strip the "CVSS:x.y/" prefix and split on "/"
+    parts = vector.split("/")
+    # Skip the first part if it starts with "CVSS:" (version prefix)
+    if parts and parts[0].upper().startswith("CVSS:"):
+        parts = parts[1:]
+
+    parsed = dict(empty)
+    for part in parts:
+        if ":" not in part:
+            continue
+        key, _, value = part.partition(":")
+        col = _VECTOR_KEY_MAP.get(key.upper())
+        if col:
+            parsed[col] = value.upper()
+
+    return parsed
+
+
+def enrich_cvss_components(cves: list[dict]) -> None:
+    """Add the 8 CVSS vector component columns to each CVE dict in-place."""
+    for cve in cves:
+        components = parse_cvss_vector(cve.get("cvss_vector"))
+        cve.update(components)
 
 
 # ---------------------------------------------------------------------------
@@ -302,6 +364,9 @@ def collect_all_cves(
     # Deduplicate by description
     unique_cves, dupes = deduplicate_descriptions(raw_cves)
     print(f"  After dedup: {len(unique_cves)} (-{dupes} duplicate descriptions)")
+
+    # Parse CVSS vector strings into individual component columns
+    enrich_cvss_components(unique_cves)
 
     return unique_cves
 
@@ -718,7 +783,8 @@ def main():
 
     # Step 5: Write CSV
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
-    fieldnames = ["cve_id", "description", "cvss_score", "cvss_version", "cwe", "source"]
+    fieldnames = ["cve_id", "description", "cvss_score", "cvss_version", "cvss_vector",
+                   "cwe", "source", "av", "ac", "pr", "ui", "scope", "conf", "integ", "avail"]
     with open(args.output, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
