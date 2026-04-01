@@ -50,7 +50,7 @@ The O-model training labels are deterministically assigned from structured field
 | Temporal incident tracking (initial→update→final) | 2+3 | Support evolving incidents with state between calls | High |
 | Real incident validation dataset | All | Validate against actual ENISA/CSIRT reports | High (data) |
 | Phase 1 CVSS vector multi-task learning | 1 | Expected +5-10pp on band accuracy | Medium |
-| National layer (per-MS thresholds) | 2 | Jurisdiction-specific escalation rules | Medium |
+| National layer (per-MS thresholds) | 2 | On hold — only Luxembourg rules available; not generalizable to other MS yet | Medium |
 | Weighted aggregation (vs worst-case) | 3 | Reduce over-escalation from single high-impact entity | Low |
 | Authority feedback loop | 3 | Real O-level decisions → fine-tune or validate rules | High |
 | Standardized Art. 23 notification schema | 2 | Match actual NIS2 notification fields | Medium |
