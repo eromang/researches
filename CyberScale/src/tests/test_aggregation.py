@@ -8,6 +8,7 @@ import pytest
 from cyberscale.aggregation import (
     aggregate_entity_notifications,
     derive_t_level,
+    derive_o_level,
     AggregationResult,
     _worst_case,
     _derive_cascading,
@@ -167,6 +168,68 @@ class TestDeriveTLevel:
 # Full aggregation
 # ---------------------------------------------------------------------------
 
+class TestDeriveOLevel:
+    def test_systemic_cross_border_capacity_is_o4(self):
+        o, _ = derive_o_level("systemic", True, "essential", 6, 3)
+        assert o == "O4"
+
+    def test_systemic_entity_6ms_is_o4(self):
+        o, _ = derive_o_level("none", False, "systemic", 6, 1)
+        assert o == "O4"
+
+    def test_significant_cross_border_is_o3(self):
+        o, _ = derive_o_level("significant", False, "essential", 3, 1)
+        assert o == "O3"
+
+    def test_capacity_exceeded_is_o3(self):
+        o, _ = derive_o_level("none", True, "essential", 1, 1)
+        assert o == "O3"
+
+    def test_limited_cross_border_is_o2(self):
+        o, _ = derive_o_level("limited", False, "essential", 2, 1)
+        assert o == "O2"
+
+    def test_3_sectors_is_o2(self):
+        o, _ = derive_o_level("none", False, "non_essential", 1, 3)
+        assert o == "O2"
+
+    def test_minimal_is_o1(self):
+        o, basis = derive_o_level("none", False, "non_essential", 1, 1)
+        assert o == "O1"
+
+    def test_consequence_escalation_safety(self):
+        """death safety_impact should escalate O2 → O3."""
+        o_base, _ = derive_o_level("limited", False, "essential", 2, 1)
+        o_esc, _ = derive_o_level("limited", False, "essential", 2, 1, safety_impact="death")
+        assert int(o_esc[1]) > int(o_base[1])
+
+    def test_consequence_escalation_persons(self):
+        """100k+ persons should escalate."""
+        o_base, _ = derive_o_level("limited", False, "essential", 2, 1)
+        o_esc, _ = derive_o_level("limited", False, "essential", 2, 1, affected_persons_count=100000)
+        assert int(o_esc[1]) > int(o_base[1])
+
+    def test_consequence_capped_at_plus1(self):
+        """Multiple consequences should still only add +1."""
+        o, _ = derive_o_level(
+            "limited", False, "essential", 2, 1,
+            safety_impact="death", affected_persons_count=200000,
+            financial_impact="severe", affected_entities=20,
+        )
+        # limited → O2, +1 consequence → O3 (not O4)
+        assert o == "O3"
+
+    def test_o4_not_escalated_further(self):
+        """O4 base should stay O4 even with consequences."""
+        o, _ = derive_o_level("systemic", True, "systemic", 8, 5, safety_impact="death")
+        assert o == "O4"
+
+    def test_basis_lists_reasons(self):
+        _, basis = derive_o_level("significant", True, "high_relevance", 4, 2, safety_impact="death")
+        assert any("significant" in b for b in basis)
+        assert any("death" in b for b in basis)
+
+
 class TestAggregateEntityNotifications:
     def test_single_entity(self):
         notifications = [{
@@ -253,6 +316,17 @@ class TestAggregateEntityNotifications:
         assert result.ms_affected == 3  # DE, FR, NL (deduped)
         assert sorted(result.ms_list) == ["DE", "FR", "NL"]
 
+    def test_o_level_computed(self):
+        notifications = [
+            {"sector": "health", "ms_established": "DE", "ms_affected": ["FR", "NL", "BE"],
+             "service_impact": "unavailable", "data_impact": "exfiltrated",
+             "financial_impact": "severe", "safety_impact": "death",
+             "affected_persons_count": 100000},
+        ]
+        result = aggregate_entity_notifications(notifications)
+        assert result.o_level in ("O3", "O4")
+        assert len(result.o_basis) > 0
+
     def test_to_dict_has_all_keys(self):
         notifications = [
             {"sector": "banking", "ms_established": "LU",
@@ -266,7 +340,7 @@ class TestAggregateEntityNotifications:
             "service_impact", "data_impact", "financial_impact", "safety_impact",
             "affected_persons_count", "affected_entities", "sectors_affected",
             "ms_affected", "cascading", "cross_border_pattern", "capacity_exceeded",
-            "t_level", "t_basis", "sector_list", "ms_list",
+            "t_level", "t_basis", "o_level", "o_basis", "sector_list", "ms_list",
         }
         assert set(d.keys()) == expected_keys
 

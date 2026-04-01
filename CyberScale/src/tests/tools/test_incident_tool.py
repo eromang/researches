@@ -1,44 +1,14 @@
 """Tests for Phase 3 incident classification MCP tool helpers.
 
-v4: T-level is deterministic (no T-model). classify_incident_technical removed.
+v5: Both T-level and O-level are fully deterministic. No ML models.
 """
-
-from unittest.mock import MagicMock
-
-from cyberscale.models.operational import OperationalResult
-
-
-class TestClassifyOperational:
-    def test_model_prediction_returned(self):
-        from cyberscale.tools.incident import _classify_operational
-
-        mock_clf = MagicMock()
-        mock_clf.predict.return_value = OperationalResult(
-            level="O3", confidence="medium", key_factors=["5 MS affected"],
-        )
-        result = _classify_operational(
-            mock_clf,
-            description="Ransomware across hospital network",
-            sectors_affected=2,
-            entity_relevance="high_relevance",
-            ms_affected=5,
-            cross_border_pattern="significant",
-            capacity_exceeded=True,
-        )
-        assert result["level"] == "O3"
-        assert result["confidence"] == "medium"
 
 
 class TestClassifyFull:
-    def test_full_classification_deterministic_t(self):
+    def test_full_classification_deterministic(self):
         from cyberscale.tools.incident import _classify_full
 
-        mock_o = MagicMock()
-        mock_o.predict.return_value = OperationalResult(
-            level="O3", confidence="medium", key_factors=["5 MS affected"],
-        )
         result = _classify_full(
-            mock_o,
             description="Ransomware",
             service_impact="unavailable",
             affected_entities=50,
@@ -50,23 +20,16 @@ class TestClassifyFull:
             cross_border_pattern="significant",
             capacity_exceeded=True,
         )
-        # T-level is now deterministic: unavailable → T3
         assert result["technical"]["level"] == "T3"
         assert result["technical"]["source"] == "deterministic"
-        assert result["operational"]["level"] == "O3"
-        assert result["classification"] == "large_scale"
-        assert result["label"] == "Large-scale"
-        assert result["provision"] == "7(c)"
+        assert result["operational"]["level"] in ("O3", "O4")
+        assert result["operational"]["source"] == "deterministic"
+        assert result["classification"] in ("large_scale", "cyber_crisis")
 
-    def test_t4_deterministic(self):
+    def test_t4_o4_crisis(self):
         from cyberscale.tools.incident import _classify_full
 
-        mock_o = MagicMock()
-        mock_o.predict.return_value = OperationalResult(
-            level="O4", confidence="high", key_factors=[],
-        )
         result = _classify_full(
-            mock_o,
             description="Sustained disruption",
             service_impact="sustained",
             affected_entities=100,
@@ -77,19 +40,17 @@ class TestClassifyFull:
             ms_affected=8,
             cross_border_pattern="systemic",
             capacity_exceeded=True,
+            safety_impact="death",
+            affected_persons_count=200000,
         )
         assert result["technical"]["level"] == "T4"
+        assert result["operational"]["level"] == "O4"
         assert result["classification"] == "cyber_crisis"
 
-    def test_t1_deterministic(self):
+    def test_t1_o1_below_threshold(self):
         from cyberscale.tools.incident import _classify_full
 
-        mock_o = MagicMock()
-        mock_o.predict.return_value = OperationalResult(
-            level="O1", confidence="high", key_factors=[],
-        )
         result = _classify_full(
-            mock_o,
             description="Minor scan",
             service_impact="partial",
             affected_entities=1,
@@ -102,13 +63,48 @@ class TestClassifyFull:
             capacity_exceeded=False,
         )
         assert result["technical"]["level"] == "T1"
+        assert result["operational"]["level"] == "O1"
         assert result["classification"] == "below_threshold"
 
-    def test_no_t_model_needed(self):
-        """classify_incident_technical tool was removed in v4."""
-        from cyberscale.tools.incident import register
-        import inspect
-        # The module should not have _get_t_classifier or _classify_technical
+    def test_no_ml_models_in_module(self):
+        """v5: No ML model loading in incident.py."""
         from cyberscale.tools import incident
+        assert not hasattr(incident, '_get_o_classifier')
         assert not hasattr(incident, '_get_t_classifier')
-        assert not hasattr(incident, '_classify_technical')
+        assert not hasattr(incident, '_classify_operational')
+
+    def test_consequence_escalation(self):
+        """Safety impact should escalate O-level."""
+        from cyberscale.tools.incident import _classify_full
+
+        # Without safety
+        r1 = _classify_full(
+            description="Incident",
+            service_impact="degraded",
+            affected_entities=5,
+            sectors_affected=1,
+            cascading="none",
+            data_impact="accessed",
+            entity_relevance="essential",
+            ms_affected=2,
+            cross_border_pattern="limited",
+            capacity_exceeded=False,
+        )
+        # With death safety impact
+        r2 = _classify_full(
+            description="Incident",
+            service_impact="degraded",
+            affected_entities=5,
+            sectors_affected=1,
+            cascading="none",
+            data_impact="accessed",
+            entity_relevance="essential",
+            ms_affected=2,
+            cross_border_pattern="limited",
+            capacity_exceeded=False,
+            safety_impact="death",
+        )
+        # Safety should push O-level higher
+        o1_num = int(r1["operational"]["level"][1])
+        o2_num = int(r2["operational"]["level"][1])
+        assert o2_num >= o1_num

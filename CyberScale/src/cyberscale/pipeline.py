@@ -45,7 +45,6 @@ def run_pipeline(
     entity_type: Optional[str] = None,
     cer_critical_entity: Optional[bool] = None,
     # Phase 3 fields (all optional — omit to skip Phase 3)
-    operational=None,
     service_impact: Optional[str] = None,
     affected_entities: Optional[int] = None,
     sectors_affected: Optional[int] = None,
@@ -74,29 +73,25 @@ def run_pipeline(
         cer_critical_entity=cer_critical_entity,
     )
 
-    # --- Phase 3: Incident classification (optional) ---
-    has_phase3 = (
-        operational is not None
-        and service_impact is not None
-    )
+    # --- Phase 3: Incident classification (optional, fully deterministic) ---
+    has_phase3 = service_impact is not None
 
     if has_phase3:
-        from cyberscale.aggregation import derive_t_level
+        from cyberscale.aggregation import derive_t_level, derive_o_level
         t_level, _ = derive_t_level(
             service_impact, data_impact or "none",
             cascading or "none", affected_entities or 1,
         )
-        o_result = operational.predict(
-            description,
-            sectors_affected=sectors_affected,
-            entity_relevance=entity_relevance,
-            ms_affected=p3_ms_affected,
-            cross_border_pattern=cross_border_pattern,
-            capacity_exceeded=capacity_exceeded,
+        o_level, _ = derive_o_level(
+            cross_border_pattern or "none",
+            capacity_exceeded or False,
+            entity_relevance or "non_essential",
+            p3_ms_affected or 1,
+            sectors_affected or 1,
         )
 
         from cyberscale.matrix.dual_scale import classify_incident
-        matrix = classify_incident(t_level, o_result.level)
+        matrix = classify_incident(t_level, o_level)
 
         return PipelineResult(
             phase1_score=p1.score,
@@ -106,7 +101,7 @@ def run_pipeline(
             phase2_confidence=p2.confidence,
             phase2_key_factors=p2.key_factors,
             phase3_t_level=t_level,
-            phase3_o_level=o_result.level,
+            phase3_o_level=o_level,
             classification=matrix.classification,
             label=matrix.label,
             provision=matrix.provision,

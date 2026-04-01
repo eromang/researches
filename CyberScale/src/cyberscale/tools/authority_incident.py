@@ -1,34 +1,14 @@
 """Phase 3 MCP tool — Authority-facing incident classification.
 
 Provides assess_incident: list of entity notifications → aggregation →
-deterministic T-level → O-model → Blueprint matrix → classification.
+deterministic T-level + deterministic O-level → Blueprint matrix → classification.
 
-This is the full authority pipeline for CSIRT Network / EU-CyCLONe use.
+v5: Fully deterministic — no ML models needed for Phase 3.
 """
 
 from __future__ import annotations
 
-from pathlib import Path
-
 from fastmcp import FastMCP
-
-
-# ---------------------------------------------------------------------------
-# Lazy model loading
-# ---------------------------------------------------------------------------
-
-_o_classifier = None
-_o_model_path = Path("data/models/operational")
-
-
-def _get_o_classifier():
-    global _o_classifier
-    if _o_classifier is None:
-        if not _o_model_path.exists():
-            return None
-        from cyberscale.models.operational import OperationalClassifier
-        _o_classifier = OperationalClassifier(model_path=_o_model_path)
-    return _o_classifier
 
 
 # ---------------------------------------------------------------------------
@@ -37,49 +17,38 @@ def _get_o_classifier():
 
 
 def _assess_incident(
-    o_clf,
     description: str,
     entity_notifications: list[dict],
-    entity_relevance: str = "essential",
 ) -> dict:
-    """Full authority classification pipeline.
+    """Full authority classification pipeline (fully deterministic).
 
-    1. Aggregate entity notifications → worst-case impacts + deterministic T-level
-    2. O-model prediction using aggregated fields
-    3. Blueprint matrix lookup (T x O)
-    4. Return structured result for authority review
+    1. Aggregate entity notifications → worst-case impacts
+    2. Deterministic T-level from aggregated technical impact
+    3. Deterministic O-level from aggregated operational/consequence fields
+    4. Blueprint matrix lookup (T x O)
+    5. Return structured result for authority review
     """
     from cyberscale.aggregation import aggregate_entity_notifications
     from cyberscale.matrix.dual_scale import classify_incident
 
-    # Step 1: Aggregation
+    # Step 1: Aggregation (includes T-level and O-level derivation)
     agg = aggregate_entity_notifications(entity_notifications)
 
-    # Step 2: O-model prediction
-    o_result = o_clf.predict(
-        description,
-        sectors_affected=agg.sectors_affected,
-        entity_relevance=entity_relevance,
-        ms_affected=agg.ms_affected,
-        cross_border_pattern=agg.cross_border_pattern,
-        capacity_exceeded=agg.capacity_exceeded,
-        financial_impact=agg.financial_impact,
-        safety_impact=agg.safety_impact,
-        affected_persons_count=agg.affected_persons_count,
-        affected_entities=agg.affected_entities,
-    )
-
-    # Step 3: Matrix lookup
-    matrix = classify_incident(agg.t_level, o_result.level)
+    # Step 2: Matrix lookup
+    matrix = classify_incident(agg.t_level, agg.o_level)
 
     return {
         "aggregation": agg.to_dict(),
         "technical": {
             "level": agg.t_level,
             "basis": agg.t_basis,
-            "source": "deterministic_aggregation",
+            "source": "deterministic",
         },
-        "operational": o_result.to_dict(),
+        "operational": {
+            "level": agg.o_level,
+            "basis": agg.o_basis,
+            "source": "deterministic",
+        },
         "classification": matrix.classification,
         "label": matrix.label,
         "provision": matrix.provision,
@@ -98,11 +67,12 @@ def register(mcp: FastMCP) -> None:
     def assess_incident(
         description: str,
         entity_notifications: list[dict],
-        entity_relevance: str = "essential",
     ) -> dict:
         """Authority-facing incident classification: aggregates entity notifications,
-        derives deterministic T-level, runs O-model, and produces Blueprint matrix
+        derives deterministic T-level and O-level, and produces Blueprint matrix
         classification with coordination level.
+
+        Fully deterministic — no ML models required.
 
         Each entity_notification dict should contain:
         - sector, ms_established, ms_affected (list)
@@ -114,11 +84,4 @@ def register(mcp: FastMCP) -> None:
         if not entity_notifications:
             return {"error": "At least one entity notification is required."}
 
-        o_clf = _get_o_classifier()
-        if o_clf is None:
-            return {"error": "No trained O-model available. Deploy to data/models/operational/."}
-
-        return _assess_incident(
-            o_clf, description, entity_notifications,
-            entity_relevance=entity_relevance,
-        )
+        return _assess_incident(description, entity_notifications)

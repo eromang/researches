@@ -125,6 +125,99 @@ def derive_t_level(
     return "T1", basis
 
 
+def derive_o_level(
+    cross_border_pattern: str,
+    capacity_exceeded: bool,
+    entity_relevance: str,
+    ms_affected: int,
+    sectors_affected: int,
+    financial_impact: str = "none",
+    safety_impact: str = "none",
+    affected_persons_count: int = 0,
+    affected_entities: int = 1,
+) -> tuple[str, list[str]]:
+    """Deterministic O-level from aggregated operational/consequence fields.
+
+    Returns (o_level, basis) where basis lists the triggering rules.
+    Rules ported from generate_incidents.py assign_o_level() with
+    consequence dimension escalation added in v5.
+    """
+    basis = []
+
+    # --- Consequence escalation: safety or massive persons → +1 effective level ---
+    consequence_boost = 0
+    if safety_impact in ("health_damage", "death"):
+        consequence_boost += 1
+        basis.append(f"{safety_impact} safety impact")
+    if affected_persons_count >= 100000:
+        consequence_boost += 1
+        basis.append(f"{affected_persons_count} persons affected")
+    if financial_impact == "severe" and affected_entities >= 10:
+        consequence_boost += 1
+        basis.append("severe financial impact across multiple entities")
+    consequence_boost = min(consequence_boost, 1)  # cap at +1
+
+    # --- Base O-level from structural fields ---
+
+    # O4: (systemic cross-border + capacity_exceeded)
+    #     OR (systemic entity + 6+ MS)
+    #     OR (systemic cross-border + systemic entity)
+    if cross_border_pattern == "systemic" and capacity_exceeded:
+        basis.append("systemic cross-border + capacity exceeded")
+        return "O4", basis
+    if entity_relevance == "systemic" and ms_affected >= 6:
+        basis.append(f"systemic entity + {ms_affected} MS")
+        return "O4", basis
+    if cross_border_pattern == "systemic" and entity_relevance == "systemic":
+        basis.append("systemic cross-border + systemic entity")
+        return "O4", basis
+
+    # O3: significant cross-border
+    #     OR (high_relevance + 3+ MS) OR capacity_exceeded
+    #     OR (systemic entity + 3+ MS)
+    o3_triggers = []
+    if cross_border_pattern == "significant":
+        o3_triggers.append("significant cross-border pattern")
+    if entity_relevance == "high_relevance" and ms_affected >= 3:
+        o3_triggers.append(f"high_relevance entity + {ms_affected} MS")
+    if capacity_exceeded:
+        o3_triggers.append("national capacity exceeded")
+    if entity_relevance == "systemic" and ms_affected >= 3:
+        o3_triggers.append(f"systemic entity + {ms_affected} MS")
+    if o3_triggers:
+        basis.extend(o3_triggers)
+        # With consequence boost, O3 → O4
+        if consequence_boost > 0:
+            return "O4", basis
+        return "O3", basis
+
+    # O2: limited cross-border
+    #     OR (essential + 2+ MS) OR 3+ sectors
+    #     OR (high_relevance + 2+ MS)
+    o2_triggers = []
+    if cross_border_pattern == "limited":
+        o2_triggers.append("limited cross-border pattern")
+    if entity_relevance == "essential" and ms_affected >= 2:
+        o2_triggers.append(f"essential entity + {ms_affected} MS")
+    if sectors_affected >= 3:
+        o2_triggers.append(f"{sectors_affected} sectors affected")
+    if entity_relevance == "high_relevance" and ms_affected >= 2:
+        o2_triggers.append(f"high_relevance entity + {ms_affected} MS")
+    if o2_triggers:
+        basis.extend(o2_triggers)
+        if consequence_boost > 0:
+            return "O3", basis
+        return "O2", basis
+
+    # O1: everything else
+    if consequence_boost > 0:
+        basis.append("below structural thresholds but consequence escalation")
+        return "O2", basis
+
+    basis.append("below operational thresholds")
+    return "O1", basis
+
+
 @dataclass
 class AggregationResult:
     """Result of multi-entity incident aggregation."""
@@ -144,9 +237,11 @@ class AggregationResult:
     cross_border_pattern: str
     capacity_exceeded: bool
 
-    # Deterministic T-level
+    # Deterministic T-level and O-level
     t_level: str
     t_basis: list[str]
+    o_level: str = "O1"
+    o_basis: list[str] = field(default_factory=list)
 
     # Sector and MS lists for transparency
     sector_list: list[str] = field(default_factory=list)
@@ -167,6 +262,8 @@ class AggregationResult:
             "capacity_exceeded": self.capacity_exceeded,
             "t_level": self.t_level,
             "t_basis": self.t_basis,
+            "o_level": self.o_level,
+            "o_basis": self.o_basis,
             "sector_list": self.sector_list,
             "ms_list": self.ms_list,
         }
@@ -228,8 +325,12 @@ def aggregate_entity_notifications(notifications: list[dict]) -> AggregationResu
         affected_entities, n_sectors, n_ms, safety,
     )
 
-    # Deterministic T-level
+    # Deterministic T-level and O-level
     t_level, t_basis = derive_t_level(svc, data, cascading, affected_entities)
+    o_level, o_basis = derive_o_level(
+        cross_border_pattern, capacity_exceeded, "essential",
+        n_ms, n_sectors, fin, safety, total_persons, affected_entities,
+    )
 
     return AggregationResult(
         service_impact=svc,
@@ -245,6 +346,8 @@ def aggregate_entity_notifications(notifications: list[dict]) -> AggregationResu
         capacity_exceeded=capacity_exceeded,
         t_level=t_level,
         t_basis=t_basis,
+        o_level=o_level,
+        o_basis=o_basis,
         sector_list=sorted(sectors),
         ms_list=sorted(ms_set),
     )

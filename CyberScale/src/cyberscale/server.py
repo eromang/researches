@@ -11,7 +11,7 @@ mcp = FastMCP(
         "Phase 1: Vulnerability scoring (0-10). "
         "Phase 2: Context-dependent severity (sector + MS geography). "
         "Phase 2 incident mode: Entity incident assessment with significance + early warning. "
-        "Phase 3: Incident dual-scale classification (Blueprint T/O matrix). "
+        "Phase 3: Fully deterministic incident classification (T/O rules + Blueprint matrix). "
         "Each phase is independent and can be used standalone."
     ),
 )

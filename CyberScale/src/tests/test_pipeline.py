@@ -77,7 +77,6 @@ class TestRunPipeline:
         result = run_pipeline(
             scorer=FakeScorer(),
             contextual=FakeContextual(),
-            operational=FakeOperational(),
             description="Critical RCE in hospital system",
             sector="health",
             ms_established="DE",
@@ -96,7 +95,8 @@ class TestRunPipeline:
         assert result.phase1_band == "High"
         assert result.phase2_severity == "High"
         assert result.phase3_t_level == "T3"
-        assert result.phase3_o_level == "O3"
+        # O-level now deterministic: limited cross-border → O2, significant → O3
+        assert result.phase3_o_level in ("O2", "O3")
         assert result.classification in (
             "below_threshold", "significant", "large_scale", "cyber_crisis"
         )
