@@ -13,15 +13,20 @@ MCP Server (FastMCP)
            assess_entity_incident    (incident mode — entity-facing)
   Phase 3: classify_incident, classify_incident_operational
            assess_incident           (authority-facing, multi-entity)
+           assess_national_incident  (Phase 3a — single MS)
+           assess_eu_incident        (Phase 3b — CyCLONe Officers)
   Infra:   refresh_store
 
-Models: 3x ModernBERT-base (Phase 1 scorer + Phase 2 contextual + Phase 3 O-classifier)
+Models: 2x ModernBERT-base (Phase 1 scorer + Phase 2 contextual only)
         + deterministic T-level (aggregation rules, no ML)
+        + deterministic O-level (derive_o_level(), no ML)
         + IR threshold logic (per-entity-type, Arts. 5-14)
+        Phase 3 is fully deterministic — zero ML models.
 Store:  ChromaDB vector store (vulnerability descriptions + embeddings)
 Matrix: Blueprint dual-scale incident classification (deterministic, 16-cell)
 APIs:   NVD v2.0 + EUVD (ENISA) + CIRCL VulnLookup
-Ref:    impact_taxonomy.json, ir_incident_thresholds.json, nis2_entity_types.json
+Ref:    impact_taxonomy.json, ir_incident_thresholds.json, nis2_entity_types.json,
+        sector_dependencies.json
 ```
 
 ### Three phases
@@ -31,20 +36,20 @@ Ref:    impact_taxonomy.json, ir_incident_thresholds.json, nis2_entity_types.jso
 | 1 — Vulnerability | Raw severity | CVE description + CWE | Score 0-10 (4-class band) | ModernBERT-base classifier |
 | 2 — Contextual | Deployment context | Description + NIS2 sector + MS geography | Contextual severity (Critical/High/Medium/Low) | ModernBERT-base classifier |
 | 2 — Entity Incident | Entity self-assessment | Above + impact fields + entity_type | Severity + significant_incident + early warning | ML model + IR thresholds |
-| 3 — Incident | Authority classification | Entity notifications list | T-level + O-level + Blueprint matrix | Deterministic T + ML O-model |
+| 3 — Incident | Authority classification | Entity notifications list | T-level + O-level + Blueprint matrix | Fully deterministic (rules + matrix) |
 
-Each phase is independent and can be used standalone. Phase 3 uses deterministic T-level derivation from aggregated impact fields plus an ML O-model, combined via a [EU Cyber Blueprint](https://eur-lex.europa.eu/eli/reco/2025/682/oj) matrix lookup.
+Each phase is independent and can be used standalone. Phase 3 uses deterministic T-level derivation (`derive_t_level()`) and deterministic O-level derivation (`derive_o_level()`) from aggregated impact fields, combined via a [EU Cyber Blueprint](https://eur-lex.europa.eu/eli/reco/2025/682/oj) matrix lookup. Zero ML models in Phase 3.
 
 ### Entity vs Authority separation (v4)
 
 ```
 Entity path:  assess_entity_incident → IR/NIS2 significance → early warning
                 ↓ (notifications)
-Authority path: assess_incident → aggregation → T-level (deterministic) → O-model → matrix
+Authority path: assess_incident → aggregation → T-level (deterministic) → O-level (deterministic) → matrix
 ```
 
 - **Entity-facing:** Single entity assesses its own incident. Routes to IR quantitative thresholds (14 entity types from Implementing Regulation Arts. 5-14) or NIS2 ML model. Recommends early warning per Art. 23(4)(a).
-- **Authority-facing:** CSIRT/EU-CyCLONe aggregates entity notifications. Deterministic T-level from worst-case impacts. O-model predicts coordination needs. Matrix produces final classification.
+- **Authority-facing:** CSIRT/EU-CyCLONe aggregates entity notifications. Deterministic T-level from worst-case impacts. Deterministic O-level from consequence dimensions. Matrix produces final classification. Multi-tier: Phase 3a (national, single MS) + Phase 3b (EU, CyCLONe Officers).
 
 ## Models
 
@@ -52,11 +57,11 @@ Authority path: assess_incident → aggregation → T-level (deterministic) → 
 |-------|------|------------|
 | `cyberscale-scorer-v1` | Vulnerability severity (0-10) | 60.5% band accuracy |
 | `cyberscale-contextual-v4` | NIS2 contextual severity + incident mode | 81.5% macro F1 |
-| `cyberscale-operational-v4` | Operational severity (O1-O4) with consequences | 78% macro F1 (synthetic) |
 | T-level | Deterministic from impact fields | 100% (rules-based) |
+| O-level | Deterministic from consequence dimensions | 100% (rules-based) |
 | IR thresholds | Per-entity-type significance | 100% (deterministic) |
 
-All ML models are ModernBERT-base (149M params) with Monte Carlo dropout confidence estimation (5 passes).
+ML models (Phase 1+2 only) are ModernBERT-base (149M params) with Monte Carlo dropout confidence estimation (5 passes). Phase 3 is fully deterministic.
 
 ## Quick start
 
@@ -77,7 +82,7 @@ poetry run cyberscale
 ### Run tests
 
 ```bash
-poetry run pytest src/tests/ -v   # 231 tests
+poetry run pytest src/tests/ -v   # 279 tests
 ```
 
 ## Usage
@@ -180,11 +185,10 @@ print(f'Next step: {ew.next_step}')       # Submit early warning per Art. 23(4)(
 
 ### Phase 3: Incident classification (authority pipeline)
 
-Aggregates entity notifications, derives deterministic T-level, runs O-model, looks up Blueprint matrix.
+Aggregates entity notifications, derives deterministic T-level and O-level, looks up Blueprint matrix. Fully deterministic — zero ML models.
 
 ```python
-from cyberscale.aggregation import aggregate_entity_notifications
-from cyberscale.models.operational import OperationalClassifier
+from cyberscale.aggregation import aggregate_entity_notifications, derive_o_level
 from cyberscale.matrix.dual_scale import classify_incident
 
 # Entity notifications (from assess_entity_incident outputs)
@@ -205,10 +209,8 @@ print(f'T-level: {agg.t_level}')           # T3 (unavailable service impact)
 print(f'Sectors: {agg.sector_list}')       # ['energy', 'health']
 print(f'Cascading: {agg.cascading}')       # limited (2 sectors)
 
-# Step 2: O-model
-ops = OperationalClassifier('data/models/operational')
-o = ops.predict(
-    description='Cross-sector ransomware',
+# Step 2: Deterministic O-level
+o_level, o_basis = derive_o_level(
     sectors_affected=agg.sectors_affected,
     entity_relevance='essential',
     ms_affected=agg.ms_affected,
@@ -221,7 +223,7 @@ o = ops.predict(
 )
 
 # Step 3: Matrix
-matrix = classify_incident(agg.t_level, o.level)
+matrix = classify_incident(agg.t_level, o_level)
 print(f'Classification: {matrix.label}')  # Large-scale
 print(f'Provision: {matrix.provision}')   # 7(c)
 ```
@@ -238,8 +240,10 @@ When running as an MCP server (`poetry run cyberscale`), the following tools are
 | `assess_contextual_severity` | 2 | Contextual severity with NIS2 sector + MS geography |
 | `assess_entity_incident` | 2 | Entity incident: severity + significance + early warning |
 | `classify_incident_operational` | 3 | Operational severity (O1-O4) with consequence dimensions |
-| `classify_incident` | 3 | Deterministic T-level + O-model + Blueprint matrix |
+| `classify_incident` | 3 | Deterministic T-level + O-level + Blueprint matrix |
 | `assess_incident` | 3 | Authority pipeline: entity notifications → aggregation → classification |
+| `assess_national_incident` | 3a | National CSIRT: single-MS entity notifications → national classification |
+| `assess_eu_incident` | 3b | EU-CyCLONe: national classifications + CyCLONe Officer inputs → EU classification |
 | `assess_full_pipeline` | All | Phase 1 -> 2 in one call |
 | `refresh_store` | Infra | Refresh ChromaDB vector store |
 
@@ -285,30 +289,30 @@ poetry run python training/scripts/train_contextual.py \
     --output data/models/contextual
 ```
 
-### Phase 3 — Incident classification (O-model only; T-level is deterministic)
+### Phase 3 — Incident classification (fully deterministic in v5)
+
+Phase 3 no longer requires ML model training. Both T-level and O-level are derived
+deterministically via `derive_t_level()` and `derive_o_level()`. The training scripts
+below are kept for reference only:
 
 ```bash
+# Reference only — Phase 3 is fully deterministic in v5
 poetry run python training/scripts/generate_incidents.py \
     --output-t training/data/technical_training.csv \
     --output-o training/data/operational_training.csv
-
-poetry run python training/scripts/train_operational.py \
-    --data training/data/operational_training.csv \
-    --config training/configs/operational_cls.json \
-    --output data/models/operational
 ```
 
 ## Evaluation
 
-### v4 results
+### v5 results
 
 | Phase | Metric | Value | Target |
 |-------|--------|-------|--------|
 | 1 | Band accuracy | 60.5% | > 75% (not met) |
 | 2 | Contextual macro F1 | 81.5% | > 75% |
 | 3 | Aggregation T-level (deterministic) | 100% | 100% |
-| 3 | O-model macro F1 (synthetic) | 78% | > 75% |
-| 3 | Matrix end-to-end (synthetic) | 84% | > 70% |
+| 3 | O-level (deterministic) | 100% | 100% |
+| 3 | Matrix end-to-end (deterministic) | 100% | > 70% |
 | 3 | Multi-entity benchmark (50 curated) | 100% | > 70% |
 | 3 | Illustrative use cases | 6/6 | 6/6 |
 
@@ -337,8 +341,9 @@ CyberScale/
 │   │   ├── contextual_ir.py  # Phase 2 IR threshold logic
 │   │   ├── early_warning.py  # Phase 2 early warning recommendation
 │   │   ├── technical.py      # Phase 3 T-model (deprecated for inference)
-│   │   └── operational.py    # Phase 3 O-model with consequences
-│   ├── aggregation.py        # Multi-entity aggregation + T-level
+│   │   └── operational.py    # Phase 3 O-model (deprecated — replaced by derive_o_level)
+│   ├── aggregation.py        # Multi-entity aggregation + T-level + O-level
+│   ├── feedback.py           # Authority feedback store + regression benchmark
 │   ├── matrix/               # Blueprint dual-scale matrix
 │   ├── pipeline.py           # Composable Phase 1→2→3 pipeline
 │   ├── store/                # ChromaDB vector store
@@ -348,8 +353,10 @@ CyberScale/
 │       ├── entity_incident.py    # Phase 2 entity incident mode
 │       ├── incident.py           # Phase 3 classification
 │       ├── authority_incident.py  # Phase 3 authority pipeline
+│       ├── national_incident.py  # Phase 3a national CSIRT tool
+│       ├── eu_incident.py        # Phase 3b EU-CyCLONe tool
 │       └── store_tools.py        # ChromaDB tools
-├── src/tests/                # Test suite (231 tests)
+├── src/tests/                # Test suite (279 tests)
 ├── training/
 │   ├── scripts/              # Data generation, training, evaluation
 │   └── configs/              # Training hyperparameters (JSON)
@@ -361,7 +368,8 @@ CyberScale/
 │   ├── blueprint_matrix.json     # 4x4 T/O matrix
 │   ├── sector_severity_rules.json # NIS2 escalation rules
 │   ├── curated_incidents.json    # 40 curated single-entity incidents
-│   └── curated_multi_entity_incidents.json # 50 multi-entity scenarios
+│   ├── curated_multi_entity_incidents.json # 50 multi-entity scenarios
+│   └── sector_dependencies.json  # Sector dependency graph for cascading propagation
 ├── docs/                     # Design docs, lessons learned, roadmap
 ├── pyproject.toml            # Poetry dependency specification
 └── requirements.txt          # Pip-compatible dependencies

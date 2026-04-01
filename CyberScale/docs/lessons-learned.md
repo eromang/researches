@@ -148,12 +148,31 @@ v4's `assess_incident` takes any list of entity notifications regardless of memb
 > Split Phase 3 into Phase 3a (national: single-MS aggregation, deterministic) and Phase 3b (EU: aggregation across national assessments + CyCLONe Officer situational inputs). Phase 3b is not purely mechanical — each MS's CyCLONe Officer provides political sensitivity, capacity status, and coordination needs that can escalate the classification beyond what the structured data alone would produce.
 
 
-## v5 direction: fully deterministic Phase 3
+## 25. Sector dependency graph captures systemic risk that sector counting misses
 
-The v4 architecture already has deterministic T-level. If v5 replaces the O-model with deterministic rules, the full Phase 3 pipeline becomes:
-1. Aggregation (deterministic) → worst-case impacts, counts, derived fields
+v4 derived cascading from sector count alone. v5 adds a directed dependency graph where energy/digital_infrastructure outages propagate to downstream sectors. Energy unavailable now correctly produces "uncontrolled" cascading even with just 2 reported sectors (because energy's 8 direct dependents are affected). This changed T-levels in 8/50 curated scenarios — showing the old sector-count approach systematically under-escalated energy and digital_infrastructure incidents.
+
+> [!tip] Future implication
+> The dependency graph needs periodic review as sector interdependencies evolve. ENISA's annual NIS Investments reports are the best calibration source.
+
+
+## 26. CyCLONe Officer inputs are the correct abstraction for human judgment in Phase 3b
+
+Phase 3b could have been pure worst-case aggregation of national classifications. Adding structured officer inputs (political_sensitivity, capacity_status, escalation_recommendation) provides a clean interface for human judgment that integrates with the deterministic pipeline. The key design decision was "escalate only, never de-escalate" — officers can raise the mechanical result but not lower it.
+
+> [!tip] Future implication
+> The officer input schema should be validated against actual EU-CyCLONe exercise procedures when available. The current fields are based on the Blueprint and Art. 16 but may need refinement.
+
+
+## v5 outcome: fully deterministic Phase 3
+
+v5 achieved fully deterministic Phase 3:
+1. Aggregation (deterministic) → worst-case impacts, sector dependency propagation
 2. T-level (deterministic) → `derive_t_level()` from impact fields
-3. O-level (deterministic) → `derive_o_level()` from operational fields
+3. O-level (deterministic) → `derive_o_level()` from operational fields + consequences
 4. Matrix (deterministic) → Blueprint 4x4 lookup
+5. Multi-tier: Phase 3a (national, single MS) + Phase 3b (EU, CyCLONe Officers)
 
-This means Phase 3 requires zero ML models, zero training, zero GPU — pure rules. The only ML models remaining are Phase 1 (vulnerability scoring) and Phase 2 (contextual severity), both of which operate on free-text descriptions where ML genuinely adds value over rules.
+Phase 3 requires zero ML models, zero training, zero GPU — pure rules. The only ML models remaining are Phase 1 (vulnerability scoring) and Phase 2 (contextual severity), both operating on free-text descriptions where ML genuinely adds value over rules.
+
+Authority feedback store provides the calibration mechanism: authority overrides accumulate, periodic regression benchmarks identify systematic rule gaps, rules are manually adjusted. No ML in the loop.

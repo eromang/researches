@@ -2,8 +2,8 @@
 
 Multi-phase cyber severity assessment MCP server. Three independent, composable phases covering the full spectrum from raw vulnerability description to EU-level incident classification.
 
-**Version:** 4.0
-**Status:** v4 complete — entity/authority separation, unified impact taxonomy, IR/NIS2 split
+**Version:** 5.0
+**Status:** v5 complete — fully deterministic Phase 3, sector dependencies, multi-tier (3a/3b), authority feedback
 **Lineage:** Builds on the closed CVE-Severity-Context project (ModernBERT classifier, 80.7% accuracy, 1,890 scenarios). Replaces VulnMCP severity tools.
 
 
@@ -14,7 +14,9 @@ Multi-phase cyber severity assessment MCP server. Three independent, composable 
 | **1 — Vulnerability Scoring** | Single vulnerability | Description (any quality) + optional CVE ID | 0–10 score (CVSS-compatible) + confidence | Severity estimation without CVSS dependency |
 | **2 — Contextual Severity** | Vulnerability/incident in deployment context | Description + NIS2 sector + MS geography + optional impact fields | Critical/High/Medium/Low + key factors | Context-dependent severity per NIS2 sector |
 | **2 — Entity Incident** | Entity self-assessment | Above + entity_type + impact fields | Significance (IR/NIS2) + early warning recommendation | IR thresholds (Arts. 5-14) or NIS2 ML model |
-| **3 — Incident Classification** | Authority multi-entity classification | Entity notification dicts | Deterministic T-level + ML O-level + Blueprint matrix | Aggregation + O-model + matrix |
+| **3a — National Incident** | National CSIRT classification | Entity notifications from single MS | National T/O/matrix + cross-border flag | Deterministic aggregation + rules + matrix |
+| **3b — EU Incident** | EU-CyCLONe classification | National classifications + CyCLONe Officer inputs | EU-level classification + coordination level | Deterministic aggregation + escalation rules |
+| **3 — Incident Classification** | Authority multi-entity classification | Entity notification dicts | Deterministic T-level + deterministic O-level + Blueprint matrix | Fully deterministic (rules + matrix) |
 
 ### Independence principle
 
@@ -119,6 +121,8 @@ Single FastMCP server exposing all three phases as independent tools:
 | `classify_incident_operational` | 3 | Incident description + operational fields + consequences | O1–O4 + key factors |
 | `classify_incident` | 3 | Full incident input | Deterministic T-level + O-level + matrix |
 | `assess_incident` | 3 | Entity notification dicts | Aggregation + T-level + O-level + matrix classification |
+| `assess_national_incident` | 3a | Entity notifications from single MS | National T/O/matrix + cross-border flag |
+| `assess_eu_incident` | 3b | National classifications + CyCLONe Officer inputs | EU-level classification + coordination level |
 | `assess_full_pipeline` | 1+2 | Description + sector + MS geography | Phase 1 score + Phase 2 severity |
 | `refresh_store` | Infra | Optional: date range, source filter | Updated vector store entries |
 
@@ -129,7 +133,7 @@ Single FastMCP server exposing all three phases as independent tools:
 | Phase 1: Severity scorer | Classification (4-class bands) | ModernBERT-base, classification head | ~45k CVEs with CVSS scores |
 | Phase 2: Contextual classifier | Classification (4-class) | ModernBERT-base, all-as-text | 32k scenarios (CVEs x sectors x impact) |
 | Phase 3 T-level | Deterministic rules | No ML — `derive_t_level()` | Rules from impact taxonomy |
-| Phase 3 O-model | Classification (4-class: O1–O4) | ModernBERT-base, all-as-text | 8k parametric scenarios + consequences |
+| Phase 3 O-level | Deterministic rules | No ML — `derive_o_level()` | Rules from consequence dimensions |
 | IR thresholds | Deterministic per-entity-type | No ML — `assess_ir_significance()` | Arts. 5-14 thresholds |
 | Phase 3 T-model (deprecated) | Was classification (T1–T4) | ModernBERT-base | Kept for reference, not used in inference |
 
@@ -214,13 +218,13 @@ Token via `HF_TOKEN` environment variable (never committed). Supports `--dry-run
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
 | No Claude skills in pipeline | Scripts + models only | Fully self-contained, reproducible, no LLM dependency at runtime |
-| ModernBERT-base for all 4 models | Proven on vulnerability text in closed project | Transfer learning from Variant F encoder |
+| ModernBERT-base for 2 ML models (Phase 1+2) | Proven on vulnerability text in closed project | Transfer learning from Variant F encoder; Phase 3 fully deterministic in v5 |
 | All-as-text input encoding | Concatenate structured fields as text tokens | Proven approach (closed project 80.7%), simpler than multi-tower |
 | ChromaDB vector store | Not QMD | Different data domain (structured vuln records vs analytical notes), typed metadata, portable |
 | Dedicated MCP server | Not extending VulnMCP | Clean separation, replaces VulnMCP severity tools |
 | 19 sectors (18 NIS2 + 1 non-NIS2) | Full NIS2 coverage | No blind spots for any regulated entity |
 | Sector + cross-border as Phase 2 context | Not entity_type | Entity type is too granular; severity thresholds don't vary at that level |
-| Two Phase 3 models + deterministic matrix | Not single model | T and O are fundamentally different assessments; matrix is regulatory logic |
+| Fully deterministic Phase 3 (v5) | No ML models | T and O map deterministically from structured fields; ML added no value over rules |
 | EU-level only for Phase 3 v1 | No per-MS reconciliation | Task Force reconciliation rules not finalised |
 | No national layer in v1 | Designed as future addon | Keep EU-generic, national layers (e.g., HCPN) plug in later |
 | Script-generated training data | No LLM or skill dependency | Deterministic, fast, auditable, scalable |

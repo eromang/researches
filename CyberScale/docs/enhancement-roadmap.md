@@ -1,6 +1,6 @@
 # CyberScale — Enhancement Roadmap
 
-Concrete enhancement paths prioritised by expected impact. Updated after v4 implementation.
+Concrete enhancement paths prioritised by expected impact. Updated after v5 implementation.
 
 ---
 
