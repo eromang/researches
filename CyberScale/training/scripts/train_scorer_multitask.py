@@ -78,6 +78,8 @@ class CVEMultiTaskDataset(Dataset):
         component_masks: dict[str, list[bool]],
         tokenizer,
         max_length: int = 256,
+        vendors: list[str | None] | None = None,
+        products: list[str | None] | None = None,
     ):
         self.descriptions = descriptions
         self.cwes = cwes
@@ -86,6 +88,8 @@ class CVEMultiTaskDataset(Dataset):
         self.component_masks = component_masks
         self.tokenizer = tokenizer
         self.max_length = max_length
+        self.vendors = vendors or [None] * len(descriptions)
+        self.products = products or [None] * len(descriptions)
 
     def __len__(self) -> int:
         return len(self.descriptions)
@@ -93,9 +97,20 @@ class CVEMultiTaskDataset(Dataset):
     def __getitem__(self, idx: int) -> dict:
         desc = self.descriptions[idx]
         cwe = self.cwes[idx]
+        vendor = self.vendors[idx]
+        product = self.products[idx]
 
+        # Build enriched input: description [SEP] cwe: X vendor: Y product: Z
+        suffixes = []
         if cwe and str(cwe).strip() and str(cwe).lower() not in ("nan", "none", ""):
-            text = f"{desc} [SEP] cwe: {cwe}"
+            suffixes.append(f"cwe: {cwe}")
+        if vendor and str(vendor).strip() and str(vendor).lower() not in ("nan", "none", ""):
+            suffixes.append(f"vendor: {vendor}")
+        if product and str(product).strip() and str(product).lower() not in ("nan", "none", ""):
+            suffixes.append(f"product: {product}")
+
+        if suffixes:
+            text = f"{desc} [SEP] {' '.join(suffixes)}"
         else:
             text = desc
 
@@ -193,7 +208,15 @@ def train(
 
     descriptions = df["description"].tolist()
     cwes = df["cwe"].tolist() if "cwe" in df.columns else [None] * len(df)
+    vendors = df["cpe_vendor"].tolist() if "cpe_vendor" in df.columns else [None] * len(df)
+    products = df["cpe_product"].tolist() if "cpe_product" in df.columns else [None] * len(df)
     scores = df["cvss_score"].astype(float).tolist()
+
+    # Report CPE coverage
+    vendor_valid = sum(1 for v in vendors if v and str(v).lower() not in ("nan", "none", ""))
+    print(f"  CPE vendor coverage: {vendor_valid}/{len(df)} ({vendor_valid/len(df)*100:.1f}%)")
+    product_valid = sum(1 for p in products if p and str(p).lower() not in ("nan", "none", ""))
+    print(f"  CPE product coverage: {product_valid}/{len(df)} ({product_valid/len(df)*100:.1f}%)")
 
     band_labels = [score_to_label(s) for s in scores]
 
@@ -250,6 +273,8 @@ def train(
             },
             tokenizer=tokenizer,
             max_length=max_length,
+            vendors=[vendors[i] for i in idxs],
+            products=[products[i] for i in idxs],
         )
 
     train_ds = make_dataset(train_idx)

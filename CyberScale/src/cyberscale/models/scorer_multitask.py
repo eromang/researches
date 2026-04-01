@@ -213,9 +213,11 @@ class MultiTaskSeverityScorer:
         self,
         description: str,
         cwe: Optional[str] = None,
+        vendor: Optional[str] = None,
+        product: Optional[str] = None,
     ) -> MultiTaskScorerResult:
         """Score a vulnerability description with MC dropout confidence."""
-        text = self._format_input(description, cwe=cwe)
+        text = self._format_input(description, cwe=cwe, vendor=vendor, product=product)
         inputs = self.tokenizer(
             text,
             return_tensors="pt",
@@ -273,9 +275,22 @@ class MultiTaskSeverityScorer:
     # Helpers
     # ------------------------------------------------------------------
 
-    def _format_input(self, description: str, cwe: Optional[str] = None) -> str:
+    def _format_input(
+        self,
+        description: str,
+        cwe: Optional[str] = None,
+        vendor: Optional[str] = None,
+        product: Optional[str] = None,
+    ) -> str:
+        suffixes = []
         if cwe:
-            return f"{description} [SEP] cwe: {cwe}"
+            suffixes.append(f"cwe: {cwe}")
+        if vendor:
+            suffixes.append(f"vendor: {vendor}")
+        if product:
+            suffixes.append(f"product: {product}")
+        if suffixes:
+            return f"{description} [SEP] {' '.join(suffixes)}"
         return description
 
     def _enable_dropout(self) -> None:

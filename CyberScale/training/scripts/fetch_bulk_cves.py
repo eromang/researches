@@ -212,6 +212,19 @@ def parse_cve_file(path: Path) -> dict | None:
     # CWE
     cwe = extract_cwe(data)
 
+    # CPE vendor/product from first affected entry
+    cpe_vendor = None
+    cpe_product = None
+    for affected in cna.get("affected", []):
+        v = affected.get("vendor", "").strip()
+        p = affected.get("product", "").strip()
+        if v and v.lower() not in ("n/a", ""):
+            cpe_vendor = v.lower()
+        if p and p.lower() not in ("n/a", ""):
+            cpe_product = p.lower()
+        if cpe_vendor or cpe_product:
+            break
+
     return {
         "cve_id": cve_id,
         "description": description,
@@ -219,6 +232,8 @@ def parse_cve_file(path: Path) -> dict | None:
         "cvss_version": cvss_version,
         "cvss_vector": cvss_vector,
         "cwe": cwe,
+        "cpe_vendor": cpe_vendor,
+        "cpe_product": cpe_product,
         "source": "cvelistV5",
     }
 
@@ -784,7 +799,8 @@ def main():
     # Step 5: Write CSV
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
     fieldnames = ["cve_id", "description", "cvss_score", "cvss_version", "cvss_vector",
-                   "cwe", "source", "av", "ac", "pr", "ui", "scope", "conf", "integ", "avail"]
+                   "cwe", "cpe_vendor", "cpe_product", "source",
+                   "av", "ac", "pr", "ui", "scope", "conf", "integ", "avail"]
     with open(args.output, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
