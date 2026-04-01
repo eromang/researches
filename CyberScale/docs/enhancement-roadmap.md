@@ -67,7 +67,30 @@ drinking_water → health, food
 
 **Effort:** Medium — dependency graph authoring requires sector expertise (ENISA reports), propagation logic is straightforward.
 
-### 3. Other v5 candidates
+### 3. Authority feedback loop (rule calibration)
+
+When Phase 3 is fully deterministic (v5 target #1), the rules need a calibration mechanism. Authority decisions are the ground truth — when an authority overrides the suggested classification, that delta tells us where the rules are wrong.
+
+**Implementation (Options A+B combined):**
+
+1. **Decision store** — `data/feedback/authority_decisions.json` accumulates structured records:
+   - Suggested classification (T-level, O-level, matrix) from `assess_incident`
+   - Actual classification (authority's final decision after review)
+   - Override reason (free text — why the authority disagreed)
+   - Original aggregation inputs (for reproducibility)
+
+2. **Regression benchmark** — `evaluation/benchmark_authority_feedback.py` compares current deterministic rules against all accumulated authority decisions. Produces:
+   - Rule accuracy vs authority ground truth (per T-level, per O-level, per matrix classification)
+   - Systematic override patterns (e.g., "T3→T4 overrides correlate with duration > 48h")
+   - Flag when accuracy drops below threshold → rules need review
+
+3. **Manual rule adjustment** — analyze override patterns, update `derive_t_level()` / `derive_o_level()` thresholds. No ML in the loop — the authority is the oracle, rules converge toward their decisions over time.
+
+**Key constraint:** Requires a trusted channel for authorities to submit decisions back. This is an operational/governance question, not a technical one.
+
+**Effort:** Medium — store + benchmark are straightforward; the hard part is sourcing real authority decisions.
+
+### 4. Other v5 candidates
 
 | Enhancement | Phase | Impact | Effort |
 |-------------|-------|--------|--------|
@@ -76,7 +99,7 @@ drinking_water → health, food
 | Phase 1 CVSS vector multi-task learning | 1 | Expected +5-10pp on band accuracy | Medium |
 | National layer (per-MS thresholds) | 2 | On hold — only Luxembourg rules available; not generalizable to other MS yet | Medium |
 | Sector dependency-aware aggregation | 3 | Replace naive sector count with dependency graph propagation (see below) | Medium |
-| Authority feedback loop | 3 | Real O-level decisions → fine-tune or validate rules | High |
+| Authority feedback loop (rule calibration) | 3 | Store authority override decisions, regression-test rules against ground truth (see below) | Medium |
 | Standardized Art. 23 notification schema | 2 | Match actual NIS2 notification fields | Medium |
 
 ---
