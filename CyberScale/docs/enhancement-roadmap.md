@@ -31,149 +31,18 @@ Concrete enhancement paths prioritised by expected impact. Updated after v5 impl
 
 ---
 
-## v5 targets
+## v5 completed (2026-03-31)
 
-### 1. Replace O-model with deterministic rules (primary target)
+| Enhancement | Phase | Result | Tag |
+|-------------|-------|--------|-----|
+| Deterministic O-level (`derive_o_level()`) — O-model replaced | 3 | Phase 3 fully deterministic, zero ML models | cyberscale-v5a |
+| Sector dependency graph (`sector_dependencies.json`) | 3 | Cascading propagation based on inter-sector dependencies | cyberscale-v5a |
+| Authority feedback store (`feedback.py`) + regression benchmark | 3 | Rule calibration from authority override decisions | cyberscale-v5a |
+| Multi-tier: Phase 3a (`assess_national_incident`) + Phase 3b (`assess_eu_incident`) | 3 | National CSIRT (single MS) + EU-CyCLONe (Officers) | cyberscale-v5b |
 
-The O-model training labels are deterministically assigned from structured fields via `assign_o_level()`. Like the T-model before it, the ML model is learning the rules rather than adding insight. The curated multi-entity benchmark showed 62% disagreement between rule-based expectations and model predictions, resolved by calibrating to the model — evidence that the model diverges from intended behavior on real-world distributions.
+---
 
-**Replacement:** Create `derive_o_level()` in `aggregation.py` (mirroring `derive_t_level()`), using the existing `assign_o_level()` rules plus the new consequence dimensions (financial_impact, safety_impact, affected_persons_count, affected_entities).
-
-**Outcome:** Phase 3 becomes fully deterministic — zero ML models, zero training, zero GPU. Only Phase 1 (vulnerability scoring) and Phase 2 (contextual severity) retain ML models, where free-text understanding genuinely adds value.
-
-**Effort:** Low — the rules already exist in `generate_incidents.py`.
-
-### 2. Sector dependency-aware aggregation
-
-The current aggregation derives cascading from sector count alone (`_derive_cascading(n_sectors)`). This treats all sectors equally — an energy disruption affecting 2 sectors gets the same cascading as a postal disruption affecting 2 sectors, despite fundamentally different systemic risk profiles.
-
-**Problem:** Energy or digital infrastructure outages cascade structurally to downstream sectors (health depends on energy for hospitals, transport for ambulances, drinking water for pumps). A postal outage does not. Simple sector counting misses this.
-
-**Approach:** Model inter-sector dependencies as a directed graph:
-
-```
-energy → health, transport, drinking_water, digital_infrastructure, manufacturing, food
-digital_infrastructure → banking, financial_market, health, public_administration, ict_service_management
-transport → health (ambulances), food (supply chain)
-drinking_water → health, food
-```
-
-**Implementation:**
-1. Create `data/reference/sector_dependencies.json` — directed dependency graph with propagation strength (direct/indirect). Sources: ENISA sector interdependency analyses, CER Directive Annex.
-2. Add `propagate_cascading()` to `aggregation.py` — when impacted sectors have downstream dependents not yet in the notification set, derive cascading from the dependency graph rather than just counting reported sectors.
-3. Impact propagation: if energy is `unavailable` and health depends on energy (direct), health gets an implicit `degraded` impact even if no health entity reported.
-
-**Outcome:** "Energy + transport impacted" correctly escalates more than "postal + waste_management impacted" because energy has high fan-out in the dependency graph.
-
-**Effort:** Medium — dependency graph authoring requires sector expertise (ENISA reports), propagation logic is straightforward.
-
-### 3. Authority feedback loop (rule calibration)
-
-When Phase 3 is fully deterministic (v5 target #1), the rules need a calibration mechanism. Authority decisions are the ground truth — when an authority overrides the suggested classification, that delta tells us where the rules are wrong.
-
-**Implementation (Options A+B combined):**
-
-1. **Decision store** — `data/feedback/authority_decisions.json` accumulates structured records:
-   - Suggested classification (T-level, O-level, matrix) from `assess_incident`
-   - Actual classification (authority's final decision after review)
-   - Override reason (free text — why the authority disagreed)
-   - Original aggregation inputs (for reproducibility)
-
-2. **Regression benchmark** — `evaluation/benchmark_authority_feedback.py` compares current deterministic rules against all accumulated authority decisions. Produces:
-   - Rule accuracy vs authority ground truth (per T-level, per O-level, per matrix classification)
-   - Systematic override patterns (e.g., "T3→T4 overrides correlate with duration > 48h")
-   - Flag when accuracy drops below threshold → rules need review
-
-3. **Manual rule adjustment** — analyze override patterns, update `derive_t_level()` / `derive_o_level()` thresholds. No ML in the loop — the authority is the oracle, rules converge toward their decisions over time.
-
-**Key constraint:** Requires a trusted channel for authorities to submit decisions back. This is an operational/governance question, not a technical one.
-
-**Effort:** Medium — store + benchmark are straightforward; the hard part is sourcing real authority decisions.
-
-### 4. Multi-tier architecture: national vs EU classification
-
-v4 collapses national and EU authority levels into a single Phase 3. In reality, NIS2 defines a multi-tier structure:
-
-| Level | Actor | Input | Output | NIS2 basis |
-|-------|-------|-------|--------|------------|
-| **Entity** (Phase 1+2) | Entity | Own incident data | Significance + early warning | Art. 23(4)(a) |
-| **National** (Phase 3a) | National CSIRT | Entity notifications from their MS | National T/O/matrix classification | Art. 23(4)(b-e) |
-| **EU** (Phase 3b) | EU-CyCLONe | National classifications + CyCLONe Officer inputs | EU-level classification + coordination level | Art. 15-16, Blueprint |
-
-**Multi-tier structure:**
-
-```
-                    ┌───────────────────────────────────────────┐
-                    │           EU-CyCLONe — Phase 3b           │
-                    │                                           │
-                    │  assess_eu_incident                       │
-                    │                                           │
-                    │  Inputs:                                  │
-                    │  ├─ National classifications (from 3a)    │
-                    │  └─ CyCLONe Officer inputs per MS:        │
-                    │     ├─ political_sensitivity              │
-                    │     ├─ national_capacity_status            │
-                    │     ├─ coordination_needs                 │
-                    │     ├─ intelligence_context               │
-                    │     └─ escalation_recommendation          │
-                    │                                           │
-                    │  Output: EU classification + coordination │
-                    └──────────┬──────────┬─────────────────────┘
-                               │          │
-                    ┌──────────┘          └──────────┐
-                    │                                │
-         ┌──────────┴──────────┐          ┌──────────┴──────────┐
-         │  National CSIRT LU  │          │  National CSIRT DE  │
-         │     Phase 3a        │          │     Phase 3a        │
-         │                     │          │                     │
-         │ assess_national_    │          │ assess_national_    │
-         │   incident          │          │   incident          │
-         │                     │          │                     │
-         │ Input: LU entity    │          │ Input: DE entity    │
-         │   notifications     │          │   notifications     │
-         │ Output: national    │          │ Output: national    │
-         │   T/O/matrix +      │          │   T/O/matrix +      │
-         │   cross-border flag │          │   cross-border flag │
-         └───┬─────┬──────────┘          └───┬─────┬──────────┘
-             │     │                         │     │
-         ┌───┘     └───┐               ┌────┘     └────┐
-         │             │               │               │
-    ┌────┴────┐  ┌─────┴───┐    ┌──────┴──┐    ┌──────┴──────┐
-    │Entity LU│  │Entity LU│    │Entity DE│    │Entity DE    │
-    │Phase 1+2│  │Phase 1+2│    │Phase 1+2│    │Phase 1+2    │
-    │→ signif.│  │→ signif.│    │→ signif.│    │→ signif.    │
-    │→ early  │  │→ early  │    │→ early  │    │→ early      │
-    │  warning│  │  warning│    │  warning│    │  warning    │
-    └─────────┘  └────────┘    └─────────┘    └─────────────┘
-```
-
-**Phase 3a — `assess_national_incident`** (deterministic):
-- Input: entity notifications from a single MS
-- Aggregation scoped to that MS
-- Output: national T/O/matrix classification + cross-border flag for CSIRT Network sharing
-
-**Phase 3b — `assess_eu_incident`** (deterministic + human judgment):
-- **Structured inputs:** national classification dicts from multiple MS (Phase 3a outputs)
-- **CyCLONe Officer inputs** (per MS, semi-structured): each MS's CyCLONe Officer provides situational awareness that goes beyond the technical classification:
-
-| CyCLONe Officer field | Type | Description |
-|----------------------|------|-------------|
-| `political_sensitivity` | none/elevated/high | Election period, geopolitical context, public attention |
-| `national_capacity_status` | normal/strained/overwhelmed | Can the MS handle it alone? Requesting mutual assistance? |
-| `coordination_needs` | national/eu_info/eu_active/full_ipcr | Officer's assessment of needed EU coordination level |
-| `intelligence_context` | free text | Attribution, actor intent, campaign indicators |
-| `escalation_recommendation` | none/escalate/de-escalate | Officer's recommendation to EU-CyCLONe |
-
-- **Output:** EU-level classification + EU-CyCLONe coordination level (Blueprint 7a-7d)
-- **Logic:** Mechanical aggregation of national classifications, then CyCLONe Officer inputs can **escalate** (never de-escalate below the mechanical result). If any officer reports `overwhelmed` capacity or `high` political sensitivity, this overrides the mechanical O-level upward.
-
-**Escalation rules:**
-- Phase 3a cross-border flag → triggers CSIRT Network sharing → Phase 3b
-- Phase 3b: significant at national in 3+ MS → large_scale at EU level
-- CyCLONe Officer `escalation_recommendation=escalate` → +1 O-level (capped at O4)
-- Any `national_capacity_status=overwhelmed` → capacity_exceeded=True in EU aggregation
-
-**Effort:** Medium — aggregation logic exists, needs MS scoping + CyCLONe Officer input schema + escalation override logic.
+## v5 remaining targets
 
 ### 5. HuggingFace housekeeping
 
@@ -235,15 +104,15 @@ These form a natural group with the secure notification channel (documented belo
 
 ---
 
-## Current model performance (v4)
+## Current model performance (v5)
 
 | Phase | Model | Key metric | Target | Status |
 |-------|-------|------------|--------|--------|
 | 1 | Scorer | 60.2% band accuracy | > 75% | Not met |
 | 2 | Contextual (v4) | 81.5% macro F1 | > 75% | Met |
 | 3 | T-level (deterministic) | 100% | 100% | Met |
-| 3 | Operational (v4) | 78% macro F1 (synthetic) | > 75% | Met |
-| 3 | Matrix end-to-end (synthetic) | 84% | > 70% | Met |
+| 3 | O-level (deterministic) | 100% | 100% | Met |
+| 3 | Matrix end-to-end (deterministic) | 100% | > 70% | Met |
 | 3 | Multi-entity (50 curated) | 100% | > 70% | Met |
 | 3 | Illustrative use cases | 6/6 | 6/6 | Met |
 
