@@ -38,6 +38,10 @@ ENTITY_RELEVANCE = ["non_essential", "essential", "high_relevance", "systemic"]
 CROSS_BORDER = ["none", "limited", "significant", "systemic"]
 MS_AFFECTED_RANGE = [1, 1, 1, 1, 1, 2, 3, 5, 8]  # Weight toward 1 MS for O1 coverage
 CAPACITY_EXCEEDED = [False, True]
+FINANCIAL_IMPACTS = ["none", "none", "minor", "significant", "severe"]
+SAFETY_IMPACTS = ["none", "none", "none", "health_risk", "health_damage", "death"]
+PERSONS_COUNT_RANGE = [0, 0, 0, 100, 1000, 10000, 100000]
+O_ENTITIES_RANGE = [1, 1, 2, 3, 5, 10, 25, 50]
 
 SECTORS = [
     "energy", "transport", "banking", "financial_market",
@@ -447,6 +451,12 @@ def generate_o_samples(
             for v in range(1, paraphrase_variants + 1):
                 descriptions.append(_paraphrase(ls_desc, v, rng))
 
+        # Generate consequence fields for this combo
+        fin_impact = rng.choice(FINANCIAL_IMPACTS)
+        safe_impact = rng.choice(SAFETY_IMPACTS)
+        persons = rng.choice(PERSONS_COUNT_RANGE)
+        n_entities = rng.choice(O_ENTITIES_RANGE)
+
         for desc in descriptions:
             text = (
                 f"{desc} [SEP] "
@@ -456,6 +466,14 @@ def generate_o_samples(
                 f"cross_border: {cross_border} "
                 f"capacity_exceeded: {str(cap_exceeded).lower()}"
             )
+            if fin_impact != "none":
+                text += f" financial: {fin_impact}"
+            if safe_impact != "none":
+                text += f" safety: {safe_impact}"
+            if persons > 0:
+                text += f" persons: {persons}"
+            if n_entities > 1:
+                text += f" entities: {n_entities}"
             all_samples.append({"text": text, "label": o_level})
 
     return all_samples

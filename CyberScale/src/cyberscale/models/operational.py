@@ -15,6 +15,8 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 VALID_ENTITY_RELEVANCE = {"non_essential", "essential", "high_relevance", "systemic"}
 VALID_CROSS_BORDER = {"none", "limited", "significant", "systemic"}
+VALID_FINANCIAL_IMPACT = {"none", "minor", "significant", "severe"}
+VALID_SAFETY_IMPACT = {"none", "health_risk", "health_damage", "death"}
 
 O_LABEL_MAP = {0: "O1", 1: "O2", 2: "O3", 3: "O4"}
 
@@ -73,9 +75,13 @@ class OperationalClassifier:
         ms_affected: int = 1,
         cross_border_pattern: str = "none",
         capacity_exceeded: bool = False,
+        financial_impact: str = "none",
+        safety_impact: str = "none",
+        affected_persons_count: int = 0,
+        affected_entities: int = 1,
     ) -> str:
         """Format input fields as all-as-text for the model."""
-        return (
+        text = (
             f"{description} [SEP] "
             f"sectors: {sectors_affected} "
             f"relevance: {entity_relevance} "
@@ -83,6 +89,15 @@ class OperationalClassifier:
             f"cross_border: {cross_border_pattern} "
             f"capacity_exceeded: {str(capacity_exceeded).lower()}"
         )
+        if financial_impact != "none":
+            text += f" financial: {financial_impact}"
+        if safety_impact != "none":
+            text += f" safety: {safety_impact}"
+        if affected_persons_count > 0:
+            text += f" persons: {affected_persons_count}"
+        if affected_entities > 1:
+            text += f" entities: {affected_entities}"
+        return text
 
     def predict(
         self,
@@ -92,12 +107,17 @@ class OperationalClassifier:
         ms_affected: int = 1,
         cross_border_pattern: str = "none",
         capacity_exceeded: bool = False,
+        financial_impact: str = "none",
+        safety_impact: str = "none",
+        affected_persons_count: int = 0,
+        affected_entities: int = 1,
     ) -> OperationalResult:
         """Classify incident operational severity with MC dropout."""
         text = self.format_input(
             description, sectors_affected, entity_relevance,
             ms_affected, cross_border_pattern,
-            capacity_exceeded,
+            capacity_exceeded, financial_impact, safety_impact,
+            affected_persons_count, affected_entities,
         )
         inputs = self.tokenizer(
             text, return_tensors="pt", truncation=True,
@@ -122,6 +142,8 @@ class OperationalClassifier:
         key_factors = self._extract_key_factors(
             sectors_affected, entity_relevance, ms_affected,
             cross_border_pattern, capacity_exceeded,
+            financial_impact, safety_impact, affected_persons_count,
+            affected_entities,
         )
 
         return OperationalResult(level=level, confidence=confidence, key_factors=key_factors)
@@ -138,6 +160,10 @@ class OperationalClassifier:
         ms_affected: int,
         cross_border_pattern: str,
         capacity_exceeded: bool,
+        financial_impact: str = "none",
+        safety_impact: str = "none",
+        affected_persons_count: int = 0,
+        affected_entities: int = 1,
     ) -> list[str]:
         """Extract human-readable key factors from structured fields."""
         factors = []
@@ -151,4 +177,12 @@ class OperationalClassifier:
             factors.append("national capacity exceeded")
         if sectors_affected > 1:
             factors.append(f"{sectors_affected} sectors affected")
+        if financial_impact in ("significant", "severe"):
+            factors.append(f"{financial_impact} financial impact")
+        if safety_impact in ("health_damage", "death"):
+            factors.append(f"{safety_impact} safety impact")
+        if affected_persons_count >= 10000:
+            factors.append(f"{affected_persons_count} persons affected")
+        if affected_entities > 10:
+            factors.append(f"{affected_entities} entities affected")
         return factors
