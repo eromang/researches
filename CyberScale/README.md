@@ -55,6 +55,7 @@ Authority path: assess_incident → aggregation → T-level (deterministic) → 
 
 | Model | Task | Key metric | HuggingFace |
 |-------|------|------------|-------------|
+| Scorer v6 | Vulnerability severity (0-10) + CVSS vector | 62.3% band accuracy | [eromang/cyberscale-scorer-v6](https://huggingface.co/eromang/cyberscale-scorer-v6) |
 | Scorer v1 | Vulnerability severity (0-10) | 60.5% band accuracy | [eromang/cyberscale-scorer-v1](https://huggingface.co/eromang/cyberscale-scorer-v1) |
 | Contextual v1 | NIS2 contextual severity + incident mode | 81.5% macro F1 | [eromang/cyberscale-contextual-v1](https://huggingface.co/eromang/cyberscale-contextual-v1) |
 | T-level | Deterministic from impact fields | 100% (rules-based) | — |
@@ -276,7 +277,24 @@ All impact fields use consistent values across phases (defined in `data/referenc
 
 All models can be reproduced from scratch. Training data is not committed (reproducible via scripts).
 
-### Phase 1 — Vulnerability scorer
+### Phase 1 — Vulnerability scorer (v6 multi-task)
+
+```bash
+# Fetch training data with CVSS vectors + CPE vendor/product
+poetry run python training/scripts/fetch_bulk_cves.py \
+    --output training/data/training_cves_v6.csv \
+    --config training/configs/scorer_multitask.json \
+    --cache-dir training/data/cvelistV5 \
+    --cap-per-band 15000 --no-store
+
+# Train multi-task model (9 heads: 1 band + 8 CVSS components)
+poetry run python training/scripts/train_scorer_multitask.py \
+    --data training/data/training_cves_v6.csv \
+    --config training/configs/scorer_multitask.json \
+    --output data/models/scorer_v6
+```
+
+### Phase 1 — Vulnerability scorer (v1 baseline)
 
 ```bash
 poetry run python training/scripts/fetch_bulk_cves.py --output training/data/training_cves.csv
@@ -316,6 +334,15 @@ poetry run python training/scripts/generate_incidents.py \
 
 ## Evaluation
 
+### v6 results (Phase 1 multi-task)
+
+| Metric | v1 baseline | v6 multi-task | Target |
+|--------|-------------|---------------|--------|
+| Band accuracy | 60.5% | 62.3% (+1.8pp) | > 70% |
+| Macro F1 | 56.4% | 58.4% (+2.0pp) | > 65% |
+
+v6 uses multi-task learning with 8 CVSS vector component heads as auxiliary tasks. CPE vendor/product enrichment is implemented but pending full retrain.
+
 ### v5 results
 
 | Phase | Metric | Value | Target |
@@ -348,7 +375,8 @@ CyberScale/
 │   ├── server.py             # FastMCP entry point
 │   ├── api/                  # NVD, EUVD, CIRCL API clients
 │   ├── models/               # Classifier implementations
-│   │   ├── scorer.py         # Phase 1 vulnerability scoring
+│   │   ├── scorer.py         # Phase 1 vulnerability scoring (v1)
+│   │   ├── scorer_multitask.py # Phase 1 multi-task scorer (v6)
 │   │   ├── contextual.py     # Phase 2 contextual + incident mode
 │   │   ├── contextual_ir.py  # Phase 2 IR threshold logic
 │   │   ├── early_warning.py  # Phase 2 early warning recommendation

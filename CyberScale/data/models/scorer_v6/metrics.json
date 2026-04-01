@@ -1,7 +1,25 @@
 {
   "band_accuracy": 0.6230,
   "band_macro_f1": 0.5840,
-  "note": "Pre-CPE multi-task baseline — plateaued at epoch 8. Proceeding to Task 5 (CPE signal) since band_accuracy < 0.65.",
+  "model": "ModernBERT-base multi-task (9 heads)",
+  "training_data": "30669 CVEs from cvelistV5",
+  "architecture": "shared encoder + 2-layer MLP band head + 8 CVSS component heads",
+  "hyperparameters": {
+    "learning_rate": 1e-5,
+    "dropout": 0.3,
+    "label_smoothing": 0.1,
+    "weight_decay": 0.01,
+    "lambda_components": 0.3,
+    "max_length": 256,
+    "batch_size": 16,
+    "patience": 5
+  },
+  "baseline_v1": {
+    "band_accuracy": 0.6050,
+    "band_macro_f1": 0.5640
+  },
+  "improvement": "+1.8pp band accuracy, +2.0pp macro F1 over v1",
+  "note": "Multi-task learning with CVSS vector decomposition. CPE vendor/product enrichment code added but full retrain pending.",
   "targets": {
     "band_accuracy": "> 0.70",
     "band_macro_f1": "> 0.65",
