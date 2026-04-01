@@ -90,7 +90,26 @@ When Phase 3 is fully deterministic (v5 target #1), the rules need a calibration
 
 **Effort:** Medium — store + benchmark are straightforward; the hard part is sourcing real authority decisions.
 
-### 4. Other v5 candidates
+### 4. Multi-tier architecture: national vs EU classification
+
+v4 collapses national and EU authority levels into a single Phase 3. In reality, NIS2 defines a multi-tier structure:
+
+| Level | Actor | Input | Output | NIS2 basis |
+|-------|-------|-------|--------|------------|
+| **Entity** (Phase 1+2) | Entity | Own incident data | Significance + early warning | Art. 23(4)(a) |
+| **National** (Phase 3a) | National CSIRT | Entity notifications from their MS | National T/O/matrix classification | Art. 23(4)(b-e) |
+| **EU** (Phase 3b) | CSIRT Network + EU-CyCLONe | National classifications from multiple MS | EU-level classification + coordination level | Art. 15-16, Blueprint |
+
+**Implementation:**
+1. **Phase 3a — `assess_national_incident`**: Input is entity notifications from a single MS. Aggregation scoped to that MS. Output includes national classification + flag for CSIRT Network sharing if cross-border.
+2. **Phase 3b — `assess_eu_incident`**: Input is national classification dicts from multiple MS (output of Phase 3a). Second-level aggregation across national assessments. Output is EU-level classification + EU-CyCLONe coordination recommendation.
+3. **Escalation rules**: Phase 3a flags cross-border → triggers Phase 3b. Phase 3b escalation rules are stricter (significant at national level may become large_scale at EU level when concurrent in 3+ MS).
+
+**Outcome:** Clean separation matching the actual NIS2 governance model. National CSIRTs operate within their jurisdiction; EU-CyCLONe coordinates across.
+
+**Effort:** Medium — the aggregation logic exists, needs scoping by MS + a second aggregation layer over national outputs.
+
+### 5. Other v5 candidates
 
 | Enhancement | Phase | Impact | Effort |
 |-------------|-------|--------|--------|
