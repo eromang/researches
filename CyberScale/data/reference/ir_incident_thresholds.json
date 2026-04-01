@@ -1,0 +1,78 @@
+{
+  "version": "1.0",
+  "source": "Commission Implementing Regulation (EU) 2024/2690, Articles 5-14",
+  "description": "Per-entity-type quantitative thresholds for significant incident determination under NIS2 Art. 23. IR entities use deterministic threshold logic; non-IR entities use the NIS2 ML model.",
+  "ir_entity_types": [
+    "dns_service_provider", "tld_registry", "cloud_computing_provider",
+    "data_centre_operator", "cdn_provider", "managed_service_provider",
+    "managed_security_service_provider", "online_marketplace_provider",
+    "search_engine_provider", "social_network_provider",
+    "trust_service_provider", "ixp_operator",
+    "public_ecn_provider", "public_ecs_provider"
+  ],
+  "criteria": {
+    "service_unavailability": {
+      "description": "Service fully unavailable for users",
+      "field": "service_impact",
+      "trigger_values": ["unavailable", "sustained"],
+      "articles": ["Art. 5(1)(a)", "Art. 6(1)(a)", "Art. 7(1)(a)", "Art. 8(1)(a)", "Art. 9(1)(a)", "Art. 10(1)(a)"]
+    },
+    "service_degradation_duration": {
+      "description": "Service degraded beyond threshold duration",
+      "fields": ["service_impact", "impact_duration_hours"],
+      "condition": "service_impact in (degraded, unavailable, sustained) AND impact_duration_hours >= 1",
+      "articles": ["Art. 5(1)(b)", "Art. 6(1)(b)"]
+    },
+    "data_integrity_confidentiality": {
+      "description": "Compromise of data integrity or confidentiality",
+      "field": "data_impact",
+      "trigger_values": ["exfiltrated", "compromised", "systemic"],
+      "articles": ["Art. 5(1)(c)", "Art. 6(1)(c)", "Art. 7(1)(b)", "Art. 8(1)(b)"]
+    },
+    "affected_persons_threshold": {
+      "description": "Number of affected persons exceeds threshold",
+      "field": "affected_persons_count",
+      "thresholds": {
+        "dns_service_provider": 100000,
+        "tld_registry": 100000,
+        "cloud_computing_provider": 1000,
+        "data_centre_operator": 1000,
+        "cdn_provider": 100000,
+        "managed_service_provider": 1000,
+        "managed_security_service_provider": 1000,
+        "online_marketplace_provider": 10000,
+        "search_engine_provider": 10000,
+        "social_network_provider": 10000,
+        "trust_service_provider": 1000,
+        "ixp_operator": 0,
+        "public_ecn_provider": 100000,
+        "public_ecs_provider": 100000
+      },
+      "articles": ["Art. 5(1)(d)", "Art. 6(1)(d)", "Art. 7(1)(c)", "Art. 9(1)(b)"]
+    },
+    "financial_loss": {
+      "description": "Significant or severe financial loss",
+      "field": "financial_impact",
+      "trigger_values": ["significant", "severe"],
+      "articles": ["Art. 5(1)(e)", "Art. 6(1)(e)"]
+    },
+    "safety_impact": {
+      "description": "Impact on physical safety or health",
+      "field": "safety_impact",
+      "trigger_values": ["health_damage", "death"],
+      "articles": ["Art. 5(1)(f)", "Art. 7(1)(d)"]
+    },
+    "suspected_malicious": {
+      "description": "Incident is suspected to be caused by malicious action",
+      "field": "suspected_malicious",
+      "trigger_value": true,
+      "articles": ["Art. 5(2)", "Art. 6(2)", "Art. 7(2)"]
+    },
+    "cross_border_impact": {
+      "description": "Incident has cross-border impact",
+      "derived_field": "cross_border",
+      "trigger_value": true,
+      "articles": ["Art. 5(2)", "Art. 6(2)"]
+    }
+  }
+}
