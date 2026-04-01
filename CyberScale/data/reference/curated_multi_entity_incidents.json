@@ -1,0 +1,2852 @@
+{
+  "version": "1.0",
+  "description": "50 curated multi-entity incident scenarios for benchmarking the CyberScale aggregation, O-model, and classification matrix pipeline. Covers all T-levels, O-levels, and classification tiers with realistic NIS2 entity configurations.",
+  "incidents": [
+    {
+      "id": "ME-001",
+      "name": "WannaCry-style ransomware across EU hospitals",
+      "description": "Ransomware worm exploiting unpatched SMB vulnerability spreads across healthcare providers in multiple member states, encrypting patient records and disabling medical devices.",
+      "entities": [
+        {
+          "sector": "health",
+          "entity_type": "healthcare_provider",
+          "ms_established": "DE",
+          "ms_affected": [
+            "FR",
+            "NL",
+            "BE",
+            "AT",
+            "PL",
+            "CZ"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "health_damage",
+          "affected_persons_count": 500000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 168
+        },
+        {
+          "sector": "health",
+          "entity_type": "healthcare_provider",
+          "ms_established": "FR",
+          "ms_affected": [
+            "DE",
+            "BE",
+            "ES",
+            "IT"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "health_damage",
+          "affected_persons_count": 350000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 144
+        },
+        {
+          "sector": "health",
+          "entity_type": "medical_device_manufacturer",
+          "ms_established": "NL",
+          "ms_affected": [
+            "DE",
+            "FR",
+            "BE"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 100000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 96
+        },
+        {
+          "sector": "health",
+          "entity_type": "pharma_rd_manufacturer",
+          "ms_established": "IT",
+          "ms_affected": [
+            "ES",
+            "PT"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 20000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 72
+        },
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "cloud_computing_provider",
+          "ms_established": "IE",
+          "ms_affected": [
+            "DE",
+            "FR",
+            "NL",
+            "BE",
+            "AT",
+            "IT"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 1000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 48
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-002",
+      "name": "NotPetya-style supply chain wiper attack",
+      "description": "Destructive wiper malware disguised as ransomware propagates via compromised tax software update, devastating logistics, banking, and energy sectors across Europe.",
+      "entities": [
+        {
+          "sector": "transport",
+          "entity_type": "shipping_company",
+          "ms_established": "DK",
+          "ms_affected": [
+            "NL",
+            "DE",
+            "BE",
+            "FR",
+            "ES",
+            "IT",
+            "PL"
+          ],
+          "service_impact": "sustained",
+          "data_impact": "systemic",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 200000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 336
+        },
+        {
+          "sector": "energy",
+          "entity_type": "electricity_undertaking",
+          "ms_established": "PL",
+          "ms_affected": [
+            "DE",
+            "CZ",
+            "SK"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 300000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 240
+        },
+        {
+          "sector": "banking",
+          "entity_type": "credit_institution",
+          "ms_established": "FR",
+          "ms_affected": [
+            "BE",
+            "LU",
+            "DE"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 500000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 168
+        },
+        {
+          "sector": "manufacturing",
+          "entity_type": "machinery_manufacturer",
+          "ms_established": "DE",
+          "ms_affected": [
+            "AT",
+            "CZ"
+          ],
+          "service_impact": "sustained",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 50000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 480
+        },
+        {
+          "sector": "food",
+          "entity_type": "food_distributor",
+          "ms_established": "NL",
+          "ms_affected": [
+            "BE",
+            "DE"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 80000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 120
+        },
+        {
+          "sector": "chemicals",
+          "entity_type": "chemicals",
+          "ms_established": "DE",
+          "ms_affected": [
+            "NL",
+            "BE"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 25000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 96
+        }
+      ],
+      "expected_t": "T4",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-003",
+      "name": "SolarWinds-style supply chain espionage",
+      "description": "Nation-state actor compromises a major IT management platform used by EU government agencies and critical infrastructure, enabling persistent access for months.",
+      "entities": [
+        {
+          "sector": "ict_service_management",
+          "entity_type": "managed_service_provider",
+          "ms_established": "IE",
+          "ms_affected": [
+            "DE",
+            "FR",
+            "NL",
+            "IT",
+            "ES",
+            "BE",
+            "AT"
+          ],
+          "service_impact": "partial",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 50000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 4320
+        },
+        {
+          "sector": "public_administration",
+          "entity_type": "central_government_entity",
+          "ms_established": "DE",
+          "ms_affected": [
+            "FR",
+            "NL",
+            "BE"
+          ],
+          "service_impact": "partial",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 200000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 4320
+        },
+        {
+          "sector": "public_administration",
+          "entity_type": "central_government_entity",
+          "ms_established": "FR",
+          "ms_affected": [
+            "DE",
+            "BE"
+          ],
+          "service_impact": "partial",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 150000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 4320
+        },
+        {
+          "sector": "energy",
+          "entity_type": "transmission_system_operator",
+          "ms_established": "NL",
+          "ms_affected": [
+            "DE",
+            "BE"
+          ],
+          "service_impact": "none",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 10000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 4320
+        },
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "cloud_computing_provider",
+          "ms_established": "IE",
+          "ms_affected": [
+            "DE",
+            "FR",
+            "NL",
+            "IT",
+            "ES"
+          ],
+          "service_impact": "none",
+          "data_impact": "exfiltrated",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 500000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 4320
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-004",
+      "name": "MOVEit-style file transfer zero-day exploitation",
+      "description": "Mass exploitation of zero-day vulnerability in widely-used managed file transfer software, leading to data exfiltration from government and financial entities.",
+      "entities": [
+        {
+          "sector": "public_administration",
+          "entity_type": "central_government_entity",
+          "ms_established": "DE",
+          "ms_affected": [
+            "FR",
+            "AT"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 300000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 48
+        },
+        {
+          "sector": "banking",
+          "entity_type": "credit_institution",
+          "ms_established": "NL",
+          "ms_affected": [
+            "BE",
+            "LU"
+          ],
+          "service_impact": "partial",
+          "data_impact": "exfiltrated",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 250000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 24
+        },
+        {
+          "sector": "health",
+          "entity_type": "healthcare_provider",
+          "ms_established": "FR",
+          "ms_affected": [
+            "BE"
+          ],
+          "service_impact": "partial",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 180000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 24
+        },
+        {
+          "sector": "ict_service_management",
+          "entity_type": "managed_service_provider",
+          "ms_established": "IE",
+          "ms_affected": [
+            "DE",
+            "FR",
+            "NL"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 100000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 72
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-005",
+      "name": "Colonial Pipeline-style energy ransomware",
+      "description": "Ransomware attack on a major gas pipeline operator forces preventive shutdown, disrupting fuel supply and triggering cascading effects on transport and manufacturing.",
+      "entities": [
+        {
+          "sector": "energy",
+          "entity_type": "gas_undertaking",
+          "ms_established": "DE",
+          "ms_affected": [
+            "NL",
+            "BE",
+            "AT",
+            "CZ"
+          ],
+          "service_impact": "sustained",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 2000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 240
+        },
+        {
+          "sector": "transport",
+          "entity_type": "railway_undertaking",
+          "ms_established": "DE",
+          "ms_affected": [
+            "AT",
+            "CZ"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 500000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 120
+        },
+        {
+          "sector": "manufacturing",
+          "entity_type": "motor_vehicle_manufacturer",
+          "ms_established": "DE",
+          "ms_affected": [
+            "CZ",
+            "SK"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "none",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 30000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 168
+        }
+      ],
+      "expected_t": "T4",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-006",
+      "name": "Log4Shell-style zero-day in cloud infrastructure",
+      "description": "Critical RCE vulnerability in a ubiquitous logging library enables mass exploitation of cloud providers and digital infrastructure across Europe.",
+      "entities": [
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "cloud_computing_provider",
+          "ms_established": "IE",
+          "ms_affected": [
+            "DE",
+            "FR",
+            "NL",
+            "IT",
+            "ES",
+            "SE",
+            "FI"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 5000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 720
+        },
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "data_centre_operator",
+          "ms_established": "NL",
+          "ms_affected": [
+            "DE",
+            "BE"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 1000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 480
+        },
+        {
+          "sector": "digital_providers",
+          "entity_type": "online_marketplace_provider",
+          "ms_established": "DE",
+          "ms_affected": [
+            "FR",
+            "IT",
+            "ES",
+            "NL"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 2000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 360
+        },
+        {
+          "sector": "banking",
+          "entity_type": "credit_institution",
+          "ms_established": "FR",
+          "ms_affected": [
+            "BE",
+            "LU",
+            "DE"
+          ],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 800000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 240
+        },
+        {
+          "sector": "public_administration",
+          "entity_type": "central_government_entity",
+          "ms_established": "DE",
+          "ms_affected": [
+            "AT"
+          ],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 200000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 240
+        },
+        {
+          "sector": "ict_service_management",
+          "entity_type": "managed_service_provider",
+          "ms_established": "SE",
+          "ms_affected": [
+            "FI",
+            "DK",
+            "NO"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 300000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 360
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O4",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-007",
+      "name": "Kaseya-style MSP ransomware cascade",
+      "description": "Ransomware gang exploits vulnerability in remote management software used by managed service providers, encrypting hundreds of downstream customers across EU.",
+      "entities": [
+        {
+          "sector": "ict_service_management",
+          "entity_type": "managed_service_provider",
+          "ms_established": "NL",
+          "ms_affected": [
+            "BE",
+            "DE",
+            "FR",
+            "LU"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 150000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 168
+        },
+        {
+          "sector": "ict_service_management",
+          "entity_type": "managed_security_service_provider",
+          "ms_established": "DE",
+          "ms_affected": [
+            "AT",
+            "CH"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 80000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 144
+        },
+        {
+          "sector": "food",
+          "entity_type": "food_producer",
+          "ms_established": "SE",
+          "ms_affected": [
+            "FI",
+            "DK"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 40000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 120
+        },
+        {
+          "sector": "manufacturing",
+          "entity_type": "machinery_manufacturer",
+          "ms_established": "IT",
+          "ms_affected": [
+            "ES"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 15000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 96
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-008",
+      "name": "EU water treatment SCADA compromise",
+      "description": "Coordinated attack on SCADA systems of drinking water facilities in two neighbouring member states, attempting to alter chemical treatment levels.",
+      "entities": [
+        {
+          "sector": "drinking_water",
+          "entity_type": "drinking_water",
+          "ms_established": "DE",
+          "ms_affected": [
+            "NL"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "significant",
+          "safety_impact": "health_damage",
+          "affected_persons_count": 400000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 48
+        },
+        {
+          "sector": "drinking_water",
+          "entity_type": "drinking_water",
+          "ms_established": "NL",
+          "ms_affected": [
+            "BE"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 200000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 24
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-009",
+      "name": "Cross-border railway signalling sustained disruption",
+      "description": "Destructive cyberattack on railway signalling firmware causes sustained service disruption on major cross-border routes, requiring hardware replacement.",
+      "entities": [
+        {
+          "sector": "transport",
+          "entity_type": "railway_undertaking",
+          "ms_established": "DE",
+          "ms_affected": [
+            "FR",
+            "NL",
+            "BE"
+          ],
+          "service_impact": "sustained",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 800000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 336
+        },
+        {
+          "sector": "transport",
+          "entity_type": "railway_undertaking",
+          "ms_established": "FR",
+          "ms_affected": [
+            "BE",
+            "LU"
+          ],
+          "service_impact": "sustained",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 500000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 240
+        },
+        {
+          "sector": "transport",
+          "entity_type": "railway_undertaking",
+          "ms_established": "BE",
+          "ms_affected": [
+            "NL"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 200000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 168
+        }
+      ],
+      "expected_t": "T4",
+      "expected_o": "O3",
+      "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-010",
+      "name": "EU DNS infrastructure DDoS campaign",
+      "description": "Massive distributed denial of service campaign targets EU DNS providers, causing intermittent resolution failures affecting thousands of downstream services.",
+      "entities": [
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "dns_service_provider",
+          "ms_established": "NL",
+          "ms_affected": [
+            "DE",
+            "FR",
+            "BE",
+            "AT",
+            "IT"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "none",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 10000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 12
+        },
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "dns_service_provider",
+          "ms_established": "DE",
+          "ms_affected": [
+            "AT",
+            "CZ",
+            "PL"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 5000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 8
+        },
+        {
+          "sector": "digital_providers",
+          "entity_type": "online_marketplace_provider",
+          "ms_established": "IE",
+          "ms_affected": [
+            "DE",
+            "FR",
+            "IT",
+            "ES"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 3000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 6
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-011",
+      "name": "Power grid cascading failure from cyber",
+      "description": "Sophisticated attack on electricity transmission operators triggers cascading grid instability across Central Europe, with rolling blackouts lasting hours.",
+      "entities": [
+        {
+          "sector": "energy",
+          "entity_type": "transmission_system_operator",
+          "ms_established": "DE",
+          "ms_affected": [
+            "AT",
+            "CZ",
+            "PL",
+            "NL",
+            "FR"
+          ],
+          "service_impact": "sustained",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "health_damage",
+          "affected_persons_count": 5000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 72
+        },
+        {
+          "sector": "energy",
+          "entity_type": "electricity_undertaking",
+          "ms_established": "AT",
+          "ms_affected": [
+            "DE",
+            "CZ",
+            "HU"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "none",
+          "financial_impact": "severe",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 2000000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 48
+        },
+        {
+          "sector": "health",
+          "entity_type": "healthcare_provider",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "health_damage",
+          "affected_persons_count": 100000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 48
+        },
+        {
+          "sector": "transport",
+          "entity_type": "railway_undertaking",
+          "ms_established": "DE",
+          "ms_affected": [
+            "AT"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 500000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 24
+        }
+      ],
+      "expected_t": "T4",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-012",
+      "name": "Banking sector credential stuffing wave",
+      "description": "Large-scale automated credential stuffing campaign targets multiple EU banks, causing account lockouts and limited unauthorized fund transfers.",
+      "entities": [
+        {
+          "sector": "banking",
+          "entity_type": "credit_institution",
+          "ms_established": "DE",
+          "ms_affected": [
+            "AT"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 50000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 24
+        },
+        {
+          "sector": "banking",
+          "entity_type": "credit_institution",
+          "ms_established": "FR",
+          "ms_affected": [
+            "BE"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 30000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 18
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-013",
+      "name": "CDN provider compromise with data leak",
+      "description": "A vulnerability in a CDN provider exposes cached sensitive data including API keys and session tokens from downstream customers in multiple sectors.",
+      "entities": [
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "cdn_provider",
+          "ms_established": "IE",
+          "ms_affected": [
+            "DE",
+            "FR",
+            "NL"
+          ],
+          "service_impact": "partial",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 500000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 72
+        },
+        {
+          "sector": "digital_providers",
+          "entity_type": "social_network_provider",
+          "ms_established": "IE",
+          "ms_affected": [
+            "DE",
+            "FR",
+            "IT",
+            "ES"
+          ],
+          "service_impact": "partial",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 2000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 48
+        },
+        {
+          "sector": "banking",
+          "entity_type": "credit_institution",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 100000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 24
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-014",
+      "name": "Airport IT system ransomware",
+      "description": "Ransomware hits shared airport IT systems affecting flight operations and baggage handling at two major EU airports.",
+      "entities": [
+        {
+          "sector": "transport",
+          "entity_type": "air_carrier",
+          "ms_established": "DE",
+          "ms_affected": [
+            "FR",
+            "IT"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 200000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 72
+        },
+        {
+          "sector": "transport",
+          "entity_type": "air_carrier",
+          "ms_established": "FR",
+          "ms_affected": [
+            "ES"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 150000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 48
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-015",
+      "name": "Trust service provider key compromise",
+      "description": "Root key compromise at an EU-qualified trust service provider undermines digital signatures and certificates used by government and banking entities.",
+      "entities": [
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "trust_service_provider",
+          "ms_established": "ES",
+          "ms_affected": [
+            "PT",
+            "FR",
+            "IT"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "systemic",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 1000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 720
+        },
+        {
+          "sector": "public_administration",
+          "entity_type": "central_government_entity",
+          "ms_established": "ES",
+          "ms_affected": [
+            "PT"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 500000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 480
+        },
+        {
+          "sector": "banking",
+          "entity_type": "credit_institution",
+          "ms_established": "ES",
+          "ms_affected": [
+            "PT"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 300000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 240
+        }
+      ],
+      "expected_t": "T4",
+      "expected_o": "O3",
+      "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-016",
+      "name": "Pharmaceutical IP theft campaign",
+      "description": "APT group targets pharmaceutical companies to access vaccine research data; limited data accessed before detection.",
+      "entities": [
+        {
+          "sector": "health",
+          "entity_type": "pharma_rd_manufacturer",
+          "ms_established": "DE",
+          "ms_affected": [
+            "FR"
+          ],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 5000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 720
+        },
+        {
+          "sector": "health",
+          "entity_type": "pharma_rd_manufacturer",
+          "ms_established": "FR",
+          "ms_affected": [
+            "BE"
+          ],
+          "service_impact": "none",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 3000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 720
+        },
+        {
+          "sector": "research",
+          "entity_type": "research",
+          "ms_established": "NL",
+          "ms_affected": [
+            "BE"
+          ],
+          "service_impact": "none",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 2000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 720
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-017",
+      "name": "Satellite ground station jamming",
+      "description": "Electromagnetic interference campaign disrupts satellite ground station operations affecting navigation and timing services.",
+      "entities": [
+        {
+          "sector": "space",
+          "entity_type": "space",
+          "ms_established": "FR",
+          "ms_affected": [
+            "DE",
+            "IT"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 100000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 12
+        },
+        {
+          "sector": "transport",
+          "entity_type": "air_carrier",
+          "ms_established": "FR",
+          "ms_affected": [
+            "DE"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 50000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 6
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-018",
+      "name": "Regional government sustained ransomware",
+      "description": "Destructive ransomware with wiper component hits two regional government administrations, destroying backups and causing sustained loss of citizen services for weeks.",
+      "entities": [
+        {
+          "sector": "public_administration",
+          "entity_type": "regional_government_entity",
+          "ms_established": "BE",
+          "ms_affected": [],
+          "service_impact": "sustained",
+          "data_impact": "systemic",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 300000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 504
+        },
+        {
+          "sector": "public_administration",
+          "entity_type": "regional_government_entity",
+          "ms_established": "NL",
+          "ms_affected": [],
+          "service_impact": "sustained",
+          "data_impact": "systemic",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 250000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 504
+        }
+      ],
+      "expected_t": "T4",
+      "expected_o": "O2",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-019",
+      "name": "Wastewater SCADA intrusion",
+      "description": "Unauthorized access to wastewater treatment SCADA systems in two facilities; attacker attempts to modify treatment parameters before detection.",
+      "entities": [
+        {
+          "sector": "waste_water",
+          "entity_type": "waste_water",
+          "ms_established": "IT",
+          "ms_affected": [],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 50000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 8
+        },
+        {
+          "sector": "waste_water",
+          "entity_type": "waste_water",
+          "ms_established": "IT",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 30000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 4
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O1",
+      "expected_classification": "significant"
+    },
+    {
+      "id": "ME-020",
+      "name": "Small ISP BGP hijack pair",
+      "description": "Two small internet exchange point operators experience BGP hijacking, briefly redirecting traffic through unauthorized autonomous systems.",
+      "entities": [
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "ixp_operator",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 10000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 2
+        },
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "ixp_operator",
+          "ms_established": "NL",
+          "ms_affected": [],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 8000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 2
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O2",
+      "expected_classification": "significant"
+    },
+    {
+      "id": "ME-021",
+      "name": "Port logistics ransomware",
+      "description": "Ransomware hits two major port operators disrupting container handling and customs clearance at key European shipping hubs.",
+      "entities": [
+        {
+          "sector": "transport",
+          "entity_type": "port_operator",
+          "ms_established": "NL",
+          "ms_affected": [
+            "BE",
+            "DE"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 50000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 120
+        },
+        {
+          "sector": "transport",
+          "entity_type": "port_operator",
+          "ms_established": "BE",
+          "ms_affected": [
+            "NL"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 40000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 96
+        },
+        {
+          "sector": "food",
+          "entity_type": "food_distributor",
+          "ms_established": "NL",
+          "ms_affected": [
+            "BE"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 100000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 72
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-022",
+      "name": "Financial market data feed manipulation",
+      "description": "Attackers manipulate real-time market data feeds at a financial market infrastructure operator, causing brief trading anomalies before detection.",
+      "entities": [
+        {
+          "sector": "financial_market",
+          "entity_type": "financial_market",
+          "ms_established": "DE",
+          "ms_affected": [
+            "NL",
+            "FR",
+            "LU"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 20000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 4
+        },
+        {
+          "sector": "banking",
+          "entity_type": "credit_institution",
+          "ms_established": "DE",
+          "ms_affected": [
+            "NL"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 50000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 8
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-023",
+      "name": "Medical device firmware backdoor",
+      "description": "Backdoor discovered in firmware of widely-deployed medical infusion pumps and monitoring devices, affecting hospitals in three member states.",
+      "entities": [
+        {
+          "sector": "health",
+          "entity_type": "medical_device_manufacturer",
+          "ms_established": "DE",
+          "ms_affected": [
+            "AT",
+            "NL"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "health_damage",
+          "affected_persons_count": 80000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 720
+        },
+        {
+          "sector": "health",
+          "entity_type": "healthcare_provider",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 150000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 720
+        },
+        {
+          "sector": "health",
+          "entity_type": "healthcare_provider",
+          "ms_established": "AT",
+          "ms_affected": [],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 60000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 720
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-024",
+      "name": "Postal service minor data access",
+      "description": "Two national postal services experience unauthorized access to shipment tracking databases; no bulk exfiltration detected.",
+      "entities": [
+        {
+          "sector": "postal",
+          "entity_type": "postal",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 50000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 12
+        },
+        {
+          "sector": "postal",
+          "entity_type": "postal",
+          "ms_established": "AT",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 20000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 8
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O2",
+      "expected_classification": "significant"
+    },
+    {
+      "id": "ME-025",
+      "name": "Multi-country search engine defacement",
+      "description": "Hacktivist group defaces and temporarily degrades a major EU search engine, redirecting some users to propaganda pages.",
+      "entities": [
+        {
+          "sector": "digital_providers",
+          "entity_type": "search_engine_provider",
+          "ms_established": "FR",
+          "ms_affected": [
+            "DE",
+            "IT",
+            "ES"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 5000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 6
+        },
+        {
+          "sector": "digital_providers",
+          "entity_type": "online_marketplace_provider",
+          "ms_established": "FR",
+          "ms_affected": [
+            "DE"
+          ],
+          "service_impact": "partial",
+          "data_impact": "none",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 1000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 3
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-026",
+      "name": "Chemical plant OT network breach",
+      "description": "Intrusion into operational technology networks at two chemical manufacturing plants, with attacker accessing but not modifying process control systems.",
+      "entities": [
+        {
+          "sector": "chemicals",
+          "entity_type": "chemicals",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 5000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 48
+        },
+        {
+          "sector": "chemicals",
+          "entity_type": "chemicals",
+          "ms_established": "NL",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 3000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 24
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O2",
+      "expected_classification": "significant"
+    },
+    {
+      "id": "ME-027",
+      "name": "Waste management system minor breach",
+      "description": "Low-sophistication attack accesses scheduling and routing systems of two waste management companies, causing minor service delays.",
+      "entities": [
+        {
+          "sector": "waste_management",
+          "entity_type": "waste_management",
+          "ms_established": "IT",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 20000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 12
+        },
+        {
+          "sector": "waste_management",
+          "entity_type": "waste_management",
+          "ms_established": "GR",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "none",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 15000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 8
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O2",
+      "expected_classification": "significant"
+    },
+    {
+      "id": "ME-028",
+      "name": "Food supply chain minor disruption",
+      "description": "Phishing-initiated compromise at food production and distribution companies causes brief ERP system downtime and minor shipment delays.",
+      "entities": [
+        {
+          "sector": "food",
+          "entity_type": "food_producer",
+          "ms_established": "ES",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "none",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 5000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 12
+        },
+        {
+          "sector": "food",
+          "entity_type": "food_distributor",
+          "ms_established": "PT",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "none",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 8000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 8
+        }
+      ],
+      "expected_t": "T1",
+      "expected_o": "O2",
+      "expected_classification": "significant"
+    },
+    {
+      "id": "ME-029",
+      "name": "Data centre minor cooling system incident",
+      "description": "Low-impact unauthorized access to building management systems of two co-located data centres, with no customer data exposure.",
+      "entities": [
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "data_centre_operator",
+          "ms_established": "NL",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "none",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 1000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 4
+        },
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "data_centre_operator",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "none",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 500,
+          "suspected_malicious": true,
+          "impact_duration_hours": 2
+        }
+      ],
+      "expected_t": "T1",
+      "expected_o": "O2",
+      "expected_classification": "significant"
+    },
+    {
+      "id": "ME-030",
+      "name": "Motor vehicle manufacturer pair phishing",
+      "description": "Spear-phishing campaign compromises email accounts at two motor vehicle manufacturers, leaking limited design documents.",
+      "entities": [
+        {
+          "sector": "manufacturing",
+          "entity_type": "motor_vehicle_manufacturer",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "none",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 500,
+          "suspected_malicious": true,
+          "impact_duration_hours": 72
+        },
+        {
+          "sector": "manufacturing",
+          "entity_type": "motor_vehicle_manufacturer",
+          "ms_established": "IT",
+          "ms_affected": [],
+          "service_impact": "none",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 300,
+          "suspected_malicious": true,
+          "impact_duration_hours": 48
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O2",
+      "expected_classification": "significant"
+    },
+    {
+      "id": "ME-031",
+      "name": "Social network and marketplace minor scraping",
+      "description": "Automated scraping operation extracts public profile data from a social network and marketplace; no authentication bypass or private data accessed.",
+      "entities": [
+        {
+          "sector": "digital_providers",
+          "entity_type": "social_network_provider",
+          "ms_established": "IE",
+          "ms_affected": [],
+          "service_impact": "none",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 100000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 168
+        },
+        {
+          "sector": "digital_providers",
+          "entity_type": "online_marketplace_provider",
+          "ms_established": "IE",
+          "ms_affected": [],
+          "service_impact": "none",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 50000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 168
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O1",
+      "expected_classification": "significant"
+    },
+    {
+      "id": "ME-032",
+      "name": "Cross-border electricity and gas disruption",
+      "description": "Coordinated ransomware targets electricity and gas operators in the Baltics, disrupting energy supply during winter peak demand.",
+      "entities": [
+        {
+          "sector": "energy",
+          "entity_type": "electricity_undertaking",
+          "ms_established": "LT",
+          "ms_affected": [
+            "LV",
+            "EE"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "health_damage",
+          "affected_persons_count": 500000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 96
+        },
+        {
+          "sector": "energy",
+          "entity_type": "gas_undertaking",
+          "ms_established": "LV",
+          "ms_affected": [
+            "LT",
+            "EE"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 300000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 72
+        },
+        {
+          "sector": "health",
+          "entity_type": "healthcare_provider",
+          "ms_established": "LT",
+          "ms_affected": [],
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "health_damage",
+          "affected_persons_count": 50000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 48
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-033",
+      "name": "Managed security provider supply chain",
+      "description": "Compromise of an MSSP's SIEM platform allows attackers to disable alerting and pivot into customer networks across multiple sectors.",
+      "entities": [
+        {
+          "sector": "ict_service_management",
+          "entity_type": "managed_security_service_provider",
+          "ms_established": "NL",
+          "ms_affected": [
+            "DE",
+            "BE",
+            "LU"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "exfiltrated",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 200000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 168
+        },
+        {
+          "sector": "banking",
+          "entity_type": "credit_institution",
+          "ms_established": "LU",
+          "ms_affected": [
+            "BE"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "exfiltrated",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 100000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 96
+        },
+        {
+          "sector": "energy",
+          "entity_type": "electricity_undertaking",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 15000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 48
+        },
+        {
+          "sector": "manufacturing",
+          "entity_type": "machinery_manufacturer",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 5000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 48
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-034",
+      "name": "Nordic banking trojan campaign",
+      "description": "Banking trojan campaign targets Scandinavian credit institutions via compromised software updates, exfiltrating customer credentials.",
+      "entities": [
+        {
+          "sector": "banking",
+          "entity_type": "credit_institution",
+          "ms_established": "SE",
+          "ms_affected": [
+            "FI",
+            "DK"
+          ],
+          "service_impact": "partial",
+          "data_impact": "exfiltrated",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 150000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 72
+        },
+        {
+          "sector": "banking",
+          "entity_type": "credit_institution",
+          "ms_established": "FI",
+          "ms_affected": [
+            "EE"
+          ],
+          "service_impact": "partial",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 80000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 48
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-035",
+      "name": "EU cloud region sustained outage",
+      "description": "Persistent attack on a cloud provider's EU region causes sustained service disruption affecting multiple downstream critical infrastructure operators.",
+      "entities": [
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "cloud_computing_provider",
+          "ms_established": "IE",
+          "ms_affected": [
+            "DE",
+            "FR",
+            "NL",
+            "IT",
+            "ES",
+            "SE",
+            "PL"
+          ],
+          "service_impact": "sustained",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 10000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 336
+        },
+        {
+          "sector": "health",
+          "entity_type": "healthcare_provider",
+          "ms_established": "DE",
+          "ms_affected": [
+            "AT"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 200000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 168
+        },
+        {
+          "sector": "public_administration",
+          "entity_type": "central_government_entity",
+          "ms_established": "FR",
+          "ms_affected": [],
+          "service_impact": "unavailable",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 500000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 168
+        },
+        {
+          "sector": "banking",
+          "entity_type": "credit_institution",
+          "ms_established": "NL",
+          "ms_affected": [
+            "BE"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "none",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 300000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 168
+        },
+        {
+          "sector": "digital_providers",
+          "entity_type": "online_marketplace_provider",
+          "ms_established": "DE",
+          "ms_affected": [
+            "FR",
+            "IT"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 2000000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 168
+        }
+      ],
+      "expected_t": "T4",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-036",
+      "name": "Iberian electricity grid cyber intrusion",
+      "description": "APT intrusion into Spanish and Portuguese electricity grid operators results in brief load shedding and data exfiltration of grid topology data within each country.",
+      "entities": [
+        {
+          "sector": "energy",
+          "entity_type": "transmission_system_operator",
+          "ms_established": "ES",
+          "ms_affected": [],
+          "service_impact": "unavailable",
+          "data_impact": "exfiltrated",
+          "financial_impact": "severe",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 1000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 24
+        },
+        {
+          "sector": "energy",
+          "entity_type": "electricity_undertaking",
+          "ms_established": "PT",
+          "ms_affected": [],
+          "service_impact": "degraded",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 500000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 12
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O2",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-037",
+      "name": "Multi-sector espionage via MSP compromise",
+      "description": "State-sponsored actor uses compromised MSP as pivot point to access energy, transport, and government networks over several months.",
+      "entities": [
+        {
+          "sector": "ict_service_management",
+          "entity_type": "managed_service_provider",
+          "ms_established": "DE",
+          "ms_affected": [
+            "AT",
+            "CZ",
+            "PL"
+          ],
+          "service_impact": "none",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 50000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 4320
+        },
+        {
+          "sector": "energy",
+          "entity_type": "electricity_undertaking",
+          "ms_established": "DE",
+          "ms_affected": [
+            "AT"
+          ],
+          "service_impact": "none",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 10000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 2160
+        },
+        {
+          "sector": "transport",
+          "entity_type": "railway_undertaking",
+          "ms_established": "AT",
+          "ms_affected": [
+            "DE"
+          ],
+          "service_impact": "none",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 5000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 2160
+        },
+        {
+          "sector": "public_administration",
+          "entity_type": "central_government_entity",
+          "ms_established": "CZ",
+          "ms_affected": [],
+          "service_impact": "none",
+          "data_impact": "exfiltrated",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 30000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 2160
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-038",
+      "name": "Drinking water contamination scare duo",
+      "description": "Attackers compromise drinking water monitoring systems across two member states via shared SCADA vendor, triggering false contamination alerts and public panic.",
+      "entities": [
+        {
+          "sector": "drinking_water",
+          "entity_type": "drinking_water",
+          "ms_established": "FI",
+          "ms_affected": [
+            "EE"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "compromised",
+          "financial_impact": "significant",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 100000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 24
+        },
+        {
+          "sector": "drinking_water",
+          "entity_type": "drinking_water",
+          "ms_established": "EE",
+          "ms_affected": [
+            "FI"
+          ],
+          "service_impact": "partial",
+          "data_impact": "compromised",
+          "financial_impact": "minor",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 30000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 12
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O2",
+      "expected_classification": "significant"
+    },
+    {
+      "id": "ME-039",
+      "name": "Government email system minor compromise",
+      "description": "Spear-phishing campaign compromises limited email accounts at two central government entities; attacker access detected and revoked within hours.",
+      "entities": [
+        {
+          "sector": "public_administration",
+          "entity_type": "central_government_entity",
+          "ms_established": "PL",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 500,
+          "suspected_malicious": true,
+          "impact_duration_hours": 8
+        },
+        {
+          "sector": "public_administration",
+          "entity_type": "central_government_entity",
+          "ms_established": "RO",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 300,
+          "suspected_malicious": true,
+          "impact_duration_hours": 6
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O2",
+      "expected_classification": "significant"
+    },
+    {
+      "id": "ME-040",
+      "name": "Automotive supply chain ransomware",
+      "description": "Ransomware spreads through interconnected supply chain systems of motor vehicle and machinery manufacturers, halting production lines.",
+      "entities": [
+        {
+          "sector": "manufacturing",
+          "entity_type": "motor_vehicle_manufacturer",
+          "ms_established": "DE",
+          "ms_affected": [
+            "CZ",
+            "SK",
+            "HU"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 50000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 168
+        },
+        {
+          "sector": "manufacturing",
+          "entity_type": "machinery_manufacturer",
+          "ms_established": "CZ",
+          "ms_affected": [
+            "SK"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 20000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 120
+        },
+        {
+          "sector": "manufacturing",
+          "entity_type": "motor_vehicle_manufacturer",
+          "ms_established": "SK",
+          "ms_affected": [
+            "HU"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 15000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 96
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-041",
+      "name": "Hospital ransomware with fatality",
+      "description": "Ransomware attack on two hospitals forces emergency department diversions for weeks, directly contributing to patient death during rerouted ambulance transport.",
+      "entities": [
+        {
+          "sector": "health",
+          "entity_type": "healthcare_provider",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "sustained",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "death",
+          "affected_persons_count": 100000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 504
+        },
+        {
+          "sector": "health",
+          "entity_type": "healthcare_provider",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "sustained",
+          "data_impact": "compromised",
+          "financial_impact": "significant",
+          "safety_impact": "health_damage",
+          "affected_persons_count": 60000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 336
+        }
+      ],
+      "expected_t": "T4",
+      "expected_o": "O1",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-042",
+      "name": "Pan-EU telecom backbone sustained attack",
+      "description": "Sophisticated persistent attack degrades core backbone infrastructure of major EU telecommunications and cloud providers over weeks.",
+      "entities": [
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "cloud_computing_provider",
+          "ms_established": "DE",
+          "ms_affected": [
+            "FR",
+            "NL",
+            "IT",
+            "ES",
+            "PL",
+            "SE"
+          ],
+          "service_impact": "sustained",
+          "data_impact": "systemic",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 20000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 504
+        },
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "cdn_provider",
+          "ms_established": "FR",
+          "ms_affected": [
+            "DE",
+            "IT",
+            "ES",
+            "NL"
+          ],
+          "service_impact": "sustained",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 10000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 504
+        },
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "dns_service_provider",
+          "ms_established": "NL",
+          "ms_affected": [
+            "DE",
+            "BE",
+            "FR"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "compromised",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 5000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 336
+        },
+        {
+          "sector": "banking",
+          "entity_type": "credit_institution",
+          "ms_established": "DE",
+          "ms_affected": [
+            "FR",
+            "NL",
+            "IT"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 2000000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 336
+        },
+        {
+          "sector": "public_administration",
+          "entity_type": "central_government_entity",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 500000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 168
+        },
+        {
+          "sector": "health",
+          "entity_type": "healthcare_provider",
+          "ms_established": "IT",
+          "ms_affected": [],
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 300000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 168
+        }
+      ],
+      "expected_t": "T4",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-043",
+      "name": "Financial market trading halt attack",
+      "description": "Coordinated attack forces trading halts at two EU financial market infrastructures, triggering market-wide circuit breakers.",
+      "entities": [
+        {
+          "sector": "financial_market",
+          "entity_type": "financial_market",
+          "ms_established": "DE",
+          "ms_affected": [
+            "NL",
+            "FR",
+            "IT",
+            "ES",
+            "BE"
+          ],
+          "service_impact": "sustained",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 500000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 48
+        },
+        {
+          "sector": "financial_market",
+          "entity_type": "financial_market",
+          "ms_established": "FR",
+          "ms_affected": [
+            "BE",
+            "LU",
+            "NL"
+          ],
+          "service_impact": "sustained",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 300000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 36
+        },
+        {
+          "sector": "banking",
+          "entity_type": "credit_institution",
+          "ms_established": "DE",
+          "ms_affected": [
+            "FR",
+            "NL"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 1000000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 24
+        }
+      ],
+      "expected_t": "T4",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-044",
+      "name": "Central EU gas pipeline OT compromise",
+      "description": "APT group gains deep access to gas pipeline SCADA systems but is detected before causing physical disruption; extensive forensics and remediation required.",
+      "entities": [
+        {
+          "sector": "energy",
+          "entity_type": "gas_undertaking",
+          "ms_established": "AT",
+          "ms_affected": [
+            "DE",
+            "IT",
+            "SI",
+            "HU"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "exfiltrated",
+          "financial_impact": "severe",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 500000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 720
+        },
+        {
+          "sector": "energy",
+          "entity_type": "gas_undertaking",
+          "ms_established": "DE",
+          "ms_affected": [
+            "NL",
+            "BE"
+          ],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 200000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 360
+        },
+        {
+          "sector": "manufacturing",
+          "entity_type": "machinery_manufacturer",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 5000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 168
+        },
+        {
+          "sector": "chemicals",
+          "entity_type": "chemicals",
+          "ms_established": "AT",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "health_risk",
+          "affected_persons_count": 10000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 168
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-045",
+      "name": "Research institution minor reconnaissance",
+      "description": "Low-sophistication attackers probe research institution networks and access non-sensitive project metadata; no research data exfiltrated.",
+      "entities": [
+        {
+          "sector": "research",
+          "entity_type": "research",
+          "ms_established": "NL",
+          "ms_affected": [],
+          "service_impact": "none",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 200,
+          "suspected_malicious": true,
+          "impact_duration_hours": 48
+        },
+        {
+          "sector": "research",
+          "entity_type": "research",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "none",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 150,
+          "suspected_malicious": true,
+          "impact_duration_hours": 48
+        },
+        {
+          "sector": "health",
+          "entity_type": "healthcare_provider",
+          "ms_established": "SE",
+          "ms_affected": [],
+          "service_impact": "none",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 500,
+          "suspected_malicious": true,
+          "impact_duration_hours": 24
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-046",
+      "name": "Minor regional government website defacement",
+      "description": "Hacktivist group defaces and briefly disrupts websites of two regional government entities; no data compromised and service restored quickly.",
+      "entities": [
+        {
+          "sector": "public_administration",
+          "entity_type": "regional_government_entity",
+          "ms_established": "HR",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "none",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 50000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 4
+        },
+        {
+          "sector": "public_administration",
+          "entity_type": "regional_government_entity",
+          "ms_established": "SI",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "none",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 30000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 3
+        }
+      ],
+      "expected_t": "T1",
+      "expected_o": "O2",
+      "expected_classification": "significant"
+    },
+    {
+      "id": "ME-047",
+      "name": "Multi-entity shipping and port cyber incident",
+      "description": "Ransomware spreads from a shipping company's booking system to connected port operators and a food distributor relying on cold chain logistics.",
+      "entities": [
+        {
+          "sector": "transport",
+          "entity_type": "shipping_company",
+          "ms_established": "GR",
+          "ms_affected": [
+            "IT",
+            "HR",
+            "MT"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 30000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 168
+        },
+        {
+          "sector": "transport",
+          "entity_type": "port_operator",
+          "ms_established": "IT",
+          "ms_affected": [],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 20000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 120
+        },
+        {
+          "sector": "transport",
+          "entity_type": "port_operator",
+          "ms_established": "GR",
+          "ms_affected": [],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 15000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 72
+        },
+        {
+          "sector": "food",
+          "entity_type": "food_distributor",
+          "ms_established": "IT",
+          "ms_affected": [],
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 50000,
+          "suspected_malicious": false,
+          "impact_duration_hours": 48
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-048",
+      "name": "Non-NIS2 entities minor incident",
+      "description": "Two non-NIS2 entities experience data breaches from a shared compromised SaaS platform, with limited impact scope.",
+      "entities": [
+        {
+          "sector": "non_nis2",
+          "entity_type": "non_nis2",
+          "ms_established": "DE",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 5000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 24
+        },
+        {
+          "sector": "non_nis2",
+          "entity_type": "non_nis2",
+          "ms_established": "AT",
+          "ms_affected": [],
+          "service_impact": "partial",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 3000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 24
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O2",
+      "expected_classification": "significant"
+    },
+    {
+      "id": "ME-049",
+      "name": "Small electricity provider pair outage",
+      "description": "Two small regional electricity undertakings in island member states suffer brief service degradation from a wiper variant spreading via shared vendor.",
+      "entities": [
+        {
+          "sector": "energy",
+          "entity_type": "electricity_undertaking",
+          "ms_established": "CY",
+          "ms_affected": [
+            "GR"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "compromised",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 10000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 6
+        },
+        {
+          "sector": "energy",
+          "entity_type": "electricity_undertaking",
+          "ms_established": "MT",
+          "ms_affected": [
+            "IT"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 8000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 4
+        }
+      ],
+      "expected_t": "T2",
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
+    },
+    {
+      "id": "ME-050",
+      "name": "Pan-EU election infrastructure attack",
+      "description": "Coordinated attack targets election-related government IT systems, voter registration databases, and public communication channels during EU election period.",
+      "entities": [
+        {
+          "sector": "public_administration",
+          "entity_type": "central_government_entity",
+          "ms_established": "DE",
+          "ms_affected": [
+            "FR",
+            "IT",
+            "ES",
+            "PL",
+            "NL"
+          ],
+          "service_impact": "sustained",
+          "data_impact": "systemic",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 10000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 168
+        },
+        {
+          "sector": "public_administration",
+          "entity_type": "central_government_entity",
+          "ms_established": "FR",
+          "ms_affected": [
+            "BE",
+            "LU"
+          ],
+          "service_impact": "sustained",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 5000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 168
+        },
+        {
+          "sector": "public_administration",
+          "entity_type": "central_government_entity",
+          "ms_established": "IT",
+          "ms_affected": [],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "severe",
+          "safety_impact": "none",
+          "affected_persons_count": 3000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 120
+        },
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "dns_service_provider",
+          "ms_established": "DE",
+          "ms_affected": [
+            "FR",
+            "NL"
+          ],
+          "service_impact": "unavailable",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 2000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 24
+        },
+        {
+          "sector": "digital_providers",
+          "entity_type": "social_network_provider",
+          "ms_established": "IE",
+          "ms_affected": [
+            "DE",
+            "FR",
+            "IT",
+            "ES"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 5000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 48
+        },
+        {
+          "sector": "ict_service_management",
+          "entity_type": "managed_service_provider",
+          "ms_established": "NL",
+          "ms_affected": [
+            "DE",
+            "BE"
+          ],
+          "service_impact": "degraded",
+          "data_impact": "accessed",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 100000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 72
+        },
+        {
+          "sector": "public_administration",
+          "entity_type": "regional_government_entity",
+          "ms_established": "PL",
+          "ms_affected": [],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 1000000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 96
+        },
+        {
+          "sector": "public_administration",
+          "entity_type": "regional_government_entity",
+          "ms_established": "ES",
+          "ms_affected": [],
+          "service_impact": "unavailable",
+          "data_impact": "compromised",
+          "financial_impact": "significant",
+          "safety_impact": "none",
+          "affected_persons_count": 800000,
+          "suspected_malicious": true,
+          "impact_duration_hours": 96
+        }
+      ],
+      "expected_t": "T4",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
+    }
+  ]
+}
