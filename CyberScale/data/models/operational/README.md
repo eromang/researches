@@ -9,6 +9,7 @@ tags:
   - modernbert
   - nis2
   - cyber-blueprint
+  - deprecated
 pipeline_tag: text-classification
 model-index:
   - name: cyberscale-operational-v4
@@ -25,7 +26,42 @@ model-index:
             value: 1.0
 ---
 
-# CyberScale Operational Severity v4
+# CyberScale Operational Severity v4 (DEPRECATED)
+
+**Status: DEPRECATED for inference in v5.** O-level is now derived deterministically
+via `aggregation.derive_o_level()` from consequence dimensions. This model is kept for
+reference and backward compatibility testing only.
+
+## Deprecation rationale
+
+The O-level maps deterministically from structured consequence fields (financial_impact,
+safety_impact, affected_persons_count, affected_entities, sectors_affected, ms_affected,
+entity_relevance, capacity_exceeded). The ML model adds no value over the deterministic
+rules — the curated multi-entity benchmark showed 62% disagreement between rule-based
+expectations and model predictions, confirming the model diverges from intended behavior
+on real-world distributions.
+
+## Replacement
+
+Use `cyberscale.aggregation.derive_o_level()` for deterministic O-level:
+
+```python
+from cyberscale.aggregation import derive_o_level
+o_level, basis = derive_o_level(
+    sectors_affected=2,
+    entity_relevance='essential',
+    ms_affected=3,
+    cross_border_pattern='significant',
+    capacity_exceeded=False,
+    financial_impact='severe',
+    safety_impact='health_risk',
+    affected_persons_count=50500,
+    affected_entities=2,
+)
+# o_level = "O3", basis = ["essential entity", "3 member states", ...]
+```
+
+## Original description
 
 **Incident operational severity classifier (O1-O4).** Assesses consequence and coordination needs from a crisis management perspective.
 
@@ -46,7 +82,7 @@ model-index:
 
 Classify the operational severity of cyber incidents based on entity relevance, cross-border impact, member states affected, capacity exceeded, plus consequence dimensions (financial impact, safety impact, persons affected, entities affected).
 
-Used in the authority-facing `assess_incident` pipeline: aggregation → deterministic T-level → **O-model** → Blueprint matrix.
+Previously used in the authority-facing `assess_incident` pipeline: aggregation → deterministic T-level → **O-model** → Blueprint matrix. Now replaced by `derive_o_level()` in v5.
 
 **v4 input format:** `<description> [SEP] sectors: <N> relevance: <level> ms_affected: <N> cross_border: <level> capacity_exceeded: <bool> [financial: <level>] [safety: <level>] [persons: <N>] [entities: <N>]`
 
