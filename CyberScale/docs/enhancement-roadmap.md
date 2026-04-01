@@ -620,36 +620,65 @@ Before building the full `assess_incident` MCP tool, validate that multi-entity 
 
 ---
 
-## Suggested next iteration priority
+## v6 — Phase 1 Accuracy Breakthrough
 
-Based on impact/effort ratio and the Phase 1 accuracy gap:
+Phase 1 has been at 60% band accuracy since v1. Feature additions (CWE in v2) didn't help — the bottleneck is that CVE descriptions are formulaic regardless of severity. v6 changes the model architecture.
 
-| Priority | Enhancement | User | Expected gain |
-|----------|-------------|------|---------------|
-| 1 | Unified impact taxonomy (6 dimensions) | Both | Coherent data flow between phases |
-| 2 | Phase 2 incident mode + early warning recommendation | Entity | NIS2 Art. 23 compliance support |
-| 3 | IR/NIS2 model split + router | Entity | Regulatory-aligned, quantitative for IR entities |
-| 4 | IR threshold reference data | Entity | Definitive significant_incident for digital entities |
-| 5 | `assess_entity_incident` MCP tool | Entity | Single-entity incident assessment + early warning |
-| 6 | Eliminate T-model → deterministic T-level in aggregation | Authority | Simpler, faster, 100% predictable |
-| 7 | Multi-entity aggregation benchmark (50 scenarios) | Authority | Validates concept before building full pipeline |
-| 8 | O-model retrain (remove coordination_needs, add consequence dims) | Authority | Fixes circularity + adds financial/safety/persons |
-| 9 | `assess_incident` MCP tool | Authority | Multi-notification → aggregation → O-model → matrix |
-| 10 | CVSS vector multi-task | Entity | +5-10pp Phase 1 accuracy |
+**Goal:** Break past 60% → target >70% band accuracy.
+
+### Approach: CVSS vector multi-task learning
+
+Instead of predicting the composite band directly, predict the 8 individual CVSS v3.1 vector components as auxiliary tasks. The composite score falls out deterministically from the predicted vector.
+
+**CVSS v3.1 vector components:**
+
+| Component | Values | What it measures |
+|---|---|---|
+| Attack Vector (AV) | Network / Adjacent / Local / Physical | How the vulnerability is exploited |
+| Attack Complexity (AC) | Low / High | Conditions beyond attacker's control |
+| Privileges Required (PR) | None / Low / High | Authentication needed |
+| User Interaction (UI) | None / Required | Does a user need to act? |
+| Scope (S) | Unchanged / Changed | Does it affect other components? |
+| Confidentiality (C) | None / Low / High | Data disclosure impact |
+| Integrity (I) | None / Low / High | Data modification impact |
+| Availability (A) | None / Low / High | Service disruption impact |
+
+**Architecture:** ModernBERT-base with 9 classification heads:
+- 8 auxiliary heads (one per CVSS component, 2-4 classes each)
+- 1 main head (band classification: Critical/High/Medium/Low)
+- Multi-task weighted loss: `loss = band_loss + 0.3 * sum(component_losses)`
+
+### Tasks
+
+| Task | What |
+|---|---|
+| 1 | Extract CVSS vector components from cvelistV5 training data (AV, AC, PR, UI, S, C, I, A columns) |
+| 2 | New multi-head scorer architecture (`src/cyberscale/models/scorer_v6.py`) |
+| 3 | Multi-task training script with weighted loss across 9 heads |
+| 4 | Benchmark: band accuracy, per-component accuracy, comparison vs v1 baseline (60%) |
+| 5 | If multi-task insufficient (<65%), add product/vendor signal from CPE data as fallback |
+| 6 | Update `score_vulnerability` MCP tool (optionally return predicted vector components) |
+| 7 | Publish updated scorer model to HuggingFace |
+
+**Success criteria:** Band accuracy >70%, or clear evidence that further gains require fundamentally different data (not architecture).
+
+**Effort:** 2-3 sessions.
 
 ---
 
-## Future: Secure notification channel (beyond v4)
+## v7 — Operational Readiness + Real-World Validation
 
-CyberScale is an assessment tool, not a notification platform. However, future versions should conceptualise the **secure transmission of Phase 2 outputs to concerned CSIRTs** and the **ingestion of entity notifications by the authority pipeline (Phase 3)**. This includes:
+v1-v6 built the assessment engine. v7 makes it usable in production with real data and real workflows.
 
-- Structured notification export format (aligned with any harmonised EU format that emerges)
-- Secure communication channel to national CSIRT (each MS has its own: CIRCL in LU, BSI in DE, ANSSI in FR, etc.)
-- CSIRT Network information sharing format for cross-border incidents (NIS2 Art. 15)
-- Authentication and integrity of entity notifications
-- TLP marking and handling restrictions
-
-This is not scoped for v4 but should inform architectural decisions — Phase 2 output format and Phase 3 input format should be designed with future interoperability in mind.
+| Priority | Enhancement | Description |
+|---|---|---|
+| 1 | **Notification export schema** | Structured JSON export from Phase 2 incident mode for submission to national CSIRT portals. Art. 23 field mapping. |
+| 2 | **Temporal incident tracking** | Incidents evolve over NIS2 reporting timeline: early warning (24h) → notification (72h) → intermediate → final (1 month). Each stage reassesses with more data. Incident timeline as a first-class concept. |
+| 3 | **Real incident validation** | Validate full pipeline against 20+ actual post-incident reports (ENISA annual, EU-CyCLONe public summaries). Does CyberScale produce the same classification authorities actually assigned? |
+| 4 | **Luxembourg national layer** | First concrete MS implementation. ILR sector-specific thresholds. Proves the national tier works with real regulatory data. |
+| 5 | **Active learning loop** | Deploy MCP server, collect analyst corrections on assessments, retrain with feedback. v5 feedback store is the foundation. |
+| 6 | **Secure notification channel** | Secure transmission of Phase 2 outputs to CSIRTs. CSIRT Network ingestion format. Authentication, TLP marking, integrity. |
+| 7 | **CSIRT pilot** | Deploy with a real CSIRT (CIRCL/LU) to validate entity-facing and authority-facing tools in operational context. |
 
 ---
 
