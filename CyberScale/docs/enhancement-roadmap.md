@@ -98,16 +98,82 @@ v4 collapses national and EU authority levels into a single Phase 3. In reality,
 |-------|-------|-------|--------|------------|
 | **Entity** (Phase 1+2) | Entity | Own incident data | Significance + early warning | Art. 23(4)(a) |
 | **National** (Phase 3a) | National CSIRT | Entity notifications from their MS | National T/O/matrix classification | Art. 23(4)(b-e) |
-| **EU** (Phase 3b) | CSIRT Network + EU-CyCLONe | National classifications from multiple MS | EU-level classification + coordination level | Art. 15-16, Blueprint |
+| **EU** (Phase 3b) | EU-CyCLONe | National classifications + CyCLONe Officer inputs | EU-level classification + coordination level | Art. 15-16, Blueprint |
 
-**Implementation:**
-1. **Phase 3a — `assess_national_incident`**: Input is entity notifications from a single MS. Aggregation scoped to that MS. Output includes national classification + flag for CSIRT Network sharing if cross-border.
-2. **Phase 3b — `assess_eu_incident`**: Input is national classification dicts from multiple MS (output of Phase 3a). Second-level aggregation across national assessments. Output is EU-level classification + EU-CyCLONe coordination recommendation.
-3. **Escalation rules**: Phase 3a flags cross-border → triggers Phase 3b. Phase 3b escalation rules are stricter (significant at national level may become large_scale at EU level when concurrent in 3+ MS).
+**Multi-tier structure:**
 
-**Outcome:** Clean separation matching the actual NIS2 governance model. National CSIRTs operate within their jurisdiction; EU-CyCLONe coordinates across.
+```
+                    ┌───────────────────────────────────────────┐
+                    │           EU-CyCLONe — Phase 3b           │
+                    │                                           │
+                    │  assess_eu_incident                       │
+                    │                                           │
+                    │  Inputs:                                  │
+                    │  ├─ National classifications (from 3a)    │
+                    │  └─ CyCLONe Officer inputs per MS:        │
+                    │     ├─ political_sensitivity              │
+                    │     ├─ national_capacity_status            │
+                    │     ├─ coordination_needs                 │
+                    │     ├─ intelligence_context               │
+                    │     └─ escalation_recommendation          │
+                    │                                           │
+                    │  Output: EU classification + coordination │
+                    └──────────┬──────────┬─────────────────────┘
+                               │          │
+                    ┌──────────┘          └──────────┐
+                    │                                │
+         ┌──────────┴──────────┐          ┌──────────┴──────────┐
+         │  National CSIRT LU  │          │  National CSIRT DE  │
+         │     Phase 3a        │          │     Phase 3a        │
+         │                     │          │                     │
+         │ assess_national_    │          │ assess_national_    │
+         │   incident          │          │   incident          │
+         │                     │          │                     │
+         │ Input: LU entity    │          │ Input: DE entity    │
+         │   notifications     │          │   notifications     │
+         │ Output: national    │          │ Output: national    │
+         │   T/O/matrix +      │          │   T/O/matrix +      │
+         │   cross-border flag │          │   cross-border flag │
+         └───┬─────┬──────────┘          └───┬─────┬──────────┘
+             │     │                         │     │
+         ┌───┘     └───┐               ┌────┘     └────┐
+         │             │               │               │
+    ┌────┴────┐  ┌─────┴───┐    ┌──────┴──┐    ┌──────┴──────┐
+    │Entity LU│  │Entity LU│    │Entity DE│    │Entity DE    │
+    │Phase 1+2│  │Phase 1+2│    │Phase 1+2│    │Phase 1+2    │
+    │→ signif.│  │→ signif.│    │→ signif.│    │→ signif.    │
+    │→ early  │  │→ early  │    │→ early  │    │→ early      │
+    │  warning│  │  warning│    │  warning│    │  warning    │
+    └─────────┘  └────────┘    └─────────┘    └─────────────┘
+```
 
-**Effort:** Medium — the aggregation logic exists, needs scoping by MS + a second aggregation layer over national outputs.
+**Phase 3a — `assess_national_incident`** (deterministic):
+- Input: entity notifications from a single MS
+- Aggregation scoped to that MS
+- Output: national T/O/matrix classification + cross-border flag for CSIRT Network sharing
+
+**Phase 3b — `assess_eu_incident`** (deterministic + human judgment):
+- **Structured inputs:** national classification dicts from multiple MS (Phase 3a outputs)
+- **CyCLONe Officer inputs** (per MS, semi-structured): each MS's CyCLONe Officer provides situational awareness that goes beyond the technical classification:
+
+| CyCLONe Officer field | Type | Description |
+|----------------------|------|-------------|
+| `political_sensitivity` | none/elevated/high | Election period, geopolitical context, public attention |
+| `national_capacity_status` | normal/strained/overwhelmed | Can the MS handle it alone? Requesting mutual assistance? |
+| `coordination_needs` | national/eu_info/eu_active/full_ipcr | Officer's assessment of needed EU coordination level |
+| `intelligence_context` | free text | Attribution, actor intent, campaign indicators |
+| `escalation_recommendation` | none/escalate/de-escalate | Officer's recommendation to EU-CyCLONe |
+
+- **Output:** EU-level classification + EU-CyCLONe coordination level (Blueprint 7a-7d)
+- **Logic:** Mechanical aggregation of national classifications, then CyCLONe Officer inputs can **escalate** (never de-escalate below the mechanical result). If any officer reports `overwhelmed` capacity or `high` political sensitivity, this overrides the mechanical O-level upward.
+
+**Escalation rules:**
+- Phase 3a cross-border flag → triggers CSIRT Network sharing → Phase 3b
+- Phase 3b: significant at national in 3+ MS → large_scale at EU level
+- CyCLONe Officer `escalation_recommendation=escalate` → +1 O-level (capped at O4)
+- Any `national_capacity_status=overwhelmed` → capacity_exceeded=True in EU aggregation
+
+**Effort:** Medium — aggregation logic exists, needs MS scoping + CyCLONe Officer input schema + escalation override logic.
 
 ### 5. Other v5 candidates
 

@@ -145,7 +145,7 @@ The 50 multi-entity scenarios were generated with expected O-levels based on det
 v4's `assess_incident` takes any list of entity notifications regardless of member state origin. In reality, NIS2 defines a multi-tier governance structure: entities report to their national CSIRT (Art. 23), national CSIRTs share cross-border information via the CSIRT Network (Art. 15), and EU-CyCLONe coordinates large-scale/crisis incidents (Art. 16). A national CSIRT in Luxembourg only receives notifications from entities established in Luxembourg — they don't aggregate German hospital data.
 
 > [!warning] v5 target
-> Split Phase 3 into Phase 3a (national: single-MS aggregation) and Phase 3b (EU: aggregation across national assessments). This matches the actual governance model and enables proper cross-border escalation logic.
+> Split Phase 3 into Phase 3a (national: single-MS aggregation, deterministic) and Phase 3b (EU: aggregation across national assessments + CyCLONe Officer situational inputs). Phase 3b is not purely mechanical — each MS's CyCLONe Officer provides political sensitivity, capacity status, and coordination needs that can escalate the classification beyond what the structured data alone would produce.
 
 
 ## v5 direction: fully deterministic Phase 3
