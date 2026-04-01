@@ -2,7 +2,7 @@
 
 from fastmcp import FastMCP
 
-from cyberscale.tools import vulnerability, contextual, incident, entity_incident, store_tools
+from cyberscale.tools import vulnerability, contextual, incident, entity_incident, authority_incident, store_tools
 
 mcp = FastMCP(
     name="CyberScale",
@@ -20,6 +20,7 @@ vulnerability.register(mcp)
 contextual.register(mcp)
 incident.register(mcp)
 entity_incident.register(mcp)
+authority_incident.register(mcp)
 store_tools.register(mcp)
 
 
