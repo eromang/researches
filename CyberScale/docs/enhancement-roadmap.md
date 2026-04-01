@@ -1,6 +1,33 @@
 # CyberScale — Enhancement Roadmap
 
-Concrete enhancement paths prioritised by expected impact. Updated after v2 implementation.
+Concrete enhancement paths prioritised by expected impact. Updated after v4 implementation.
+
+---
+
+## v4 completed (2026-04-01)
+
+| Enhancement | Phase | Result |
+|-------------|-------|--------|
+| Unified impact taxonomy (service_impact, data_impact, etc.) | All | Single source of truth across phases |
+| Entity/authority separation | 2+3 | assess_entity_incident + assess_incident MCP tools |
+| IR/NIS2 model split | 2 | Deterministic thresholds for 14 IR entity types |
+| Early warning recommendation | 2 | Art. 23(4)(a) 24h deadline + structured guidance |
+| Deterministic T-level | 3 | T-model deprecated; derive_t_level() from impact fields |
+| O-model consequence dimensions | 3 | +financial_impact, safety_impact, persons, entities |
+| Multi-entity aggregation | 3 | Worst-case + count/sum + deterministic cascading/cross-border |
+| MS geography (ms_established + ms_affected) | 2 | Replaces cross_border bool |
+| coordination_needs removed | 3 | Was output, not observable input |
+| 50 curated multi-entity scenarios | 3 | 100% aggregation, 100% matrix accuracy |
+
+---
+
+## v3 completed (NIS2 entity types)
+
+| Enhancement | Phase | Result |
+|-------------|-------|--------|
+| 55+ NIS2-aligned entity types (Annex I/II) | 2 | entity_type replaces deployment_scale |
+| CER critical entity flag | 2 | +1 escalation for CER-eligible entities |
+| Per-entity-type validation | 2 | ValueError for unknown types |
 
 ---
 
@@ -18,15 +45,17 @@ Concrete enhancement paths prioritised by expected impact. Updated after v2 impl
 
 ---
 
-## Current model performance
+## Current model performance (v4)
 
 | Phase | Model | Key metric | Target | Status |
 |-------|-------|------------|--------|--------|
 | 1 | Scorer | 60.2% band accuracy | > 75% | Not met |
-| 2 | Contextual (v3) | 80.5% accuracy, 80.5% macro F1 | > 75% | Met |
-| 3 | Technical (T) | 97.5% curated accuracy | > 75% | Met |
-| 3 | Operational (O) | 100% curated accuracy | > 75% | Met |
-| 3 | Matrix (end-to-end) | 97.5% curated accuracy | > 70% | Met |
+| 2 | Contextual (v4) | 81.5% macro F1 | > 75% | Met |
+| 3 | T-level (deterministic) | 100% | 100% | Met |
+| 3 | Operational (v4) | 78% macro F1 (synthetic) | > 75% | Met |
+| 3 | Matrix end-to-end (synthetic) | 84% | > 70% | Met |
+| 3 | Multi-entity (50 curated) | 100% | > 70% | Met |
+| 3 | Illustrative use cases | 6/6 | 6/6 | Met |
 
 **Phase 1 is the weakest phase.** CWE didn't help. The bottleneck is description quality — many CVE descriptions are formulaic regardless of actual severity.
 

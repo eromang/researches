@@ -2,8 +2,8 @@
 
 Multi-phase cyber severity assessment MCP server. Three independent, composable phases covering the full spectrum from raw vulnerability description to EU-level incident classification.
 
-**Version:** 0.1.0
-**Status:** Draft
+**Version:** 4.0
+**Status:** v4 complete — entity/authority separation, unified impact taxonomy, IR/NIS2 split
 **Lineage:** Builds on the closed CVE-Severity-Context project (ModernBERT classifier, 80.7% accuracy, 1,890 scenarios). Replaces VulnMCP severity tools.
 
 
@@ -12,8 +12,9 @@ Multi-phase cyber severity assessment MCP server. Three independent, composable 
 | Phase | Scope | Input | Output | Novel contribution |
 |-------|-------|-------|--------|-------------------|
 | **1 — Vulnerability Scoring** | Single vulnerability | Description (any quality) + optional CVE ID | 0–10 score (CVSS-compatible) + confidence | Severity estimation without CVSS dependency |
-| **2 — Contextual Severity** | Vulnerability in deployment context | Description + NIS2 sector (19 values) + cross-border + optional 0–10 score | Critical/High/Medium/Low + key factors | Context-dependent severity per NIS2 sector |
-| **3 — Incident Classification** | Incident (multi-entity, multi-MS) | Incident description + structured impact fields | T-level (T1–T4) + O-level (O1–O4) + Blueprint matrix classification | Cyber Blueprint dual-scale taxonomy implementation |
+| **2 — Contextual Severity** | Vulnerability/incident in deployment context | Description + NIS2 sector + MS geography + optional impact fields | Critical/High/Medium/Low + key factors | Context-dependent severity per NIS2 sector |
+| **2 — Entity Incident** | Entity self-assessment | Above + entity_type + impact fields | Significance (IR/NIS2) + early warning recommendation | IR thresholds (Arts. 5-14) or NIS2 ML model |
+| **3 — Incident Classification** | Authority multi-entity classification | Entity notification dicts | Deterministic T-level + ML O-level + Blueprint matrix | Aggregation + O-model + matrix |
 
 ### Independence principle
 
@@ -32,8 +33,23 @@ Assess how severe a vulnerability is for a specific organisation based on its NI
 |-------|----------|--------|
 | Vulnerability description | Yes | Any format (CVE, advisory, raw report) |
 | Sector | Yes | 18 NIS2 sectors + 1 non-NIS2 category (19 total) |
-| Cross-border | Yes | true / false |
+| ms_established | Yes | ISO 3166-1 alpha-2 (default: "EU") |
+| ms_affected | Optional | List of ISO 3166-1 alpha-2 codes (cross_border derived) |
 | Severity score (0–10) | Optional | From Phase 1, CVSS, EUVD, or manual |
+| entity_type | Optional | One of 55+ NIS2 entity type IDs |
+| cer_critical_entity | Optional | true / false |
+
+**Incident mode (v4)** — when `entity_affected=True`, additional fields:
+
+| Field | Required | Values |
+|-------|----------|--------|
+| service_impact | Optional | none / partial / degraded / unavailable / sustained |
+| data_impact | Optional | none / accessed / exfiltrated / compromised / systemic |
+| financial_impact | Optional | none / minor / significant / severe |
+| safety_impact | Optional | none / health_risk / health_damage / death |
+| affected_persons_count | Optional | int (0+) |
+| suspected_malicious | Optional | true / false |
+| impact_duration_hours | Optional | int (0+) |
 
 ### 4.3 The 19 sector values
 
@@ -98,20 +114,24 @@ Single FastMCP server exposing all three phases as independent tools:
 | `score_vulnerability` | 1 | CVE ID or raw description | 0–10 score + confidence |
 | `lookup_vulnerability` | 1 | CVE ID | Merged NVD/EUVD/CIRCL data |
 | `search_similar` | 1 | Raw description | Top-N similar known vulnerabilities |
-| `assess_contextual_severity` | 2 | Description + sector + cross-border (+ optional score) | C/H/M/L + key factors |
-| `classify_incident_technical` | 3 | Incident description + structured fields | T1–T4 + key factors |
-| `classify_incident_operational` | 3 | Incident description + structured fields | O1–O4 + key factors |
-| `classify_incident` | 3 | Full incident input | T-level + O-level + matrix classification |
+| `assess_contextual_severity` | 2 | Description + sector + MS geography | C/H/M/L + key factors |
+| `assess_entity_incident` | 2 | Entity incident: description + sector + entity_type + impact fields | Severity + significance (IR/NIS2) + early warning |
+| `classify_incident_operational` | 3 | Incident description + operational fields + consequences | O1–O4 + key factors |
+| `classify_incident` | 3 | Full incident input | Deterministic T-level + O-level + matrix |
+| `assess_incident` | 3 | Entity notification dicts | Aggregation + T-level + O-level + matrix classification |
+| `assess_full_pipeline` | 1+2 | Description + sector + MS geography | Phase 1 score + Phase 2 severity |
 | `refresh_store` | Infra | Optional: date range, source filter | Updated vector store entries |
 
 ### 6.2 Four models
 
 | Model | Task | Architecture | Training data |
 |-------|------|--------------|---------------|
-| Phase 1: Severity scorer | Regression (0–10) | ModernBERT-base, regression head | 10–15k CVEs with CVSS scores |
-| Phase 2: Contextual classifier | Classification (4-class) | ModernBERT-base, all-as-text | Script-generated, 18+1 sectors, balanced |
-| Phase 3 T-model | Classification (4-class: T1–T4) | ModernBERT-base, all-as-text | 5–8k parametric scenarios |
-| Phase 3 O-model | Classification (4-class: O1–O4) | ModernBERT-base, all-as-text | 5–8k parametric scenarios |
+| Phase 1: Severity scorer | Classification (4-class bands) | ModernBERT-base, classification head | ~45k CVEs with CVSS scores |
+| Phase 2: Contextual classifier | Classification (4-class) | ModernBERT-base, all-as-text | 32k scenarios (CVEs x sectors x impact) |
+| Phase 3 T-level | Deterministic rules | No ML — `derive_t_level()` | Rules from impact taxonomy |
+| Phase 3 O-model | Classification (4-class: O1–O4) | ModernBERT-base, all-as-text | 8k parametric scenarios + consequences |
+| IR thresholds | Deterministic per-entity-type | No ML — `assess_ir_significance()` | Arts. 5-14 thresholds |
+| Phase 3 T-model (deprecated) | Was classification (T1–T4) | ModernBERT-base | Kept for reference, not used in inference |
 
 ### 6.3 Project structure
 
@@ -209,6 +229,13 @@ Token via `HF_TOKEN` environment variable (never committed). Supports `--dry-run
 | Post-hoc boundary calibration | Push predictions ±0.4 away from boundaries | Reduces band-flip errors without retraining |
 | Quality filters + description dedup | SHA-256 dedup, RESERVED/REJECTED rejection, min tokens | Cleaner training signal, no data leakage |
 | Retrainable Phase 3 | Versioned alongside taxonomy | Taxonomy v0.1 will evolve before June 2027 |
+| Entity/authority separation (v4) | Two MCP tools: entity-facing + authority-facing | Different users need different interfaces and outputs |
+| Deterministic T-level (v4) | Replace T-model with rules | T-level maps deterministically from impact fields; ML adds no value |
+| Unified impact taxonomy (v4) | Same field names/values across phases | Prevents translation errors between phases |
+| IR/NIS2 model split (v4) | Quantitative thresholds for IR entities, ML for others | IR entities have per-sector thresholds in Arts. 5-14 |
+| MS geography replaces cross_border (v4) | ms_established + ms_affected list | Richer than bool; cross_border derived |
+| Coordination_needs removed from O-model (v4) | Was output, not input | Coordination is a consequence, not an observable input |
+| Early warning recommendation (v4) | Structured output with Art. 23(4) guidance | Entities need actionable next steps, not just severity |
 
 
 ## 9. Relationship to prior work
