@@ -175,7 +175,34 @@ v4 collapses national and EU authority levels into a single Phase 3. In reality,
 
 **Effort:** Medium — aggregation logic exists, needs MS scoping + CyCLONe Officer input schema + escalation override logic.
 
-### 5. Other v5 candidates
+### 5. HuggingFace housekeeping
+
+v5 changes the model inventory. HuggingFace repos need to be updated accordingly:
+
+| Action | Repo | Reason |
+|--------|------|--------|
+| **Deprecate** | `eromang/cyberscale-technical-v1` | T-model replaced by deterministic `derive_t_level()` in v4. Mark as deprecated, add README notice |
+| **Update** | `eromang/cyberscale-operational-v1` → `v5` | Retrain not needed if O-model replaced by deterministic rules. If kept, publish v5 with consequence dimensions |
+| **Remove or deprecate** | `eromang/cyberscale-operational-v1` | If O-model is replaced by deterministic rules, deprecate. Keep for reference |
+| **Update** | `eromang/cyberscale-contextual-v1` → `v4` | Already retrained with impact inputs + MS geography. Publish v4 weights |
+| **Publish** | `eromang/cyberscale-training-cves` | Update dataset card with CVSS vector columns if multi-task implemented |
+| **New** | `eromang/cyberscale-sector-dependencies` | Publish sector dependency graph as a standalone reference dataset |
+
+### 6. Documentation updates (v5 completion checklist)
+
+After v5 implementation, update all documentation to reflect the final state:
+
+| Document | Updates needed |
+|----------|---------------|
+| `README.md` | Phase 3a/3b split, deterministic O-level, sector dependencies, CyCLONe Officer inputs, updated MCP tools table, usage examples |
+| `docs/design-specification.md` | Multi-tier architecture (3a/3b), updated models table (O-model deprecated or deterministic), new design decisions |
+| `docs/enhancement-roadmap.md` | Move v5 targets to completed section, update model performance table |
+| `docs/lessons-learned.md` | Add v5 lessons (deterministic O-model outcome, sector dependency calibration, multi-tier learnings) |
+| `data/models/operational/README.md` | Deprecation notice if replaced, or v5 update if kept |
+| `evaluation/*.md` | New benchmark reports for multi-tier pipeline |
+| HuggingFace model cards | Deprecation/update notices per housekeeping table above |
+
+### 7. Other v5 candidates
 
 | Enhancement | Phase | Impact | Effort |
 |-------------|-------|--------|--------|
