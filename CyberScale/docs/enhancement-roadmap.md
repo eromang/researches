@@ -43,7 +43,31 @@ The O-model training labels are deterministically assigned from structured field
 
 **Effort:** Low — the rules already exist in `generate_incidents.py`.
 
-### 2. Other v5 candidates
+### 2. Sector dependency-aware aggregation
+
+The current aggregation derives cascading from sector count alone (`_derive_cascading(n_sectors)`). This treats all sectors equally — an energy disruption affecting 2 sectors gets the same cascading as a postal disruption affecting 2 sectors, despite fundamentally different systemic risk profiles.
+
+**Problem:** Energy or digital infrastructure outages cascade structurally to downstream sectors (health depends on energy for hospitals, transport for ambulances, drinking water for pumps). A postal outage does not. Simple sector counting misses this.
+
+**Approach:** Model inter-sector dependencies as a directed graph:
+
+```
+energy → health, transport, drinking_water, digital_infrastructure, manufacturing, food
+digital_infrastructure → banking, financial_market, health, public_administration, ict_service_management
+transport → health (ambulances), food (supply chain)
+drinking_water → health, food
+```
+
+**Implementation:**
+1. Create `data/reference/sector_dependencies.json` — directed dependency graph with propagation strength (direct/indirect). Sources: ENISA sector interdependency analyses, CER Directive Annex.
+2. Add `propagate_cascading()` to `aggregation.py` — when impacted sectors have downstream dependents not yet in the notification set, derive cascading from the dependency graph rather than just counting reported sectors.
+3. Impact propagation: if energy is `unavailable` and health depends on energy (direct), health gets an implicit `degraded` impact even if no health entity reported.
+
+**Outcome:** "Energy + transport impacted" correctly escalates more than "postal + waste_management impacted" because energy has high fan-out in the dependency graph.
+
+**Effort:** Medium — dependency graph authoring requires sector expertise (ENISA reports), propagation logic is straightforward.
+
+### 3. Other v5 candidates
 
 | Enhancement | Phase | Impact | Effort |
 |-------------|-------|--------|--------|
@@ -51,7 +75,7 @@ The O-model training labels are deterministically assigned from structured field
 | Real incident validation dataset | All | Validate against actual ENISA/CSIRT reports | High (data) |
 | Phase 1 CVSS vector multi-task learning | 1 | Expected +5-10pp on band accuracy | Medium |
 | National layer (per-MS thresholds) | 2 | On hold — only Luxembourg rules available; not generalizable to other MS yet | Medium |
-| Weighted aggregation (vs worst-case) | 3 | Reduce over-escalation from single high-impact entity | Low |
+| Sector dependency-aware aggregation | 3 | Replace naive sector count with dependency graph propagation (see below) | Medium |
 | Authority feedback loop | 3 | Real O-level decisions → fine-tune or validate rules | High |
 | Standardized Art. 23 notification schema | 2 | Match actual NIS2 notification fields | Medium |
 
