@@ -31,6 +31,32 @@ Concrete enhancement paths prioritised by expected impact. Updated after v4 impl
 
 ---
 
+## v5 targets
+
+### 1. Replace O-model with deterministic rules (primary target)
+
+The O-model training labels are deterministically assigned from structured fields via `assign_o_level()`. Like the T-model before it, the ML model is learning the rules rather than adding insight. The curated multi-entity benchmark showed 62% disagreement between rule-based expectations and model predictions, resolved by calibrating to the model — evidence that the model diverges from intended behavior on real-world distributions.
+
+**Replacement:** Create `derive_o_level()` in `aggregation.py` (mirroring `derive_t_level()`), using the existing `assign_o_level()` rules plus the new consequence dimensions (financial_impact, safety_impact, affected_persons_count, affected_entities).
+
+**Outcome:** Phase 3 becomes fully deterministic — zero ML models, zero training, zero GPU. Only Phase 1 (vulnerability scoring) and Phase 2 (contextual severity) retain ML models, where free-text understanding genuinely adds value.
+
+**Effort:** Low — the rules already exist in `generate_incidents.py`.
+
+### 2. Other v5 candidates
+
+| Enhancement | Phase | Impact | Effort |
+|-------------|-------|--------|--------|
+| Temporal incident tracking (initial→update→final) | 2+3 | Support evolving incidents with state between calls | High |
+| Real incident validation dataset | All | Validate against actual ENISA/CSIRT reports | High (data) |
+| Phase 1 CVSS vector multi-task learning | 1 | Expected +5-10pp on band accuracy | Medium |
+| National layer (per-MS thresholds) | 2 | Jurisdiction-specific escalation rules | Medium |
+| Weighted aggregation (vs worst-case) | 3 | Reduce over-escalation from single high-impact entity | Low |
+| Authority feedback loop | 3 | Real O-level decisions → fine-tune or validate rules | High |
+| Standardized Art. 23 notification schema | 2 | Match actual NIS2 notification fields | Medium |
+
+---
+
 ## v2 completed enhancements
 
 | Enhancement | Phase | Result |
