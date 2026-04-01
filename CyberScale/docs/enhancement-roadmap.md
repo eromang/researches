@@ -105,7 +105,7 @@ When Phase 3 is fully deterministic (v5 target #1), the rules need a calibration
 | Standardized Art. 23 notification schema | 2 | Structured input per notification stage (early warning/72h/final) — prerequisite for temporal tracking | Medium |
 | Temporal incident tracking (initial→update→final) | 2+3 | Support evolving incidents with state between calls, incident timeline | High |
 
-These two form a natural pair — the schema defines the data format, temporal tracking manages the lifecycle. Deferred until a CSIRT pilot or real user validates the need.
+These form a natural group with the secure notification channel (documented below) — schema defines the format, temporal tracking manages the lifecycle, secure channel handles transport. Deferred until a CSIRT pilot or real user validates the need.
 
 ---
 
