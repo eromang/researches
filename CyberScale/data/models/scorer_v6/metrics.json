@@ -1,0 +1,10 @@
+{
+  "band_accuracy": 0.6230,
+  "band_macro_f1": 0.5840,
+  "note": "Pre-CPE multi-task baseline — plateaued at epoch 8. Proceeding to Task 5 (CPE signal) since band_accuracy < 0.65.",
+  "targets": {
+    "band_accuracy": "> 0.70",
+    "band_macro_f1": "> 0.65",
+    "avg_component_accuracy": "> 0.80"
+  }
+}
