@@ -634,7 +634,7 @@
           "impact_duration_hours": 96
         }
       ],
-      "expected_t": "T3",
+      "expected_t": "T4",
       "expected_o": "O4",
       "expected_classification": "cyber_crisis"
     },
@@ -675,8 +675,8 @@
         }
       ],
       "expected_t": "T3",
-      "expected_o": "O3",
-      "expected_classification": "large_scale"
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
     },
     {
       "id": "ME-009",
@@ -733,7 +733,7 @@
         }
       ],
       "expected_t": "T4",
-      "expected_o": "O3",
+      "expected_o": "O4",
       "expected_classification": "cyber_crisis"
     },
     {
@@ -796,7 +796,7 @@
           "impact_duration_hours": 6
         }
       ],
-      "expected_t": "T3",
+      "expected_t": "T4",
       "expected_o": "O4",
       "expected_classification": "cyber_crisis"
     },
@@ -1009,9 +1009,9 @@
           "impact_duration_hours": 48
         }
       ],
-      "expected_t": "T3",
-      "expected_o": "O3",
-      "expected_classification": "large_scale"
+      "expected_t": "T4",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
     },
     {
       "id": "ME-015",
@@ -1067,7 +1067,7 @@
         }
       ],
       "expected_t": "T4",
-      "expected_o": "O3",
+      "expected_o": "O4",
       "expected_classification": "cyber_crisis"
     },
     {
@@ -1163,7 +1163,7 @@
         }
       ],
       "expected_t": "T2",
-      "expected_o": "O3",
+      "expected_o": "O4",
       "expected_classification": "large_scale"
     },
     {
@@ -1199,8 +1199,8 @@
         }
       ],
       "expected_t": "T4",
-      "expected_o": "O2",
-      "expected_classification": "large_scale"
+      "expected_o": "O3",
+      "expected_classification": "cyber_crisis"
     },
     {
       "id": "ME-019",
@@ -1326,9 +1326,9 @@
           "impact_duration_hours": 72
         }
       ],
-      "expected_t": "T3",
-      "expected_o": "O3",
-      "expected_classification": "large_scale"
+      "expected_t": "T4",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
     },
     {
       "id": "ME-022",
@@ -1421,7 +1421,7 @@
         }
       ],
       "expected_t": "T2",
-      "expected_o": "O3",
+      "expected_o": "O4",
       "expected_classification": "large_scale"
     },
     {
@@ -1499,7 +1499,7 @@
         }
       ],
       "expected_t": "T2",
-      "expected_o": "O3",
+      "expected_o": "O4",
       "expected_classification": "large_scale"
     },
     {
@@ -1715,7 +1715,7 @@
         }
       ],
       "expected_t": "T2",
-      "expected_o": "O1",
+      "expected_o": "O2",
       "expected_classification": "significant"
     },
     {
@@ -1769,9 +1769,9 @@
           "impact_duration_hours": 48
         }
       ],
-      "expected_t": "T3",
-      "expected_o": "O3",
-      "expected_classification": "large_scale"
+      "expected_t": "T4",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
     },
     {
       "id": "ME-033",
@@ -1837,9 +1837,9 @@
           "impact_duration_hours": 48
         }
       ],
-      "expected_t": "T3",
-      "expected_o": "O3",
-      "expected_classification": "large_scale"
+      "expected_t": "T4",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
     },
     {
       "id": "ME-034",
@@ -1879,8 +1879,8 @@
         }
       ],
       "expected_t": "T3",
-      "expected_o": "O3",
-      "expected_classification": "large_scale"
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
     },
     {
       "id": "ME-035",
@@ -2004,9 +2004,9 @@
           "impact_duration_hours": 12
         }
       ],
-      "expected_t": "T3",
-      "expected_o": "O2",
-      "expected_classification": "large_scale"
+      "expected_t": "T4",
+      "expected_o": "O3",
+      "expected_classification": "cyber_crisis"
     },
     {
       "id": "ME-037",
@@ -2115,8 +2115,8 @@
         }
       ],
       "expected_t": "T2",
-      "expected_o": "O2",
-      "expected_classification": "significant"
+      "expected_o": "O3",
+      "expected_classification": "large_scale"
     },
     {
       "id": "ME-039",
@@ -2244,7 +2244,7 @@
         }
       ],
       "expected_t": "T4",
-      "expected_o": "O1",
+      "expected_o": "O2",
       "expected_classification": "large_scale"
     },
     {
@@ -2634,9 +2634,9 @@
           "impact_duration_hours": 48
         }
       ],
-      "expected_t": "T3",
-      "expected_o": "O3",
-      "expected_classification": "large_scale"
+      "expected_t": "T4",
+      "expected_o": "O4",
+      "expected_classification": "cyber_crisis"
     },
     {
       "id": "ME-048",
