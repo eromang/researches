@@ -2,14 +2,15 @@
 
 from fastmcp import FastMCP
 
-from cyberscale.tools import vulnerability, contextual, incident, store_tools
+from cyberscale.tools import vulnerability, contextual, incident, entity_incident, store_tools
 
 mcp = FastMCP(
     name="CyberScale",
     instructions=(
         "CyberScale provides multi-phase cyber severity assessment. "
         "Phase 1: Vulnerability scoring (0-10). "
-        "Phase 2: Context-dependent severity (sector + cross-border). "
+        "Phase 2: Context-dependent severity (sector + MS geography). "
+        "Phase 2 incident mode: Entity incident assessment with significance + early warning. "
         "Phase 3: Incident dual-scale classification (Blueprint T/O matrix). "
         "Each phase is independent and can be used standalone."
     ),
@@ -18,6 +19,7 @@ mcp = FastMCP(
 vulnerability.register(mcp)
 contextual.register(mcp)
 incident.register(mcp)
+entity_incident.register(mcp)
 store_tools.register(mcp)
 
 
