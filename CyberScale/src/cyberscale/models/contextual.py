@@ -54,6 +54,11 @@ VALID_ENTITY_TYPES = {
     "generic_enterprise", "generic_sme", "generic_individual",
 }
 
+VALID_SERVICE_IMPACT = {"none", "partial", "degraded", "unavailable", "sustained"}
+VALID_DATA_IMPACT = {"none", "accessed", "exfiltrated", "compromised", "systemic"}
+VALID_FINANCIAL_IMPACT = {"none", "minor", "significant", "severe"}
+VALID_SAFETY_IMPACT = {"none", "health_risk", "health_damage", "death"}
+
 LABEL_MAP = {0: "Low", 1: "Medium", 2: "High", 3: "Critical"}
 
 
@@ -113,8 +118,21 @@ class ContextualClassifier:
         score: Optional[float] = None,
         entity_type: Optional[str] = None,
         cer_critical_entity: Optional[bool] = None,
+        # Incident-mode impact fields (all optional, Phase B)
+        entity_affected: Optional[bool] = None,
+        service_impact: Optional[str] = None,
+        data_impact: Optional[str] = None,
+        financial_impact: Optional[str] = None,
+        safety_impact: Optional[str] = None,
+        affected_persons_count: Optional[int] = None,
+        suspected_malicious: Optional[bool] = None,
+        impact_duration_hours: Optional[int] = None,
     ) -> ContextualResult:
-        """Classify contextual severity with MC dropout confidence."""
+        """Classify contextual severity with MC dropout confidence.
+
+        When entity_affected=True, the incident-mode impact fields are included
+        in the model input for incident-aware severity assessment.
+        """
         cross_border = bool(
             ms_affected
             and any(ms != ms_established for ms in ms_affected)
@@ -124,6 +142,12 @@ class ContextualClassifier:
             ms_established=ms_established, ms_affected=ms_affected,
             score=score, entity_type=entity_type,
             cer_critical_entity=cer_critical_entity,
+            entity_affected=entity_affected,
+            service_impact=service_impact, data_impact=data_impact,
+            financial_impact=financial_impact, safety_impact=safety_impact,
+            affected_persons_count=affected_persons_count,
+            suspected_malicious=suspected_malicious,
+            impact_duration_hours=impact_duration_hours,
         )
         inputs = self.tokenizer(
             text,
@@ -155,6 +179,12 @@ class ContextualClassifier:
             sector, cross_border, score,
             ms_established=ms_established, ms_affected=ms_affected,
             entity_type=entity_type, cer_critical_entity=cer_critical_entity,
+            entity_affected=entity_affected,
+            service_impact=service_impact, data_impact=data_impact,
+            financial_impact=financial_impact, safety_impact=safety_impact,
+            affected_persons_count=affected_persons_count,
+            suspected_malicious=suspected_malicious,
+            impact_duration_hours=impact_duration_hours,
         )
 
         return ContextualResult(
@@ -171,14 +201,21 @@ class ContextualClassifier:
         score: Optional[float] = None,
         entity_type: Optional[str] = None,
         cer_critical_entity: Optional[bool] = None,
+        entity_affected: Optional[bool] = None,
+        service_impact: Optional[str] = None,
+        data_impact: Optional[str] = None,
+        financial_impact: Optional[str] = None,
+        safety_impact: Optional[str] = None,
+        affected_persons_count: Optional[int] = None,
+        suspected_malicious: Optional[bool] = None,
+        impact_duration_hours: Optional[int] = None,
     ) -> str:
         """Format input text for the model.
 
         Raises ValueError if sector is not in VALID_SECTORS or entity_type is
         not in VALID_ENTITY_TYPES.
 
-        The model still sees cross_border: true/false as a derived feature,
-        plus the new ms_established and ms_affected fields.
+        When entity_affected is True, incident-mode impact fields are appended.
         """
         if sector not in VALID_SECTORS:
             raise ValueError(f"Unknown sector: {sector}")
@@ -200,6 +237,23 @@ class ContextualClassifier:
             parts.append(f"entity_type: {entity_type}")
         if cer_critical_entity:
             parts.append("cer_critical_entity: true")
+        # Incident-mode impact fields
+        if entity_affected:
+            parts.append("entity_affected: true")
+            if service_impact and service_impact != "none":
+                parts.append(f"service_impact: {service_impact}")
+            if data_impact and data_impact != "none":
+                parts.append(f"data_impact: {data_impact}")
+            if financial_impact and financial_impact != "none":
+                parts.append(f"financial_impact: {financial_impact}")
+            if safety_impact and safety_impact != "none":
+                parts.append(f"safety_impact: {safety_impact}")
+            if affected_persons_count and affected_persons_count > 0:
+                parts.append(f"affected_persons: {affected_persons_count}")
+            if suspected_malicious:
+                parts.append("suspected_malicious: true")
+            if impact_duration_hours and impact_duration_hours > 0:
+                parts.append(f"duration_hours: {impact_duration_hours}")
         return " ".join(parts)
 
     def _enable_dropout(self) -> None:
@@ -217,6 +271,14 @@ class ContextualClassifier:
         ms_affected: Optional[list[str]] = None,
         entity_type: Optional[str] = None,
         cer_critical_entity: Optional[bool] = None,
+        entity_affected: Optional[bool] = None,
+        service_impact: Optional[str] = None,
+        data_impact: Optional[str] = None,
+        financial_impact: Optional[str] = None,
+        safety_impact: Optional[str] = None,
+        affected_persons_count: Optional[int] = None,
+        suspected_malicious: Optional[bool] = None,
+        impact_duration_hours: Optional[int] = None,
     ) -> list[str]:
         """Extract key contextual factors for explainability."""
         factors = [f"{sector} sector"]
@@ -229,6 +291,22 @@ class ContextualClassifier:
             factors.append(f"{entity_type} entity")
         if cer_critical_entity:
             factors.append("CER critical entity (essential override)")
+        # Incident-mode factors
+        if entity_affected:
+            if service_impact in ("unavailable", "sustained"):
+                factors.append(f"{service_impact} service impact")
+            if data_impact in ("exfiltrated", "compromised", "systemic"):
+                factors.append(f"{data_impact} data impact")
+            if financial_impact in ("significant", "severe"):
+                factors.append(f"{financial_impact} financial impact")
+            if safety_impact in ("health_damage", "death"):
+                factors.append(f"{safety_impact} safety impact")
+            if affected_persons_count and affected_persons_count >= 10000:
+                factors.append(f"{affected_persons_count} persons affected")
+            if suspected_malicious:
+                factors.append("suspected malicious activity")
+            if impact_duration_hours and impact_duration_hours >= 24:
+                factors.append(f"{impact_duration_hours}h impact duration")
         return factors
 
     @staticmethod

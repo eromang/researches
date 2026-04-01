@@ -72,6 +72,14 @@ EU_MEMBER_STATES = [
     "NL", "PL", "PT", "RO", "SE", "SI", "SK",
 ]
 
+# Impact field value sets for incident-mode scenarios (Phase B)
+SERVICE_IMPACTS = ["none", "partial", "degraded", "unavailable", "sustained"]
+DATA_IMPACTS = ["none", "accessed", "exfiltrated", "compromised", "systemic"]
+FINANCIAL_IMPACTS = ["none", "minor", "significant", "severe"]
+SAFETY_IMPACTS = ["none", "health_risk", "health_damage", "death"]
+PERSONS_COUNT_RANGE = [0, 0, 10, 100, 1000, 10000, 100000]
+DURATION_HOURS_RANGE = [0, 1, 4, 12, 24, 72, 168]
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -158,6 +166,7 @@ def generate_scenarios(
     cross_border_escalation_prob: float,
     seed: int,
     sector_entity_map: dict[str, list[dict]] | None = None,
+    incident_ratio: float = 0.3,
 ) -> list[dict]:
     """Generate contextual severity scenarios for all CVEs."""
     rng = random.Random(seed)
@@ -264,6 +273,14 @@ def generate_scenarios(
             if cer_critical_entity:
                 input_text += " cer_critical_entity: true"
 
+            # Incident-mode: add impact fields for a fraction of scenarios
+            is_incident = rng.random() < incident_ratio
+            impact_fields = {}
+            if is_incident:
+                impact_fields = generate_impact_scenario(rng, sector_id)
+                ctx_sev = impact_escalation(ctx_sev, impact_fields)
+                input_text += " " + format_impact_fields(impact_fields)
+
             label = SEVERITY_INDEX[ctx_sev]
 
             rows.append(
@@ -280,10 +297,93 @@ def generate_scenarios(
                     "label": label,
                     "entity_type": entity_type,
                     "cer_critical_entity": cer_critical_entity,
+                    "entity_affected": is_incident,
                 }
             )
 
     return rows
+
+
+def impact_escalation(base_severity: str, impact_fields: dict) -> str:
+    """Determine additional escalation from incident impact fields.
+
+    Escalation rules:
+    - unavailable/sustained service_impact: +1
+    - exfiltrated/compromised/systemic data_impact: +1
+    - significant/severe financial_impact: +1 (only if not already escalated by service/data)
+    - health_damage/death safety_impact: +1
+    - affected_persons >= 10000: +1
+    - suspected_malicious + duration >= 24h: +1
+    Capped at +2 total impact escalation.
+    """
+    steps = 0
+    si = impact_fields.get("service_impact", "none")
+    di = impact_fields.get("data_impact", "none")
+    fi = impact_fields.get("financial_impact", "none")
+    sa = impact_fields.get("safety_impact", "none")
+    persons = impact_fields.get("affected_persons_count", 0)
+    malicious = impact_fields.get("suspected_malicious", False)
+    duration = impact_fields.get("impact_duration_hours", 0)
+
+    if si in ("unavailable", "sustained"):
+        steps += 1
+    if di in ("exfiltrated", "compromised", "systemic"):
+        steps += 1
+    if sa in ("health_damage", "death"):
+        steps += 1
+    if persons >= 10000:
+        steps += 1
+    if malicious and duration >= 24:
+        steps += 1
+
+    steps = min(steps, 2)
+    return escalate(base_severity, steps)
+
+
+def generate_impact_scenario(rng: random.Random, sector_id: str) -> dict:
+    """Generate random impact fields for an incident-mode scenario."""
+    # Weight toward lower severity for balance
+    si = rng.choice(SERVICE_IMPACTS)
+    di = rng.choice(DATA_IMPACTS)
+    fi = rng.choice(FINANCIAL_IMPACTS)
+    # Safety impact only for health/transport/energy sectors
+    if sector_id in ("health", "transport", "energy", "drinking_water", "food", "chemicals"):
+        sa = rng.choice(SAFETY_IMPACTS)
+    else:
+        sa = rng.choice(["none", "none", "none", "health_risk"])
+    persons = rng.choice(PERSONS_COUNT_RANGE)
+    malicious = rng.random() < 0.4
+    duration = rng.choice(DURATION_HOURS_RANGE)
+
+    return {
+        "service_impact": si,
+        "data_impact": di,
+        "financial_impact": fi,
+        "safety_impact": sa,
+        "affected_persons_count": persons,
+        "suspected_malicious": malicious,
+        "impact_duration_hours": duration,
+    }
+
+
+def format_impact_fields(fields: dict) -> str:
+    """Format impact fields as text tokens for the model input."""
+    parts = ["entity_affected: true"]
+    if fields["service_impact"] != "none":
+        parts.append(f"service_impact: {fields['service_impact']}")
+    if fields["data_impact"] != "none":
+        parts.append(f"data_impact: {fields['data_impact']}")
+    if fields["financial_impact"] != "none":
+        parts.append(f"financial_impact: {fields['financial_impact']}")
+    if fields["safety_impact"] != "none":
+        parts.append(f"safety_impact: {fields['safety_impact']}")
+    if fields["affected_persons_count"] > 0:
+        parts.append(f"affected_persons: {fields['affected_persons_count']}")
+    if fields["suspected_malicious"]:
+        parts.append("suspected_malicious: true")
+    if fields["impact_duration_hours"] > 0:
+        parts.append(f"duration_hours: {fields['impact_duration_hours']}")
+    return " ".join(parts)
 
 
 def balance_classes(
@@ -426,6 +526,7 @@ def main() -> None:
         "label",
         "entity_type",
         "cer_critical_entity",
+        "entity_affected",
     ]
     with open(args.output, "w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=fieldnames)
