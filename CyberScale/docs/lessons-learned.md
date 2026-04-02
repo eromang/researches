@@ -1,4 +1,4 @@
-# CyberScale — Lessons Learned (Phase 1, 2, 3 & v4)
+# CyberScale — Lessons Learned (Phase 1, 2, 3, v4 & v6)
 
 Retrospective on all phases of CyberScale, distilled for future iterations and model training work.
 
@@ -176,3 +176,41 @@ v5 achieved fully deterministic Phase 3:
 Phase 3 requires zero ML models, zero training, zero GPU — pure rules. The only ML models remaining are Phase 1 (vulnerability scoring) and Phase 2 (contextual severity), both operating on free-text descriptions where ML genuinely adds value over rules.
 
 Authority feedback store provides the calibration mechanism: authority overrides accumulate, periodic regression benchmarks identify systematic rule gaps, rules are manually adjusted. No ML in the loop.
+
+
+## v6 lessons (Phase 1 multi-task learning + CPE)
+
+
+## 27. Multi-task CVSS vector decomposition provides modest gains, not breakthroughs
+
+v6 decomposed the single band prediction into 9 heads (1 band + 8 CVSS vector components). This improved band accuracy from 60.5% (v1 baseline) to 62.3% (+1.8pp) and macro F1 from 56.4% to 58.4% (+2.0pp). The auxiliary component heads learned well (avg ~77% accuracy), confirming that CVE descriptions contain more signal for individual components than for the composite band. However, the improvement is incremental — the 70% target was not met.
+
+> [!warning] Future implication
+> Multi-task learning helps the encoder learn better representations, but the improvement ceiling is set by the input data quality. CVE descriptions are formulaic regardless of severity — the same phrasing patterns appear across all CVSS bands. Architecture changes alone cannot overcome this fundamental data limitation.
+
+
+## 28. CPE vendor/product signal adds no value to vulnerability scoring
+
+v6 Task 5 tested whether CPE vendor/product (e.g., "openssl", "linux kernel") improves band accuracy. Training data had 85% vendor coverage and 90% product coverage. The retrained model with CPE signal reached 62.7% val_band accuracy — statistically indistinguishable from the 62.3% baseline without CPE. The CPE signal is noise for severity prediction.
+
+This disproves the hypothesis that "OpenSSL vulnerabilities are systematically higher severity than WordPress plugin vulnerabilities." While intuitively plausible, the CVSS scoring methodology is product-agnostic — a buffer overflow is scored the same regardless of which product contains it. The model correctly learns to ignore vendor/product.
+
+> [!tip] Future implication
+> Do not invest in product/vendor enrichment for Phase 1 scoring. The 62% ceiling is a property of CVE description quality and CVSS methodology, not missing features. Three approaches have now failed to break it: CWE (v2, flat), multi-task (v6, +1.8pp), CPE (v6 Task 5, +0pp). Future improvements require fundamentally different data (e.g., exploit code, patch diffs, advisory text) or fundamentally different methodology (e.g., contrastive pre-training, curriculum learning).
+
+
+## 29. Phase 1 has a hard accuracy ceiling around 62% with description-only input
+
+Three successive architectural and feature interventions produced diminishing returns:
+
+| Version | Change | Band accuracy | Delta |
+|---------|--------|---------------|-------|
+| v1 | ModernBERT-base, single head | 60.5% | baseline |
+| v2 | + CWE as input feature | 60.2% | -0.3pp (noise) |
+| v6 | Multi-task (9 heads, CVSS decomposition) | 62.3% | +1.8pp |
+| v6+CPE | + vendor/product signal | 62.7% | +0.4pp (noise) |
+
+The pattern is clear: each intervention yields less. The 62% ceiling is structural — CVE descriptions do not contain enough discriminative signal to reliably distinguish Medium from High or High from Critical. This is not a model problem; it is a data problem.
+
+> [!check] v6 outcome
+> v6 is the final architecture-focused attempt on Phase 1. The multi-task model (without CPE) is kept as the v6 scorer. Future Phase 1 work should focus on data enrichment (exploit availability, patch analysis, advisory cross-referencing) rather than model architecture.

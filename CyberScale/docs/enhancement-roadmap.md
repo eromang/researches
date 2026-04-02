@@ -104,11 +104,11 @@ These form a natural group with the secure notification channel (documented belo
 
 ---
 
-## Current model performance (v5)
+## Current model performance (v6)
 
 | Phase | Model | Key metric | Target | Status |
 |-------|-------|------------|--------|--------|
-| 1 | Scorer | 60.2% band accuracy | > 75% | Not met |
+| 1 | Scorer v6 (multi-task) | 62.3% band accuracy | > 75% | Not met (ceiling) |
 | 2 | Contextual (v4) | 81.5% macro F1 | > 75% | Met |
 | 3 | T-level (deterministic) | 100% | 100% | Met |
 | 3 | O-level (deterministic) | 100% | 100% | Met |
@@ -116,7 +116,7 @@ These form a natural group with the secure notification channel (documented belo
 | 3 | Multi-entity (50 curated) | 100% | > 70% | Met |
 | 3 | Illustrative use cases | 6/6 | 6/6 | Met |
 
-**Phase 1 is the weakest phase.** CWE didn't help. The bottleneck is description quality — many CVE descriptions are formulaic regardless of actual severity.
+**Phase 1 is the weakest phase.** CWE (v2), multi-task (v6), and CPE (v6) all failed to break past 62%. The ceiling is CVE description quality — many CVE descriptions are formulaic regardless of actual severity. Further gains require different data sources, not architecture changes.
 
 ---
 
@@ -124,19 +124,13 @@ These form a natural group with the secure notification channel (documented belo
 
 ### High priority — Phase 1 accuracy (biggest gap)
 
-#### 1. CVSS vector multi-task learning
+#### ~~1. CVSS vector multi-task learning~~ → completed in v6
 
-Instead of predicting the composite score, predict individual CVSS vector components (Attack Vector, Complexity, Privileges Required, User Interaction, Scope, C/I/A Impact) as auxiliary outputs. Multi-task learning where each head predicts one component. The composite score falls out deterministically from the predicted vector.
++1.8pp band accuracy (60.5% → 62.3%). Did not reach 70% target. The ceiling is description quality, not architecture.
 
-**Effort:** Medium — new model architecture, but training data already contains CVSS vectors.
-**Expected gain:** +5-10pp — decomposes the hard problem into easier sub-problems.
+#### ~~2. Product/vendor signal~~ → tested in v6 Task 5, rejected
 
-#### 2. Product/vendor signal
-
-"OpenSSL" or "Linux kernel" vulnerabilities are systematically higher severity than "WordPress plugin" vulnerabilities at the same CWE. CPE vendor/product from the CVE data could be encoded as an input feature.
-
-**Effort:** Low — add to input format, retrain. CPE data available in cvelistV5.
-**Expected gain:** +3-5pp overall.
+CPE vendor/product added no improvement (62.7% ≈ 62.3%). CVSS scoring is product-agnostic; the model correctly ignores vendor/product.
 
 #### 3. Contrastive pre-training
 
@@ -620,49 +614,15 @@ Before building the full `assess_incident` MCP tool, validate that multi-entity 
 
 ---
 
-## v6 — Phase 1 Accuracy Breakthrough
+## v6 completed (2026-04-02) — Phase 1 Multi-Task Learning
 
-Phase 1 has been at 60% band accuracy since v1. Feature additions (CWE in v2) didn't help — the bottleneck is that CVE descriptions are formulaic regardless of severity. v6 changes the model architecture.
+| Enhancement | Phase | Result | Tag |
+|-------------|-------|--------|-----|
+| CVSS vector multi-task learning (9 heads: 1 band + 8 components) | 1 | 62.3% band accuracy (+1.8pp vs v1), 58.4% macro F1 (+2.0pp) | cyberscale-v6 |
+| CPE vendor/product signal (tested, rejected) | 1 | 62.7% — no improvement over 62.3% baseline, CPE is noise | — |
+| `score_vulnerability` returns predicted CVSS vector | 1 | Additive output: `predicted_vector` dict with 8 components | cyberscale-v6 |
 
-**Goal:** Break past 60% → target >70% band accuracy.
-
-### Approach: CVSS vector multi-task learning
-
-Instead of predicting the composite band directly, predict the 8 individual CVSS v3.1 vector components as auxiliary tasks. The composite score falls out deterministically from the predicted vector.
-
-**CVSS v3.1 vector components:**
-
-| Component | Values | What it measures |
-|---|---|---|
-| Attack Vector (AV) | Network / Adjacent / Local / Physical | How the vulnerability is exploited |
-| Attack Complexity (AC) | Low / High | Conditions beyond attacker's control |
-| Privileges Required (PR) | None / Low / High | Authentication needed |
-| User Interaction (UI) | None / Required | Does a user need to act? |
-| Scope (S) | Unchanged / Changed | Does it affect other components? |
-| Confidentiality (C) | None / Low / High | Data disclosure impact |
-| Integrity (I) | None / Low / High | Data modification impact |
-| Availability (A) | None / Low / High | Service disruption impact |
-
-**Architecture:** ModernBERT-base with 9 classification heads:
-- 8 auxiliary heads (one per CVSS component, 2-4 classes each)
-- 1 main head (band classification: Critical/High/Medium/Low)
-- Multi-task weighted loss: `loss = band_loss + 0.3 * sum(component_losses)`
-
-### Tasks
-
-| Task | What |
-|---|---|
-| 1 | Extract CVSS vector components from cvelistV5 training data (AV, AC, PR, UI, S, C, I, A columns) |
-| 2 | New multi-head scorer architecture (`src/cyberscale/models/scorer_v6.py`) |
-| 3 | Multi-task training script with weighted loss across 9 heads |
-| 4 | Benchmark: band accuracy, per-component accuracy, comparison vs v1 baseline (60%) |
-| 5 | If multi-task insufficient (<65%), add product/vendor signal from CPE data as fallback |
-| 6 | Update `score_vulnerability` MCP tool (optionally return predicted vector components) |
-| 7 | Publish updated scorer model to HuggingFace |
-
-**Success criteria:** Band accuracy >70%, or clear evidence that further gains require fundamentally different data (not architecture).
-
-**Effort:** 2-3 sessions.
+**Conclusion:** Three approaches failed to break Phase 1 past 62%: CWE (v2, flat), multi-task (v6, +1.8pp), CPE (v6, +0pp). The ceiling is CVE description quality, not model architecture or features. Future Phase 1 gains require fundamentally different data (exploit code, patch diffs, advisory cross-referencing) or methodology (contrastive pre-training, curriculum learning). See lessons 27-29 in `docs/lessons-learned.md`.
 
 ---
 
@@ -684,7 +644,7 @@ v1-v6 built the assessment engine. v7 makes it usable in production with real da
 
 ## Key lessons informing priorities
 
-1. **Feature additions have diminishing returns on Phase 1** — CWE didn't help; the problem is description quality, not feature coverage. Architectural changes (multi-task, contrastive) are more likely to break through.
+1. **Phase 1 has a hard ceiling at ~62% with description-only input** — CWE (v2, flat), multi-task (v6, +1.8pp), and CPE (v6, +0pp) all failed to break through. Three successive interventions produced diminishing returns. Future Phase 1 work requires different data (exploit code, patch diffs) or methodology (contrastive pre-training), not more features or heads.
 2. **Human-curated data is the highest-leverage input** — Phase 2 went from 32% to 88% with predecessor data; Phase 3 went from 67.5% to 97.5% with 40 curated incidents.
 3. **Synthetic-on-synthetic metrics inflate** — Phase 3 v1 showed 96% on synthetic but only 67.5% on curated. Always benchmark on human-curated data.
 4. **Low-severity classes need explicit attention** — T1/O1/non_nis2 are consistently the weakest. Oversampling helps but curated examples help more.

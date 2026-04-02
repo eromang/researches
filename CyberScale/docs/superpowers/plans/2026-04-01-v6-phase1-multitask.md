@@ -197,19 +197,23 @@ poetry run python training/scripts/evaluate_scorer.py \
 
 ---
 
-### Task 5: CPE product/vendor signal (conditional)
+### Task 5: CPE product/vendor signal (conditional) — COMPLETED (negative result)
 
-Only if Task 4 band accuracy <65%.
+Tested. Training data had 85% vendor coverage, 90% product coverage. Retrained multi-task model with CPE input (`"{description} [SEP] cwe: {cwe} vendor: {vendor} product: {product}"`). Result: 62.7% val_band accuracy — statistically indistinguishable from 62.3% baseline without CPE.
 
-**Rationale:** "OpenSSL" or "Linux kernel" vulnerabilities are systematically higher severity than "WordPress plugin" at the same CWE. CPE vendor/product from cvelistV5 could add signal.
+**Conclusion:** CPE vendor/product is noise for severity prediction. CVSS scoring is product-agnostic — a buffer overflow scores the same regardless of which product contains it. The model correctly ignores vendor/product signal.
 
-**Changes:**
-- Extract CPE vendor/product from cvelistV5 data
-- Add as input feature: `"{description} [SEP] cwe: {cwe} vendor: {vendor} product: {product}"`
-- Retrain multi-task model with vendor/product
-- Benchmark again
+Training epochs (CPE retrain):
+| Epoch | Val band | Val comp avg |
+|-------|----------|-------------|
+| 1 | 41.1% | 68.1% |
+| 6 | 60.5% | 77.1% |
+| 8 | 62.2% | 77.6% |
+| 9 | 62.7% | 77.3% |
 
-**Commit:** `feat(cyberscale): v6 add CPE vendor/product signal to scorer`
+No improvement over without-CPE baseline (62.3%). Model checkpoint discarded.
+
+**Commit:** `feat(cyberscale): v6 add CPE vendor/product signal to scorer` (code committed earlier, retrain confirmed negative result)
 
 ---
 

@@ -19,10 +19,16 @@
     "band_macro_f1": 0.5640
   },
   "improvement": "+1.8pp band accuracy, +2.0pp macro F1 over v1",
-  "note": "Multi-task learning with CVSS vector decomposition. CPE vendor/product enrichment code added but full retrain pending.",
+  "cpe_experiment": {
+    "result": "no improvement",
+    "with_cpe_val_band": 0.6273,
+    "without_cpe_val_band": 0.6230,
+    "conclusion": "CPE vendor/product is noise — CVSS scoring is product-agnostic"
+  },
   "targets": {
-    "band_accuracy": "> 0.70",
-    "band_macro_f1": "> 0.65",
-    "avg_component_accuracy": "> 0.80"
-  }
+    "band_accuracy": "> 0.70 (not met — 62% ceiling)",
+    "band_macro_f1": "> 0.65 (not met)",
+    "avg_component_accuracy": "> 0.80 (not met — ~77%)"
+  },
+  "phase1_ceiling_analysis": "Three approaches failed to break 62%: CWE (v2, flat), multi-task (v6, +1.8pp), CPE (v6, +0pp). Ceiling is CVE description quality."
 }
