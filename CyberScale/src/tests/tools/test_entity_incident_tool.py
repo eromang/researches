@@ -91,6 +91,105 @@ class TestAssessEntityIncident:
         assert result["significance"]["significant_incident"] is False
         assert result["early_warning"]["recommended"] is False
 
+    def test_lu_entity_uses_national_thresholds(self):
+        from cyberscale.tools.entity_incident import _assess_entity_incident
+
+        mock_clf = MagicMock()
+        mock_clf.predict.return_value = ContextualResult(
+            severity="High", confidence="high",
+            key_factors=["energy sector", "SCADA impact"],
+        )
+        result = _assess_entity_incident(
+            mock_clf,
+            description="SCADA system compromise at Luxembourg electricity provider",
+            sector="energy",
+            entity_type="electricity_undertaking",
+            ms_established="LU",
+            impact_duration_hours=2,
+            sector_specific={"pods_affected": 600, "voltage_level": "lv"},
+        )
+        assert result["significance"]["model"] == "national_lu_thresholds"
+        assert result["significance"]["significant_incident"] is True
+        assert any("LV-POD" in c for c in result["significance"]["triggered_criteria"])
+        assert result["significance"]["ilr_reference"] == "ILR/N22/4"
+        assert result["early_warning"]["recommended"] is True
+
+    def test_lu_ir_entity_bypasses_national(self):
+        """IR entities in LU still use IR thresholds, not LU national."""
+        from cyberscale.tools.entity_incident import _assess_entity_incident
+
+        mock_clf = MagicMock()
+        mock_clf.predict.return_value = ContextualResult(
+            severity="Critical", confidence="high",
+            key_factors=["digital_infrastructure sector"],
+        )
+        result = _assess_entity_incident(
+            mock_clf,
+            description="Cloud outage at Luxembourg provider",
+            sector="digital_infrastructure",
+            entity_type="cloud_computing_provider",
+            ms_established="LU",
+            service_impact="unavailable",
+        )
+        assert result["significance"]["model"] == "ir_thresholds"
+
+    def test_lu_non_covered_sector_falls_back_to_nis2(self):
+        """LU entity in sector not covered by ILR uses NIS2 ML."""
+        from cyberscale.tools.entity_incident import _assess_entity_incident
+
+        mock_clf = MagicMock()
+        mock_clf.predict.return_value = ContextualResult(
+            severity="Medium", confidence="medium",
+            key_factors=["waste_water sector"],
+        )
+        result = _assess_entity_incident(
+            mock_clf,
+            description="Wastewater system disruption in Luxembourg",
+            sector="waste_water",
+            entity_type="waste_water_operator",
+            ms_established="LU",
+        )
+        assert result["significance"]["model"] == "nis2_ml"
+
+    def test_non_lu_entity_uses_nis2(self):
+        """Non-LU entity in covered sector uses NIS2 ML, not national."""
+        from cyberscale.tools.entity_incident import _assess_entity_incident
+
+        mock_clf = MagicMock()
+        mock_clf.predict.return_value = ContextualResult(
+            severity="High", confidence="high",
+            key_factors=["energy sector"],
+        )
+        result = _assess_entity_incident(
+            mock_clf,
+            description="Electricity outage in Germany",
+            sector="energy",
+            entity_type="electricity_undertaking",
+            ms_established="DE",
+        )
+        assert result["significance"]["model"] == "nis2_ml"
+
+    def test_lu_sector_specific_fields_passthrough(self):
+        """sector_specific dict reaches LU assessment."""
+        from cyberscale.tools.entity_incident import _assess_entity_incident
+
+        mock_clf = MagicMock()
+        mock_clf.predict.return_value = ContextualResult(
+            severity="High", confidence="high",
+            key_factors=["transport sector"],
+        )
+        result = _assess_entity_incident(
+            mock_clf,
+            description="Rail disruption in Luxembourg",
+            sector="transport",
+            entity_type="railway_undertaking",
+            ms_established="LU",
+            sector_specific={"trains_cancelled_pct": 6.0},
+        )
+        assert result["significance"]["model"] == "national_lu_thresholds"
+        assert result["significance"]["significant_incident"] is True
+        assert any("trains" in c for c in result["significance"]["triggered_criteria"])
+
     def test_output_structure(self):
         from cyberscale.tools.entity_incident import _assess_entity_incident
 
