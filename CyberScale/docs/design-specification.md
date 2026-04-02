@@ -91,9 +91,34 @@ Fully scripted — no Claude skills, no LLM. The script implements codified NIS2
 
 All 18 NIS2 sectors + non-NIS2 covered in training data, with balanced class distribution. Irrelevant (CVE, sector) combinations are skipped based on CPE product category to sector mapping.
 
-### 4.6 National layer
+### 4.6 National layer (v7)
 
-Not included in v1. Designed to be addable as a future extension (e.g., Luxembourg HCPN thresholds) without changing the core architecture. The model takes sector + cross-border only; a national layer addon would add a `jurisdiction` parameter.
+Three-tier significance routing in Phase 2 entity incident mode:
+
+```
+Entity in MS X
+  │
+  ├── IR entity type? → IR thresholds (EU-wide, Arts. 5-14) [v4]
+  │
+  ├── National module for MS X? + sector covered?
+  │   → National deterministic thresholds [v7]
+  │   Output: significant_incident (bool) + triggered_criteria + ILR reference
+  │
+  └── Neither? → NIS2 ML model (qualitative) [v4]
+```
+
+**Luxembourg (LU)** — first national module (v7):
+- Source: ILR NIS1 transposition regulations (best available until LU publishes NIS2-specific rules)
+- Covers: energy (electricity POD matrix, gas SCADA), transport (rail, road, air), health (hospital, laboratory), drinking water, digital service providers
+- IR entities in LU use IR thresholds (EU regulation > national transposition)
+- Digital infrastructure ILR/N22/6 superseded by IR thresholds
+- DORA applies separately for banking/financial market (CSSF as competent authority)
+- POST/LuxTrust use sector thresholds — no entity-specific overrides
+- HCPN national crisis qualification deferred to v8
+
+**Pluggable pattern:** `data/reference/{ms}_thresholds.json` + `src/cyberscale/national/{ms}.py`. Registry at `national/registry.py` — new MS modules register without changing router logic.
+
+**Output includes:** applicable frameworks with per-framework notification deadline and competent authority.
 
 ### 4.7 Evaluation
 
@@ -117,7 +142,7 @@ Single FastMCP server exposing all three phases as independent tools:
 | `lookup_vulnerability` | 1 | CVE ID | Merged NVD/EUVD/CIRCL data |
 | `search_similar` | 1 | Raw description | Top-N similar known vulnerabilities |
 | `assess_contextual_severity` | 2 | Description + sector + MS geography | C/H/M/L + key factors |
-| `assess_entity_incident` | 2 | Entity incident: description + sector + entity_type + impact fields | Severity + significance (IR/NIS2) + early warning |
+| `assess_entity_incident` | 2 | Entity incident: description + sector + entity_type + impact fields + optional sector_specific | Severity + significance (IR/LU/NIS2 three-tier) + early warning + applicable frameworks |
 | `classify_incident_operational` | 3 | Incident description + operational fields + consequences | O1–O4 + key factors |
 | `classify_incident` | 3 | Full incident input | Deterministic T-level + O-level + matrix |
 | `assess_incident` | 3 | Entity notification dicts | Aggregation + T-level + O-level + matrix classification |
@@ -135,6 +160,7 @@ Single FastMCP server exposing all three phases as independent tools:
 | Phase 3 T-level | Deterministic rules | No ML — `derive_t_level()` | Rules from impact taxonomy | 100% |
 | Phase 3 O-level | Deterministic rules | No ML — `derive_o_level()` | Rules from consequence dimensions | 100% |
 | IR thresholds | Deterministic per-entity-type | No ML — `assess_ir_significance()` | Arts. 5-14 thresholds | 100% |
+| LU national thresholds (v7) | Deterministic per-sector | No ML — `assess_lu_significance()` | ILR NIS1 transposition | 100% (20/20 curated) |
 | Phase 1 scorer (v1, deprecated) | Single-head classification (4-class) | ModernBERT-base, single classification head | ~45k CVEs | 60.5% (superseded by v6) |
 | Phase 3 T-model (deprecated) | Was classification (T1–T4) | ModernBERT-base | Kept for reference, not used in inference | — |
 

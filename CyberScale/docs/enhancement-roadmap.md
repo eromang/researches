@@ -104,12 +104,15 @@ These form a natural group with the secure notification channel (documented belo
 
 ---
 
-## Current model performance (v6)
+## Current model performance (v7)
 
 | Phase | Model | Key metric | Target | Status |
 |-------|-------|------------|--------|--------|
 | 1 | Scorer v6 (multi-task) | 62.3% band accuracy | > 75% | Not met (ceiling) |
 | 2 | Contextual (v4) | 81.5% macro F1 | > 75% | Met |
+| 2 | IR thresholds (v4) | 100% | 100% | Met |
+| 2 | LU national thresholds (v7) | 100% (20/20 curated) | 100% | Met |
+| 2 | Three-tier routing (v7) | 100% (20/20 curated) | 100% | Met |
 | 3 | T-level (deterministic) | 100% | 100% | Met |
 | 3 | O-level (deterministic) | 100% | 100% | Met |
 | 3 | Matrix end-to-end (deterministic) | 100% | > 70% | Met |
@@ -626,16 +629,35 @@ Before building the full `assess_incident` MCP tool, validate that multi-entity 
 
 ---
 
-## v7 — Operational Readiness + Real-World Validation
+## v7 completed (2026-04-02) — Luxembourg National Layer
 
-v1-v6 built the assessment engine. v7 makes it usable in production with real data and real workflows.
+| Enhancement | Phase | Result | Tag |
+|-------------|-------|--------|-----|
+| Luxembourg ILR threshold reference data | 2 | `lu_thresholds.json` — 15 sector sub-types, common criteria, DORA coverage, notification deadlines | — |
+| LU national threshold assessment module | 2 | Deterministic per-sector functions: electricity POD matrix, gas SCADA, rail, road, air, health, drinking water, digital services | — |
+| Three-tier router (IR → LU → NIS2) | 2 | `entity_incident.py` routes IR entities to EU IR, LU-covered to national, rest to NIS2 ML | — |
+| LU sector-specific input fields | 2 | `sector_specific` dict in MCP tool: pods_affected, voltage_level, trains_cancelled_pct, scada_unavailable_min, etc. | — |
+| Pluggable national module registry | 2 | `national/registry.py` — register new MS modules without changing router | — |
+| Luxembourg threshold benchmark | 2 | 20/20 curated scenarios, 100% routing + significance + criteria accuracy | — |
+| Documentation + tag | — | Design spec, roadmap, architecture updated | cyberscale-v7 |
+
+**Key decisions:**
+- IR thresholds take precedence over LU for digital infrastructure entities (ILR/N22/6 superseded)
+- DORA included for LU banking/financial market (CSSF as competent authority)
+- POST/LuxTrust use sector thresholds, no entity-specific overrides
+- Road transport material damage threshold EUR 200,000 (correct, higher than other sectors)
+- HCPN national crisis qualification deferred to v8
+
+---
+
+## v7 remaining targets (v8 candidates)
 
 | Priority | Enhancement | Description |
 |---|---|---|
-| 1 | **Notification export schema** | Structured JSON export from Phase 2 incident mode for submission to national CSIRT portals. Art. 23 field mapping. |
-| 2 | **Temporal incident tracking** | Incidents evolve over NIS2 reporting timeline: early warning (24h) → notification (72h) → intermediate → final (1 month). Each stage reassesses with more data. Incident timeline as a first-class concept. |
-| 3 | **Real incident validation** | Validate full pipeline against 20+ actual post-incident reports (ENISA annual, EU-CyCLONe public summaries). Does CyberScale produce the same classification authorities actually assigned? |
-| 4 | **Luxembourg national layer** | First concrete MS implementation. ILR sector-specific thresholds. Proves the national tier works with real regulatory data. |
+| 1 | **HCPN Cadre national** | Luxembourg national crisis qualification — 3 cumulative criteria for incidents, 4 for threats. Cooperation mode determination (Alerte/CERC vs Crise). |
+| 2 | **Notification export schema** | Structured JSON export from Phase 2 incident mode for submission to national CSIRT portals. Art. 23 field mapping. |
+| 3 | **Temporal incident tracking** | Incidents evolve over NIS2 reporting timeline: early warning (24h) → notification (72h) → intermediate → final (1 month). |
+| 4 | **Real incident validation** | Validate full pipeline against 20+ actual post-incident reports (ENISA annual, EU-CyCLONe public summaries). |
 | 5 | **Active learning loop** | Deploy MCP server, collect analyst corrections on assessments, retrain with feedback. v5 feedback store is the foundation. |
 | 6 | **Secure notification channel** | Secure transmission of Phase 2 outputs to CSIRTs. CSIRT Network ingestion format. Authentication, TLP marking, integrity. |
 | 7 | **CSIRT pilot** | Deploy with a real CSIRT (CIRCL/LU) to validate entity-facing and authority-facing tools in operational context. |
