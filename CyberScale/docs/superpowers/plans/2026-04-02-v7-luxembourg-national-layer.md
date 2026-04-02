@@ -18,8 +18,20 @@ Entity in Luxembourg (ms_established=LU)
 **Key decisions:**
 - NIS1 ILR thresholds reused as LU-NIS2 thresholds (best available until Luxembourg publishes NIS2-specific rules)
 - IR thresholds take precedence over LU thresholds (EU regulation > national transposition)
+- Digital infrastructure entities use IR only — LU ILR/N22/6 thresholds are superseded
+- DORA included for LU banking/financial market entities (CSSF as competent authority)
 - New NIS2 sectors not covered by NIS1 fall back to generic EU qualitative model
+- Deterministic approach — per-sector assessment functions, no ML
+- POST/LuxTrust use sector thresholds, no entity-specific overrides
+- Road transport material damage threshold EUR 200,000 (correct, higher than other sectors)
 - Pluggable pattern: `data/reference/{ms}_thresholds.json` for future MS
+- Output includes applicable frameworks with per-framework deadline and competent authority
+- HCPN national crisis qualification (Cadre national) deferred to v8
+
+**Not in v7 scope (v8):**
+- HCPN Cadre national de qualification (3 cumulative criteria for national crisis)
+- PGGCCN cooperation mode determination (Alerte/CERC vs Crise)
+- Cyber threat qualification (4 cumulative criteria including probability assessment)
 
 ---
 
