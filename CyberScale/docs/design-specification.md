@@ -126,16 +126,39 @@ Single FastMCP server exposing all three phases as independent tools:
 | `assess_full_pipeline` | 1+2 | Description + sector + MS geography | Phase 1 score + Phase 2 severity |
 | `refresh_store` | Infra | Optional: date range, source filter | Updated vector store entries |
 
-### 6.2 Four models
+### 6.2 Models and rules
 
-| Model | Task | Architecture | Training data |
-|-------|------|--------------|---------------|
-| Phase 1: Severity scorer | Classification (4-class bands) | ModernBERT-base, classification head | ~45k CVEs with CVSS scores |
-| Phase 2: Contextual classifier | Classification (4-class) | ModernBERT-base, all-as-text | 32k scenarios (CVEs x sectors x impact) |
-| Phase 3 T-level | Deterministic rules | No ML — `derive_t_level()` | Rules from impact taxonomy |
-| Phase 3 O-level | Deterministic rules | No ML — `derive_o_level()` | Rules from consequence dimensions |
-| IR thresholds | Deterministic per-entity-type | No ML — `assess_ir_significance()` | Arts. 5-14 thresholds |
-| Phase 3 T-model (deprecated) | Was classification (T1–T4) | ModernBERT-base | Kept for reference, not used in inference |
+| Model | Task | Architecture | Training data | Key metric |
+|-------|------|--------------|---------------|------------|
+| Phase 1: Severity scorer (v6) | Multi-task classification (4-class bands + 8 CVSS vector components) | ModernBERT-base, shared encoder + 9 heads (2-layer MLP band head + 8 component heads) | ~30k CVEs with CVSS v3.1 scores and vectors | 62.3% band accuracy |
+| Phase 2: Contextual classifier | Classification (4-class) | ModernBERT-base, all-as-text | 32k scenarios (CVEs x sectors x impact fields) | 81.7% accuracy |
+| Phase 3 T-level | Deterministic rules | No ML — `derive_t_level()` | Rules from impact taxonomy | 100% |
+| Phase 3 O-level | Deterministic rules | No ML — `derive_o_level()` | Rules from consequence dimensions | 100% |
+| IR thresholds | Deterministic per-entity-type | No ML — `assess_ir_significance()` | Arts. 5-14 thresholds | 100% |
+| Phase 1 scorer (v1, deprecated) | Single-head classification (4-class) | ModernBERT-base, single classification head | ~45k CVEs | 60.5% (superseded by v6) |
+| Phase 3 T-model (deprecated) | Was classification (T1–T4) | ModernBERT-base | Kept for reference, not used in inference | — |
+
+#### Phase 1 v6 multi-task architecture
+
+The v6 scorer decomposes severity prediction into 9 parallel classification tasks sharing a single ModernBERT encoder:
+
+| Head | Classes | What it predicts |
+|------|---------|-----------------|
+| **Band (primary)** | 4 (Critical/High/Medium/Low) | Overall severity band — primary metric |
+| Attack Vector (AV) | 4 (Network/Adjacent/Local/Physical) | How the vulnerability is exploited |
+| Attack Complexity (AC) | 2 (Low/High) | Conditions beyond attacker's control |
+| Privileges Required (PR) | 3 (None/Low/High) | Authentication needed |
+| User Interaction (UI) | 2 (None/Required) | Does a user need to act? |
+| Scope (S) | 2 (Unchanged/Changed) | Does it affect other components? |
+| Confidentiality (C) | 3 (None/Low/High) | Data disclosure impact |
+| Integrity (I) | 3 (None/Low/High) | Data modification impact |
+| Availability (A) | 3 (None/Low/High) | Service disruption impact |
+
+**Loss:** `total_loss = band_loss + 0.3 * weighted_sum(component_losses)`
+
+**Output:** The `score_vulnerability` MCP tool returns both the band prediction and the predicted CVSS vector components, enabling analysts to understand which aspects of the vulnerability the model considers most severe.
+
+**Ceiling finding (v6):** Three interventions failed to break past ~62%: CWE features (v2, +0pp), multi-task (v6, +1.8pp), CPE vendor/product (v6, +0pp). The ceiling is structural — CVE descriptions lack sufficient discriminative signal between adjacent bands. Future gains require different data sources (exploit code, patch diffs, advisory text), not architecture changes.
 
 ### 6.3 Project structure
 
