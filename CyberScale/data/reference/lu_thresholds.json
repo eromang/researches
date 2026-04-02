@@ -1,0 +1,339 @@
+{
+  "version": "1.0",
+  "ms": "LU",
+  "source": "ILR NIS1 transposition (Règlements ILR)",
+  "description": "Luxembourg NIS1 sector-specific incident significance thresholds. Used as best-available LU-NIS2 thresholds until Luxembourg publishes NIS2-specific rules. Digital infrastructure entities use EU IR thresholds (Arts. 5-14) instead — LU ILR/N22/6 is superseded.",
+  "common_criteria": {
+    "safety_risk": {
+      "description": "Any security/safety risk or death",
+      "trigger": true
+    },
+    "material_damage_eur": {
+      "description": "Material damage threshold in EUR (default)",
+      "amount": 50000
+    },
+    "material_damage_eur_road_transport": {
+      "description": "Material damage threshold for road transport (higher)",
+      "amount": 200000
+    },
+    "data_loss_users_lu": {
+      "description": "CIA+A loss affecting Luxembourg users",
+      "users": 50
+    }
+  },
+  "dora": {
+    "description": "DORA applies to LU banking/financial market entities. CSSF is competent authority for both DORA and NIS2 in Luxembourg.",
+    "competent_authority": "CSSF",
+    "notification_deadlines": {
+      "initial_notification_hours": 4,
+      "intermediate_report_hours": 72,
+      "final_report_days": 30
+    },
+    "covered_sectors": ["banking", "financial_market_infrastructure"]
+  },
+  "sectors": {
+    "digital_service_providers": {
+      "reference": "ILR/N21/1",
+      "source_regulation": "EU Regulation 2018/151 Article 4",
+      "competent_authority": "ILR",
+      "notification_deadlines": {
+        "pre_notification_hours": 24,
+        "full_notification_days": 15
+      },
+      "thresholds": [
+        {"type": "availability", "user_hours": 5000000, "description": "> 5,000,000 user-hours"},
+        {"type": "integrity_confidentiality", "eu_users": 100000, "description": "> 100,000 users in EU"},
+        {"type": "safety_risk", "condition": "any", "description": "Any risk or death"},
+        {"type": "material_damage", "amount_eur": 1000000, "description": "> EUR 1,000,000"}
+      ]
+    },
+    "drinking_water": {
+      "reference": "ILR/N21/2",
+      "competent_authority": "ILR",
+      "notification_deadlines": {
+        "pre_notification_hours": 24,
+        "full_notification_days": 15
+      },
+      "thresholds": [
+        {"type": "user_duration", "users_pct_min": 0, "users_pct_max": 1, "users_abs": 50, "duration_days": 4, "description": "< 1% users, ≥ 50 users, ≥ 4 days"},
+        {"type": "user_duration", "users_pct_min": 1, "users_pct_max": 5, "users_abs": 500, "duration_days": 2, "description": "1-5% users, ≥ 500 users, ≥ 2 days"},
+        {"type": "user_duration", "users_pct_min": 5, "users_pct_max": 10, "users_abs": 5000, "duration_hours": 24, "description": "5-10% users, ≥ 5,000 users, ≥ 24 hours"},
+        {"type": "user_duration", "users_pct_min": 10, "users_pct_max": 25, "users_abs": 15000, "duration_hours": 4, "description": "10-25% users, ≥ 15,000 users, ≥ 4 hours"},
+        {"type": "user_duration", "users_pct_min": 25, "users_pct_max": 100, "users_abs": 50000, "duration_hours": 0, "description": "≥ 25% users, ≥ 50,000 users, any duration"},
+        {"type": "cross_border", "condition": "any", "description": "Any cross-border impact"}
+      ]
+    },
+    "transport_rail": {
+      "reference": "ILR/N22/1",
+      "competent_authority": "ILR",
+      "notification_deadlines": {
+        "pre_notification_hours": 24,
+        "full_notification_days": 15
+      },
+      "thresholds": [
+        {"type": "trains_cancelled", "pct_per_day": 5, "description": "≥ 5% trains cancelled per day"},
+        {"type": "slots_impacted", "count_per_day": 100, "description": "≥ 100 slots impacted per day"},
+        {"type": "infrastructure_unavailable", "hours": 4, "description": "Infrastructure management unavailable ≥ 4 consecutive hours"},
+        {"type": "freight_cancelled_delayed", "pct_per_day": 20, "delay_hours": 1, "description": "≥ 20% freight trains cancelled/delayed ≥ 1h per day"},
+        {"type": "capacity_management_unavailable", "hours": 12, "description": "Capacity management unavailable ≥ 12 consecutive hours"},
+        {"type": "serious_injuries", "condition": "any", "description": "Serious injuries per rail safety definition"}
+      ]
+    },
+    "transport_road": {
+      "reference": "ILR/N22/2",
+      "competent_authority": "ILR",
+      "notification_deadlines": {
+        "pre_notification_hours": 24,
+        "full_notification_days": 15
+      },
+      "thresholds": [
+        {"type": "service_unavailable", "hours": 2, "description": "Service unavailability ≥ 2 hours"},
+        {"type": "data_loss", "users": 50, "description": "Data CIA+A loss > 50 users"},
+        {"type": "material_damage", "amount_eur": 200000, "description": "Material damage ≥ EUR 200,000"}
+      ]
+    },
+    "transport_air": {
+      "reference": "ILR/N23/1",
+      "competent_authority": "ILR",
+      "notification_deadlines": {
+        "pre_notification_hours": 24,
+        "full_notification_days": 15
+      },
+      "thresholds": {
+        "passenger": [
+          {"type": "flights_cancelled", "count_per_day": 4, "description": "> 4 flights cancelled to/from LU per day"},
+          {"type": "ops_unavailable_no_alternative", "hours": 4, "description": "Operations systems unavailable > 4 hours (no alternative)"},
+          {"type": "ops_unavailable_with_alternative", "hours": 8, "description": "Operations systems unavailable > 8 hours (with alternative)"},
+          {"type": "digital_sales_unavailable", "hours": 48, "description": "Digital sales channels unavailable > 48 hours"}
+        ],
+        "freight": [
+          {"type": "cargo_flights_unable", "flights": 2, "duration_hours": 24, "description": "Inability to operate ≥ 2 cargo flights to/from LU for > 24 hours"},
+          {"type": "invoicing_unable", "condition": "any", "description": "Inability to invoice or pay suppliers"}
+        ],
+        "airport_management": [
+          {"type": "passenger_flights_not_handled", "count_per_day": 4, "description": "> 4 passenger flights not handled per day"},
+          {"type": "cargo_flights_not_handled", "count_per_day": 2, "description": "> 2 cargo flights not handled per day"}
+        ],
+        "air_traffic_control": [
+          {"type": "separation_reduced", "pct_of_minimum": 50, "description": "Separation reduced to < 50% of required minimum"},
+          {"type": "movements_reduced", "per_hour": 12, "duration_hours": 48, "description": "Movements reduced to < 12/hour for > 48 hours"},
+          {"type": "hospitalization", "condition": "any", "description": "Any hospitalization"}
+        ],
+        "unique": [
+          {"type": "environmental_damage", "condition": "any", "description": "Environmental damage requiring remediation resources"},
+          {"type": "foreign_airport_impact", "condition": "any", "description": "Impact on foreign airport organization"}
+        ]
+      }
+    },
+    "energy_gas": {
+      "reference": "ILR/N22/3",
+      "competent_authority": "ILR",
+      "notification_deadlines": {
+        "pre_notification_hours": 24,
+        "full_notification_days": 15
+      },
+      "thresholds": [
+        {"type": "valve_control_loss", "condition": "any", "description": "Motorized valve control loss in transfer/distribution stations"},
+        {"type": "measurement_falsification", "condition": "any", "description": "Pressure/volume measurement data falsification"},
+        {"type": "scada_unavailable", "minutes": 30, "description": "SCADA/EDP systems unavailable ≥ 30 minutes"},
+        {"type": "transmission_network", "condition": "any", "description": "Any transmission network incident"},
+        {"type": "cross_border", "condition": "any", "description": "Any cross-border impact"},
+        {"type": "data_availability_loss", "hours": 2, "users": 50, "description": "Data availability loss ≥ 2 hours AND > 50 users"}
+      ]
+    },
+    "energy_electricity": {
+      "reference": "ILR/N22/4",
+      "competent_authority": "ILR",
+      "notification_deadlines": {
+        "pre_notification_hours": 24,
+        "full_notification_days": 15
+      },
+      "thresholds": {
+        "lv_pod": [
+          {"pods": 100, "duration_min": 60, "description": "≥ 100 LV-POD for ≥ 60 minutes"},
+          {"pods": 500, "duration_min": 30, "description": "≥ 500 LV-POD for ≥ 30 minutes"},
+          {"pods": 5000, "duration_min": 10, "description": "≥ 5,000 LV-POD for ≥ 10 minutes"},
+          {"pods": 10000, "duration_min": 5, "description": "≥ 10,000 LV-POD for ≥ 5 minutes"},
+          {"pods": 100000, "duration_min": 0, "description": "≥ 100,000 LV-POD, any duration"}
+        ],
+        "mv_pod": [
+          {"pods": 10, "duration_min": 30, "description": "≥ 10 MV-POD for ≥ 30 minutes"},
+          {"pods": 50, "duration_min": 10, "description": "≥ 50 MV-POD for ≥ 10 minutes"},
+          {"pods": 100, "duration_min": 5, "description": "≥ 100 MV-POD for ≥ 5 minutes"},
+          {"pods": 1000, "duration_min": 0, "description": "≥ 1,000 MV-POD, any duration"}
+        ],
+        "automatic": [
+          {"condition": "hv_ehv_transmission", "description": "Any incident on HV/EHV transmission network"},
+          {"condition": "scada_impact", "description": "Any incident impacting SCADA systems"},
+          {"condition": "cross_border", "description": "Any cross-border impact"}
+        ]
+      }
+    },
+    "health_hospital": {
+      "reference": "ILR/N22/5",
+      "competent_authority": "ILR",
+      "notification_deadlines": {
+        "pre_notification_hours": 24,
+        "full_notification_days": 15
+      },
+      "thresholds": [
+        {"type": "reversible_health_impact", "persons": 10, "description": "≥ 10 persons with reversible health impact"},
+        {"type": "irreversible_health_impact", "persons": 1, "description": "≥ 1 person with irreversible health impact (incl. death)"}
+      ]
+    },
+    "health_laboratory": {
+      "reference": "ILR/N22/5",
+      "competent_authority": "ILR",
+      "notification_deadlines": {
+        "pre_notification_hours": 24,
+        "full_notification_days": 15
+      },
+      "thresholds": [
+        {"type": "analyses_duration", "pct_min": 2, "pct_max": 10, "duration_days": 2, "description": "2-10% analyses affected for ≥ 2 days"},
+        {"type": "analyses_duration", "pct_min": 10, "pct_max": 50, "duration_days": 1, "description": "10-50% analyses affected for ≥ 1 day"},
+        {"type": "analyses_duration", "pct_min": 50, "pct_max": 100, "duration_hours": 4, "description": "50-100% analyses affected for ≥ 4 hours"},
+        {"type": "analyses_duration", "pct_min": 100, "pct_max": 100, "duration_hours": 2, "description": "100% analyses affected for ≥ 2 hours"},
+        {"type": "person_endangered", "persons": 1, "description": "≥ 1 person endangered"}
+      ]
+    },
+    "health_blood_transfusion": {
+      "reference": "ILR/N22/5",
+      "competent_authority": "ILR",
+      "notification_deadlines": {
+        "pre_notification_hours": 24,
+        "full_notification_days": 15
+      },
+      "thresholds": [
+        {"type": "reduced_delivery", "condition": "client_reduction_required", "description": "Reduced delivery capacity requiring client consumption reduction"},
+        {"type": "cross_border_support", "condition": "demands_unmet", "description": "Inability to meet demands requiring cross-border support"}
+      ]
+    },
+    "health_emergency_alert": {
+      "reference": "ILR/N22/5",
+      "competent_authority": "ILR",
+      "notification_deadlines": {
+        "pre_notification_hours": 24,
+        "full_notification_days": 15
+      },
+      "thresholds": [
+        {"type": "alert_delay", "delay_seconds": 60, "calls_pct": 20, "description": "≥ 60s delay for ≥ 20% emergency calls"},
+        {"type": "alert_delay", "delay_seconds": 90, "calls_pct": 5, "description": "≥ 90s delay for ≥ 5% emergency calls"},
+        {"type": "alert_delay", "delay_seconds": 120, "calls_pct": 1, "description": "≥ 120s delay for ≥ 1% emergency calls"},
+        {"type": "alert_delay", "delay_seconds": 180, "calls_pct": 0, "calls_abs": 1, "description": "≥ 180s delay for ≥ 1 call"}
+      ]
+    },
+    "health_emergency_response": {
+      "reference": "ILR/N22/5",
+      "competent_authority": "ILR",
+      "notification_deadlines": {
+        "pre_notification_hours": 24,
+        "full_notification_days": 15
+      },
+      "thresholds": [
+        {"type": "response_delay", "delay_minutes": 5, "interventions_pct": 20, "description": "≥ 5 min delay for ≥ 20% interventions"},
+        {"type": "response_delay", "delay_minutes": 10, "interventions_pct": 5, "description": "≥ 10 min delay for ≥ 5% interventions"},
+        {"type": "response_delay", "delay_minutes": 15, "interventions_pct": 1, "description": "≥ 15 min delay for ≥ 1% interventions"},
+        {"type": "response_delay", "delay_minutes": 20, "interventions_pct": 0, "interventions_abs": 1, "description": "≥ 20 min delay for ≥ 1 intervention"}
+      ]
+    },
+    "digital_infrastructure_ixp": {
+      "reference": "ILR/N22/6",
+      "note": "SUPERSEDED by IR thresholds for entities covered by Regulation (EU) 2024/2690. LU ILR/N22/6 thresholds retained for reference only.",
+      "superseded_by": "ir_incident_thresholds.json",
+      "competent_authority": "ILR",
+      "notification_deadlines": {
+        "pre_notification_hours": 24,
+        "full_notification_days": 15
+      },
+      "thresholds": [
+        {"type": "members_duration", "members_pct": 50, "duration_min": 0, "description": "≥ 50% members impacted, any duration"},
+        {"type": "members_duration", "members_pct_min": 30, "members_pct_max": 50, "duration_min": 30, "description": "30-50% members for ≥ 30 minutes"},
+        {"type": "members_duration", "members_pct_min": 10, "members_pct_max": 30, "duration_hours": 4, "description": "10-30% members for ≥ 4 hours"},
+        {"type": "members_duration", "members_pct_min": 1, "members_pct_max": 10, "duration_hours": 8, "description": "1-10% members for ≥ 8 hours"}
+      ]
+    },
+    "digital_infrastructure_dns": {
+      "reference": "ILR/N22/6",
+      "note": "SUPERSEDED by IR thresholds for entities covered by Regulation (EU) 2024/2690.",
+      "superseded_by": "ir_incident_thresholds.json",
+      "competent_authority": "ILR",
+      "notification_deadlines": {
+        "pre_notification_hours": 24,
+        "full_notification_days": 15
+      },
+      "thresholds": [
+        {"type": "total_unavailability", "domains_pct": 25, "traffic_drop_pct": 50, "duration_min": 0, "description": "Total unavailability: ≥ 25% domains OR ≥ 50% traffic, any duration"},
+        {"type": "significant", "domains_pct_min": 5, "domains_pct_max": 25, "traffic_pct_min": 10, "traffic_pct_max": 50, "servers_down": 3, "duration_min": 30, "description": "Significant: 5-25% domains OR 10-50% traffic OR 3 servers for ≥ 30 min"},
+        {"type": "medium", "domains_pct_min": 2, "domains_pct_max": 5, "traffic_pct_min": 5, "traffic_pct_max": 10, "servers_down": 2, "duration_min": 60, "description": "Medium: 2-5% domains OR 5-10% traffic OR 2 servers for ≥ 1 hour"},
+        {"type": "low", "domains_pct_min": 1, "domains_pct_max": 2, "traffic_pct_min": 1, "traffic_pct_max": 5, "servers_down": 1, "duration_hours": 6, "description": "Low: 1-2% domains OR 1-5% traffic OR 1 server for ≥ 6 hours"}
+      ]
+    },
+    "digital_infrastructure_lu_registry": {
+      "reference": "ILR/N22/6",
+      "note": "SUPERSEDED by IR thresholds for entities covered by Regulation (EU) 2024/2690.",
+      "superseded_by": "ir_incident_thresholds.json",
+      "competent_authority": "ILR",
+      "notification_deadlines": {
+        "pre_notification_hours": 24,
+        "full_notification_days": 15
+      },
+      "thresholds": [
+        {"type": "incorrect_zone_publication", "condition": "any", "description": "Any incorrect zone publication"},
+        {"type": "dnssec_key_compromise", "condition": "any", "description": "DNSSEC key compromise for .LU zone"},
+        {"type": "registration_chain_unavailable", "hours": 4, "description": "Registration chain unavailable > 4 hours"},
+        {"type": "authoritative_dns_unavailable", "hours": 4, "description": "Authoritative DNS server unavailable ≥ 4 hours"}
+      ]
+    }
+  },
+  "sector_mapping": {
+    "description": "Maps NIS2 sector identifiers to LU ILR threshold keys. Sectors not listed here fall back to EU NIS2 qualitative model.",
+    "energy": {
+      "electricity_undertaking": "energy_electricity",
+      "transmission_system_operator": "energy_electricity",
+      "distribution_system_operator": "energy_electricity",
+      "electricity_storage_operator": "energy_electricity",
+      "gas_undertaking": "energy_gas",
+      "gas_transmission_operator": "energy_gas",
+      "gas_distribution_operator": "energy_gas",
+      "gas_storage_operator": "energy_gas",
+      "lng_operator": "energy_gas"
+    },
+    "transport": {
+      "railway_undertaking": "transport_rail",
+      "infrastructure_manager_rail": "transport_rail",
+      "road_transport_authority": "transport_road",
+      "road_transport_operator": "transport_road",
+      "air_carrier": "transport_air",
+      "airport_operator": "transport_air",
+      "air_traffic_management": "transport_air"
+    },
+    "health": {
+      "healthcare_provider": "health_hospital",
+      "eu_reference_laboratory": "health_laboratory",
+      "medical_device_manufacturer": null,
+      "pharmaceutical_manufacturer": null
+    },
+    "drinking_water": {
+      "drinking_water_supplier": "drinking_water"
+    },
+    "digital_providers": {
+      "digital_service_provider": "digital_service_providers"
+    }
+  },
+  "non_covered_sectors": {
+    "description": "NIS2 sectors not covered by LU NIS1 ILR thresholds — fall back to EU NIS2 qualitative model. Banking/financial market use DORA instead.",
+    "fallback_to_nis2_ml": [
+      "waste_water",
+      "ict_service_management",
+      "public_administration",
+      "space",
+      "postal_and_courier",
+      "waste_management",
+      "manufacturing",
+      "chemicals",
+      "food",
+      "research"
+    ],
+    "dora_coverage": ["banking", "financial_market_infrastructure"]
+  }
+}
