@@ -126,6 +126,7 @@ These form a natural group with the secure notification channel (documented belo
 | 2 | Contextual (v4) | 81.5% macro F1 | > 75% | Met |
 | 2 | IR thresholds (v4) | 100% | 100% | Met |
 | 2 | LU national thresholds (v7) | 100% (20/20 curated) | 100% | Met |
+| 2 | BE national thresholds | 100% (10/10 curated) | 100% | Met |
 | 2 | Three-tier routing (v7) | 100% (20/20 curated) | 100% | Met |
 | National | LU HCPN crisis qualification (v8) | 100% (15/15 curated) | 100% | Met |
 | 3 | T-level (deterministic) | 100% | 100% | Met |
@@ -251,12 +252,14 @@ No debug logging in classification functions. Can't trace why an incident got T3
 
 ### New — National layer expansion
 
-#### 14. Second member state module
+#### ~~14. Second member state module~~ → completed
 
 The pluggable national module architecture (v7) is proven for Luxembourg. Adding a second MS (DE, FR, BE) would validate the pattern and surface any hidden coupling. Requires per-MS regulatory threshold data.
 
 **Effort:** Medium per MS — data curation is the bottleneck.
 **Expected gain:** Validates multi-MS architecture, expands coverage.
+
+**Status:** Completed — Belgium (CCB NIS2 v1.3) added as second national module. Horizontal thresholds: EUR 250K financial, 20% users/1h availability, malicious CIA compromise, third-party damage. DORA carve-out for banking. 10/10 curated scenarios passing.
 
 #### 15. HCPN cyber threat intelligence integration
 
