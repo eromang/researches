@@ -220,6 +220,68 @@ Current benchmark has 40 incidents. Expand to 100-200 from ENISA annual reports,
 | **Batch inference API** — batch endpoint for analysts processing incident queues | Low | Low |
 | **Ensemble with rule-based baseline** — regex/keyword scorer ensembled with model | Low | Low |
 
+### New — Technical debt (identified v8 review)
+
+#### 11. Input validation at MCP boundaries
+
+Tools accept `list[dict]` without schema validation. Missing keys cause silent failures or AttributeErrors. Add Pydantic models for all MCP inputs with consistent `ErrorResponse` schema.
+
+**Effort:** Medium — define models, update all tools.
+**Expected gain:** Robustness, better error messages for users.
+
+#### 12. Centralize hardcoded values
+
+MC passes (5), max length (192/256), confidence thresholds (0.3/0.7), `VALID_SECTORS`, `VALID_ENTITY_TYPES` are scattered across modules. Some are hardcoded in Python while the authoritative source is reference JSON.
+
+**Effort:** Low — extract to config module, load from reference data.
+**Expected gain:** Single source of truth, prevents drift.
+
+#### 13. Structured logging at decision points
+
+No debug logging in classification functions. Can't trace why an incident got T3 vs T2 without reading source. Add structured logging for routing decisions, criterion evaluations, escalation triggers.
+
+**Effort:** Low — add logging at key decision points.
+**Expected gain:** Operational observability for CSIRT analysts.
+
+### New — National layer expansion
+
+#### 14. Second member state module
+
+The pluggable national module architecture (v7) is proven for Luxembourg. Adding a second MS (DE, FR, BE) would validate the pattern and surface any hidden coupling. Requires per-MS regulatory threshold data.
+
+**Effort:** Medium per MS — data curation is the bottleneck.
+**Expected gain:** Validates multi-MS architecture, expands coverage.
+
+#### 15. HCPN cyber threat intelligence integration
+
+v8 threat qualification accepts probability as a bare analyst input. Could integrate with MISP or CIRCL threat intelligence feeds to suggest probability levels based on active indicators, TTPs, and threat actor attribution.
+
+**Effort:** Medium — MISP API integration + probability mapping.
+**Expected gain:** Evidence-based probability assessment vs pure analyst judgment.
+
+### New — Operational readiness
+
+#### 16. Real incident validation expansion
+
+v8 introduced 10 RETEX incidents (5 LU concordant). Target 50+ incidents from ENISA annual reports, EU-CyCLONe exercise debriefs, and vault RETEX notes. Quarterly benchmarking against real data.
+
+**Effort:** High — manual extraction + expert mapping.
+**Expected gain:** Confidence in production accuracy; identifies systematic rule gaps.
+
+#### 17. CSIRT operational pilot
+
+All validation is synthetic or retrospective. Deploy with a real CSIRT (CIRCL or GOVCERT.LU) for operational feedback. Collect authority corrections on classifications via the existing feedback store.
+
+**Effort:** High — deployment + partnership + feedback loops.
+**Expected gain:** Production-validated classifications, active learning data.
+
+#### 18. Temporal incident tracking
+
+Incidents evolve: early warning (24h) → notification (72h) → intermediate → final (1 month). CyberScale has no state management. Implement incident state machine with update history and evolving assessments.
+
+**Effort:** High — state machine + audit trail + schema design.
+**Expected gain:** New capability (incident lifecycle management).
+
 ---
 
 ## v3 — NIS2-aligned entity types (in progress)

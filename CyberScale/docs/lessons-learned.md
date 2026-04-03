@@ -214,3 +214,89 @@ The pattern is clear: each intervention yields less. The 62% ceiling is structur
 
 > [!check] v6 outcome
 > v6 is the final architecture-focused attempt on Phase 1. The multi-task model (without CPE) is kept as the v6 scorer. Future Phase 1 work should focus on data enrichment (exploit availability, patch analysis, advisory cross-referencing) rather than model architecture.
+
+
+## v7 lessons (Luxembourg national layer)
+
+
+## 30. Pluggable national module pattern scales without code changes
+
+v7 introduced `national/registry.py` with lazy-loading per member state. Adding Luxembourg required: (1) a JSON threshold file, (2) a Python assessment module, (3) one line in the registry. The three-tier router in `entity_incident.py` consumes it generically — no router code changes needed. This pattern is ready for other MS when their thresholds become available.
+
+> [!tip] Future implication
+> Adding a new member state (DE, FR, etc.) requires only data curation and a module implementing `is_covered()` + `assess_significance()`. The router, tests, and benchmarks are reusable. The bottleneck is regulatory data availability, not architecture.
+
+
+## 31. IR thresholds must take precedence over national thresholds
+
+LuxTrust is established in Luxembourg but is a trust service provider — an IR entity type (Art. 14). IR thresholds (EU-wide, 20-minute unavailability) take precedence over LU ILR thresholds. The three-tier router enforces this: IR → National → NIS2 ML. Getting this precedence wrong would under-escalate incidents at entities covered by the Implementing Regulation.
+
+> [!tip] Future implication
+> When adding national modules for new MS, the IR precedence check must remain the first tier. National thresholds only apply to entities NOT covered by the IR.
+
+
+## 32. Sector-specific input fields are essential for quantitative thresholds
+
+LU ILR thresholds are highly sector-specific: electricity uses points-of-delivery × duration matrices, rail uses train cancellation percentages, health uses reversible/irreversible person counts. The unified impact taxonomy (service_impact, data_impact, etc.) is necessary but insufficient — sector-specific fields via `sector_specific` dict are required for quantitative threshold evaluation.
+
+> [!tip] Future implication
+> Each national module may introduce new sector-specific fields. The `sector_specific` dict pattern accommodates this without changing the MCP tool signature. Document new fields in the threshold JSON.
+
+
+## 33. DORA entities require explicit routing, not fallback
+
+Luxembourg banking/financial entities fall under DORA (CSSF as competent authority), not ILR thresholds. Initially this was a fallback to NIS2 ML — v7 made it explicit: `is_lu_dora()` returns a result indicating DORA applicability with CSSF notification timeline, rather than silently falling through to the qualitative model.
+
+> [!check] v7 outcome
+> 20/20 curated LU scenarios correct. Three-tier routing 100%. 379 tests passing. The national layer is production-ready for Luxembourg.
+
+
+## v8 lessons (HCPN national crisis qualification)
+
+
+## 34. Crisis qualification scope is impact-on-country, not entity establishment
+
+The HCPN framework protects Luxembourg's vital interests regardless of where the entity is established. A cloud provider established in Ireland (`ms_established=IE`) with a major outage affecting Luxembourg banking is in scope. This is fundamentally different from v7 entity significance, which correctly uses `ms_established=LU` for ILR thresholds. The initial plan incorrectly scoped to `ms_established=LU` — design review caught this before implementation.
+
+> [!warning] Future implication
+> When building national crisis qualification for other MS, always scope to "impact on the country" not "entities established in the country." These are different populations of incidents.
+
+
+## 35. Delegated thresholds must return "undetermined", never invented values
+
+The HCPN Cadre national delegates several quantitative thresholds to sectoral authorities ("substantial portion of population", "significant duration", "critical financial threshold"). These are genuinely undefined — no numeric values exist. The initial plan invented a `_AFFECTED_PERSONS_CONSULTATION_FLOOR = 1000` heuristic. Design review rejected this: inventing thresholds the framework explicitly delegates violates the principle that the module evaluates what it can and flags what it can't.
+
+> [!tip] Future implication
+> When a regulatory framework delegates a threshold to another authority, return `undetermined` and recommend consultation. Never substitute an arbitrary value — that creates false precision and liability.
+
+
+## 36. Fast-track bypasses a criterion, it does not auto-satisfy it
+
+The HCPN fast-track provision (malicious unauthorized access with grave disruption) says "proceed directly to Criterion 3" — it skips Criterion 2, it does not satisfy it. The initial plan set Criterion 2 to `status="met"` with a fast-track label. Design review corrected this to `status="bypassed"` — semantically different for an analyst reading the output. The qualification check is `all(cr.is_met or cr.is_bypassed)`, not `all(cr.is_met)`.
+
+> [!check] v8 outcome
+> `CriterionResult` now has four states: met, not_met, undetermined, bypassed. This captures the full decision space of the framework. 15/15 curated scenarios correct, 5/5 real incidents concordant with actual outcomes.
+
+
+## 37. Real incident validation reveals the gap between synthetic and actual outcomes
+
+v8 introduced validation against 10 real RETEX incidents (5 LU, 5 international). All 5 Luxembourg incidents matched actual crisis activation outcomes. Key insight: the authority judgment inputs (`coordination_required`, `urgent_decisions_required`) are the decisive factors — when set to `null` (uncertain), the module correctly recommends consultation rather than guessing. LuxTrust (29h national outage, no crisis activation) and CTIE Malware (MDM compromise, investigation ongoing) both matched as "recommend consultation" — borderline cases where the framework cannot be applied mechanically.
+
+> [!tip] Future implication
+> Synthetic benchmarks validate deterministic logic. Real incident validation validates the mapping between framework criteria and actual outcomes. Both are necessary. Expand real incident dataset quarterly from RETEX analyses.
+
+
+## 38. Interdependent sector disruption should use the dependency graph, not simple counting
+
+The HCPN Criterion 2 "economic consequences" sub-criterion includes "major disruption of interdependent sectors." The initial plan used `len(essential_sectors_affected) >= 2`. Design review pointed to the existing `sector_dependencies.json` graph (v5) as the correct tool — it checks whether affected sectors actually have dependency relationships, not just whether multiple sectors happen to be affected. `energy + food` is different from `energy + transport` (which are interdependent).
+
+> [!check] v8 outcome
+> `_check_interdependent_sectors()` uses `_load_sector_dependencies()` from `aggregation.py` to check actual graph edges. The same reference data serves both Phase 3 cascading propagation and HCPN economic consequences evaluation.
+
+
+## 39. Large-scale cybersecurity incident = cross-border OR capacity exceeded
+
+The HCPN framework defines "incident transfrontalier majeur" as disruptions exceeding Luxembourg's response capacity OR significant impact on another MS. The initial plan only checked `cross_border`. Design review identified that capacity exceeded is a separate trigger — an incident can be large-scale without cross-border impact if Luxembourg simply can't handle it alone. Both `cross_border` and `capacity_exceeded` already exist in the CyberScale taxonomy (Phase 3 O-level derivation), so no new fields were needed.
+
+> [!tip] Future implication
+> Reuse existing taxonomy fields where possible. The unified impact taxonomy prevents field proliferation across layers.
