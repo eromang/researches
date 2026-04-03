@@ -1,0 +1,173 @@
+{
+  "version": "1.0",
+  "source": "Cadre national de qualification des incidents de cybersecurite et de cybermenaces nationales majeures (HCPN v1.0, 22.08.2025)",
+  "legal_basis": "Article 2(2), Loi du 23 juillet 2016",
+
+  "essential_services": {
+    "description": "CER essential services (EU Delegated Regulation 2023/2450) — Criterion 1 reference list. Extensible by competent authorities, CERC, or CC.",
+    "source": "EU Delegated Regulation (EU) 2023/2450",
+    "sectors": [
+      "energy",
+      "transport",
+      "banking",
+      "financial_market_infrastructures",
+      "health",
+      "drinking_water",
+      "waste_water",
+      "digital_infrastructure",
+      "public_administration",
+      "space"
+    ],
+    "note": "Scope is extensible — competent authorities, CERC, or CC may extend to any service whose disruption would harm vital interests, national security, public order, economic stability, or country continuity."
+  },
+
+  "incident_levels": [
+    {
+      "level": "large_scale_cybersecurity_incident",
+      "label": "Large-scale cybersecurity incident",
+      "activates_plan": true,
+      "description": "Disruptions exceeding Luxembourg's response capacity OR significant impact on at least one other Member State/third country"
+    },
+    {
+      "level": "national_major_incident",
+      "label": "National major incident",
+      "activates_plan": true,
+      "description": "Disruptions prejudicial to vital interests or essential needs of all or part of the country/population, requiring urgent decisions and coordination"
+    },
+    {
+      "level": "important_incident",
+      "label": "Important incident",
+      "activates_plan": false,
+      "description": "Serious operational disruption or financial losses for the entity; may affect other persons causing material/physical/moral damage"
+    },
+    {
+      "level": "incident",
+      "label": "Incident",
+      "activates_plan": false,
+      "description": "Compromise of CIA+A of data or services"
+    }
+  ],
+
+  "threat_levels": [
+    {
+      "level": "large_scale_cyber_threat",
+      "label": "Large-scale cyber threat",
+      "activates_plan": true,
+      "description": "Threat that could cause disruptions exceeding Luxembourg's response capacity OR significant potential impact on another Member State/third country"
+    },
+    {
+      "level": "national_major_cyber_threat",
+      "label": "National major cyber threat",
+      "activates_plan": true,
+      "description": "Threat that could cause disruptions prejudicial to vital interests or essential needs"
+    },
+    {
+      "level": "important_cyber_threat",
+      "label": "Important cyber threat",
+      "activates_plan": false,
+      "description": "Technical characteristics suggest grave potential impact"
+    },
+    {
+      "level": "cyber_threat",
+      "label": "Cyber threat",
+      "activates_plan": false,
+      "description": "Any potential circumstance/event/action capable of harming networks/information systems"
+    }
+  ],
+
+  "threat_probability_levels": {
+    "description": "Criterion 2 for threats — only High and Imminent qualify",
+    "levels": [
+      {"level": "low", "label": "Low", "qualifies": false, "description": "Theoretically possible, no active indicators"},
+      {"level": "moderate", "label": "Moderate", "qualifies": false, "description": "Some probability, not imminent"},
+      {"level": "high", "label": "High", "qualifies": true, "description": "Highly probable, could materialise short-term"},
+      {"level": "imminent", "label": "Imminent", "qualifies": true, "description": "About to materialise, immediate response required"}
+    ]
+  },
+
+  "criterion_2_sub_criteria": {
+    "description": "Prejudice to vital interests — at least one must be satisfied",
+    "sub_criteria": [
+      {
+        "id": "users_affected",
+        "label": "Users affected",
+        "description": "Affects substantial portion of national population or significant number of critical entities",
+        "threshold_defined": false,
+        "note": "Defined by sectoral authorities — no quantitative value in framework"
+      },
+      {
+        "id": "geographic_spread",
+        "label": "Geographic spread",
+        "description": "Simultaneous effects across significant geographic area, or cross-border propagation potential",
+        "threshold_defined": false,
+        "note": "Not explicitly quantified in framework"
+      },
+      {
+        "id": "service_interruption",
+        "label": "Service interruption",
+        "description": "Total interruption of essential service, OR severe degradation over significant duration",
+        "threshold_defined": "partial",
+        "note": "Total interruption is deterministic; 'significant duration' defined by sectoral authorities"
+      },
+      {
+        "id": "human_impact",
+        "label": "Human impact",
+        "description": "At least one death, OR serious injuries/health harm to multiple individuals",
+        "threshold_defined": true,
+        "thresholds": {"death": 1, "serious_injuries_multiple": true}
+      },
+      {
+        "id": "economic_consequences",
+        "label": "Economic consequences",
+        "description": "Direct financial losses exceeding critical threshold, OR major disruption of one/multiple interdependent sectors",
+        "threshold_defined": "partial",
+        "note": "Critical financial threshold defined by sectoral authorities; interdependent sector disruption evaluated via sector_dependencies.json"
+      },
+      {
+        "id": "national_security",
+        "label": "National security",
+        "description": "Affects defence/intelligence/sensitive government systems, OR involves state actor/terrorist group/hybrid operation",
+        "threshold_defined": true,
+        "trigger_sectors": ["public_administration"],
+        "trigger_actor_types": ["state_actor", "terrorist_group", "hybrid_operation"]
+      },
+      {
+        "id": "sensitive_data_loss",
+        "label": "Sensitive data loss",
+        "description": "Exfiltration, destruction, or alteration of sensitive government data, industrial secrets, or critical strategic data",
+        "threshold_defined": true,
+        "trigger_data_types": ["government_data", "industrial_secrets", "critical_strategic_data"]
+      }
+    ]
+  },
+
+  "cooperation_modes": {
+    "description": "Distinction rests on whether prejudice is actual (Crise) or potential (Alerte/CERC)",
+    "modes": [
+      {
+        "mode": "crise",
+        "label": "Crise",
+        "condition": "Event causes prejudice to vital interests",
+        "prejudice": "actual"
+      },
+      {
+        "mode": "alerte_cerc",
+        "label": "Alerte/CERC",
+        "condition": "Event could cause prejudice to vital interests",
+        "prejudice": "potential"
+      },
+      {
+        "mode": "permanent",
+        "label": "Permanent",
+        "condition": "Default state — no crisis qualification",
+        "prejudice": "none"
+      }
+    ]
+  },
+
+  "fast_track": {
+    "description": "If the incident constitutes unauthorised access, suspected malicious, likely to cause grave operational disruptions — skip Criterion 2 entirely, proceed directly to Criterion 3 (coordination and urgency)",
+    "conditions": ["suspected_malicious", "unauthorized_access", "grave_operational_disruption_likely"],
+    "criterion_2_status": "bypassed"
+  }
+}
