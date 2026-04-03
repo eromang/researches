@@ -151,8 +151,71 @@ class TestAssessEntityIncident:
         )
         assert result["significance"]["model"] == "nis2_ml"
 
-    def test_non_lu_entity_uses_nis2(self):
-        """Non-LU entity in covered sector uses NIS2 ML, not national."""
+    def test_be_entity_uses_national_thresholds(self):
+        """BE entity routes to Belgium national thresholds."""
+        from cyberscale.tools.entity_incident import _assess_entity_incident
+
+        mock_clf = MagicMock()
+        mock_clf.predict.return_value = ContextualResult(
+            severity="High", confidence="high",
+            key_factors=["energy sector", "malicious access"],
+        )
+        result = _assess_entity_incident(
+            mock_clf,
+            description="Malicious access to Belgian energy provider SCADA",
+            sector="energy",
+            entity_type="electricity_undertaking",
+            ms_established="BE",
+            suspected_malicious=True,
+            data_impact="accessed",
+        )
+        assert result["significance"]["model"] == "national_be_thresholds"
+        assert result["significance"]["significant_incident"] is True
+        assert any("malicious" in c.lower() for c in result["significance"]["triggered_criteria"])
+        assert result["significance"]["competent_authority"] == "CCB"
+
+    def test_be_ir_entity_bypasses_national(self):
+        """IR entities in BE still use IR thresholds, not BE national."""
+        from cyberscale.tools.entity_incident import _assess_entity_incident
+
+        mock_clf = MagicMock()
+        mock_clf.predict.return_value = ContextualResult(
+            severity="Critical", confidence="high",
+            key_factors=["digital_infrastructure sector"],
+        )
+        result = _assess_entity_incident(
+            mock_clf,
+            description="Cloud outage at Belgian provider",
+            sector="digital_infrastructure",
+            entity_type="cloud_computing_provider",
+            ms_established="BE",
+            service_impact="unavailable",
+        )
+        assert result["significance"]["model"] == "ir_thresholds"
+
+    def test_be_dora_entity_falls_to_nis2(self):
+        """DORA entities in BE are excluded from BE national — fall to NIS2 ML."""
+        from cyberscale.tools.entity_incident import _assess_entity_incident
+
+        mock_clf = MagicMock()
+        mock_clf.predict.return_value = ContextualResult(
+            severity="High", confidence="high",
+            key_factors=["banking sector"],
+        )
+        result = _assess_entity_incident(
+            mock_clf,
+            description="Belgian bank transaction disruption",
+            sector="banking",
+            entity_type="credit_institution",
+            ms_established="BE",
+            service_impact="unavailable",
+            financial_impact="severe",
+        )
+        # DORA entities excluded by is_be_covered → falls through to NIS2 ML
+        assert result["significance"]["model"] == "nis2_ml"
+
+    def test_no_national_module_falls_back_to_nis2(self):
+        """Entity in MS without national module uses NIS2 ML."""
         from cyberscale.tools.entity_incident import _assess_entity_incident
 
         mock_clf = MagicMock()

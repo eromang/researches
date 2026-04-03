@@ -102,6 +102,7 @@ def assess_be_significance(
     suspected_malicious: bool = False,
     cross_border: bool = False,
     trade_secret_exfiltration: bool = False,
+    sector_specific: dict | None = None,  # Accepted for router compatibility, not used
 ) -> BeSignificanceResult:
     """Assess incident significance against Belgium CCB horizontal thresholds.
 

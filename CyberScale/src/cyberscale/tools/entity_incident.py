@@ -131,6 +131,7 @@ def _assess_entity_incident(
                     safety_impact=safety_impact,
                     impact_duration_hours=impact_duration_hours,
                     cross_border=cross_border,
+                    suspected_malicious=suspected_malicious,
                     sector_specific=sector_specific,
                 )
                 significance = nat_result.to_dict()

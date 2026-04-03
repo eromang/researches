@@ -394,6 +394,7 @@ def assess_lu_significance(
     safety_impact: str = "none",
     impact_duration_hours: float = 0,
     cross_border: bool = False,
+    suspected_malicious: bool = False,  # Accepted for router compatibility
     # Sector-specific fields
     sector_specific: dict | None = None,
 ) -> LuSignificanceResult:
