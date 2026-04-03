@@ -34,16 +34,16 @@
       "description": "Severity of direct and indirect financial losses",
       "values": ["none", "minor", "significant", "severe"],
       "phases": {
-        "phase_2": {"used": false, "planned": "phase_b"},
-        "phase_3o": {"used": false, "planned": "phase_c"}
+        "phase_2": {"used": true, "planned": "phase_b"},
+        "phase_3o": {"used": true, "planned": "phase_c"}
       }
     },
     "safety_impact": {
       "description": "Impact on human health and safety",
       "values": ["none", "health_risk", "health_damage", "death"],
       "phases": {
-        "phase_2": {"used": false, "planned": "phase_b"},
-        "phase_3o": {"used": false, "planned": "phase_c"}
+        "phase_2": {"used": true, "planned": "phase_b"},
+        "phase_3o": {"used": true, "planned": "phase_c"}
       }
     },
     "affected_persons_count": {

@@ -25,6 +25,8 @@ model-index:
             value: 1.0
 ---
 
+> **DEPRECATED in v5** — This model is superseded by deterministic `derive_o_level()` rules in Phase 3. O-level inference uses no ML models. Retained for reference only.
+
 # CyberScale Operational Severity v1
 
 **Incident operational severity classifier (O1-O4).** Assesses consequence and coordination needs from a crisis management perspective.

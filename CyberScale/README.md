@@ -11,10 +11,12 @@ MCP Server (FastMCP)
   Phase 1: score_vulnerability, lookup_vulnerability, search_similar
   Phase 2: assess_contextual_severity (vulnerability mode)
            assess_entity_incident    (incident mode — entity-facing)
-  Phase 3: classify_incident, classify_incident_operational
-           assess_incident           (authority-facing, multi-entity)
-           assess_national_incident  (Phase 3a — single MS)
-           assess_eu_incident        (Phase 3b — CyCLONe Officers)
+  Phase 3: classify_incident          (deterministic T/O + Blueprint matrix)
+           assess_incident            (authority-facing, multi-entity)
+           assess_national_incident   (Phase 3a — single MS)
+           assess_eu_incident         (Phase 3b — CyCLONe Officers)
+  National: assess_lu_crisis_incident  (HCPN crisis qualification — incidents)
+            assess_lu_crisis_threat    (HCPN crisis qualification — threats)
   Infra:   refresh_store
 
 Models: 2x ModernBERT-base (Phase 1 scorer + Phase 2 contextual only)
@@ -26,7 +28,8 @@ Store:  ChromaDB vector store (vulnerability descriptions + embeddings)
 Matrix: Blueprint dual-scale incident classification (deterministic, 16-cell)
 APIs:   NVD v2.0 + EUVD (ENISA) + CIRCL VulnLookup
 Ref:    impact_taxonomy.json, ir_incident_thresholds.json, nis2_entity_types.json,
-        sector_dependencies.json
+        sector_dependencies.json,
+        lu_thresholds.json, be_thresholds.json, hcpn_crisis_qualification.json
 ```
 
 ### Three phases
@@ -252,11 +255,12 @@ When running as an MCP server (`poetry run cyberscale`), the following tools are
 | `search_similar` | 1 | Find similar vulnerabilities in ChromaDB |
 | `assess_contextual_severity` | 2 | Contextual severity with NIS2 sector + MS geography |
 | `assess_entity_incident` | 2 | Entity incident: severity + significance + early warning |
-| `classify_incident_operational` | 3 | Operational severity (O1-O4) with consequence dimensions |
 | `classify_incident` | 3 | Deterministic T-level + O-level + Blueprint matrix |
 | `assess_incident` | 3 | Authority pipeline: entity notifications → aggregation → classification |
 | `assess_national_incident` | 3a | National CSIRT: single-MS entity notifications → national classification |
 | `assess_eu_incident` | 3b | EU-CyCLONe: national classifications + CyCLONe Officer inputs → EU classification |
+| `assess_lu_crisis_incident` | National (HCPN) | Luxembourg crisis qualification: incident → HCPN criteria → cooperation mode |
+| `assess_lu_crisis_threat` | National (HCPN) | Luxembourg threat qualification: probability + criteria → cooperation mode |
 | `assess_full_pipeline` | All | Phase 1 -> 2 in one call |
 | `refresh_store` | Infra | Refresh ChromaDB vector store |
 

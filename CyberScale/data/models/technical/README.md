@@ -25,6 +25,8 @@ model-index:
             value: 1.0
 ---
 
+> **DEPRECATED in v4** — This model is superseded by deterministic `derive_t_level()` rules in Phase 3. T-level inference uses no ML models. Retained for reference only.
+
 # CyberScale Technical Severity v1
 
 **Incident technical severity classifier (T1-T4).** Assesses observable technical impact from a CSIRT perspective based on structured incident fields.
