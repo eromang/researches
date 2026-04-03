@@ -283,3 +283,129 @@ def evaluate_criterion_3(
         status="not_met",
         details=[f"Criterion 3 not met: {', '.join(reasons)}"],
     )
+
+
+# ---------------------------------------------------------------------------
+# Fast-track check
+# ---------------------------------------------------------------------------
+
+
+def _check_fast_track(
+    suspected_malicious: bool,
+    data_impact: str,
+    service_impact: str,
+) -> bool:
+    """Check if fast-track provision applies.
+
+    Fast-track: unauthorised access, suspected malicious, likely to cause
+    grave operational disruptions -> skip Criterion 2, go directly to Criterion 3.
+    """
+    return (
+        suspected_malicious
+        and data_impact in ("accessed", "exfiltrated", "compromised", "systemic")
+        and service_impact in ("unavailable", "sustained")
+    )
+
+
+# ---------------------------------------------------------------------------
+# Main incident qualification
+# ---------------------------------------------------------------------------
+
+
+def qualify_hcpn_incident(
+    sectors_affected: list[str],
+    entity_types: list[str],
+    safety_impact: str = "none",
+    service_impact: str = "none",
+    data_impact: str = "none",
+    financial_impact: str = "none",
+    affected_persons_count: int = 0,
+    cross_border: bool = False,
+    capacity_exceeded: bool = False,
+    threat_actor_type: str | None = None,
+    sensitive_data_type: str | None = None,
+    suspected_malicious: bool = False,
+    coordination_required: bool | None = None,
+    urgent_decisions_required: bool | None = None,
+    prejudice_actual: bool = False,
+) -> HcpnQualificationResult:
+    """Qualify an incident against HCPN crisis criteria.
+
+    Three cumulative criteria must be met:
+    1. Essential service affected
+    2. Prejudice to vital interests (at least one sub-criterion) — bypassed on fast-track
+    3. Coordination and decision urgency (both conditions)
+
+    Fast-track: malicious unauthorized access with grave disruption
+    bypasses Criterion 2 and goes directly to Criterion 3.
+
+    prejudice_actual: True if prejudice has already occurred (-> Crise),
+    False if prejudice is potential (-> Alerte/CERC).
+    """
+    criteria: dict[str, CriterionResult] = {}
+    consultation_reasons: list[str] = []
+
+    # Criterion 1
+    c1 = evaluate_criterion_1(sectors_affected, entity_types)
+    criteria["criterion_1"] = c1
+
+    # Fast-track check
+    fast_tracked = False
+    if c1.is_met and _check_fast_track(suspected_malicious, data_impact, service_impact):
+        fast_tracked = True
+        criteria["criterion_2"] = CriterionResult(
+            status="bypassed",
+            details=["Fast-track: malicious unauthorized access with grave operational disruption — Criterion 2 bypassed per framework provision, proceeding directly to Criterion 3"],
+        )
+    else:
+        # Criterion 2
+        c2 = evaluate_criterion_2(
+            safety_impact=safety_impact,
+            service_impact=service_impact,
+            data_impact=data_impact,
+            financial_impact=financial_impact,
+            sectors_affected=sectors_affected,
+            affected_persons_count=affected_persons_count,
+            cross_border=cross_border,
+            threat_actor_type=threat_actor_type,
+            sensitive_data_type=sensitive_data_type,
+        )
+        criteria["criterion_2"] = c2
+
+    # Criterion 3
+    c3 = evaluate_criterion_3(coordination_required, urgent_decisions_required)
+    criteria["criterion_3"] = c3
+
+    # Collect undetermined criteria for consultation recommendation
+    for name, cr in criteria.items():
+        if cr.is_undetermined:
+            consultation_reasons.extend(
+                f"{name}: {d}" for d in cr.details
+            )
+
+    # Determine qualification: all criteria must be met or bypassed
+    all_satisfied = all(
+        cr.is_met or cr.is_bypassed for cr in criteria.values()
+    )
+    any_undetermined = any(cr.is_undetermined for cr in criteria.values())
+
+    if all_satisfied:
+        if cross_border or capacity_exceeded:
+            level = "large_scale_cybersecurity_incident"
+        else:
+            level = "national_major_incident"
+        mode = "crise" if prejudice_actual else "alerte_cerc"
+    else:
+        level = "none"
+        mode = "permanent"
+
+    return HcpnQualificationResult(
+        qualifies=all_satisfied,
+        qualification_level=level,
+        cooperation_mode=mode,
+        criteria=criteria,
+        fast_tracked=fast_tracked,
+        recommend_consultation=any_undetermined,
+        consultation_reasons=consultation_reasons,
+        event_type="incident",
+    )

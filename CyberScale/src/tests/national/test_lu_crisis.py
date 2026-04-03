@@ -10,6 +10,7 @@ from cyberscale.national.lu_crisis import (
     evaluate_criterion_1,
     evaluate_criterion_2,
     evaluate_criterion_3,
+    qualify_hcpn_incident,
 )
 
 
@@ -192,3 +193,89 @@ class TestCriterion3CoordinationUrgency:
     def test_both_uncertain_undetermined(self):
         result = evaluate_criterion_3(coordination_required=None, urgent_decisions_required=None)
         assert result.status == "undetermined"
+
+
+class TestQualifyHcpnIncident:
+    """Full incident qualification: all 3 criteria must be met (or C2 bypassed via fast-track)."""
+
+    def test_all_criteria_met_national_crisis(self):
+        result = qualify_hcpn_incident(
+            sectors_affected=["energy"], entity_types=["electricity_undertaking"],
+            safety_impact="death", service_impact="unavailable",
+            coordination_required=True, urgent_decisions_required=True, prejudice_actual=True,
+        )
+        assert result.qualifies is True
+        assert result.qualification_level == "national_major_incident"
+        assert result.cooperation_mode == "crise"
+        assert result.criteria["criterion_1"].status == "met"
+        assert result.criteria["criterion_2"].status == "met"
+        assert result.criteria["criterion_3"].status == "met"
+
+    def test_all_criteria_met_potential_prejudice_alerte(self):
+        result = qualify_hcpn_incident(
+            sectors_affected=["health"], entity_types=[],
+            safety_impact="health_damage", service_impact="unavailable",
+            coordination_required=True, urgent_decisions_required=True, prejudice_actual=False,
+        )
+        assert result.qualifies is True
+        assert result.cooperation_mode == "alerte_cerc"
+
+    def test_cross_border_qualifies_large_scale(self):
+        result = qualify_hcpn_incident(
+            sectors_affected=["energy"], entity_types=[],
+            safety_impact="death", service_impact="unavailable",
+            cross_border=True,
+            coordination_required=True, urgent_decisions_required=True, prejudice_actual=True,
+        )
+        assert result.qualifies is True
+        assert result.qualification_level == "large_scale_cybersecurity_incident"
+        assert result.cooperation_mode == "crise"
+
+    def test_capacity_exceeded_qualifies_large_scale(self):
+        result = qualify_hcpn_incident(
+            sectors_affected=["energy"], entity_types=[],
+            safety_impact="death", service_impact="unavailable",
+            capacity_exceeded=True,
+            coordination_required=True, urgent_decisions_required=True, prejudice_actual=True,
+        )
+        assert result.qualifies is True
+        assert result.qualification_level == "large_scale_cybersecurity_incident"
+
+    def test_criterion_1_not_met_does_not_qualify(self):
+        result = qualify_hcpn_incident(
+            sectors_affected=["food"], entity_types=[],
+            safety_impact="death", service_impact="unavailable",
+            coordination_required=True, urgent_decisions_required=True, prejudice_actual=True,
+        )
+        assert result.qualifies is False
+        assert result.qualification_level == "none"
+        assert result.cooperation_mode == "permanent"
+
+    def test_criterion_3_not_met_does_not_qualify(self):
+        result = qualify_hcpn_incident(
+            sectors_affected=["energy"], entity_types=[],
+            safety_impact="death", service_impact="unavailable",
+            coordination_required=False, urgent_decisions_required=False, prejudice_actual=True,
+        )
+        assert result.qualifies is False
+
+    def test_undetermined_criterion_recommends_consultation(self):
+        result = qualify_hcpn_incident(
+            sectors_affected=["energy"], entity_types=[],
+            service_impact="degraded",
+            coordination_required=True, urgent_decisions_required=True, prejudice_actual=False,
+        )
+        assert result.recommend_consultation is True
+        assert len(result.consultation_reasons) > 0
+
+    def test_fast_track_bypasses_criterion_2(self):
+        result = qualify_hcpn_incident(
+            sectors_affected=["digital_infrastructure"], entity_types=[],
+            service_impact="unavailable", data_impact="accessed",
+            suspected_malicious=True,
+            coordination_required=True, urgent_decisions_required=True, prejudice_actual=True,
+        )
+        assert result.fast_tracked is True
+        assert result.qualifies is True
+        assert result.criteria["criterion_2"].status == "bypassed"
+        assert any("fast-track" in d.lower() for d in result.criteria["criterion_2"].details)
