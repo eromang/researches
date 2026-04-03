@@ -1,0 +1,123 @@
+{
+  "version": "1.0",
+  "description": "10 curated Belgium incident scenarios for national threshold benchmark.",
+  "scenarios": [
+    {
+      "id": "BE-01",
+      "name": "Malicious access to energy SCADA — significant",
+      "entity_type": "electricity_undertaking",
+      "sector": "energy",
+      "ms_established": "BE",
+      "suspected_malicious": true,
+      "data_impact": "accessed",
+      "expected_model": "national_be_thresholds",
+      "expected_significant": true,
+      "expected_criteria_contains": "malicious"
+    },
+    {
+      "id": "BE-02",
+      "name": "Hospital 30% users down 2h — significant (availability)",
+      "entity_type": "healthcare_provider",
+      "sector": "health",
+      "ms_established": "BE",
+      "service_impact": "degraded",
+      "affected_persons_pct": 30.0,
+      "impact_duration_hours": 2.0,
+      "expected_model": "national_be_thresholds",
+      "expected_significant": true,
+      "expected_criteria_contains": "availability"
+    },
+    {
+      "id": "BE-03",
+      "name": "Transport severe financial loss — significant",
+      "entity_type": "railway_undertaking",
+      "sector": "transport",
+      "ms_established": "BE",
+      "financial_impact": "severe",
+      "expected_model": "national_be_thresholds",
+      "expected_significant": true,
+      "expected_criteria_contains": "financial"
+    },
+    {
+      "id": "BE-04",
+      "name": "Energy incident with death — significant (third-party)",
+      "entity_type": "electricity_undertaking",
+      "sector": "energy",
+      "ms_established": "BE",
+      "safety_impact": "death",
+      "expected_model": "national_be_thresholds",
+      "expected_significant": true,
+      "expected_criteria_contains": "death"
+    },
+    {
+      "id": "BE-05",
+      "name": "Cloud provider — IR entity, bypasses BE",
+      "entity_type": "cloud_computing_provider",
+      "sector": "digital_infrastructure",
+      "ms_established": "BE",
+      "service_impact": "unavailable",
+      "impact_duration_hours": 1.0,
+      "suspected_malicious": true,
+      "expected_model": "ir_thresholds",
+      "expected_significant": true
+    },
+    {
+      "id": "BE-06",
+      "name": "Bank — DORA entity, excluded from NIS2",
+      "entity_type": "credit_institution",
+      "sector": "banking",
+      "ms_established": "BE",
+      "service_impact": "unavailable",
+      "financial_impact": "severe",
+      "expected_model": "national_be_thresholds",
+      "expected_significant": false
+    },
+    {
+      "id": "BE-07",
+      "name": "Energy 15% users down 3h — not significant (below 20%)",
+      "entity_type": "electricity_undertaking",
+      "sector": "energy",
+      "ms_established": "BE",
+      "service_impact": "degraded",
+      "affected_persons_pct": 15.0,
+      "impact_duration_hours": 3.0,
+      "expected_model": "national_be_thresholds",
+      "expected_significant": false
+    },
+    {
+      "id": "BE-08",
+      "name": "Manufacturing total outage 1.5h — significant (availability 100%)",
+      "entity_type": "machinery_manufacturer",
+      "sector": "manufacturing",
+      "ms_established": "BE",
+      "service_impact": "unavailable",
+      "impact_duration_hours": 1.5,
+      "expected_model": "national_be_thresholds",
+      "expected_significant": true,
+      "expected_criteria_contains": "availability"
+    },
+    {
+      "id": "BE-09",
+      "name": "Trade secret exfiltration — significant (financial)",
+      "entity_type": "chemicals_manufacturer",
+      "sector": "chemicals",
+      "ms_established": "BE",
+      "data_impact": "exfiltrated",
+      "trade_secret_exfiltration": true,
+      "expected_model": "national_be_thresholds",
+      "expected_significant": true,
+      "expected_criteria_contains": "trade secret"
+    },
+    {
+      "id": "BE-10",
+      "name": "Minor incident no criteria met — not significant",
+      "entity_type": "electricity_undertaking",
+      "sector": "energy",
+      "ms_established": "BE",
+      "service_impact": "partial",
+      "financial_impact": "minor",
+      "expected_model": "national_be_thresholds",
+      "expected_significant": false
+    }
+  ]
+}
