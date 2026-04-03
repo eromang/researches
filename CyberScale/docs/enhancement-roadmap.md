@@ -4,6 +4,20 @@ Concrete enhancement paths prioritised by expected impact. Updated after v5 impl
 
 ---
 
+## v8 completed (2026-04-03)
+
+| Enhancement | Layer | Result |
+|-------------|-------|--------|
+| HCPN national crisis qualification (incidents) | National | 3 cumulative criteria, fast-track provision, cooperation mode |
+| HCPN national crisis qualification (threats) | National | 4 cumulative criteria (adds probability assessment) |
+| Large-scale determination | National | cross_border OR capacity_exceeded -> large_scale level |
+| Undetermined criteria handling | National | Explicit "undetermined"/"bypassed" for delegated thresholds, recommend_consultation |
+| Sector dependency graph for interdependency check | National | Uses existing sector_dependencies.json for economic consequences sub-criterion |
+| Curated HCPN scenarios (15) | National | 15/15 correct (10 incidents + 5 threats) |
+| MCP tools: assess_lu_crisis_incident, assess_lu_crisis_threat | National | Authority-level tools scoped to impact on Luxembourg |
+
+---
+
 ## v4 completed (2026-04-01)
 
 | Enhancement | Phase | Result |
@@ -104,7 +118,7 @@ These form a natural group with the secure notification channel (documented belo
 
 ---
 
-## Current model performance (v7)
+## Current model performance (v8)
 
 | Phase | Model | Key metric | Target | Status |
 |-------|-------|------------|--------|--------|
@@ -113,6 +127,7 @@ These form a natural group with the secure notification channel (documented belo
 | 2 | IR thresholds (v4) | 100% | 100% | Met |
 | 2 | LU national thresholds (v7) | 100% (20/20 curated) | 100% | Met |
 | 2 | Three-tier routing (v7) | 100% (20/20 curated) | 100% | Met |
+| National | LU HCPN crisis qualification (v8) | 100% (15/15 curated) | 100% | Met |
 | 3 | T-level (deterministic) | 100% | 100% | Met |
 | 3 | O-level (deterministic) | 100% | 100% | Met |
 | 3 | Matrix end-to-end (deterministic) | 100% | > 70% | Met |
