@@ -11,6 +11,8 @@ from cyberscale.national.lu_crisis import (
     evaluate_criterion_2,
     evaluate_criterion_3,
     qualify_hcpn_incident,
+    evaluate_threat_probability,
+    qualify_hcpn_threat,
 )
 
 
@@ -279,3 +281,87 @@ class TestQualifyHcpnIncident:
         assert result.qualifies is True
         assert result.criteria["criterion_2"].status == "bypassed"
         assert any("fast-track" in d.lower() for d in result.criteria["criterion_2"].details)
+
+
+class TestThreatProbability:
+    """Criterion 2 (threats): Only High and Imminent qualify."""
+
+    def test_high_qualifies(self):
+        result = evaluate_threat_probability("high")
+        assert result.status == "met"
+
+    def test_imminent_qualifies(self):
+        result = evaluate_threat_probability("imminent")
+        assert result.status == "met"
+
+    def test_moderate_does_not_qualify(self):
+        result = evaluate_threat_probability("moderate")
+        assert result.status == "not_met"
+
+    def test_low_does_not_qualify(self):
+        result = evaluate_threat_probability("low")
+        assert result.status == "not_met"
+
+    def test_unknown_does_not_qualify(self):
+        result = evaluate_threat_probability("unknown")
+        assert result.status == "not_met"
+
+
+class TestQualifyHcpnThreat:
+    """Full threat qualification: all 4 criteria must be met."""
+
+    def test_all_criteria_met_national_threat(self):
+        result = qualify_hcpn_threat(
+            sectors_affected=["energy"], entity_types=[],
+            threat_probability="high",
+            safety_impact="death", service_impact="unavailable",
+            threat_actor_type="state_actor",
+            coordination_required=True, urgent_decisions_required=True, prejudice_actual=False,
+        )
+        assert result.qualifies is True
+        assert result.qualification_level == "national_major_cyber_threat"
+        assert result.cooperation_mode == "alerte_cerc"
+        assert result.event_type == "threat"
+
+    def test_low_probability_does_not_qualify(self):
+        result = qualify_hcpn_threat(
+            sectors_affected=["energy"], entity_types=[],
+            threat_probability="low",
+            safety_impact="death", service_impact="unavailable",
+            coordination_required=True, urgent_decisions_required=True, prejudice_actual=False,
+        )
+        assert result.qualifies is False
+
+    def test_cross_border_threat_large_scale(self):
+        result = qualify_hcpn_threat(
+            sectors_affected=["digital_infrastructure"], entity_types=[],
+            threat_probability="imminent",
+            service_impact="unavailable", data_impact="compromised", financial_impact="severe",
+            cross_border=True,
+            threat_actor_type="state_actor", sensitive_data_type="government_data",
+            coordination_required=True, urgent_decisions_required=True, prejudice_actual=True,
+        )
+        assert result.qualifies is True
+        assert result.qualification_level == "large_scale_cyber_threat"
+        assert result.cooperation_mode == "crise"
+
+    def test_capacity_exceeded_threat_large_scale(self):
+        result = qualify_hcpn_threat(
+            sectors_affected=["energy"], entity_types=[],
+            threat_probability="imminent",
+            safety_impact="death", service_impact="unavailable",
+            capacity_exceeded=True,
+            threat_actor_type="state_actor",
+            coordination_required=True, urgent_decisions_required=True, prejudice_actual=True,
+        )
+        assert result.qualifies is True
+        assert result.qualification_level == "large_scale_cyber_threat"
+
+    def test_moderate_probability_does_not_qualify(self):
+        result = qualify_hcpn_threat(
+            sectors_affected=["health"], entity_types=[],
+            threat_probability="moderate",
+            safety_impact="health_damage", service_impact="unavailable", financial_impact="significant",
+            coordination_required=True, urgent_decisions_required=True, prejudice_actual=False,
+        )
+        assert result.qualifies is False

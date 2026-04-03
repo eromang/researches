@@ -409,3 +409,121 @@ def qualify_hcpn_incident(
         consultation_reasons=consultation_reasons,
         event_type="incident",
     )
+
+
+# ---------------------------------------------------------------------------
+# Threat probability assessment (Criterion 2 for threats)
+# ---------------------------------------------------------------------------
+
+
+def evaluate_threat_probability(probability: str) -> CriterionResult:
+    """Evaluate threat probability — only High and Imminent qualify."""
+    data = _load()
+    levels = data["threat_probability_levels"]["levels"]
+    level_map = {lv["level"]: lv for lv in levels}
+
+    if probability not in level_map:
+        return CriterionResult(
+            status="not_met",
+            details=[f"Unknown probability level: {probability}"],
+        )
+
+    lv = level_map[probability]
+    if lv["qualifies"]:
+        return CriterionResult(
+            status="met",
+            details=[f"Threat probability: {lv['label']} ({probability}) — qualifies"],
+        )
+    return CriterionResult(
+        status="not_met",
+        details=[f"Threat probability: {lv['label']} ({probability}) — does not qualify (only High/Imminent qualify)"],
+    )
+
+
+# ---------------------------------------------------------------------------
+# Main threat qualification
+# ---------------------------------------------------------------------------
+
+
+def qualify_hcpn_threat(
+    sectors_affected: list[str],
+    entity_types: list[str],
+    threat_probability: str,
+    safety_impact: str = "none",
+    service_impact: str = "none",
+    data_impact: str = "none",
+    financial_impact: str = "none",
+    affected_persons_count: int = 0,
+    cross_border: bool = False,
+    capacity_exceeded: bool = False,
+    threat_actor_type: str | None = None,
+    sensitive_data_type: str | None = None,
+    coordination_required: bool | None = None,
+    urgent_decisions_required: bool | None = None,
+    prejudice_actual: bool = False,
+) -> HcpnQualificationResult:
+    """Qualify a cyber threat against HCPN crisis criteria.
+
+    Four cumulative criteria (same three as incidents + probability):
+    1. Essential service targeted
+    2. Probability of materialisation (High or Imminent)
+    3. Potential prejudice to vital interests (same 7 sub-criteria)
+    4. Coordination and decision urgency
+    """
+    criteria: dict[str, CriterionResult] = {}
+    consultation_reasons: list[str] = []
+
+    # Criterion 1: Essential service targeted
+    c1 = evaluate_criterion_1(sectors_affected, entity_types)
+    criteria["criterion_1"] = c1
+
+    # Criterion 2 (threat-specific): Probability
+    c2_prob = evaluate_threat_probability(threat_probability)
+    criteria["criterion_2_probability"] = c2_prob
+
+    # Criterion 3: Potential prejudice to vital interests
+    c3 = evaluate_criterion_2(
+        safety_impact=safety_impact,
+        service_impact=service_impact,
+        data_impact=data_impact,
+        financial_impact=financial_impact,
+        sectors_affected=sectors_affected,
+        affected_persons_count=affected_persons_count,
+        cross_border=cross_border,
+        threat_actor_type=threat_actor_type,
+        sensitive_data_type=sensitive_data_type,
+    )
+    criteria["criterion_3_prejudice"] = c3
+
+    # Criterion 4: Coordination and decision urgency
+    c4 = evaluate_criterion_3(coordination_required, urgent_decisions_required)
+    criteria["criterion_4_urgency"] = c4
+
+    # Collect undetermined
+    for name, cr in criteria.items():
+        if cr.is_undetermined:
+            consultation_reasons.extend(f"{name}: {d}" for d in cr.details)
+
+    all_met = all(cr.is_met for cr in criteria.values())
+    any_undetermined = any(cr.is_undetermined for cr in criteria.values())
+
+    if all_met:
+        if cross_border or capacity_exceeded:
+            level = "large_scale_cyber_threat"
+        else:
+            level = "national_major_cyber_threat"
+        mode = "crise" if prejudice_actual else "alerte_cerc"
+    else:
+        level = "none"
+        mode = "permanent"
+
+    return HcpnQualificationResult(
+        qualifies=all_met,
+        qualification_level=level,
+        cooperation_mode=mode,
+        criteria=criteria,
+        fast_tracked=False,
+        recommend_consultation=any_undetermined,
+        consultation_reasons=consultation_reasons,
+        event_type="threat",
+    )
