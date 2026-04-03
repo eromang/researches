@@ -13,51 +13,15 @@ from typing import Optional
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-
-VALID_SECTORS = {
-    "energy", "transport", "banking", "financial_market", "health",
-    "drinking_water", "waste_water", "digital_infrastructure",
-    "ict_service_management", "public_administration", "space",
-    "postal", "waste_management", "manufacturing", "chemicals",
-    "food", "digital_providers", "research", "non_nis2",
-}
-
-VALID_ENTITY_TYPES = {
-    # Annex I — Essential
-    "electricity_undertaking", "distribution_system_operator", "transmission_system_operator",
-    "oil_undertaking", "gas_undertaking", "hydrogen_operator", "district_heating_operator",
-    "electricity_market_operator",
-    "air_carrier", "airport_operator", "traffic_management_operator", "rail_infrastructure_manager",
-    "railway_undertaking", "shipping_company", "port_operator", "inland_waterway_operator",
-    "road_authority", "its_operator",
-    "credit_institution",
-    "trading_venue_operator", "central_counterparty",
-    "healthcare_provider", "eu_reference_laboratory", "pharma_rd_manufacturer", "medical_device_manufacturer",
-    "drinking_water_supplier",
-    "waste_water_operator",
-    "ixp_operator", "dns_service_provider", "tld_registry", "cloud_computing_provider",
-    "data_centre_operator", "cdn_provider", "trust_service_provider",
-    "public_ecn_provider", "public_ecs_provider",
-    "managed_service_provider", "managed_security_service_provider",
-    "central_government_entity", "regional_government_entity",
-    "space_operator",
-    # Annex II — Important
-    "postal_service_provider", "courier_service_provider",
-    "waste_management_operator",
-    "medical_device_manufacturer_ii", "machinery_manufacturer", "motor_vehicle_manufacturer",
-    "electrical_equipment_manufacturer",
-    "chemicals_manufacturer", "chemicals_distributor",
-    "food_producer", "food_distributor",
-    "online_marketplace_provider", "search_engine_provider", "social_network_provider",
-    "research_organisation",
-    # Non-NIS2
-    "generic_enterprise", "generic_sme", "generic_individual",
-}
-
-VALID_SERVICE_IMPACT = {"none", "partial", "degraded", "unavailable", "sustained"}
-VALID_DATA_IMPACT = {"none", "accessed", "exfiltrated", "compromised", "systemic"}
-VALID_FINANCIAL_IMPACT = {"none", "minor", "significant", "severe"}
-VALID_SAFETY_IMPACT = {"none", "health_risk", "health_damage", "death"}
+from cyberscale.config import (
+    VALID_SECTORS,
+    VALID_ENTITY_TYPES,
+    VALID_SERVICE_IMPACT,
+    VALID_DATA_IMPACT,
+    VALID_FINANCIAL_IMPACT,
+    VALID_SAFETY_IMPACT,
+    max_prob_to_confidence,
+)
 
 LABEL_MAP = {0: "Low", 1: "Medium", 2: "High", 3: "Critical"}
 
@@ -317,9 +281,4 @@ class ContextualClassifier:
 
     @staticmethod
     def max_prob_to_confidence(max_prob: float) -> str:
-        """Map maximum class probability to a confidence label."""
-        if max_prob > 0.7:
-            return "high"
-        if max_prob > 0.4:
-            return "medium"
-        return "low"
+        return max_prob_to_confidence(max_prob)

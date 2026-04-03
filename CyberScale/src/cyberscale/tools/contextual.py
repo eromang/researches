@@ -6,6 +6,8 @@ from pathlib import Path
 
 from fastmcp import FastMCP
 
+from cyberscale.config import VALID_SECTORS
+
 
 # ---------------------------------------------------------------------------
 # Lazy model loading
@@ -28,14 +30,6 @@ def _get_classifier():
 # ---------------------------------------------------------------------------
 # Sector validation
 # ---------------------------------------------------------------------------
-
-VALID_SECTORS = {
-    "energy", "transport", "banking", "financial_market", "health",
-    "drinking_water", "waste_water", "digital_infrastructure",
-    "ict_service_management", "public_administration", "space",
-    "postal", "waste_management", "manufacturing", "chemicals",
-    "food", "digital_providers", "research", "non_nis2",
-}
 
 
 def _validate_sector(sector: str) -> tuple[bool, str]:
