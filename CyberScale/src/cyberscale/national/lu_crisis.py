@@ -15,8 +15,11 @@ when uncertain.
 from __future__ import annotations
 
 import json
+import logging
 from dataclasses import dataclass, field
 from pathlib import Path
+
+logger = logging.getLogger("cyberscale.national.lu_crisis")
 
 
 _REF_PATH = (
@@ -384,6 +387,13 @@ def qualify_hcpn_incident(
             )
 
     # Determine qualification: all criteria must be met or bypassed
+    logger.info(
+        "hcpn_incident: c1=%s c2=%s c3=%s fast_track=%s",
+        criteria["criterion_1"].status,
+        criteria["criterion_2"].status,
+        criteria["criterion_3"].status,
+        fast_tracked,
+    )
     all_satisfied = all(
         cr.is_met or cr.is_bypassed for cr in criteria.values()
     )
@@ -399,6 +409,10 @@ def qualify_hcpn_incident(
         level = "none"
         mode = "permanent"
 
+    logger.info(
+        "hcpn_incident result: qualifies=%s level=%s mode=%s consult=%s",
+        all_satisfied, level, mode, any_undetermined,
+    )
     return HcpnQualificationResult(
         qualifies=all_satisfied,
         qualification_level=level,
@@ -517,6 +531,17 @@ def qualify_hcpn_threat(
         level = "none"
         mode = "permanent"
 
+    logger.info(
+        "hcpn_threat: c1=%s c2_prob=%s c3_prejudice=%s c4_urgency=%s",
+        criteria["criterion_1"].status,
+        criteria["criterion_2_probability"].status,
+        criteria["criterion_3_prejudice"].status,
+        criteria["criterion_4_urgency"].status,
+    )
+    logger.info(
+        "hcpn_threat result: qualifies=%s level=%s mode=%s consult=%s",
+        all_met, level, mode, any_undetermined,
+    )
     return HcpnQualificationResult(
         qualifies=all_met,
         qualification_level=level,

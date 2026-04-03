@@ -14,8 +14,11 @@ Produces:
 from __future__ import annotations
 
 import json
+import logging
 from dataclasses import dataclass, field
 from pathlib import Path
+
+logger = logging.getLogger("cyberscale.aggregation")
 
 
 # Ordered severity scales for worst-case selection
@@ -78,7 +81,13 @@ def propagate_cascading(
             for downstream in sector_deps.get("indirect", []):
                 all_sectors.add(downstream)
 
-    return all_sectors, _derive_cascading_from_count(len(all_sectors))
+    cascading_level = _derive_cascading_from_count(len(all_sectors))
+    if all_sectors - impacted_sectors:
+        logger.info(
+            "cascading propagation: %s -> %s (level=%s)",
+            impacted_sectors, all_sectors - impacted_sectors, cascading_level,
+        )
+    return all_sectors, cascading_level
 
 
 def _derive_cascading_from_count(sectors_affected: int) -> str:
@@ -135,44 +144,56 @@ def derive_t_level(
     # T4: sustained OR systemic data OR (unavailable + uncontrolled)
     if service_impact == "sustained":
         basis.append("sustained service impact")
+        logger.info("derive_t_level: %s basis=%s", "T4", basis)
         return "T4", basis
     if data_impact == "systemic":
         basis.append("systemic data impact")
+        logger.info("derive_t_level: %s basis=%s", "T4", basis)
         return "T4", basis
     if service_impact == "unavailable" and cascading == "uncontrolled":
         basis.append("unavailable service + uncontrolled cascading")
+        logger.info("derive_t_level: %s basis=%s", "T4", basis)
         return "T4", basis
 
     # T3: unavailable OR exfiltrated OR cross_sector cascading OR entities > 50
     if service_impact == "unavailable":
         basis.append("unavailable service impact")
+        logger.info("derive_t_level: %s basis=%s", "T3", basis)
         return "T3", basis
     if data_impact == "exfiltrated":
         basis.append("exfiltrated data impact")
+        logger.info("derive_t_level: %s basis=%s", "T3", basis)
         return "T3", basis
     if cascading == "cross_sector":
         basis.append("cross-sector cascading")
+        logger.info("derive_t_level: %s basis=%s", "T3", basis)
         return "T3", basis
     if affected_entities > 50:
         basis.append(f"{affected_entities} entities affected")
+        logger.info("derive_t_level: %s basis=%s", "T3", basis)
         return "T3", basis
 
     # T2: degraded OR accessed/compromised OR limited cascading OR entities > 10
     if service_impact == "degraded":
         basis.append("degraded service impact")
+        logger.info("derive_t_level: %s basis=%s", "T2", basis)
         return "T2", basis
     if data_impact in ("accessed", "compromised"):
         basis.append(f"{data_impact} data impact")
+        logger.info("derive_t_level: %s basis=%s", "T2", basis)
         return "T2", basis
     if cascading == "limited":
         basis.append("limited cascading")
+        logger.info("derive_t_level: %s basis=%s", "T2", basis)
         return "T2", basis
     if affected_entities > 10:
         basis.append(f"{affected_entities} entities affected")
+        logger.info("derive_t_level: %s basis=%s", "T2", basis)
         return "T2", basis
 
     # T1
     basis.append("below escalation thresholds")
+    logger.info("derive_t_level: %s basis=%s", "T1", basis)
     return "T1", basis
 
 
@@ -215,12 +236,15 @@ def derive_o_level(
     #     OR (systemic cross-border + systemic entity)
     if cross_border_pattern == "systemic" and capacity_exceeded:
         basis.append("systemic cross-border + capacity exceeded")
+        logger.info("derive_o_level: %s basis=%s", "O4", basis)
         return "O4", basis
     if entity_relevance == "systemic" and ms_affected >= 6:
         basis.append(f"systemic entity + {ms_affected} MS")
+        logger.info("derive_o_level: %s basis=%s", "O4", basis)
         return "O4", basis
     if cross_border_pattern == "systemic" and entity_relevance == "systemic":
         basis.append("systemic cross-border + systemic entity")
+        logger.info("derive_o_level: %s basis=%s", "O4", basis)
         return "O4", basis
 
     # O3: significant cross-border
@@ -239,7 +263,9 @@ def derive_o_level(
         basis.extend(o3_triggers)
         # With consequence boost, O3 → O4
         if consequence_boost > 0:
+            logger.info("derive_o_level: %s basis=%s", "O4", basis)
             return "O4", basis
+        logger.info("derive_o_level: %s basis=%s", "O3", basis)
         return "O3", basis
 
     # O2: limited cross-border
@@ -257,15 +283,19 @@ def derive_o_level(
     if o2_triggers:
         basis.extend(o2_triggers)
         if consequence_boost > 0:
+            logger.info("derive_o_level: %s basis=%s", "O3", basis)
             return "O3", basis
+        logger.info("derive_o_level: %s basis=%s", "O2", basis)
         return "O2", basis
 
     # O1: everything else
     if consequence_boost > 0:
         basis.append("below structural thresholds but consequence escalation")
+        logger.info("derive_o_level: %s basis=%s", "O2", basis)
         return "O2", basis
 
     basis.append("below operational thresholds")
+    logger.info("derive_o_level: %s basis=%s", "O1", basis)
     return "O1", basis
 
 

@@ -8,9 +8,12 @@ Routes to IR threshold logic or NIS2 ML model based on entity_type.
 
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 
 from fastmcp import FastMCP
+
+logger = logging.getLogger("cyberscale.tools.entity_incident")
 
 
 # ---------------------------------------------------------------------------
@@ -107,6 +110,10 @@ def _assess_entity_incident(
         significance = ir_result.to_dict()
         significance["model"] = "ir_thresholds"
         significant_incident = ir_result.significant_incident
+        logger.info(
+            "entity_incident routing: tier=IR entity_type=%s significant=%s",
+            entity_type, ir_result.significant_incident,
+        )
 
     # Tier 2: National thresholds (if available for this MS + sector)
     if significance is None:
@@ -129,6 +136,10 @@ def _assess_entity_incident(
                 significance = nat_result.to_dict()
                 significance["model"] = f"national_{ms_established.lower()}_thresholds"
                 significant_incident = nat_result.significant_incident
+                logger.info(
+                    "entity_incident routing: tier=national_%s sector=%s entity_type=%s significant=%s",
+                    ms_established.lower(), sector, entity_type, nat_result.significant_incident,
+                )
 
     # Tier 3: NIS2 ML model (qualitative fallback)
     if significance is None:
@@ -138,6 +149,10 @@ def _assess_entity_incident(
         significance = nis2_result.to_dict()
         significance["model"] = "nis2_ml"
         significant_incident = nis2_result.significant_incident
+        logger.info(
+            "entity_incident routing: tier=nis2_ml sector=%s entity_type=%s significant=%s",
+            sector, entity_type, nis2_result.significant_incident,
+        )
 
     # Early warning recommendation
     early_warning = recommend_early_warning(
