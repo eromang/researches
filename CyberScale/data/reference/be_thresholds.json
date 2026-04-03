@@ -1,0 +1,112 @@
+{
+  "version": "1.0",
+  "ms": "BE",
+  "source": "CCB Guide sur les notifications NIS2 v1.3 (August 2025)",
+  "legal_basis": "Loi du 26 avril 2024 (Belgian NIS2 transposition)",
+  "competent_authority": "CCB",
+  "notification_channel": "https://notif.safeonweb.be",
+  "emergency_phone": "+32 (0)2 501 05 60",
+
+  "significant_incident_criteria": {
+    "description": "Five categories of significant events (non-exhaustive). Any one triggers mandatory notification.",
+
+    "malicious_compromise": {
+      "description": "Suspected malicious compromise of CIA — unauthorized access, unauthorized configuration, unauthorized execution",
+      "threshold": "any",
+      "deterministic": true
+    },
+
+    "availability": {
+      "description": "Availability compromise causing severe operational disruption",
+      "thresholds": [
+        {
+          "type": "user_percentage",
+          "users_pct": 20,
+          "duration_hours": 1,
+          "description": "≥20% of users cannot access service for ≥1 hour"
+        },
+        {
+          "type": "unknown_scope",
+          "duration_hours": 1,
+          "description": "Users lose access for ≥1 hour and entity cannot determine number affected"
+        },
+        {
+          "type": "contractual",
+          "description": "Delivery delays exceed contractual deadlines"
+        }
+      ],
+      "exclusions": ["Planned maintenance matching expectations"]
+    },
+
+    "financial_loss": {
+      "description": "Direct financial loss exceeding threshold",
+      "threshold_eur": 250000,
+      "threshold_turnover_pct": 5,
+      "rule": "whichever is lower",
+      "includes": [
+        "replacement/relocation costs",
+        "personnel costs",
+        "contractual breach costs",
+        "customer compensation",
+        "communication costs",
+        "legal/forensic/remediation costs"
+      ],
+      "excludes": [
+        "administrative fines",
+        "routine operating costs",
+        "post-incident improvements",
+        "insurance premiums"
+      ],
+      "additional_triggers": [
+        "Loss or disclosure of intellectual property compromising future revenues",
+        "Exfiltration of trade secrets per Directive (EU) 2016/943"
+      ]
+    },
+
+    "third_party_damage": {
+      "description": "Material, physical, or moral damage to other persons",
+      "triggers": [
+        "death",
+        "hospitalisation",
+        "injuries",
+        "disabilities",
+        "destruction of assets",
+        "infrastructure damage",
+        "delivery delays",
+        "substantial financial consequences for third parties"
+      ],
+      "deterministic": true
+    },
+
+    "recurring_events": {
+      "description": "Multiple non-significant incidents collectively becoming significant",
+      "conditions": {
+        "count": 2,
+        "period_months": 6,
+        "same_root_cause": true,
+        "collective_threshold": "financial_loss OR availability"
+      },
+      "note": "Cannot be evaluated from a single incident assessment — flag for analyst awareness"
+    }
+  },
+
+  "notification_timeline": {
+    "early_warning_hours": 24,
+    "incident_notification_hours": 72,
+    "trust_service_notification_hours": 24,
+    "final_report_days": 30,
+    "note": "'Without undue delay' means as soon as possible, not waiting for the deadline maximum"
+  },
+
+  "exclusions": {
+    "dora_entities": {
+      "description": "Banking and financial market infrastructure entities under DORA are excluded from NIS2 notification (Art. 6, §3)",
+      "sectors": ["banking", "financial_market_infrastructures"],
+      "supervisor": "Banque Nationale de Belgique"
+    },
+    "ir_entities": {
+      "description": "11 digital infrastructure/service provider types covered by Implementing Regulation (EU) 2024/7151 — IR thresholds prevail over CCB horizontal thresholds",
+      "note": "Handled by three-tier router (IR tier takes precedence)"
+    }
+  }
+}
