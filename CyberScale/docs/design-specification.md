@@ -2,8 +2,8 @@
 
 Multi-phase cyber severity assessment MCP server. Three independent, composable phases covering the full spectrum from raw vulnerability description to EU-level incident classification.
 
-**Version:** 5.0
-**Status:** v5 complete — fully deterministic Phase 3, sector dependencies, multi-tier (3a/3b), authority feedback
+**Version:** 8.0
+**Status:** v8 complete — HCPN crisis qualification, Belgium national module, fully deterministic Phase 3, sector dependencies, multi-tier (3a/3b/HCPN), authority feedback, real incident validation
 **Lineage:** Builds on the closed CVE-Severity-Context project (ModernBERT classifier, 80.7% accuracy, 1,890 scenarios). Replaces VulnMCP severity tools.
 
 
@@ -17,6 +17,8 @@ Multi-phase cyber severity assessment MCP server. Three independent, composable 
 | **3a — National Incident** | National CSIRT classification | Entity notifications from single MS | National T/O/matrix + cross-border flag | Deterministic aggregation + rules + matrix |
 | **3b — EU Incident** | EU-CyCLONe classification | National classifications + CyCLONe Officer inputs | EU-level classification + coordination level | Deterministic aggregation + escalation rules |
 | **3 — Incident Classification** | Authority multi-entity classification | Entity notification dicts | Deterministic T-level + deterministic O-level + Blueprint matrix | Fully deterministic (rules + matrix) |
+| **National — LU Crisis** | HCPN crisis qualification | Sectors affected + impact data + authority judgment inputs | qualification_level + cooperation_mode + recommend_consultation | National crisis plan activation (PGGCCN) |
+| **National — LU/BE Significance** | Entity significance thresholds | Entity incident data (from Phase 2) | significant_incident (bool) + triggered_criteria + competent_authority | Per-MS deterministic thresholds |
 
 ### Independence principle
 
@@ -114,11 +116,56 @@ Entity in MS X
 - Digital infrastructure ILR/N22/6 superseded by IR thresholds
 - DORA applies separately for banking/financial market (CSSF as competent authority)
 - POST/LuxTrust use sector thresholds — no entity-specific overrides
-- HCPN national crisis qualification deferred to v8
+- HCPN national crisis qualification — see section 4.8
 
 **Pluggable pattern:** `data/reference/{ms}_thresholds.json` + `src/cyberscale/national/{ms}.py`. Registry at `national/registry.py` — new MS modules register without changing router logic.
 
 **Output includes:** applicable frameworks with per-framework notification deadline and competent authority.
+
+**Belgium (BE)** — second national module (v8):
+- Source: CCB NIS2 Notification Guide v1.3 (August 2025)
+- Horizontal thresholds (same for all sectors, unlike LU per-sector matrices):
+  - Malicious CIA compromise: any suspected malicious unauthorized access
+  - Availability: ≥20% users for ≥1 hour (total unavailability implies 100%)
+  - Financial loss: >EUR 250,000 or >5% annual turnover (whichever lower)
+  - Third-party damage: death, hospitalisation, injuries, disabilities
+  - Recurring events: ≥2 in 6 months, same root cause (flagged but not evaluable from single incident)
+- DORA entities (banking/financial) excluded — BNB supervision
+- IR entities use EU-wide IR thresholds (same as LU)
+- Competent authority: CCB
+- Notification channel: notif.safeonweb.be
+
+### 4.8 HCPN National Crisis Qualification (v8)
+
+Separate assessment layer ABOVE entity significance — determines whether an event triggers Luxembourg's PGGCCN national crisis plan and which cooperation mode applies (Alerte/CERC vs Crise).
+
+**Scope:** Impact on Luxembourg regardless of entity establishment. An entity established in Ireland with impact on Luxembourg banking is in scope.
+
+**Incident qualification — three cumulative criteria:**
+
+| Criterion | Description | Deterministic? |
+|-----------|-------------|---------------|
+| 1. Essential service | At least one CER essential service affected | Yes — lookup against reference list |
+| 2. Prejudice to vital interests | At least one of seven sub-criteria: human impact, national security, sensitive data loss, service interruption, economic consequences, geographic spread, users affected | Partially — some thresholds delegated to sectoral authorities → "undetermined" |
+| 3. Coordination + urgency | Both interministerial coordination AND urgent executive decisions required | Yes (bool), but None → "undetermined" |
+
+**Fast-track provision:** Malicious unauthorized access with grave disruption → Criterion 2 bypassed (status="bypassed"), proceed directly to Criterion 3.
+
+**Threat qualification — four cumulative criteria:** Same three plus probability assessment (only High/Imminent qualify).
+
+**Cooperation mode:**
+- Actual prejudice → Crise (CC activated at CNC Senningen)
+- Potential prejudice → Alerte/CERC
+
+**Large-scale determination:** `cross_border OR capacity_exceeded` → `large_scale_cybersecurity_incident`
+
+**Design principles:**
+- Returns "undetermined" for delegated thresholds — never guesses
+- Uncertainty triggers consultation recommendation, not delay
+- Uses `sector_dependencies.json` for interdependent sector disruption check
+- `CriterionResult` has four states: met, not_met, undetermined, bypassed
+
+**Validation:** 15/15 curated scenarios, 5/5 real RETEX incidents concordant with actual crisis activation outcomes.
 
 ### 4.7 Evaluation
 
@@ -143,11 +190,12 @@ Single FastMCP server exposing all three phases as independent tools:
 | `search_similar` | 1 | Raw description | Top-N similar known vulnerabilities |
 | `assess_contextual_severity` | 2 | Description + sector + MS geography | C/H/M/L + key factors |
 | `assess_entity_incident` | 2 | Entity incident: description + sector + entity_type + impact fields + optional sector_specific | Severity + significance (IR/LU/NIS2 three-tier) + early warning + applicable frameworks |
-| `classify_incident_operational` | 3 | Incident description + operational fields + consequences | O1–O4 + key factors |
 | `classify_incident` | 3 | Full incident input | Deterministic T-level + O-level + matrix |
 | `assess_incident` | 3 | Entity notification dicts | Aggregation + T-level + O-level + matrix classification |
 | `assess_national_incident` | 3a | Entity notifications from single MS | National T/O/matrix + cross-border flag |
 | `assess_eu_incident` | 3b | National classifications + CyCLONe Officer inputs | EU-level classification + coordination level |
+| `assess_lu_crisis_incident` | National (HCPN) | Sectors affected + impact data + authority judgment | HCPN qualification level + cooperation mode |
+| `assess_lu_crisis_threat` | National (HCPN) | Above + threat probability | HCPN threat qualification + cooperation mode |
 | `assess_full_pipeline` | 1+2 | Description + sector + MS geography | Phase 1 score + Phase 2 severity |
 | `refresh_store` | Infra | Optional: date range, source filter | Updated vector store entries |
 
@@ -161,6 +209,8 @@ Single FastMCP server exposing all three phases as independent tools:
 | Phase 3 O-level | Deterministic rules | No ML — `derive_o_level()` | Rules from consequence dimensions | 100% |
 | IR thresholds | Deterministic per-entity-type | No ML — `assess_ir_significance()` | Arts. 5-14 thresholds | 100% |
 | LU national thresholds (v7) | Deterministic per-sector | No ML — `assess_lu_significance()` | ILR NIS1 transposition | 100% (20/20 curated) |
+| BE national thresholds (v8) | Deterministic horizontal | No ML — `assess_be_significance()` | CCB NIS2 Guide v1.3 | 100% (10/10 curated) |
+| HCPN crisis qualification (v8) | Deterministic criteria | No ML — `qualify_hcpn_incident()` / `qualify_hcpn_threat()` | Cadre national v1.0 | 100% (15/15 curated) |
 | Phase 1 scorer (v1, deprecated) | Single-head classification (4-class) | ModernBERT-base, single classification head | ~45k CVEs | 60.5% (superseded by v6) |
 | Phase 3 T-model (deprecated) | Was classification (T1–T4) | ModernBERT-base | Kept for reference, not used in inference | — |
 
@@ -207,12 +257,25 @@ CyberScale/
 |   |   +-- contextual.py              # Phase 2 inference
 |   |   +-- technical.py               # Phase 3 T-model inference
 |   |   +-- operational.py             # Phase 3 O-model inference
+|   |   +-- config.py                    # Centralized configuration (reference-loaded enums)
+|   |   +-- contextual_ir.py            # IR threshold assessment
+|   |   +-- early_warning.py            # Early warning recommendation
+|   +-- national/
+|   |   +-- registry.py             # Pluggable national module registry
+|   |   +-- lu.py                   # Luxembourg ILR thresholds
+|   |   +-- lu_crisis.py           # Luxembourg HCPN crisis qualification
+|   |   +-- be.py                   # Belgium CCB thresholds
 |   +-- matrix/
 |   |   +-- dual_scale.py              # Blueprint matrix lookup
 |   +-- tools/
 |       +-- vulnerability.py            # Phase 1 MCP tools
 |       +-- contextual.py              # Phase 2 MCP tools
 |       +-- incident.py                # Phase 3 MCP tools
+|       +-- entity_incident.py         # Phase 2 entity incident (three-tier routing)
+|       +-- authority_incident.py       # Phase 3 authority classification
+|       +-- national_incident.py        # Phase 3a national CSIRT
+|       +-- eu_incident.py              # Phase 3b EU-CyCLONe
+|       +-- lu_crisis_assessment.py     # HCPN crisis MCP tools
 +-- training/
 |   +-- data/                           # Generated training data (gitignored)
 |   +-- scripts/
@@ -239,6 +302,10 @@ CyberScale/
         +-- nis2_sectors.json           # Sector to annex mapping
         +-- blueprint_matrix.json       # T x O to classification
         +-- cvss_thresholds.json        # Score to band mapping
+        +-- lu_thresholds.json
+        +-- be_thresholds.json
+        +-- hcpn_crisis_qualification.json
+        +-- real_incident_validation.json
 ```
 
 ### 6.4 Gitignored artifacts
@@ -309,6 +376,13 @@ Token via `HF_TOKEN` environment variable (never committed). Publish with `publi
 | MS geography replaces cross_border (v4) | ms_established + ms_affected list | Richer than bool; cross_border derived |
 | Coordination_needs removed from O-model (v4) | Was output, not input | Coordination is a consequence, not an observable input |
 | Early warning recommendation (v4) | Structured output with Art. 23(4) guidance | Entities need actionable next steps, not just severity |
+| Pluggable national modules (v7) | Registry pattern + per-MS JSON | New MS modules register without changing router logic |
+| Three-tier routing (v7) | IR → National → NIS2 ML | EU regulation > national transposition > qualitative fallback |
+| HCPN scope: impact on LU (v8) | Not ms_established=LU | Crisis plan protects Luxembourg interests regardless of entity origin |
+| Delegated thresholds: undetermined (v8) | Never invent values | Return undetermined + recommend consultation for framework-delegated thresholds |
+| Fast-track: bypassed not met (v8) | Criterion 2 status="bypassed" | Analyst sees bypass, not auto-satisfaction |
+| Training in separate repo | CyberScale-Training | Different release cycle; inference repo stays lightweight |
+| Centralized config (v8) | config.py loads from JSON | Single source of truth for VALID_SECTORS, VALID_ENTITY_TYPES |
 
 
 ## 9. Relationship to prior work
