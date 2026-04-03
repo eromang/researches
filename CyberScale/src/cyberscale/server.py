@@ -5,6 +5,7 @@ from fastmcp import FastMCP
 from cyberscale.tools import (
     vulnerability, contextual, incident, entity_incident,
     authority_incident, national_incident, eu_incident, store_tools,
+    lu_crisis_assessment,
 )
 
 mcp = FastMCP(
@@ -27,6 +28,7 @@ authority_incident.register(mcp)
 national_incident.register(mcp)
 eu_incident.register(mcp)
 store_tools.register(mcp)
+lu_crisis_assessment.register(mcp)
 
 
 def main():
