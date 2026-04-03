@@ -9,6 +9,7 @@ from cyberscale.national.lu_crisis import (
     HcpnQualificationResult,
     evaluate_criterion_1,
     evaluate_criterion_2,
+    evaluate_criterion_3,
 )
 
 
@@ -159,3 +160,35 @@ class TestCriterion2PrejudiceVitalInterests:
         result = evaluate_criterion_2(service_impact="unavailable", sectors_affected=["energy", "transport"])
         assert result.status == "met"
         assert any("interdependent" in d.lower() or "economic" in d.lower() for d in result.details)
+
+
+class TestCriterion3CoordinationUrgency:
+    """Criterion 3: Both coordination AND urgency must be true."""
+
+    def test_both_true_met(self):
+        result = evaluate_criterion_3(coordination_required=True, urgent_decisions_required=True)
+        assert result.status == "met"
+
+    def test_coordination_only_not_met(self):
+        result = evaluate_criterion_3(coordination_required=True, urgent_decisions_required=False)
+        assert result.status == "not_met"
+
+    def test_urgency_only_not_met(self):
+        result = evaluate_criterion_3(coordination_required=False, urgent_decisions_required=True)
+        assert result.status == "not_met"
+
+    def test_neither_not_met(self):
+        result = evaluate_criterion_3(coordination_required=False, urgent_decisions_required=False)
+        assert result.status == "not_met"
+
+    def test_coordination_uncertain_undetermined(self):
+        result = evaluate_criterion_3(coordination_required=None, urgent_decisions_required=True)
+        assert result.status == "undetermined"
+
+    def test_urgency_uncertain_undetermined(self):
+        result = evaluate_criterion_3(coordination_required=True, urgent_decisions_required=None)
+        assert result.status == "undetermined"
+
+    def test_both_uncertain_undetermined(self):
+        result = evaluate_criterion_3(coordination_required=None, urgent_decisions_required=None)
+        assert result.status == "undetermined"

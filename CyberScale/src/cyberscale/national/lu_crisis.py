@@ -234,3 +234,52 @@ def evaluate_criterion_2(
     return CriterionResult(status="not_met", details=[
         "No Criterion 2 sub-criteria met or indicated"
     ])
+
+
+# ---------------------------------------------------------------------------
+# Criterion 3 — Coordination and decision urgency
+# ---------------------------------------------------------------------------
+
+
+def evaluate_criterion_3(
+    coordination_required: bool | None,
+    urgent_decisions_required: bool | None,
+) -> CriterionResult:
+    """Evaluate Criterion 3: both coordination AND urgency must be true.
+
+    None values represent uncertainty. Per framework guidance:
+    "If answers are affirmative or uncertain, rapid consultation should be
+    initiated." Uncertainty -> undetermined (not not_met).
+    """
+    coord_uncertain = coordination_required is None
+    urgent_uncertain = urgent_decisions_required is None
+
+    if coord_uncertain or urgent_uncertain:
+        reasons = []
+        if coord_uncertain:
+            reasons.append("coordination requirement uncertain")
+        if urgent_uncertain:
+            reasons.append("decision urgency uncertain")
+        return CriterionResult(
+            status="undetermined",
+            details=[
+                f"Criterion 3: {', '.join(reasons)} — "
+                "framework guidance: uncertainty triggers consultation"
+            ],
+        )
+
+    if coordination_required and urgent_decisions_required:
+        return CriterionResult(
+            status="met",
+            details=["Coordination required AND urgent decisions required"],
+        )
+
+    reasons = []
+    if not coordination_required:
+        reasons.append("interministerial coordination not required")
+    if not urgent_decisions_required:
+        reasons.append("no immediate executive decisions needed")
+    return CriterionResult(
+        status="not_met",
+        details=[f"Criterion 3 not met: {', '.join(reasons)}"],
+    )
