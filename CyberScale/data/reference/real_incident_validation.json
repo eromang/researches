@@ -1,0 +1,546 @@
+{
+  "version": "1.0",
+  "description": "Real incident validation dataset for CyberScale pipeline. Each incident is extracted from RETEX analysis in the Obsidian vault with documented actual outcomes.",
+  "schema": {
+    "id": "Unique incident ID (RETEX-{country}-{year}-{name})",
+    "name": "Incident name",
+    "date": "YYYY-MM-DD",
+    "country": "ISO 2-letter country code (LU, NL, PL, EU)",
+    "source": "Vault path to RETEX file",
+    "incident_data": "CyberScale input fields extracted from RETEX",
+    "actual_outcomes": "What actually happened — ground truth for validation",
+    "expected_cyberscale": "Expected CyberScale outputs at each pipeline layer",
+    "notes": "Analyst notes on mapping decisions or ambiguities"
+  },
+  "incidents": [
+    {
+      "id": "RETEX-LU-2025-POST",
+      "name": "POST Luxembourg Cyberattack",
+      "date": "2025-07-23",
+      "country": "LU",
+      "source": "03_Analysis/06_Recover/Incident-Analysis/LU/2025/2025-07-23 - POST Cyberattack - RETEX.md",
+      "incident_data": {
+        "description": "Cyberattack exploiting Huawei router vulnerability causes 3.5-hour nationwide telecom outage at POST Luxembourg. Emergency services 112/113 access via POST compromised. Airport, banking, and government services disrupted.",
+        "sectors_affected": ["digital_infrastructure"],
+        "entity_types": ["public_electronic_communications_provider"],
+        "ms_established": "LU",
+        "ms_affected": ["LU"],
+        "service_impact": "unavailable",
+        "data_impact": "none",
+        "safety_impact": "none",
+        "financial_impact": "significant",
+        "affected_persons_count": 4000,
+        "impact_duration_hours": 3.5,
+        "cross_border": false,
+        "capacity_exceeded": false,
+        "suspected_malicious": true,
+        "threat_actor_type": null,
+        "sensitive_data_type": null
+      },
+      "actual_outcomes": {
+        "crisis_activated": true,
+        "crisis_mechanism": "Prime Minister convened governmental crisis cell at CNC Senningen",
+        "pggccn_mode": "crise",
+        "significant_nis2": true,
+        "notification_frameworks": ["NIS2"],
+        "early_warning_sent": true,
+        "notable": "Single-operator emergency service dependency. Led to PGGCCN framework update."
+      },
+      "expected_cyberscale": {
+        "entity_significance": {
+          "comment": "POST is a public electronic communications provider — may route to IR thresholds or LU national depending on entity type mapping",
+          "expected_significant": true
+        },
+        "hcpn_crisis": {
+          "sectors_affected": ["digital_infrastructure"],
+          "entity_types": ["public_electronic_communications_provider"],
+          "safety_impact": "none",
+          "service_impact": "unavailable",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "affected_persons_count": 4000,
+          "cross_border": false,
+          "capacity_exceeded": false,
+          "suspected_malicious": true,
+          "coordination_required": true,
+          "urgent_decisions_required": true,
+          "prejudice_actual": true,
+          "expected_qualifies": true,
+          "expected_level": "national_major_incident",
+          "expected_mode": "crise"
+        }
+      },
+      "notes": "Emergency services 112/113 accessibility was compromised but no deaths reported. Government crisis cell was activated in reality. POST entity type may map to public_electronic_communications_provider (IR Art. 14 would not apply — that's trust services). safety_impact=none because no actual health outcomes, but the emergency service disruption was the primary concern. No fast-track: data_impact=none (service disruption, not data breach) so fast-track unauthorized access condition not met. C2 met via service interruption sub-criterion instead."
+    },
+    {
+      "id": "RETEX-LU-2025-LUXTRUST",
+      "name": "LuxTrust Outage December 2025",
+      "date": "2025-12-16",
+      "country": "LU",
+      "source": "03_Analysis/06_Recover/Incident-Analysis/LU/2025/2025-12-16 - LuxTrust Outage - RETEX.md",
+      "incident_data": {
+        "description": "Network card failure triggers latent software bug under high transaction volume at LuxTrust. 29-hour total disruption of trust services. Digital banking, government portals, municipal services, education paralyzed across Luxembourg.",
+        "sectors_affected": ["digital_infrastructure", "banking"],
+        "entity_types": ["trust_service_provider"],
+        "ms_established": "LU",
+        "ms_affected": ["LU"],
+        "service_impact": "unavailable",
+        "data_impact": "none",
+        "safety_impact": "none",
+        "financial_impact": "significant",
+        "affected_persons_count": 100000,
+        "impact_duration_hours": 29,
+        "cross_border": false,
+        "capacity_exceeded": false,
+        "suspected_malicious": false,
+        "threat_actor_type": null,
+        "sensitive_data_type": null
+      },
+      "actual_outcomes": {
+        "crisis_activated": false,
+        "crisis_mechanism": null,
+        "pggccn_mode": null,
+        "significant_nis2": true,
+        "notification_frameworks": ["NIS2", "DORA"],
+        "early_warning_sent": true,
+        "notable": "12 financial entities filed DORA notifications. Hardware failure, not malicious. Trust service provider has strictest thresholds (20min)."
+      },
+      "expected_cyberscale": {
+        "entity_significance": {
+          "comment": "Trust service provider — IR Art. 14 thresholds. 29h >> 20min threshold. Clearly significant.",
+          "expected_significant": true,
+          "expected_model": "ir_thresholds"
+        },
+        "hcpn_crisis": {
+          "sectors_affected": ["digital_infrastructure", "banking"],
+          "entity_types": ["trust_service_provider"],
+          "safety_impact": "none",
+          "service_impact": "unavailable",
+          "data_impact": "none",
+          "financial_impact": "significant",
+          "affected_persons_count": 100000,
+          "cross_border": false,
+          "capacity_exceeded": false,
+          "suspected_malicious": false,
+          "coordination_required": null,
+          "urgent_decisions_required": null,
+          "prejudice_actual": false,
+          "expected_qualifies": false,
+          "expected_level": "none",
+          "expected_mode": "permanent",
+          "expected_recommend_consultation": true
+        }
+      },
+      "notes": "No crisis activation in reality despite 29h national disruption. HCPN crisis qualification depends on coordination_required and urgent_decisions_required — these are analyst judgment inputs. Setting to null (uncertain) matches reality: it was borderline. The module should recommend consultation. Not malicious → no fast-track."
+    },
+    {
+      "id": "RETEX-LU-2025-TANGO",
+      "name": "Proximus Luxembourg (Tango) Network Outage",
+      "date": "2025-08-05",
+      "country": "LU",
+      "source": "03_Analysis/06_Recover/Incident-Analysis/LU/2025/2025-08-05 - Proximus Luxembourg Network Outage - RETEX.md",
+      "incident_data": {
+        "description": "Ethernet switch hardware failure in Proximus Luxembourg core network. 25-50% of mobile customers affected for 4 hours. Emergency services accessible via other operators.",
+        "sectors_affected": ["digital_infrastructure"],
+        "entity_types": ["public_electronic_communications_provider"],
+        "ms_established": "LU",
+        "ms_affected": ["LU"],
+        "service_impact": "degraded",
+        "data_impact": "none",
+        "safety_impact": "none",
+        "financial_impact": "none",
+        "affected_persons_count": 50000,
+        "impact_duration_hours": 4.23,
+        "cross_border": false,
+        "capacity_exceeded": false,
+        "suspected_malicious": false,
+        "threat_actor_type": null,
+        "sensitive_data_type": null
+      },
+      "actual_outcomes": {
+        "crisis_activated": false,
+        "crisis_mechanism": "CERC convened for risk assessment only",
+        "pggccn_mode": null,
+        "significant_nis2": false,
+        "notification_frameworks": ["NIS2"],
+        "early_warning_sent": true,
+        "notable": "Occurred 13 days after POST attack. Heightened sensitivity. CERC consulted but no crisis activation."
+      },
+      "expected_cyberscale": {
+        "entity_significance": {
+          "comment": "Degraded service (not unavailable), non-malicious. Likely below NIS2 significant threshold.",
+          "expected_significant": false
+        },
+        "hcpn_crisis": {
+          "sectors_affected": ["digital_infrastructure"],
+          "entity_types": ["public_electronic_communications_provider"],
+          "safety_impact": "none",
+          "service_impact": "degraded",
+          "data_impact": "none",
+          "financial_impact": "none",
+          "affected_persons_count": 50000,
+          "cross_border": false,
+          "capacity_exceeded": false,
+          "suspected_malicious": false,
+          "coordination_required": false,
+          "urgent_decisions_required": false,
+          "prejudice_actual": false,
+          "expected_qualifies": false,
+          "expected_level": "none",
+          "expected_mode": "permanent"
+        }
+      },
+      "notes": "Clear non-qualifying case. Hardware failure, partial impact, no malicious intent, no coordination needed. CERC consultation was precautionary (13 days post-POST)."
+    },
+    {
+      "id": "RETEX-LU-2026-CTIE-DDOS",
+      "name": "CTIE DDoS Attack",
+      "date": "2026-01-20",
+      "country": "LU",
+      "source": "03_Analysis/06_Recover/Incident-Analysis/LU/2026/2026-01-20 - CTIE DDoS Attack - RETEX.md",
+      "incident_data": {
+        "description": "DDoS attack on public.lu domain. Guichet.lu, CNS portal, and state websites offline for 41 minutes.",
+        "sectors_affected": ["public_administration"],
+        "entity_types": ["public_administration_entity"],
+        "ms_established": "LU",
+        "ms_affected": ["LU"],
+        "service_impact": "unavailable",
+        "data_impact": "none",
+        "safety_impact": "none",
+        "financial_impact": "none",
+        "affected_persons_count": 0,
+        "impact_duration_hours": 0.68,
+        "cross_border": false,
+        "capacity_exceeded": false,
+        "suspected_malicious": true,
+        "threat_actor_type": null,
+        "sensitive_data_type": null
+      },
+      "actual_outcomes": {
+        "crisis_activated": false,
+        "crisis_mechanism": null,
+        "pggccn_mode": null,
+        "significant_nis2": false,
+        "notification_frameworks": ["NIS2"],
+        "early_warning_sent": false,
+        "notable": "41-minute DDoS. Third critical incident in 6 months (POST, LuxTrust, CTIE). Suspected pro-Russian hacktivist (NoName057(16))."
+      },
+      "expected_cyberscale": {
+        "entity_significance": {
+          "comment": "Public administration entity — NIS2 ML qualitative assessment. Short duration DDoS.",
+          "expected_significant": false
+        },
+        "hcpn_crisis": {
+          "sectors_affected": ["public_administration"],
+          "entity_types": ["public_administration_entity"],
+          "safety_impact": "none",
+          "service_impact": "unavailable",
+          "data_impact": "none",
+          "financial_impact": "none",
+          "affected_persons_count": 0,
+          "cross_border": false,
+          "capacity_exceeded": false,
+          "suspected_malicious": true,
+          "coordination_required": false,
+          "urgent_decisions_required": false,
+          "prejudice_actual": false,
+          "expected_qualifies": false,
+          "expected_level": "none",
+          "expected_mode": "permanent"
+        }
+      },
+      "notes": "Essential service affected (public_administration) and malicious, but no data access (DDoS only) so no fast-track. No coordination or urgency needed for 41-minute DDoS. C3 fails."
+    },
+    {
+      "id": "RETEX-LU-2026-CTIE-MALWARE",
+      "name": "CTIE Malware on MDM System",
+      "date": "2026-02-26",
+      "country": "LU",
+      "source": "03_Analysis/06_Recover/Incident-Analysis/LU/2026/2026-02-27 - CTIE Malware MDM - RETEX.md",
+      "incident_data": {
+        "description": "Malware detected on CTIE Mobile Device Management platform. Suspected CVE-2026-1281 (Ivanti EPMM). Mobile access to state services disabled. Desktop access unaffected. Investigation ongoing.",
+        "sectors_affected": ["public_administration"],
+        "entity_types": ["public_administration_entity"],
+        "ms_established": "LU",
+        "ms_affected": ["LU"],
+        "service_impact": "degraded",
+        "data_impact": "compromised",
+        "safety_impact": "none",
+        "financial_impact": "none",
+        "affected_persons_count": 0,
+        "impact_duration_hours": 48,
+        "cross_border": false,
+        "capacity_exceeded": false,
+        "suspected_malicious": true,
+        "threat_actor_type": null,
+        "sensitive_data_type": "government_data"
+      },
+      "actual_outcomes": {
+        "crisis_activated": false,
+        "crisis_mechanism": null,
+        "pggccn_mode": null,
+        "significant_nis2": null,
+        "notification_frameworks": ["NIS2", "GDPR"],
+        "early_warning_sent": false,
+        "notable": "Investigation ongoing. Parallel to NL Ivanti exploitation. If CVE-2026-1281 confirmed, fast-track provision would apply."
+      },
+      "expected_cyberscale": {
+        "entity_significance": {
+          "comment": "Public administration, malicious compromise, degraded service. Likely significant.",
+          "expected_significant": true
+        },
+        "hcpn_crisis": {
+          "sectors_affected": ["public_administration"],
+          "entity_types": ["public_administration_entity"],
+          "safety_impact": "none",
+          "service_impact": "degraded",
+          "data_impact": "compromised",
+          "financial_impact": "none",
+          "affected_persons_count": 0,
+          "cross_border": false,
+          "capacity_exceeded": false,
+          "suspected_malicious": true,
+          "sensitive_data_type": "government_data",
+          "coordination_required": null,
+          "urgent_decisions_required": null,
+          "prejudice_actual": false,
+          "expected_qualifies": false,
+          "expected_level": "none",
+          "expected_mode": "permanent",
+          "expected_recommend_consultation": true
+        }
+      },
+      "notes": "Borderline case. Essential service (public_admin) affected. C2: national security (public_admin sector) + sensitive data (government_data) are deterministically met. But service_impact=degraded (not unavailable) so no fast-track. C3 coordination/urgency unknown → undetermined → recommend consultation. In reality no crisis was activated but investigation was ongoing."
+    },
+    {
+      "id": "RETEX-NL-2026-IVANTI",
+      "name": "NL Government Ivanti EPMM Exploitation",
+      "date": "2026-02-05",
+      "country": "NL",
+      "source": "03_Analysis/06_Recover/Incident-Analysis/NL/2026/2026-02-12 - NL Government Ivanti EPMM Exploitation - RETEX.md",
+      "incident_data": {
+        "description": "CVE-2026-1281 zero-day exploitation affecting 7 Dutch government organizations. 5 months undetected access at DJI (prison service). Personal data of government employees exfiltrated.",
+        "sectors_affected": ["public_administration"],
+        "entity_types": ["public_administration_entity"],
+        "ms_established": "NL",
+        "ms_affected": ["NL"],
+        "service_impact": "unavailable",
+        "data_impact": "exfiltrated",
+        "safety_impact": "none",
+        "financial_impact": "significant",
+        "affected_persons_count": 5000,
+        "impact_duration_hours": 3600,
+        "cross_border": false,
+        "capacity_exceeded": false,
+        "suspected_malicious": true,
+        "threat_actor_type": "state_actor",
+        "sensitive_data_type": "government_data"
+      },
+      "actual_outcomes": {
+        "crisis_activated": false,
+        "crisis_mechanism": "Standard incident response, no interministerial coordination reported",
+        "pggccn_mode": null,
+        "significant_nis2": true,
+        "notification_frameworks": ["NIS2"],
+        "early_warning_sent": false,
+        "notable": "5 months dwell time. 86 global instances. Parallel exploitation in LU (CTIE) and EU Commission. Zero-day → mass exploitation within hours of PoC."
+      },
+      "expected_cyberscale": {
+        "entity_significance": {
+          "comment": "NL entity — no national module for NL. NIS2 ML qualitative assessment. Clearly significant (malicious, data exfiltrated, government).",
+          "expected_significant": true,
+          "expected_model": "nis2_ml"
+        },
+        "hcpn_crisis": {
+          "comment": "NL incident — HCPN does not apply (Luxembourg framework only). Included for cross-reference with CTIE-MALWARE and to test the pipeline handles non-LU incidents correctly.",
+          "not_applicable": true
+        }
+      },
+      "notes": "HCPN crisis qualification does not apply to NL incidents. Included in dataset for: (1) entity significance validation via NIS2 ML, (2) cross-reference with LU CTIE-MALWARE (same CVE), (3) demonstrating that the HCPN tool is scoped to LU impact."
+    },
+    {
+      "id": "RETEX-PL-2025-ENERGY",
+      "name": "Poland Energy Sector Cyberattack",
+      "date": "2025-12-29",
+      "country": "PL",
+      "source": "03_Analysis/06_Recover/Incident-Analysis/PL/2025/2025-12-29 - Poland Energy Sector Cyberattack - RETEX.md",
+      "incident_data": {
+        "description": "Coordinated destructive cyberattack by Russian state actors on Polish energy infrastructure. 30+ wind/solar farms and major CHP plant targeted. Custom wiper malware (DynoWiper, LazyWiper) deployed against IT and OT systems. RTUs and IEDs permanently damaged.",
+        "sectors_affected": ["energy"],
+        "entity_types": ["electricity_undertaking"],
+        "ms_established": "PL",
+        "ms_affected": ["PL"],
+        "service_impact": "degraded",
+        "data_impact": "none",
+        "safety_impact": "health_risk",
+        "financial_impact": "severe",
+        "affected_persons_count": 500000,
+        "impact_duration_hours": 24,
+        "cross_border": false,
+        "capacity_exceeded": false,
+        "suspected_malicious": true,
+        "threat_actor_type": "state_actor",
+        "sensitive_data_type": "critical_strategic_data"
+      },
+      "actual_outcomes": {
+        "crisis_activated": true,
+        "crisis_mechanism": "Polish government crisis response confirmed",
+        "pggccn_mode": null,
+        "significant_nis2": true,
+        "notification_frameworks": ["NIS2", "Polish National Cybersecurity System Act"],
+        "early_warning_sent": true,
+        "notable": "First major attack on distributed energy resources. 9 months dwell time. OT-capable state adversary. Destructive intent (wiper, no ransom). NATO member targeting."
+      },
+      "expected_cyberscale": {
+        "entity_significance": {
+          "comment": "PL entity — no national module for PL. NIS2 ML qualitative assessment. Energy sector, destructive attack, clearly significant.",
+          "expected_significant": true,
+          "expected_model": "nis2_ml"
+        },
+        "hcpn_crisis": {
+          "comment": "PL incident — HCPN does not apply. But if analogous attack hit LU energy grid, it would clearly qualify.",
+          "not_applicable": true
+        }
+      },
+      "notes": "HCPN crisis qualification does not apply to PL incidents. Included for: (1) entity significance validation, (2) demonstrating what an energy sector attack looks like with real parameters, (3) as a template for hypothetical LU energy attack scenarios."
+    },
+    {
+      "id": "RETEX-EU-2026-EC-AWS",
+      "name": "European Commission AWS Breach",
+      "date": "2026-03-19",
+      "country": "EU",
+      "source": "03_Analysis/06_Recover/Incident-Analysis/EU/2026/2026-03-24 - European Commission AWS Breach - RETEX.md",
+      "incident_data": {
+        "description": "Supply-chain compromise of Trivy CI/CD tool leads to AWS API key theft. 5-day undetected dwell time. 91.7 GB data exfiltrated from Europa hosting platform. 71+ affected clients (42 Commission + 29 other EU entities).",
+        "sectors_affected": ["public_administration"],
+        "entity_types": ["public_administration_entity"],
+        "ms_established": "EU",
+        "ms_affected": ["EU"],
+        "service_impact": "none",
+        "data_impact": "exfiltrated",
+        "safety_impact": "none",
+        "financial_impact": "significant",
+        "affected_persons_count": 71,
+        "impact_duration_hours": 120,
+        "cross_border": true,
+        "capacity_exceeded": false,
+        "suspected_malicious": true,
+        "threat_actor_type": null,
+        "sensitive_data_type": "government_data"
+      },
+      "actual_outcomes": {
+        "crisis_activated": false,
+        "crisis_mechanism": "Standard CERT-EU incident response",
+        "pggccn_mode": null,
+        "significant_nis2": true,
+        "notification_frameworks": ["Regulation (EU) 2023/2841", "GDPR/EUDPR"],
+        "early_warning_sent": true,
+        "notable": "EU institution — formally under Regulation 2023/2841, not NIS2. Supply-chain compromise vector. ShinyHunters published leaked data."
+      },
+      "expected_cyberscale": {
+        "entity_significance": {
+          "comment": "EU institution entity — NIS2 ML qualitative assessment. Data exfiltrated, government data, supply-chain attack. Significant.",
+          "expected_significant": true,
+          "expected_model": "nis2_ml"
+        },
+        "hcpn_crisis": {
+          "comment": "EU-level incident — HCPN does not apply directly. But if exfiltrated data included Luxembourg government data, HCPN could be triggered by LU authority for the LU impact portion.",
+          "not_applicable": true
+        }
+      },
+      "notes": "HCPN does not apply to EU institution incidents directly. Included for: (1) entity significance validation, (2) supply-chain attack pattern, (3) cross-border impact demonstration, (4) potential LU angle if Luxembourg government data was among the 91.7 GB exfiltrated."
+    },
+    {
+      "id": "RETEX-US-2026-STRYKER",
+      "name": "Stryker Wiper Attack",
+      "date": "2026-03-11",
+      "country": "US",
+      "source": "03_Analysis/06_Recover/Incident-Analysis/US/2026/2026-03-11 - Stryker Wiper Attack - RETEX.md",
+      "incident_data": {
+        "description": "Iran-linked hacktivist group Handala (MOIS-affiliated Void Manticore) executed destructive wiper attack on Stryker Corporation via weaponised Microsoft Intune remote wipe. ~80,000 devices wiped across 79 countries between 05:00-08:00 UTC using compromised domain admin credentials from infostealer logs. No traditional malware — living-off-the-land via management plane. Global operations shut down for 22 days. 5,500+ workers sent home in Ireland alone.",
+        "sectors_affected": ["manufacturing", "health"],
+        "entity_types": ["medical_device_manufacturer"],
+        "ms_established": "US",
+        "ms_affected": ["US", "IE", "EU"],
+        "service_impact": "unavailable",
+        "data_impact": "none",
+        "safety_impact": "none",
+        "financial_impact": "severe",
+        "affected_persons_count": 53000,
+        "impact_duration_hours": 528,
+        "cross_border": true,
+        "capacity_exceeded": false,
+        "suspected_malicious": true,
+        "threat_actor_type": "state_actor",
+        "sensitive_data_type": null
+      },
+      "actual_outcomes": {
+        "crisis_activated": false,
+        "crisis_mechanism": "CISA and FBI engaged with Stryker executives; FBI seized two Handala websites",
+        "pggccn_mode": null,
+        "significant_nis2": true,
+        "notification_frameworks": ["SEC", "NIS2 (EU entities)", "GDPR"],
+        "early_warning_sent": true,
+        "notable": "First major cyber retaliation against US corporation during US-Israel-Iran conflict. Living-off-the-land via Intune — no malware deployed. Infostealer-harvested credentials available on dark web for months/years. SEC Form 8-K filed same day. Medical devices confirmed safe. Full restoration 22 days (2026-04-02). Geopolitical motivation: 2019 acquisition of Israeli OrthoSpace + US DoD contracts."
+      },
+      "expected_cyberscale": {
+        "entity_significance": {
+          "comment": "US entity with EU operations (Ireland hub). Manufacturing sector (medical devices) — NIS2 Annex II. NIS2 ML qualitative assessment for EU entities. Financial loss clearly exceeds EUR 500K (3 weeks disruption at $22.6B company). Malicious access causing severe disruption. Significant.",
+          "expected_significant": true,
+          "expected_model": "nis2_ml"
+        },
+        "hcpn_crisis": {
+          "comment": "US incident with EU/Ireland impact — HCPN does not apply (Luxembourg framework only). Ireland operations affected but no Luxembourg-specific impact documented. If Stryker had Luxembourg operations or supplied Luxembourg hospitals, HCPN could be triggered for the LU healthcare supply chain impact.",
+          "not_applicable": true
+        }
+      },
+      "notes": "US-headquartered, HCPN not applicable. Included for: (1) entity significance validation — manufacturing/health cross-sector, (2) living-off-the-land attack pattern via management plane (no malware), (3) state-actor attribution (Iran/MOIS via Handala/Void Manticore), (4) supply chain impact on healthcare facilities, (5) geopolitical context for threat modelling, (6) 22-day recovery timeline reference for wiper scenarios. medical_device_manufacturer may not be in nis2_entity_types.json — map to closest Annex II manufacturing entity type."
+    },
+    {
+      "id": "RETEX-NL-2026-ODIDO",
+      "name": "Odido Data Breach",
+      "date": "2026-02-07",
+      "country": "NL",
+      "source": "03_Analysis/06_Recover/Incident-Analysis/NL/2026/2026-02-07 - Odido Data Breach - RETEX.md",
+      "incident_data": {
+        "description": "Cybercriminals breached Odido (largest NL mobile telecom, ~7M customers) customer contact system. 6.2 million customer records exfiltrated (89% of customer base) including names, addresses, IBANs, dates of birth, and identity document numbers. Operational services not affected. Attackers contacted Odido to claim theft but no group publicly claimed responsibility.",
+        "sectors_affected": ["digital_infrastructure"],
+        "entity_types": ["public_electronic_communications_provider"],
+        "ms_established": "NL",
+        "ms_affected": ["NL"],
+        "service_impact": "none",
+        "data_impact": "exfiltrated",
+        "safety_impact": "none",
+        "financial_impact": "significant",
+        "affected_persons_count": 6200000,
+        "impact_duration_hours": 0,
+        "cross_border": false,
+        "capacity_exceeded": false,
+        "suspected_malicious": true,
+        "threat_actor_type": null,
+        "sensitive_data_type": null
+      },
+      "actual_outcomes": {
+        "crisis_activated": false,
+        "crisis_mechanism": null,
+        "pggccn_mode": null,
+        "significant_nis2": true,
+        "notification_frameworks": ["NIS2", "GDPR", "EECC"],
+        "early_warning_sent": false,
+        "notable": "89% of customer base compromised. IBAN + identity document numbers create persistent identity theft risk. Free SAS precedent: EUR 42M fine for similar breach (24M subscribers). No service disruption — pure data exfiltration. Reported to Autoriteit Persoonsgegevens. Customer notification within 48h."
+      },
+      "expected_cyberscale": {
+        "entity_significance": {
+          "comment": "NL telecom provider — NIS2 Annex I digital infrastructure. Malicious unauthorized access + 6.2M persons affected + data exfiltrated. Clearly significant under NIS2 Art. 23 horizontal criteria (malicious access causing severe harm).",
+          "expected_significant": true,
+          "expected_model": "nis2_ml"
+        },
+        "hcpn_crisis": {
+          "comment": "NL incident — HCPN does not apply (Luxembourg framework only).",
+          "not_applicable": true
+        }
+      },
+      "notes": "NL incident, HCPN not applicable. Included for: (1) entity significance validation — pure data breach with no service disruption, (2) large-scale personal data exfiltration (6.2M records including IBAN + ID documents), (3) telecom sector breach pattern (cf. Free SAS EUR 42M fine, SK Telecom 27M), (4) NIS2 horizontal criteria test: significant via malicious access + damage to other persons, not via service disruption, (5) GDPR notification compliance reference (AP notified, customers within 48h). sensitive_data_type=null because exposed data is personal/financial, not government_data/industrial_secrets/critical_strategic_data per HCPN taxonomy."
+    }
+  ]
+}
