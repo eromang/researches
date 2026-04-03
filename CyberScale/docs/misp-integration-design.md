@@ -1,6 +1,6 @@
 # CyberScale — MISP Integration Design
 
-Exploration document for using MISP as a storage and information sharing engine for CyberScale. CIRCL develops and maintains MISP; CyberScale operates in the Luxembourg CSIRT ecosystem where CIRCL is the primary CSIRT. This is a natural integration path.
+Exploration document for using MISP as a storage and information sharing engine for CyberScale. CIRCL develops and maintains MISP; CyberScale operates in the Luxembourg cybersecurity ecosystem where CIRCL is one of the national CSIRTs (alongside GOVCERT.LU) and a key actor in threat intelligence sharing. This is a natural integration path.
 
 **Status:** Design exploration. Not yet implemented.
 
