@@ -14,9 +14,15 @@ def _load_lu():
     return is_lu_covered, assess_lu_significance
 
 
+def _load_be():
+    from cyberscale.national.be import is_be_covered, assess_be_significance
+    return is_be_covered, assess_be_significance
+
+
 # Registry: MS code → lazy loader returning (is_covered_fn, assess_fn)
 _NATIONAL_LOADERS: dict[str, Callable] = {
     "LU": _load_lu,
+    "BE": _load_be,
     # Future: "DE": _load_de, "FR": _load_fr, etc.
 }
 

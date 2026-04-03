@@ -47,3 +47,13 @@ class TestNationalRegistry:
         m1 = get_national_module("LU")
         m2 = get_national_module("LU")
         assert m1 is m2
+
+    def test_be_module_available(self):
+        assert "BE" in get_available_ms()
+
+    def test_be_module_loads(self):
+        module = get_national_module("BE")
+        assert module is not None
+        is_covered_fn, assess_fn = module
+        assert callable(is_covered_fn)
+        assert callable(assess_fn)
