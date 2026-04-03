@@ -222,26 +222,32 @@ Current benchmark has 40 incidents. Expand to 100-200 from ENISA annual reports,
 
 ### New — Technical debt (identified v8 review)
 
-#### 11. Input validation at MCP boundaries
+#### ~~11. Input validation at MCP boundaries~~ → deferred
 
 Tools accept `list[dict]` without schema validation. Missing keys cause silent failures or AttributeErrors. Add Pydantic models for all MCP inputs with consistent `ErrorResponse` schema.
 
 **Effort:** Medium — define models, update all tools.
 **Expected gain:** Robustness, better error messages for users.
 
-#### 12. Centralize hardcoded values
+**Status:** Deferred — FastMCP doesn't use Pydantic; adding it would change tool signatures. Current manual validation in tools is sufficient.
+
+#### ~~12. Centralize hardcoded values~~ → completed
 
 MC passes (5), max length (192/256), confidence thresholds (0.3/0.7), `VALID_SECTORS`, `VALID_ENTITY_TYPES` are scattered across modules. Some are hardcoded in Python while the authoritative source is reference JSON.
 
 **Effort:** Low — extract to config module, load from reference data.
 **Expected gain:** Single source of truth, prevents drift.
 
-#### 13. Structured logging at decision points
+**Status:** Completed — `config.py` loads VALID_SECTORS and VALID_ENTITY_TYPES from reference JSON. VALID_*_IMPACT, MC_PASSES, MAX_LENGTH, confidence thresholds centralized. Duplicate VALID_SECTORS removed.
+
+#### ~~13. Structured logging at decision points~~ → completed
 
 No debug logging in classification functions. Can't trace why an incident got T3 vs T2 without reading source. Add structured logging for routing decisions, criterion evaluations, escalation triggers.
 
 **Effort:** Low — add logging at key decision points.
 **Expected gain:** Operational observability for CSIRT analysts.
+
+**Status:** Completed — `logging.getLogger('cyberscale.*')` at entity_incident routing, HCPN criterion evaluation, T/O level derivation, and cascading propagation.
 
 ### New — National layer expansion
 
