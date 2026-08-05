@@ -1,0 +1,220 @@
+{
+  "version": "0.1-draft",
+  "ms": "LU",
+  "status": "DRAFT — public consultation CP/N26/2, not in force",
+  "source": "Projet de règlement ILR/N26/X portant sur les modalités de notification et les critères des incidents ayant un impact important (NISS)",
+  "legal_basis": "Loi du 5 mai 2026 concernant des mesures destinées à assurer un niveau élevé de cybersécurité, art. 14 (1) et (3)",
+  "competent_authority": "Institut Luxembourgeois de Régulation (ILR)",
+  "notification_channel": {
+    "primary": "https://serima.lu/notification",
+    "alternate": "https://niss-notification.ilr.lu",
+    "automated": "other automated means agreed in advance with the Institut",
+    "note": "Art. 1(2) — the same channel must be used for all subsequent actions on the same incident."
+  },
+  "scope": {
+    "applies_to": "essential and important entities (entités essentielles et importantes)",
+    "excluded": "entities covered by Implementing Regulation (EU) 2024/2690 — Art. 2(6)",
+    "note": "IR 2024/2690 entity types keep their EU thresholds; this regulation does not displace them."
+  },
+  "replaces": {
+    "description": "Art. 5 abrogates the NIS1-era sector regulations. CyberScale implements nine of these eleven.",
+    "abrogated": [
+      {"ref": "ILR/N19/1", "date": "2019-11-05", "subject": "fixation des services essentiels", "in_cyberscale": false},
+      {"ref": "ILR/N21/1", "date": "2021-06-09", "subject": "fournisseurs de services numériques", "in_cyberscale": true},
+      {"ref": "ILR/N21/2", "date": "2021-10-04", "subject": "eau potable", "in_cyberscale": true},
+      {"ref": "ILR/N22/1", "date": "2022-02-22", "subject": "transport ferroviaire", "in_cyberscale": true},
+      {"ref": "ILR/N22/2", "date": "2022-06-15", "subject": "transport routier", "in_cyberscale": true},
+      {"ref": "ILR/N22/3", "date": "2022-08-03", "subject": "énergie — gaz", "in_cyberscale": true},
+      {"ref": "ILR/N22/4", "date": "2022-08-03", "subject": "énergie — électricité", "in_cyberscale": true},
+      {"ref": "ILR/N22/5", "date": "2022-08-03", "subject": "santé", "in_cyberscale": true},
+      {"ref": "ILR/N22/6", "date": "2022-08-03", "subject": "infrastructure numérique", "in_cyberscale": true},
+      {"ref": "ILR/N23/1", "date": "2023-05-02", "subject": "transport aérien", "in_cyberscale": true},
+      {"ref": "ILR/N23/3", "date": "2023-07-20", "subject": "réseaux et services de communications électroniques", "in_cyberscale": false}
+    ]
+  },
+  "significant_incident_criteria": {
+    "description": "Art. 2(1) — twelve criteria. Any one triggers notification. Unlike the abrogated regulations these are generic: there are no per-sector thresholds in the body of the text.",
+    "trigger": "any",
+    "criteria": {
+      "a_service_disruption": {
+        "article": "Art. 2(1)(a)",
+        "description": "Service partially or totally inaccessible or unavailable for more than one hour, OR affecting more than 5% of the users of that service in Luxembourg",
+        "fields": ["service_impact", "impact_duration_hours", "users_affected_pct_lu"],
+        "condition": "service_impact in (degraded, unavailable, sustained) AND (impact_duration_hours > 1 OR users_affected_pct_lu > 5)",
+        "duration_hours_threshold": 1,
+        "users_pct_threshold": 5,
+        "deterministic": true,
+        "note": "Partial inaccessibility counts — 'partiellement ou totalement'. The two limbs are alternatives, not cumulative."
+      },
+      "b_malicious_unauthorised_access": {
+        "article": "Art. 2(1)(b)",
+        "description": "Effective unauthorised access to network and information systems, suspected malicious, and liable to cause serious operational disruption",
+        "fields": ["data_impact", "suspected_malicious", "service_impact"],
+        "condition": "suspected_malicious AND data_impact in (accessed, compromised, exfiltrated, systemic) AND liable_serious_disruption",
+        "deterministic": false,
+        "note": "'Susceptible de causer une perturbation opérationnelle grave' is a forward-looking judgement, not an observed state."
+      },
+      "c_cia_impact_50_users": {
+        "article": "Art. 2(1)(c)",
+        "description": "Impact on authenticity, integrity or confidentiality of networks, services, or stored/processed/transmitted data, affecting more than 50 users in Luxembourg",
+        "fields": ["data_impact", "affected_persons_count_lu"],
+        "condition": "data_impact != none AND affected_persons_count_lu > 50",
+        "users_threshold": 50,
+        "deterministic": true
+      },
+      "d_trade_secret_exfiltration": {
+        "article": "Art. 2(1)(d)",
+        "description": "Exfiltration of trade secrets within the meaning of art. 2 point 1° of the loi du 26 juin 2019",
+        "fields": ["trade_secret_exfiltration"],
+        "condition": "trade_secret_exfiltration is true",
+        "deterministic": true,
+        "cyberscale_field_exists": false
+      },
+      "e_cross_border": {
+        "article": "Art. 2(1)(e)",
+        "description": "Cross-border or international impact, actual or liable",
+        "fields": ["cross_border"],
+        "condition": "cross_border is true",
+        "deterministic": true
+      },
+      "f_physical_access_compromised": {
+        "article": "Art. 2(1)(f)",
+        "description": "Physical access to the infrastructure used to provide a service is compromised",
+        "fields": ["physical_access_compromised"],
+        "condition": "physical_access_compromised is true",
+        "deterministic": true,
+        "cyberscale_field_exists": false
+      },
+      "g_public_safety_risk": {
+        "article": "Art. 2(1)(g)",
+        "description": "Risk to public safety, security or health, actual or liable",
+        "fields": ["safety_impact", "public_safety_risk"],
+        "condition": "public_safety_risk is true OR safety_impact in (health_damage, death)",
+        "deterministic": false
+      },
+      "h_health_damage_person": {
+        "article": "Art. 2(1)(h)",
+        "description": "Considerable damage to the health of a natural person, actual or liable",
+        "fields": ["safety_impact"],
+        "condition": "safety_impact == health_damage",
+        "deterministic": true
+      },
+      "i_death": {
+        "article": "Art. 2(1)(i)",
+        "description": "Death of a natural person, actual or liable",
+        "fields": ["safety_impact"],
+        "condition": "safety_impact == death",
+        "deterministic": true
+      },
+      "j_direct_financial_loss": {
+        "article": "Art. 2(1)(j)",
+        "description": "Direct financial loss of at least EUR 500 000 or at least 5% of the entity's total annual turnover, whichever is the lower",
+        "fields": ["direct_financial_loss_eur", "annual_turnover_eur"],
+        "condition": "direct_financial_loss_eur >= min(500000, 0.05 * annual_turnover_eur)",
+        "absolute_threshold_eur": 500000,
+        "turnover_pct_threshold": 5,
+        "deterministic": true,
+        "cyberscale_field_exists": false,
+        "note": "'Le montant le plus faible étant retenu' — the threshold is the LOWER of the two, so a small entity's 5% can bind well below EUR 500 000."
+      },
+      "k_prejudice_to_persons": {
+        "article": "Art. 2(1)(k)",
+        "description": "Material or moral prejudice of at least EUR 50 000 to a legal person, or at least EUR 10 000 to a natural person",
+        "fields": ["prejudice_legal_person_eur", "prejudice_natural_person_eur"],
+        "condition": "prejudice_legal_person_eur >= 50000 OR prejudice_natural_person_eur >= 10000",
+        "legal_person_threshold_eur": 50000,
+        "natural_person_threshold_eur": 10000,
+        "deterministic": true,
+        "cyberscale_field_exists": false
+      },
+      "l_annex_criteria": {
+        "article": "Art. 2(1)(l) and Art. 2(5)",
+        "description": "Criteria defined in the annexes to the regulation, which may add sector-, entity-type- or entity-group-specific thresholds",
+        "fields": [],
+        "condition": "not evaluable — annexes not published with the consultation draft",
+        "deterministic": false,
+        "note": "This is the route by which sector-specific thresholds could return. The consultation PDF contains no annexes, so their content is unknown."
+      }
+    }
+  },
+  "exclusions": {
+    "scheduled_maintenance": {
+      "article": "Art. 2(2)",
+      "description": "Planned service interruptions and the foreseen consequences of scheduled maintenance carried out by or for the entity are not important incidents"
+    }
+  },
+  "incident_duration": {
+    "article": "Art. 2(3)",
+    "description": "Period from disruption of service delivery in terms of availability, authenticity, integrity or confidentiality until its restoration",
+    "note": "Duration is not availability-only: an integrity or confidentiality disruption also starts the clock."
+  },
+  "recurrence_rule": {
+    "article": "Art. 2(4)",
+    "description": "Incidents that are individually below threshold are collectively an important incident when ALL three conditions hold",
+    "conditions": [
+      "occurred at least twice within six months",
+      "share the same apparent root cause",
+      "collectively meet criterion (j) — direct financial loss"
+    ],
+    "min_occurrences": 2,
+    "window_months": 6,
+    "deterministic": true,
+    "cyberscale_supported": false,
+    "note": "Requires incident history across a six-month window. CyberScale assesses one incident at a time and holds no such state."
+  },
+  "notification_timeline": {
+    "preliminary": {
+      "article": "Art. 3(1)",
+      "deadline_hours": 24,
+      "clock_starts": "detection",
+      "content": [
+        "estimate of the number of users potentially concerned",
+        "expected duration of the incident",
+        "suspicion of an illicit or malicious act",
+        "services concerned",
+        "indication of potential cross-border impact"
+      ]
+    },
+    "incident_notification": {
+      "article": "Art. 3(2)",
+      "deadline_hours": 72,
+      "clock_starts": "awareness",
+      "content": [
+        "update of the preliminary notification",
+        "initial assessment of severity and impact",
+        "indicators of compromise where available"
+      ]
+    },
+    "trust_service_provider_derogation": {
+      "article": "Art. 3(5)",
+      "deadline_hours": 24,
+      "clock_starts": "awareness",
+      "note": "Trust service providers notify within 24 hours, not 72, for incidents affecting their trust services."
+    },
+    "final_report": {
+      "article": "Art. 3(3)",
+      "deadline_days": 30,
+      "clock_starts": "incident notification",
+      "content": [
+        "contact information",
+        "impacted services",
+        "information on impact and severity",
+        "detailed description of the incident",
+        "date of first detection",
+        "date the incident began, if known",
+        "cross-border impact",
+        "threat type or root cause",
+        "whether availability, integrity, confidentiality or authenticity was affected",
+        "any further information requested by the Institut"
+      ]
+    },
+    "de_notification": {
+      "article": "Art. 3(4)",
+      "description": "If internal analysis later shows the incident meets none of the criteria, the declarant shares that conclusion with the Institut without delay"
+    },
+    "media_disclosure": {
+      "article": "Art. 3(6)",
+      "description": "The entity shares with the Institut any information it discloses to the media about an important incident; where an incident is publicised independently of the entity, it informs the Institut as to the veracity of the facts"
+    }
+  }
+}
