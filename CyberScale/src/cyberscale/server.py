@@ -5,13 +5,14 @@ from fastmcp import FastMCP
 from cyberscale.tools import (
     vulnerability, contextual, incident, entity_incident,
     authority_incident, national_incident, eu_incident, store_tools,
-    lu_crisis_assessment,
+    lu_crisis_assessment, prioritisation,
 )
 
 mcp = FastMCP(
     name="CyberScale",
     instructions=(
         "CyberScale provides multi-phase cyber severity assessment. "
+        "Phase 0: Remediation prioritisation (Art. 21 risk management, ranking only). "
         "Phase 1: Vulnerability scoring (0-10). "
         "Phase 2: Context-dependent severity (sector + MS geography). "
         "Phase 2 incident mode: Entity incident assessment with significance + early warning. "
@@ -29,6 +30,7 @@ national_incident.register(mcp)
 eu_incident.register(mcp)
 store_tools.register(mcp)
 lu_crisis_assessment.register(mcp)
+prioritisation.register(mcp)
 
 
 def main():
