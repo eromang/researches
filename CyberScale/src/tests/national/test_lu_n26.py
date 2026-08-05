@@ -119,20 +119,17 @@ def test_result_flags_draft_status():
     assert "draft" in r.regulation.lower()
 
 
-def test_disputed_ir_scope_is_assessed_and_flagged():
-    """Telecom is classed IR by our data but absent from the IR title.
+def test_ir_scope_follows_article_1_not_our_entity_list():
+    """IR (EU) 2024/2690 Art. 1 names eleven entity types; telecom is not among them."""
+    from cyberscale.national.lu_n26 import ir_scope, _IR_TITLE_ENTITY_TYPES
 
-    Silently excluding it would remove telecom operators from the regime
-    entirely, so the incident is assessed and the doubt reported.
-    """
-    from cyberscale.national.lu_n26 import ir_scope
-
-    assert ir_scope("public_ecn_provider") == "disputed"
+    assert len(_IR_TITLE_ENTITY_TYPES) == 11
     assert ir_scope("trust_service_provider") == "ir"
-    assert ir_scope("healthcare_provider") == "national"
+    assert ir_scope("cloud_computing_provider") == "ir"
+    # Removed from ir_incident_thresholds.json on 2026-08-05 — verified against the OJ text
+    for e in ("ixp_operator", "public_ecn_provider", "public_ecs_provider"):
+        assert ir_scope(e) == "national", f"{e} is not in IR Art. 1 scope"
 
     r = assess_lu_n26_significance(entity_type="public_ecn_provider",
                                    service_impact="unavailable", impact_duration_hours=3.5)
-    assert r.significant_incident, "must be assessed, not silently excluded"
-    assert r.excluded_reason is None
-    assert any("2(6)" in u for u in r.not_evaluable), "the scope doubt must be surfaced"
+    assert r.significant_incident and r.excluded_reason is None

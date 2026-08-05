@@ -97,12 +97,14 @@ _IR_TITLE_ENTITY_TYPES = frozenset({
     "trust_service_provider",
 })
 
-# `ir_incident_thresholds.json` additionally classes these three as IR entity
-# types. They are absent from the IR title as quoted in the N26 recital, and
-# treating them as IR-governed silently removes them from this regulation —
-# which for telecom operators is the difference between notifying ILR and not.
-# Rather than pick a side, exclusion is reported as UNRESOLVED for them.
-_IR_SCOPE_DISPUTED = frozenset({
+# Resolved 2026-08-05 against the Official Journal text. `ir_incident_thresholds.json`
+# had additionally listed ixp_operator, public_ecn_provider and public_ecs_provider as
+# IR entity types. Article 1 of IR (EU) 2024/2690 names eleven entity types and Articles
+# 5 to 14 cover exactly those; none covers IXPs or electronic communications providers.
+# The three were removed from that file, so they now fall under this regulation like any
+# other national-scope entity. Kept as a named set because the error mattered: while it
+# stood, telecom operators were silently excluded from the whole N26 regime.
+_REMOVED_FROM_IR_SCOPE_2026_08_05 = frozenset({
     "ixp_operator",
     "public_ecn_provider",
     "public_ecs_provider",
@@ -110,12 +112,12 @@ _IR_SCOPE_DISPUTED = frozenset({
 
 
 def ir_scope(entity_type: str) -> str:
-    """Art. 2(6) scope for an entity type: 'ir', 'national', or 'disputed'."""
-    if entity_type in _IR_TITLE_ENTITY_TYPES:
-        return "ir"
-    if entity_type in _IR_SCOPE_DISPUTED:
-        return "disputed"
-    return "national"
+    """Art. 2(6) scope for an entity type: 'ir' or 'national'.
+
+    Authority is Article 1 of IR (EU) 2024/2690, not the entity list in
+    ir_incident_thresholds.json, which was wrong until 2026-08-05.
+    """
+    return "ir" if entity_type in _IR_TITLE_ENTITY_TYPES else "national"
 
 
 def is_ir_governed(entity_type: str) -> bool:
@@ -171,14 +173,7 @@ def assess_lu_n26_significance(
                 "which this regulation does not displace"
             ),
         )
-    if scope == "disputed":
-        # Assess anyway, and say why the answer may not apply.
-        unknown.append(
-            f"Art. 2(6): {entity_type} is classed as an IR entity type by "
-            "ir_incident_thresholds.json but is absent from the IR title quoted in "
-            "the N26 recital. If it is IR-governed this assessment does not apply; "
-            "verify against IR (EU) 2024/2690 Art. 3"
-        )
+
 
     disrupted = service_impact in _DISRUPTED
 

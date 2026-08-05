@@ -61,7 +61,7 @@ Notification: **24h preliminary** from *detection*, **72h notification** from *a
 | **Proximus/Tango outage, 2025-08-05** | **not significant** | **significant** | **2(1)(a)** |
 | CTIE DDoS on public.lu, 2026-01-20 | not significant | below threshold | — |
 | CTIE malware on MDM, 2026-02-26 | undetermined | significant | 2(1)(a) |
-| LuxTrust outage, 2025-12-16 | significant | out of scope (2(6)) | — |
+| LuxTrust outage, 2025-12-16 | significant | out of scope, Art. 2(6) | trust services stay under IR |
 | arcus asbl, 2026-07-16 | undetermined | significant | 2(1)(c) |
 
 The Tango row is the one to look at. A four-hour partial mobile degradation caused by **hardware failure, with no malicious element**, is below threshold today and notifiable under N26 — on duration alone. The RETEX recorded `nis2_significant: false`; the new (a) does not care about cause, only that service was partially inaccessible for more than an hour.
@@ -83,15 +83,29 @@ Four criteria need fields absent from the impact taxonomy:
 
 Criterion (l) is permanently not evaluable: the consultation draft carries no annexes, and Art. 2(5) is the route by which sector-specific thresholds could return.
 
-## 5. A finding worth checking before responding
+## 5. A data error this work found and fixed
 
-Working through Art. 2(6) surfaced a discrepancy in our own data.
+Working through Art. 2(6) surfaced a discrepancy in our own data, since **resolved against the Official Journal text**.
 
-The N26 recital quotes the title of IR (EU) 2024/2690, which names **eleven** entity types. `ir_incident_thresholds.json` classes **fourteen** as IR-governed. The three extras are **`ixp_operator`, `public_ecn_provider`, `public_ecs_provider`**.
+`ir_incident_thresholds.json` classed **fourteen** entity types as governed by IR (EU) 2024/2690. Article 1 of that regulation names **eleven**:
 
-This matters twice over. Today it routes telecom operators to IR thresholds. Under N26 it would exclude them from the regime entirely via Art. 2(6) — and on the first run of this analysis it did exactly that, silently marking POST and Tango "out of scope" and hiding the most significant change in the whole draft.
+> *"This Regulation, with regard to DNS service providers, TLD name registries, cloud computing service providers, data centre service providers, content delivery network providers, managed service providers, managed security service providers, providers of online market places, of online search engines and of social networking services platforms, and trust service providers (the relevant entities)…"*
 
-`lu_n26.py` now treats those three as **disputed**: it assesses them and reports the doubt rather than picking a side. Confirming their status against IR (EU) 2024/2690 Art. 3 is a prerequisite for trusting either the current IR routing or the N26 impact above.
+Articles 5 to 14 cover exactly those eleven (Article 10 covers managed service providers and managed security service providers together). **No article covers IXPs or electronic communications providers.**
+
+The three extras were `ixp_operator`, `public_ecn_provider` and `public_ecs_provider`, and the error mattered twice over. It routed telecom operators and IXPs to IR thresholds that do not apply to them. And under N26 it excluded them from the regime entirely via Art. 2(6) — on the first run of this analysis it did exactly that, silently marking POST and Tango "out of scope" and hiding the largest change in the draft.
+
+Fixed:
+
+| | |
+|---|---|
+| `ir_incident_thresholds.json` | the three removed, with the Art. 1 citation recorded in `scope_note` |
+| `lu_n26.py` | `ir_scope()` now follows Art. 1, not our entity list |
+| `curated_lu_incidents.json` | LU-06 (IXP) and LU-21 (POST) re-routed from `ir_thresholds` to `nis2_ml` |
+
+LU-06 predates this work, so the error was pre-existing rather than introduced here.
+
+**A consequence worth noting.** With IR correctly scoped, Luxembourg has no implemented rule for electronic communications providers: the applicable national text is ILR/N23/3, which CyberScale does not implement and which this draft also abrogates. Telecom therefore falls to the general model today and would fall to N26's generic criteria tomorrow.
 
 ## 6. Points a consultation response could raise
 
