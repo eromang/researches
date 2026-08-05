@@ -2,6 +2,8 @@
 
 Concrete enhancement paths prioritised by expected impact. Updated after v5 implementation.
 
+This file is the **milestone plan**. For live task state — items found mid-work, open questions, and decisions taken — see [../BACKLOG.md](../BACKLOG.md).
+
 ---
 
 ## v8 completed (2026-04-03)

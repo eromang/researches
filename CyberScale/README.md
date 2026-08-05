@@ -4,6 +4,9 @@
 
 Severity assessment operates at three distinct levels — vulnerability, entity, and incident — each requiring different inputs and producing different outputs. Current tools (CVSS, NVD) address only the first level and ignore deployment context. CyberScale provides a unified [MCP](https://modelcontextprotocol.io/) server with three independent, composable phases that cover the full spectrum from raw vulnerability description to EU-level incident classification.
 
+> Live task state, open questions and decisions: [BACKLOG.md](BACKLOG.md).
+> Planned version work: [docs/enhancement-roadmap.md](docs/enhancement-roadmap.md).
+
 ## Architecture
 
 ```
