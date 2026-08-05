@@ -165,6 +165,19 @@ Train on easy examples first (clear Critical vs clear Low), then progressively i
 **Effort:** Low — modify training loop ordering.
 **Expected gain:** +2-3pp on boundary cases.
 
+#### 4b. Exploitation signal as a separate axis (not a Phase 1 feature)
+
+Lesson 1 below says Phase 1 is capped near 62% on description-only input and needs *different data*, not more features or heads. Exploitation evidence is that different data — but it does not belong inside the severity classifier.
+
+EPSS is already fetched (`api/lookup.py:92`, `api/euvd.py:98`) and no model reads it. Adding it as a Phase 1 feature would blur severity and likelihood together, which is wrong on the modelling side and wrong under NIS2, where Art. 23 significance is impact-based.
+
+The proposal is a separate Phase 0 prioritisation surface, kept outside the classification path. Design and the evidence behind it: [exploit-hazard-integration-design.md](exploit-hazard-integration-design.md).
+
+Two prerequisites in that note are independent bug fixes and should happen regardless: `get_exploited()` reads a 4-record "latest" view rather than the 1,665-entry exploited set, and EUVD's exploited flag turns out to be 99.7% CISA rather than an EU signal.
+
+**Effort:** Low for the fixes, medium for Phase 0.
+**Expected gain:** no Phase 1 accuracy change by design — it answers a question Phase 1 does not ask.
+
 ### Medium priority — Phase 2 depth
 
 #### 5. Generate more small-deployment/non_nis2 scenarios
