@@ -197,7 +197,7 @@
         },
         {
           "sector": "chemicals",
-          "entity_type": "chemicals",
+          "entity_type": "chemicals_manufacturer",
           "ms_established": "DE",
           "ms_affected": [
             "NL",
@@ -645,7 +645,7 @@
       "entities": [
         {
           "sector": "drinking_water",
-          "entity_type": "drinking_water",
+          "entity_type": "drinking_water_supplier",
           "ms_established": "DE",
           "ms_affected": [
             "NL"
@@ -660,7 +660,7 @@
         },
         {
           "sector": "drinking_water",
-          "entity_type": "drinking_water",
+          "entity_type": "drinking_water_supplier",
           "ms_established": "NL",
           "ms_affected": [
             "BE"
@@ -1107,7 +1107,7 @@
         },
         {
           "sector": "research",
-          "entity_type": "research",
+          "entity_type": "research_organisation",
           "ms_established": "NL",
           "ms_affected": [
             "BE"
@@ -1132,7 +1132,7 @@
       "entities": [
         {
           "sector": "space",
-          "entity_type": "space",
+          "entity_type": "space_operator",
           "ms_established": "FR",
           "ms_affected": [
             "DE",
@@ -1209,7 +1209,7 @@
       "entities": [
         {
           "sector": "waste_water",
-          "entity_type": "waste_water",
+          "entity_type": "waste_water_operator",
           "ms_established": "IT",
           "ms_affected": [],
           "service_impact": "degraded",
@@ -1222,7 +1222,7 @@
         },
         {
           "sector": "waste_water",
-          "entity_type": "waste_water",
+          "entity_type": "waste_water_operator",
           "ms_established": "IT",
           "ms_affected": [],
           "service_impact": "partial",
@@ -1337,7 +1337,7 @@
       "entities": [
         {
           "sector": "financial_market",
-          "entity_type": "financial_market",
+          "entity_type": "trading_venue_operator",
           "ms_established": "DE",
           "ms_affected": [
             "NL",
@@ -1431,7 +1431,7 @@
       "entities": [
         {
           "sector": "postal",
-          "entity_type": "postal",
+          "entity_type": "postal_service_provider",
           "ms_established": "DE",
           "ms_affected": [],
           "service_impact": "partial",
@@ -1444,7 +1444,7 @@
         },
         {
           "sector": "postal",
-          "entity_type": "postal",
+          "entity_type": "postal_service_provider",
           "ms_established": "AT",
           "ms_affected": [],
           "service_impact": "partial",
@@ -1509,7 +1509,7 @@
       "entities": [
         {
           "sector": "chemicals",
-          "entity_type": "chemicals",
+          "entity_type": "chemicals_manufacturer",
           "ms_established": "DE",
           "ms_affected": [],
           "service_impact": "partial",
@@ -1522,7 +1522,7 @@
         },
         {
           "sector": "chemicals",
-          "entity_type": "chemicals",
+          "entity_type": "chemicals_manufacturer",
           "ms_established": "NL",
           "ms_affected": [],
           "service_impact": "partial",
@@ -1545,7 +1545,7 @@
       "entities": [
         {
           "sector": "waste_management",
-          "entity_type": "waste_management",
+          "entity_type": "waste_management_operator",
           "ms_established": "IT",
           "ms_affected": [],
           "service_impact": "partial",
@@ -1558,7 +1558,7 @@
         },
         {
           "sector": "waste_management",
-          "entity_type": "waste_management",
+          "entity_type": "waste_management_operator",
           "ms_established": "GR",
           "ms_affected": [],
           "service_impact": "partial",
@@ -2085,7 +2085,7 @@
       "entities": [
         {
           "sector": "drinking_water",
-          "entity_type": "drinking_water",
+          "entity_type": "drinking_water_supplier",
           "ms_established": "FI",
           "ms_affected": [
             "EE"
@@ -2100,7 +2100,7 @@
         },
         {
           "sector": "drinking_water",
-          "entity_type": "drinking_water",
+          "entity_type": "drinking_water_supplier",
           "ms_established": "EE",
           "ms_affected": [
             "FI"
@@ -2362,7 +2362,7 @@
       "entities": [
         {
           "sector": "financial_market",
-          "entity_type": "financial_market",
+          "entity_type": "trading_venue_operator",
           "ms_established": "DE",
           "ms_affected": [
             "NL",
@@ -2381,7 +2381,7 @@
         },
         {
           "sector": "financial_market",
-          "entity_type": "financial_market",
+          "entity_type": "trading_venue_operator",
           "ms_established": "FR",
           "ms_affected": [
             "BE",
@@ -2471,7 +2471,7 @@
         },
         {
           "sector": "chemicals",
-          "entity_type": "chemicals",
+          "entity_type": "chemicals_manufacturer",
           "ms_established": "AT",
           "ms_affected": [],
           "service_impact": "partial",
@@ -2494,7 +2494,7 @@
       "entities": [
         {
           "sector": "research",
-          "entity_type": "research",
+          "entity_type": "research_organisation",
           "ms_established": "NL",
           "ms_affected": [],
           "service_impact": "none",
@@ -2507,7 +2507,7 @@
         },
         {
           "sector": "research",
-          "entity_type": "research",
+          "entity_type": "research_organisation",
           "ms_established": "DE",
           "ms_affected": [],
           "service_impact": "none",
@@ -2645,7 +2645,7 @@
       "entities": [
         {
           "sector": "non_nis2",
-          "entity_type": "non_nis2",
+          "entity_type": "generic_enterprise",
           "ms_established": "DE",
           "ms_affected": [],
           "service_impact": "partial",
@@ -2658,7 +2658,7 @@
         },
         {
           "sector": "non_nis2",
-          "entity_type": "non_nis2",
+          "entity_type": "generic_enterprise",
           "ms_established": "AT",
           "ms_affected": [],
           "service_impact": "partial",
@@ -2892,5 +2892,6 @@
       "vault_source": "02_Clippings/Incidents/LU/2026/0512 - LuxTrust Sign Tenant Leak",
       "note": "O-level corrected from O1 to O2 during validation: a trust service provider is high_relevance and two member states are affected, which triggers the high_relevance + 2 MS rule. The initial O1 judgment overweighted the absence of formal cross-border coordination. Data-only case with zero service impact — T3 rests entirely on exfiltration, not availability. Thales is modelled as generic_enterprise because defence is not a NIS2 sector; it is a customer whose staff data sat in the breached tenant, not an operator. affected_persons_count for the second entity is the ~45% customer share of 6,410 recorded in the dossier, and is an approximation."
     }
-  ]
+  ],
+  "vocabulary_note": "Twenty-three entities carried their sector name in entity_type — the generator filled the field with the sector where it had no specific type. Corrected 2026-08-05 to the canonical type for each sector; six of the nine sectors have exactly one."
 }

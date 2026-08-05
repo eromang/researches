@@ -1,6 +1,6 @@
 # CyberScale v5 — Multi-Entity Aggregation Benchmark (Fully Deterministic)
 
-**Date:** 2026-08-05 17:11
+**Date:** 2026-08-05 17:29
 **Scenarios:** 51
 **Pipeline:** aggregation → derive_t_level → derive_o_level → matrix (zero ML)
 **Elapsed:** 0.0s

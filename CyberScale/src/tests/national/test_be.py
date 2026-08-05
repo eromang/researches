@@ -246,7 +246,7 @@ class TestAvailabilityThresholds:
 
     def test_contractual_delay_threshold(self):
         r = assess_be_significance(
-            sector="transport", entity_type="road_transport_operator",
+            sector="transport", entity_type="road_authority",
             service_impact="degraded", contractual_delay=True,
         )
         assert r.significant_incident

@@ -24,7 +24,7 @@ class TestLuCoverage:
         assert is_lu_covered("transport", "railway_undertaking") is True
 
     def test_road_entity_covered(self):
-        assert is_lu_covered("transport", "road_transport_operator") is True
+        assert is_lu_covered("transport", "road_authority") is True
 
     def test_air_entity_covered(self):
         assert is_lu_covered("transport", "air_carrier") is True
@@ -38,8 +38,19 @@ class TestLuCoverage:
     def test_drinking_water_covered(self):
         assert is_lu_covered("drinking_water", "drinking_water_supplier") is True
 
-    def test_digital_service_provider_covered(self):
-        assert is_lu_covered("digital_providers", "digital_service_provider") is True
+    def test_digital_providers_are_not_lu_covered(self):
+        """ILR/N21/1 is unreachable for any validly-typed entity.
+
+        Every canonical entity type in digital_providers is an IR (EU) 2024/2690
+        entity type, and IR takes precedence over national thresholds. The
+        mapping in lu_thresholds.json can never fire; it is kept to document the
+        regulation's scope. Until 2026-08-05 this asserted True, because the
+        mapping used a non-canonical name that is not an IR type — and which the
+        MCP boundary rejects, so the path was unreachable in production anyway.
+        """
+        for et in ("online_marketplace_provider", "search_engine_provider",
+                   "social_network_provider"):
+            assert is_lu_covered("digital_providers", et) is False
 
     def test_ir_entity_not_covered(self):
         """IR entities bypass LU thresholds even in Luxembourg."""
@@ -108,7 +119,7 @@ class TestCommonCriteria:
     def test_road_transport_higher_damage_threshold(self):
         result = assess_lu_significance(
             sector="transport",
-            entity_type="road_transport_operator",
+            entity_type="road_authority",
             financial_impact="significant",
         )
         assert result.significant_incident is True
@@ -278,7 +289,7 @@ class TestTransportRoad:
     def test_service_unavailable_2h(self):
         result = assess_lu_significance(
             sector="transport",
-            entity_type="road_transport_operator",
+            entity_type="road_authority",
             impact_duration_hours=2,
         )
         assert result.significant_incident is True
@@ -287,7 +298,7 @@ class TestTransportRoad:
     def test_service_unavailable_below_2h(self):
         result = assess_lu_significance(
             sector="transport",
-            entity_type="road_transport_operator",
+            entity_type="road_authority",
             impact_duration_hours=1.9,
         )
         assert not any("2 hours" in c for c in result.triggered_criteria)
@@ -295,7 +306,7 @@ class TestTransportRoad:
     def test_data_loss_over_50(self):
         result = assess_lu_significance(
             sector="transport",
-            entity_type="road_transport_operator",
+            entity_type="road_authority",
             affected_persons_count=51,
         )
         assert result.significant_incident is True
@@ -432,7 +443,7 @@ class TestDigitalServiceProviders:
     def test_user_hours_over_5m(self):
         result = assess_lu_significance(
             sector="digital_providers",
-            entity_type="digital_service_provider",
+            entity_type="online_marketplace_provider",
             affected_persons_count=1000000,
             impact_duration_hours=6,
         )
@@ -442,7 +453,7 @@ class TestDigitalServiceProviders:
     def test_user_hours_at_5m_not_triggered(self):
         result = assess_lu_significance(
             sector="digital_providers",
-            entity_type="digital_service_provider",
+            entity_type="online_marketplace_provider",
             affected_persons_count=1000000,
             impact_duration_hours=5,
         )
@@ -451,7 +462,7 @@ class TestDigitalServiceProviders:
     def test_eu_users_over_100k(self):
         result = assess_lu_significance(
             sector="digital_providers",
-            entity_type="digital_service_provider",
+            entity_type="online_marketplace_provider",
             affected_persons_count=100001,
         )
         assert result.significant_incident is True

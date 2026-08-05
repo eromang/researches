@@ -1,9 +1,9 @@
 # CyberScale Phase 3 — Curated Incident Benchmark
 
-**Date:** 2026-08-05 17:11
+**Date:** 2026-08-05 17:33
 **Dataset:** `data/reference/curated_incidents.json`
 **Incidents:** 46
-**Elapsed:** 8.0s
+**Elapsed:** 7.5s
 
 > This benchmark evaluates model performance on **human-curated real-world incidents**,
 > as opposed to the synthetic benchmark which uses parametrically generated scenarios.
@@ -11,15 +11,15 @@
 
 ## T-model Results
 
-- **Accuracy:** 93.5%
-- **Macro F1:** 0.9370
+- **Accuracy:** 91.3%
+- **Macro F1:** 0.8937
 
 ### Per-level F1
 
 | Level | F1 | Support |
 |-------|-----|---------|
-| T1 | 1.0000 | 4 |
-| T2 | 0.9677 | 16 |
+| T1 | 0.8571 | 4 |
+| T2 | 0.9375 | 16 |
 | T3 | 0.9231 | 19 |
 | T4 | 0.8571 | 7 |
 
@@ -27,7 +27,7 @@
 
 | Actual \ Predicted | T1 | T2 | T3 | T4 |
 |---|---|---|---|---|
-| **T1** | 4 | 0 | 0 | 0 |
+| **T1** | 3 | 1 | 0 | 0 |
 | **T2** | 0 | 15 | 1 | 0 |
 | **T3** | 0 | 0 | 18 | 1 |
 | **T4** | 0 | 0 | 1 | 6 |
@@ -57,14 +57,14 @@
 
 ## End-to-end Matrix Results
 
-- **Accuracy:** 91.3%
+- **Accuracy:** 89.1%
 
 ### Classification Distribution
 
 | Classification | Count | Pct |
 |---------------|-------|-----|
-| below_threshold | 4 | 8.7% |
-| significant | 26 | 56.5% |
+| below_threshold | 3 | 6.5% |
+| significant | 27 | 58.7% |
 | large_scale | 11 | 23.9% |
 | cyber_crisis | 5 | 10.9% |
 
@@ -109,7 +109,7 @@
 | INC-035 | Medibank data breach (2022) | T3/O1 | T3/O1 | ok | ok | Significant |
 | INC-036 | German DIHK Chamber of Commerce attack ( | T3/O1 | T3/O1 | ok | ok | Significant |
 | INC-037 | Luxembourg POST telecom breach (2023) | T2/O1 | T2/O1 | ok | ok | Significant |
-| INC-038 | European Investment Bank DDoS (2023) | T1/O1 | T1/O1 | ok | ok | Below threshold |
+| INC-038 | European Investment Bank DDoS (2023) | T1/O1 | T2/O1 | MISS | ok | Significant |
 | INC-039 | Europol EPE portal data theft (2024) | T3/O3 | T3/O3 | ok | ok | Large-scale |
 | INC-040 | Small Italian water utility ransomware ( | T1/O1 | T1/O1 | ok | ok | Below threshold |
 | INC-041 | Synnovis pathology ransomware (2024) | T4/O3 | T4/O3 | ok | ok | Cyber crisis |
@@ -126,12 +126,13 @@
 - **INC-003 SolarWinds Orion supply chain (2020)**: expected T4, got T3 (confidence: high)
 - **INC-010 Change Healthcare ransomware (2024)**: expected T3, got T4 (confidence: low)
 - **INC-033 AnyDesk supply chain breach (2024)**: expected T2, got T3 (confidence: medium)
+- **INC-038 European Investment Bank DDoS (2023)**: expected T1, got T2 (confidence: low)
 
 ### O-model Misclassifications
 
 - **INC-004 Irish HSE ransomware (2021)**: expected O2, got O1 (confidence: low)
 - **INC-009 MOVEit Transfer mass exploitation (2023)**: expected O3, got O4 (confidence: medium)
-- **INC-010 Change Healthcare ransomware (2024)**: expected O2, got O1 (confidence: low)
+- **INC-010 Change Healthcare ransomware (2024)**: expected O2, got O1 (confidence: medium)
 - **INC-012 German Landkreis Anhalt-Bitterfeld ransomware (2021)**: expected O2, got O3 (confidence: medium)
 - **INC-016 Vodafone Portugal DDoS and sabotage (2022)**: expected O2, got O1 (confidence: medium)
 - **INC-017 Costa Rica Conti ransomware (2022)**: expected O2, got O3 (confidence: medium)

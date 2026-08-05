@@ -1,6 +1,6 @@
 # CyberScale v7 — Luxembourg National Threshold Benchmark
 
-**Date:** 2026-08-05 17:11
+**Date:** 2026-08-05 17:32
 **Dataset:** `data/reference/curated_lu_incidents.json`
 **Scenarios:** 22
 **Elapsed:** 0.0s
@@ -17,8 +17,8 @@
 
 | Tier | Count | Correct |
 |------|-------|---------|
-| ir_thresholds | 3 | 3/3 |
-| national_lu_thresholds | 13 | 13/13 |
+| ir_thresholds | 4 | 4/4 |
+| national_lu_thresholds | 12 | 12/12 |
 | nis2_ml | 6 | 6/6 |
 
 ## Per-scenario Results
@@ -43,7 +43,7 @@
 | LU-16 | LU hospital — death | national_lu_thresholds | national_lu_thresholds | PASS |
 | LU-17 | LU lab — 60% analyses 5h | national_lu_thresholds | national_lu_thresholds | PASS |
 | LU-18 | LU gas — valve control loss | national_lu_thresholds | national_lu_thresholds | PASS |
-| LU-19 | LU digital service provider — 6M user-hours | national_lu_thresholds | national_lu_thresholds | PASS |
+| LU-19 | LU digital service provider — 6M user-hours | ir_thresholds | ir_thresholds | PASS |
 | LU-20 | DE electricity (non-LU) — NIS2 ML fallback | nis2_ml | nis2_ml | PASS |
 | LU-21 | POST Luxembourg — nationwide telecom outage | nis2_ml | nis2_ml | PASS |
 | LU-22 | CTIE DDoS on public.lu — below threshold | nis2_ml | nis2_ml | PASS |

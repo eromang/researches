@@ -126,20 +126,20 @@
       "id": "LU-09",
       "name": "LU road transport — below threshold",
       "description": "Minor IT disruption at Luxembourg road authority, traffic management degraded for 1.5 hours, no user data compromised.",
-      "entity_type": "road_transport_operator",
+      "entity_type": "road_authority",
       "sector": "transport",
       "ms_established": "LU",
       "service_impact": "degraded",
       "impact_duration_hours": 1.5,
       "expected_model": "national_lu_thresholds",
       "expected_significant": false,
-      "note": "Road transport requires ≥ 2h unavailability — 1.5h is below threshold"
+      "note": "Road transport requires ≥ 2h unavailability — 1.5h is below threshold entity_type corrected 2026-08-05 from `road_transport_operator`, which is not in nis2_entity_types.json and is rejected at the MCP boundary; the description names this entity type."
     },
     {
       "id": "LU-10",
       "name": "LU road transport — at threshold",
       "description": "Cyberattack disrupts Luxembourg road transport authority systems, service completely unavailable for exactly 2 hours.",
-      "entity_type": "road_transport_operator",
+      "entity_type": "road_authority",
       "sector": "transport",
       "ms_established": "LU",
       "service_impact": "unavailable",
@@ -147,7 +147,8 @@
       "expected_model": "national_lu_thresholds",
       "expected_significant": true,
       "expected_criteria_contains": "2 hours",
-      "expected_ilr_reference": "ILR/N22/2"
+      "expected_ilr_reference": "ILR/N22/2",
+      "note": "entity_type corrected 2026-08-05 from `road_transport_operator`, which is not in nis2_entity_types.json and is rejected at the MCP boundary; the description names this entity type."
     },
     {
       "id": "LU-11",
@@ -256,7 +257,7 @@
       "id": "LU-18",
       "name": "LU gas — valve control loss",
       "description": "Creos gas distribution station loses motorized valve control following cyberattack on industrial control systems.",
-      "entity_type": "gas_distribution_operator",
+      "entity_type": "gas_undertaking",
       "sector": "energy",
       "ms_established": "LU",
       "suspected_malicious": true,
@@ -266,21 +267,21 @@
       "expected_model": "national_lu_thresholds",
       "expected_significant": true,
       "expected_criteria_contains": "valve",
-      "expected_ilr_reference": "ILR/N22/3"
+      "expected_ilr_reference": "ILR/N22/3",
+      "note": "entity_type corrected 2026-08-05 from `gas_distribution_operator`, which is not in nis2_entity_types.json and is rejected at the MCP boundary; the description names this entity type."
     },
     {
       "id": "LU-19",
       "name": "LU digital service provider — 6M user-hours",
       "description": "Luxembourg-based online marketplace platform unavailable, 1.2M users affected for 5 hours.",
-      "entity_type": "digital_service_provider",
+      "entity_type": "online_marketplace_provider",
       "sector": "digital_providers",
       "ms_established": "LU",
       "affected_persons_count": 1200000,
       "impact_duration_hours": 5,
-      "expected_model": "national_lu_thresholds",
+      "expected_model": "ir_thresholds",
       "expected_significant": true,
-      "expected_criteria_contains": "user-hours",
-      "expected_ilr_reference": "ILR/N21/1"
+      "note": "Routes to IR, not LU. Every canonical entity type in the digital_providers sector — online marketplaces, search engines, social networking platforms — is an IR (EU) 2024/2690 entity type, and is_lu_covered() returns False for IR entities because the EU thresholds take precedence. ILR/N21/1 is therefore unreachable for any validly-typed entity; it is also one of the eleven regulations the draft N26 abrogates. Previously this scenario used entity_type `digital_service_provider`, which is not an IR entity type and so reached the LU path — but the MCP boundary rejects that name, so the route was already unreachable in production."
     },
     {
       "id": "LU-20",
