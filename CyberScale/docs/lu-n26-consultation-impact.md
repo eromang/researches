@@ -128,6 +128,8 @@ They track `digital_infrastructure` closely, which is their actual sector, and a
 
 Two housekeeping notes from the same check, both since resolved. The file existed as byte-identical copies under `data/training/contextual/` and `training/data/contextual/`; the untracked one was removed and `data/training/contextual/README.md` now disambiguates the three schema generations that share similar names. And the file has 32,000 logical rows rather than the 47,470 a line count suggests, because `input_text` contains embedded newlines — worth knowing before sizing it.
 
+> **Correction, 2026-08-05.** The coverage figures above were computed on `contextual_train.csv`, the **v3** corpus. The deployed model was never trained on it: the v3 retrain was reverted in `575c625`, so `data/models/contextual/` is v2-era, and v2 carries **8** entity types against v3's 59, with zero overlap. The three re-routed types therefore have *no* representation in the model now answering for them — not the 145 / 140 / 155 rows counted here. The row-level conclusion still holds of the corpus a retrain would use (v4, which reproduces v3's 59-type vocabulary); it says nothing about what is deployed today. Tracked as `BACKLOG.md` D8, and `contextual_train.csv` has since been removed — v4 is byte-reproducible from published inputs.
+
 ## 6. Points a consultation response could raise
 
 Offered as observations from implementing the text, not as positions.

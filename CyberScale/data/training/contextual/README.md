@@ -1,25 +1,45 @@
-# contextual_train.csv — superseded v3 snapshot
+# Phase 2 contextual training data — provenance
 
-This file is a **v3-era snapshot** of the Phase 2 contextual severity training data, committed by `106ad93 data(v3): regenerate Phase 2 training data with NIS2 entity types`. It is not what the training pipeline reads.
+The 17 MB `contextual_train.csv` that sat here was removed on 2026-08-05. This note records what it was and why keeping it stopped being necessary. It remains in git history at `106ad93`, so it is recoverable — and note that `git rm` does not shrink a clone, since the blob stays in history either way. The saving is working-tree bytes only.
 
-Three similarly named files exist, and they are three different schema generations. Telling them apart by name alone is not possible, which is how a byte-identical copy of this one survived unnoticed in `training/data/contextual/` until 2026-08-05.
+## The three generations
 
-| File | Generation | Distinguishing column | Tracked? | Used by |
-|---|---|---|---|---|
-| `training/data/contextual_training_v2.csv` | v2 | `deployment_scale` | no — `training/data/` is gitignored | `mix_predecessor.py` input |
-| **`data/training/contextual/contextual_train.csv`** (this file) | **v3** | `cer_critical_entity`, no MS geography | **yes** | **nothing** |
-| `training/data/contextual_training.csv` | **v4, current** | `ms_established`, `ms_affected`, `entity_affected` | no | `train_contextual.py`, published to HF |
+Three similarly named files exist and they are three schema generations. Name alone does not distinguish them, which is how a byte-identical copy of one survived unnoticed in `training/data/contextual/` until 2026-08-05.
 
-`deployment_scale` was replaced by `entity_type` in v3, and `cross_border` by the `ms_established` / `ms_affected` pair in v4, which is why the schemas differ rather than the rows.
+| File | Gen | Distinguishing column | Entity types | Tracked | On HuggingFace |
+|---|---|---|---:|---|---|
+| `training/data/contextual_training_v2.csv` | v2 | `deployment_scale` | 8 | no | **yes** — served as `contextual_training.csv` |
+| `data/training/contextual/contextual_train.csv` | v3 | `cer_critical_entity`, no MS geography | 59 | was; removed | no |
+| `training/data/contextual_training.csv` | v4, current | `ms_established`, `ms_affected`, `entity_affected` | 59 | no | no |
 
-## Why it is kept
+`deployment_scale` was replaced by `entity_type` in v3, and `cross_border` by the `ms_established` / `ms_affected` pair in v4. All three hold 32,000 records — `wc -l` reports ~47,000 because `input_text` contains embedded newlines, overstating the size by about 48%.
 
-It is the only version-controlled copy of a training set. `training/data/` is gitignored by design — that directory holds generated corpora, a `cvelistV5` clone and other large working data — so nothing else under it survives a fresh checkout.
+An earlier version of this file claimed v4 was "published to HF". It is not. See below.
 
-Keep it as a historical record, or delete it if the v4 dataset on HuggingFace is considered sufficient provenance. It is 17 MB and referenced by no code, so deleting costs nothing operationally. That is a call for the maintainer, not a cleanup task.
+## Why removal costs nothing
 
-## Contents
+v4 is **byte-reproducible from published and version-controlled inputs**. Verified 2026-08-05 by regenerating it and comparing hashes:
 
-32,000 rows, 59 entity types. Note the row count: `wc -l` reports 47,470 because `input_text` contains embedded newlines. Anything sizing this dataset by line count overstates it by roughly 48%.
+```
+poetry run python training/scripts/generate_contextual.py \
+  --cves training/data/training_cves.csv \
+  --rules data/reference/sector_severity_rules.json \
+  --config training/configs/contextual_cls.json \
+  --output <out>.csv
+# sha256 090bd96c2abe685affa5418f6881526c9d4773e01ad05cad7b26c9bc56f4ba6f
+# identical to training/data/contextual_training.csv
+```
 
-Columns: `cve_id, input_text, sector, cross_border, cvss_score, base_severity, contextual_severity, label, entity_type, cer_critical_entity`. `label` is a 0–3 integer encoding of `contextual_severity`.
+Generation is seeded (`random.Random(seed)`, seed read from `contextual_cls.json`). Of the three inputs, the rules and the config are tracked, and `training_cves.csv` is published byte-for-byte at [`eromang/cyberscale-training-cves`](https://huggingface.co/datasets/eromang/cyberscale-training-cves) — sha256 verified, 12,719,939 bytes. So no training corpus depends on an untracked local file, which was the concern that kept v3 here.
+
+v3, by contrast, was the input to a retrain that was **reverted** in `575c625`. It is provenance for an artifact that was never shipped.
+
+## What the HuggingFace dataset actually contains
+
+[`eromang/cyberscale-contextual-training`](https://huggingface.co/datasets/eromang/cyberscale-contextual-training) serves a file named `contextual_training.csv`, which reads as the current one. It is **v2** — sha256 `d3ff30f8…`, byte-identical to the local `contextual_training_v2.csv`, uploaded 2026-03-31T04:16Z, before v3 and v4 existed. The dataset card also declares `size_categories: 1K<n<10K` for a 32,000-record file and documents a two-column schema.
+
+Anyone reaching for that dataset expecting the current training set gets the wrong generation. Correcting it means re-uploading to a public repository, so it is the maintainer's call and is tracked in `BACKLOG.md`.
+
+## The deployed model is v2-era
+
+`data/models/contextual/` at HEAD is byte-identical to its state before the v3 retrain, because that retrain was reverted. It is trained on the 8-entity-type v2 corpus, while `src/cyberscale/models/contextual.py` validates against 59 entity types and emits `ms_established:` / `ms_affected:`, which appear in none of the 32,000 v2 training rows. The two entity vocabularies have **zero overlap**. Tracked as `BACKLOG.md` D8.
