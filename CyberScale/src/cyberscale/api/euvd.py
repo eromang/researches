@@ -62,8 +62,33 @@ class EUVDClient(APIClient):
         """Lookup by vendor advisory ID."""
         return self.get("/advisory", params={"id": advisory_id})
 
-    def get_exploited(self) -> list[dict[str, Any]]:
-        """Get latest exploited vulnerabilities (max 8)."""
+    def get_exploited(self, limit: int | None = None) -> list[dict[str, Any]]:
+        """Every EUVD entry flagged as exploited, paginated.
+
+        `/exploitedvulnerabilities` is a "latest" view: it returns 4 records and
+        ignores `size`, `page` and `limit`. The full set lives behind
+        `/search?exploited=1` and held 1,665 entries when measured on 2026-08-05.
+        Use `get_exploited_latest()` if the recent-activity view is what you want.
+
+        Caveat worth knowing before treating this as a European signal: 1,658 of
+        those 1,663 CVEs (99.7%) are also in CISA KEV, with an identical median
+        time-to-exploit. It is effectively a CISA mirror. `CIRCLClient.get_kev()`
+        is a strict superset and records which upstream source saw each one.
+        """
+        out: list[dict[str, Any]] = []
+        page = 0
+        while True:
+            batch = self.search(exploited=True, page=page, size=100)
+            out.extend(batch)
+            if len(batch) < 100:
+                break
+            if limit is not None and len(out) >= limit:
+                break
+            page += 1
+        return out[:limit] if limit is not None else out
+
+    def get_exploited_latest(self) -> list[dict[str, Any]]:
+        """The `/exploitedvulnerabilities` recent-activity view (4 records)."""
         items = self.get("/exploitedvulnerabilities")
         return [self._parse_item(item) for item in items]
 

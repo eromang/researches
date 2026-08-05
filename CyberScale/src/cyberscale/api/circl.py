@@ -54,6 +54,80 @@ class CIRCLClient(APIClient):
 
         return self.get("/api/vulnerability/", params=params)
 
+    def get_kev_status(self, cve_id: str) -> dict[str, Any]:
+        """Exploitation status and dates for one CVE, from CIRCL's KEV catalog.
+
+        Returns a record whether or not the CVE is listed, so callers can tell
+        "the catalog says no" from "the lookup failed" — the latter raises.
+
+        `exploited_date` is the earliest first-seen date across upstream sources.
+        Validated against CISA's own `dateAdded` on the 1,660 overlapping
+        entries: 1,659 exact matches, so the dates carry upstream timing rather
+        than CIRCL ingest time.
+        """
+        data = self.get("/api/kev", params={"vuln_id": cve_id})
+        records = [self._parse_kev_item(item) for item in data.get("data", [])]
+        records = [r for r in records if r]
+
+        if not records:
+            return {
+                "cve_id": cve_id,
+                "exploited": False,
+                "exploited_date": None,
+                "exploit_sources": [],
+                "in_cisa_kev": False,
+            }
+
+        dates = sorted(r["exploited_date"] for r in records if r["exploited_date"])
+        sources = sorted({s for r in records for s in r["sources"]})
+        return {
+            "cve_id": cve_id,
+            "exploited": True,
+            "exploited_date": dates[0] if dates else None,
+            "exploit_sources": sources,
+            "in_cisa_kev": "cisa-kev" in sources,
+            "observed_by_sensors": "shadowserver" in sources,
+        }
+
+    def get_kev(self, limit: int | None = None) -> list[dict[str, Any]]:
+        """CIRCL's full KEV catalog, one record per (CVE, upstream source).
+
+        Held 5,693 records over 2,789 distinct CVEs on 2026-08-05 — a strict
+        superset of CISA KEV plus 1,125 CVEs that neither CISA nor ENISA's EUVD
+        lists. Unlike either, it records which source saw each entry, which is
+        what lets curated catalogue timing be told apart from sensor telemetry.
+        """
+        out: list[dict[str, Any]] = []
+        page = 1
+        while True:
+            data = self.get("/api/kev", params={"per_page": 1000, "page": page})
+            batch = data.get("data", [])
+            out.extend(r for r in (self._parse_kev_item(i) for i in batch) if r)
+            if len(batch) < 1000:
+                break
+            if limit is not None and len(out) >= limit:
+                break
+            page += 1
+        return out[:limit] if limit is not None else out
+
+    @staticmethod
+    def _parse_kev_item(item: dict) -> dict[str, Any] | None:
+        """Normalise one KEV record. Returns None if it carries no CVE id."""
+        cve_id = (item.get("vulnerability") or {}).get("vulnId")
+        if not cve_id or not cve_id.startswith("CVE-"):
+            # CIRCL also carries EDB-/SSV-/GCVE- identifiers, which have no CVE.
+            return None
+        timestamps = item.get("timestamps") or {}
+        first_seen = timestamps.get("first_seen_at") or ""
+        return {
+            "cve_id": cve_id,
+            "exploited_date": first_seen[:10] or None,
+            "sources": sorted(
+                {e.get("source") for e in item.get("evidence", []) if e.get("source")}
+            ),
+            "status_reason": (item.get("status") or {}).get("status_reason"),
+        }
+
     def _parse_cve5(self, data: dict, cve_id: str) -> dict[str, Any] | None:
         """Parse CVE 5.0 JSON format from CIRCL."""
         cna = data.get("containers", {}).get("cna", {})

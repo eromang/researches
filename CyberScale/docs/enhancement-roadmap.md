@@ -173,9 +173,9 @@ EPSS is already fetched (`api/lookup.py:92`, `api/euvd.py:98`) and no model read
 
 The proposal is a separate Phase 0 prioritisation surface, kept outside the classification path. Design and the evidence behind it: [exploit-hazard-integration-design.md](exploit-hazard-integration-design.md).
 
-Two prerequisites in that note are independent bug fixes and should happen regardless: `get_exploited()` reads a 4-record "latest" view rather than the 1,665-entry exploited set, and EUVD's exploited flag turns out to be 99.7% CISA rather than an EU signal.
+Both prerequisites are **done**: `get_exploited()` now paginates the real exploited set (it was reading a 4-record "latest" view), and exploitation status now comes from CIRCL KEV rather than EUVD's flag, which turned out to be 99.7% CISA. `lookup_cve()` carries `exploited`, `exploited_date`, `exploit_sources`, `in_cisa_kev`, `published` and `time_to_exploit_days`.
 
-**Effort:** Low for the fixes, medium for Phase 0.
+**Effort:** Fixes done; Phase 0 medium.
 **Expected gain:** no Phase 1 accuracy change by design — it answers a question Phase 1 does not ask.
 
 ### Medium priority — Phase 2 depth

@@ -110,3 +110,55 @@ def test_lookup_by_euvd_id():
 
     assert result["euvd_id"] == "EUVD-2025-12345"
     assert result["cvss_score"] == 9.1
+
+
+@responses.activate
+def test_get_exploited_paginates_through_search():
+    """The exploited set lives behind /search, not /exploitedvulnerabilities.
+
+    /exploitedvulnerabilities returns a 4-record "latest" view and ignores
+    size/page/limit; the full set was 1,665 entries on 2026-08-05.
+    """
+    page0 = [
+        {"id": f"EUVD-2026-{i:05d}", "aliases": f"CVE-2026-{i:05d}", "baseScore": 7.5}
+        for i in range(100)
+    ]
+    page1 = [
+        {"id": "EUVD-2026-99999", "aliases": "CVE-2026-99999", "baseScore": 9.8}
+    ]
+    responses.add(responses.GET, f"{EUVD_BASE}/search",
+                  json={"items": page0, "total": 101}, status=200)
+    responses.add(responses.GET, f"{EUVD_BASE}/search",
+                  json={"items": page1, "total": 101}, status=200)
+
+    results = EUVDClient().get_exploited()
+
+    assert len(results) == 101
+    assert results[-1]["cve_ids"] == ["CVE-2026-99999"]
+    # exploited filter must be sent, and pagination must advance
+    assert responses.calls[0].request.params["exploited"] == "true"
+    assert responses.calls[0].request.params["page"] == "0"
+    assert responses.calls[1].request.params["page"] == "1"
+
+
+@responses.activate
+def test_get_exploited_respects_limit():
+    responses.add(
+        responses.GET, f"{EUVD_BASE}/search",
+        json={"items": [{"id": f"EUVD-{i}", "aliases": f"CVE-2026-{i:05d}"}
+                        for i in range(100)], "total": 200},
+        status=200,
+    )
+    results = EUVDClient().get_exploited(limit=5)
+    assert len(results) == 5
+
+
+@responses.activate
+def test_get_exploited_latest_uses_legacy_endpoint():
+    responses.add(
+        responses.GET, f"{EUVD_BASE}/exploitedvulnerabilities",
+        json=[{"id": "EUVD-2026-00001", "aliases": "CVE-2026-00001"}], status=200,
+    )
+    results = EUVDClient().get_exploited_latest()
+    assert len(results) == 1
+    assert results[0]["cve_ids"] == ["CVE-2026-00001"]

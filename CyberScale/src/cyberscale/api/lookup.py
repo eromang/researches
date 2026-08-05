@@ -1,10 +1,21 @@
 """Unified multi-source vulnerability lookup facade."""
 
+from datetime import date
 from typing import Any
 
 from cyberscale.api.nvd import NVDClient
 from cyberscale.api.euvd import EUVDClient
 from cyberscale.api.circl import CIRCLClient
+
+
+def _as_date(value: Any) -> date | None:
+    """Parse the leading YYYY-MM-DD of an ISO timestamp, or None."""
+    if not isinstance(value, str) or len(value) < 10:
+        return None
+    try:
+        return date.fromisoformat(value[:10])
+    except ValueError:
+        return None
 
 
 class UnifiedLookup:
@@ -46,7 +57,50 @@ class UnifiedLookup:
         if not results:
             return None
 
-        return self._merge(cve_id, results, sources)
+        merged = self._merge(cve_id, results, sources)
+        self._attach_exploitation(cve_id, merged)
+        return merged
+
+    def _attach_exploitation(self, cve_id: str, merged: dict[str, Any]) -> None:
+        """Add exploitation status and timing from CIRCL's KEV catalog.
+
+        `exploited` is deliberately three-valued. True and False are answers from
+        the catalog; None means the lookup failed and we do not know. Collapsing
+        the last case into False would report "not exploited" for every network
+        error, which is the wrong direction to be wrong in.
+        """
+        kev = self._safe_call(self.circl.get_kev_status, cve_id)
+        if kev is None:
+            merged["exploited"] = None
+            merged["exploitation_lookup"] = "failed"
+            return
+
+        merged["exploited"] = kev["exploited"]
+        merged["exploited_date"] = kev["exploited_date"]
+        merged["exploit_sources"] = kev["exploit_sources"]
+        merged["in_cisa_kev"] = kev["in_cisa_kev"]
+        merged["exploitation_lookup"] = "ok"
+
+        published = _as_date(merged.get("published"))
+        exploited = _as_date(kev["exploited_date"])
+        if published and exploited:
+            # Negative values are real: some CVEs are exploited before the
+            # record is published. Left signed rather than clamped.
+            merged["time_to_exploit_days"] = (exploited - published).days
+        else:
+            merged["time_to_exploit_days"] = None
+
+    def age_days(self, merged: dict[str, Any], as_of: date | None = None) -> int | None:
+        """Vulnerability age in days at `as_of` (default today).
+
+        Kept out of the merged record on purpose: age depends on when you ask,
+        and a field whose value silently changes between calls does not belong
+        in something callers may cache or store.
+        """
+        published = _as_date(merged.get("published"))
+        if published is None:
+            return None
+        return ((as_of or date.today()) - published).days
 
     def _merge(
         self, cve_id: str, results: list[dict], sources: list[str]
@@ -84,6 +138,16 @@ class UnifiedLookup:
                 break
         else:
             merged["cwe"] = None
+
+        # Publication date: NVD and CIRCL call it `published`, EUVD
+        # `date_published`. Needed for time-to-exploit and for age.
+        for result in results:
+            published = result.get("published") or result.get("date_published")
+            if published:
+                merged["published"] = published
+                break
+        else:
+            merged["published"] = None
 
         # EUVD-specific enrichment
         for result in results:
