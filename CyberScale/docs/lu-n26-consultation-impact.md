@@ -126,7 +126,7 @@ They track `digital_infrastructure` closely, which is their actual sector, and a
 
 **N26 implies no training change either.** The draft governs *significance* determination, which is a deterministic threshold layer. The contextual model predicts *severity*. The two are separate outputs and N26 does not touch the second.
 
-Two housekeeping notes from the same check: `data/training/contextual/contextual_train.csv` and `training/data/contextual/contextual_train.csv` are byte-identical duplicates (`c94143b8…`), and the file has 32,000 logical rows rather than the 47,470 a line count suggests, because `input_text` contains embedded newlines.
+Two housekeeping notes from the same check, both since resolved. The file existed as byte-identical copies under `data/training/contextual/` and `training/data/contextual/`; the untracked one was removed and `data/training/contextual/README.md` now disambiguates the three schema generations that share similar names. And the file has 32,000 logical rows rather than the 47,470 a line count suggests, because `input_text` contains embedded newlines — worth knowing before sizing it.
 
 ## 6. Points a consultation response could raise
 
