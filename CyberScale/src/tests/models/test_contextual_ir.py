@@ -12,15 +12,46 @@ from cyberscale.models.contextual_ir import (
     NIS2AssessmentResult,
     get_ir_entity_types,
 )
-from cyberscale.models.contextual import ContextualResult
+
+# `contextual` pulls in torch. Imported lazily inside the tests that need it, behind
+# an importorskip, so the IR routing tests below run without the ML stack — and so a
+# missing dependency reports as a skip rather than a failure.
 
 
 class TestIREntityRouting:
-    def test_ir_entity_types_loaded(self):
+    def test_ir_entity_types_match_article_1(self):
+        """IR (EU) 2024/2690 Art. 1 names exactly eleven entity types.
+
+        Articles 5 to 14 cover exactly those, with Art. 10 covering managed
+        service providers and managed security service providers together.
+
+        This assertion used to read `>= 10`, which passed just as happily with
+        the fourteen types the file wrongly carried until 2026-08-05. Pinning
+        the exact set is what turns this into a regression guard.
+        """
         ir_types = get_ir_entity_types()
-        assert len(ir_types) >= 10
-        assert "cloud_computing_provider" in ir_types
-        assert "dns_service_provider" in ir_types
+        assert ir_types == {
+            "dns_service_provider",
+            "tld_registry",
+            "cloud_computing_provider",
+            "data_centre_operator",
+            "cdn_provider",
+            "managed_service_provider",
+            "managed_security_service_provider",
+            "online_marketplace_provider",
+            "search_engine_provider",
+            "social_network_provider",
+            "trust_service_provider",
+        }
+
+    def test_electronic_communications_and_ixp_are_not_ir_entities(self):
+        """No article of IR 2024/2690 covers IXPs or ECN/ECS providers.
+
+        They were listed as IR entity types in error, which routed them to
+        thresholds that do not apply to them.
+        """
+        for entity_type in ("ixp_operator", "public_ecn_provider", "public_ecs_provider"):
+            assert not is_ir_entity(entity_type), f"{entity_type} is outside IR Art. 1 scope"
 
     def test_is_ir_entity_true(self):
         assert is_ir_entity("cloud_computing_provider") is True
@@ -126,31 +157,43 @@ class TestIRAssessment:
 
 class TestNIS2Assessment:
     def test_critical_high_confidence_likely(self):
+        pytest.importorskip("torch", reason="ContextualResult needs the ML stack")
+        from cyberscale.models.contextual import ContextualResult
         cr = ContextualResult(severity="Critical", confidence="high", key_factors=["health sector"])
         result = assess_nis2_significance(cr, entity_affected=True)
         assert result.significant_incident == "likely"
 
     def test_high_medium_confidence_likely(self):
+        pytest.importorskip("torch", reason="ContextualResult needs the ML stack")
+        from cyberscale.models.contextual import ContextualResult
         cr = ContextualResult(severity="High", confidence="medium", key_factors=["energy sector"])
         result = assess_nis2_significance(cr, entity_affected=True)
         assert result.significant_incident == "likely"
 
     def test_medium_uncertain(self):
+        pytest.importorskip("torch", reason="ContextualResult needs the ML stack")
+        from cyberscale.models.contextual import ContextualResult
         cr = ContextualResult(severity="Medium", confidence="medium", key_factors=["banking sector"])
         result = assess_nis2_significance(cr, entity_affected=True)
         assert result.significant_incident == "uncertain"
 
     def test_low_unlikely(self):
+        pytest.importorskip("torch", reason="ContextualResult needs the ML stack")
+        from cyberscale.models.contextual import ContextualResult
         cr = ContextualResult(severity="Low", confidence="low", key_factors=["non_nis2 sector"])
         result = assess_nis2_significance(cr, entity_affected=True)
         assert result.significant_incident == "unlikely"
 
     def test_not_entity_affected_downgrades(self):
+        pytest.importorskip("torch", reason="ContextualResult needs the ML stack")
+        from cyberscale.models.contextual import ContextualResult
         cr = ContextualResult(severity="Critical", confidence="high", key_factors=["health sector"])
         result = assess_nis2_significance(cr, entity_affected=False)
         assert result.significant_incident == "uncertain"
 
     def test_result_to_dict(self):
+        pytest.importorskip("torch", reason="ContextualResult needs the ML stack")
+        from cyberscale.models.contextual import ContextualResult
         cr = ContextualResult(severity="High", confidence="high", key_factors=["transport sector"])
         result = assess_nis2_significance(cr, entity_affected=True)
         d = result.to_dict()

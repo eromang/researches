@@ -107,6 +107,27 @@ LU-06 predates this work, so the error was pre-existing rather than introduced h
 
 **A consequence worth noting.** With IR correctly scoped, Luxembourg has no implemented rule for electronic communications providers: the applicable national text is ILR/N23/3, which CyberScale does not implement and which this draft also abrogates. Telecom therefore falls to the general model today and would fall to N26's generic criteria tomorrow.
 
+### Does `contextual_train.csv` need updating?
+
+Checked, because the fix moves those three entity types from tier 1 (IR deterministic) to tier 3 (the ML model) in `entity_incident.py`. The model is now answerable for them where it previously was not.
+
+**No correction is needed.** The 440 rows covering them are labelled consistently with their sector rather than with IR logic:
+
+| Group | rows | Critical | High | Medium | Low |
+|---|---:|---:|---:|---:|---:|
+| the three moved to ML | 440 | 32.5% | 30.0% | 21.4% | 16.1% |
+| all `digital_infrastructure` | 1,289 | 33.9% | 28.2% | 22.7% | 15.1% |
+| the eleven that stay IR-routed | 3,678 | 32.6% | 24.6% | 22.4% | 20.4% |
+| everything already ML-routed | 27,882 | 23.9% | 25.0% | 25.4% | 25.7% |
+
+They track `digital_infrastructure` closely, which is their actual sector, and all 440 are sectored correctly. Had the generator treated them as IR entities the distribution would look different from the sector baseline; it does not.
+
+**Coverage is thin, though.** Across the 48 entity types that now route to the ML model, the median is 299.5 rows. These three carry 145, 140 and 155 — roughly half, though comfortably above the minimum of 87. Not a blocker, and not a reason to retrain on its own; worth topping up whenever a retrain happens for other reasons, since these three just became load-bearing.
+
+**N26 implies no training change either.** The draft governs *significance* determination, which is a deterministic threshold layer. The contextual model predicts *severity*. The two are separate outputs and N26 does not touch the second.
+
+Two housekeeping notes from the same check: `data/training/contextual/contextual_train.csv` and `training/data/contextual/contextual_train.csv` are byte-identical duplicates (`c94143b8…`), and the file has 32,000 logical rows rather than the 47,470 a line count suggests, because `input_text` contains embedded newlines.
+
 ## 6. Points a consultation response could raise
 
 Offered as observations from implementing the text, not as positions.
