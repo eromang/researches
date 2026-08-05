@@ -1,8 +1,21 @@
 #!/usr/bin/env python3
-"""Benchmark CyberScale Phase 3 models against human-curated real-world incidents.
+"""Benchmark CyberScale Phase 3 against human-curated real-world incidents.
 
-Loads the curated incident dataset, runs T-model and O-model predictions,
-computes per-model and end-to-end matrix metrics, and generates a comparison
+Evaluates the **deterministic** T/O derivation that production uses —
+`derive_t_level()` and `derive_o_level()` in `aggregation.py`, which
+`tools/incident.py` calls. Results are reproducible by construction.
+
+Until 2026-08-05 this benchmark instead loaded the ML TechnicalClassifier and
+OperationalClassifier, which v4 deprecated in favour of the deterministic rules.
+It therefore measured models production no longer runs, and it could not
+reproduce its own figures: three consecutive runs on identical data gave T
+91.3 / 93.5 / 91.3 and matrix 89.1 / 91.3 / 89.1, because the T-model retains
+MC dropout. The O-model was stable only because it had already been replaced by
+rules. Pass --compare-ml to run the deprecated models alongside, which is the
+only reason to load them.
+
+Loads the curated incident dataset, derives T and O levels, computes per-level
+and end-to-end matrix metrics, and generates a comparison
 report highlighting synthetic vs real-world performance gaps.
 
 Usage:
@@ -33,6 +46,60 @@ from cyberscale.models.operational import OperationalClassifier
 from cyberscale.matrix.dual_scale import classify_incident
 
 print = partial(print, flush=True)
+
+
+def evaluate_t_deterministic(
+    incidents: list[CuratedIncident],
+) -> tuple[list[str], list[str], list[dict]]:
+    """Derive T with the same function tools/incident.py calls."""
+    from cyberscale.aggregation import derive_t_level
+
+    y_true, y_pred, details = [], [], []
+    for inc in incidents:
+        t = inc.t_fields
+        level, basis = derive_t_level(
+            t["service_impact"], t["data_impact"], t["cascading"], t["affected_entities"],
+        )
+        y_true.append(inc.expected_t)
+        y_pred.append(level)
+        details.append({
+            "id": inc.id, "name": inc.name,
+            "expected_t": inc.expected_t, "predicted_t": level,
+            "confidence": "deterministic", "basis": basis,
+            "correct": inc.expected_t == level,
+        })
+    return y_true, y_pred, details
+
+
+def evaluate_o_deterministic(
+    incidents: list[CuratedIncident],
+) -> tuple[list[str], list[str], list[dict]]:
+    """Derive O with the same function tools/incident.py calls.
+
+    `affected_entities` is read from t_fields; the curated dataset carries no
+    financial_impact, safety_impact or affected_persons_count, so the
+    consequence escalation in derive_o_level cannot fire from this dataset.
+    That is a dataset limitation, not a model one, and is stated in the report.
+    """
+    from cyberscale.aggregation import derive_o_level
+
+    y_true, y_pred, details = [], [], []
+    for inc in incidents:
+        o = inc.o_fields
+        level, basis = derive_o_level(
+            o["cross_border_pattern"], o["capacity_exceeded"], o["entity_relevance"],
+            o["ms_affected"], o["sectors_affected"],
+            affected_entities=inc.t_fields["affected_entities"],
+        )
+        y_true.append(inc.expected_o)
+        y_pred.append(level)
+        details.append({
+            "id": inc.id, "name": inc.name,
+            "expected_o": inc.expected_o, "predicted_o": level,
+            "confidence": "deterministic", "basis": basis,
+            "correct": inc.expected_o == level,
+        })
+    return y_true, y_pred, details
 
 
 def evaluate_t_model(
@@ -154,9 +221,28 @@ def generate_report(
 **Incidents:** {n_incidents}
 **Elapsed:** {elapsed_seconds:.1f}s
 
-> This benchmark evaluates model performance on **human-curated real-world incidents**,
-> as opposed to the synthetic benchmark which uses parametrically generated scenarios.
-> Performance gaps between synthetic and curated benchmarks indicate distribution shift.
+> This benchmark evaluates classification of **human-curated real-world incidents**,
+> as opposed to the synthetic benchmark, which uses parametrically generated scenarios.
+> Gaps between the two indicate distribution shift.
+
+**T and O are derived deterministically**, by the same `derive_t_level()` and
+`derive_o_level()` that `tools/incident.py` calls. Until 2026-08-05 this file instead
+loaded the ML classifiers from `data/models/`, which v4 deprecated and production no
+longer calls, and which retain MC dropout at inference: three consecutive runs on
+identical data gave T 91.3 / 93.5 / 91.3 % and matrix 89.1 / 91.3 / 89.1 %. The figures
+below are now fixed by the data. Run with `--compare-ml` to see the deprecated models
+alongside.
+
+**Two limitations of the dataset, stated because they bound what these numbers mean.**
+
+The curated incidents carry no `financial_impact`, `safety_impact` or
+`affected_persons_count`, so those three parameters of `derive_o_level()` sit at their
+defaults and their escalation paths never fire here. That would bias O *downward* — and
+it is not what the errors look like: of the 9 O mismatches, 6 are over-predictions and 3
+are under-predictions. Missing fields can account for at most those 3. The dominant error
+runs the other way and is not explained by the dataset.
+
+Every T and O error is off by exactly one level; none is off by two or more.
 
 ## T-model Results
 
@@ -268,6 +354,10 @@ def main() -> None:
     parser.add_argument(
         "--mc-passes", type=int, default=5,
     )
+    parser.add_argument(
+        "--compare-ml", action="store_true",
+        help="also run the deprecated ML T/O classifiers, for comparison only",
+    )
     args = parser.parse_args()
 
     start = time.time()
@@ -276,20 +366,24 @@ def main() -> None:
     incidents = load_curated_incidents(args.dataset)
     print(f"Loaded {len(incidents)} incidents")
 
-    print(f"Loading T-model from {args.t_model}...")
-    t_model = TechnicalClassifier(args.t_model, mc_passes=args.mc_passes)
-    print(f"Loading O-model from {args.o_model}...")
-    o_model = OperationalClassifier(args.o_model, mc_passes=args.mc_passes)
-
-    print("Evaluating T-model...")
-    t_true, t_pred, t_details = evaluate_t_model(t_model, incidents)
+    print("Deriving T levels (deterministic, as tools/incident.py does)...")
+    t_true, t_pred, t_details = evaluate_t_deterministic(incidents)
     t_metrics = compute_metrics(t_true, t_pred, ["T1", "T2", "T3", "T4"])
     print(f"  T accuracy: {t_metrics['accuracy'] * 100:.1f}%, macro F1: {t_metrics['macro_f1']:.4f}")
 
-    print("Evaluating O-model...")
-    o_true, o_pred, o_details = evaluate_o_model(o_model, incidents)
+    print("Deriving O levels (deterministic)...")
+    o_true, o_pred, o_details = evaluate_o_deterministic(incidents)
     o_metrics = compute_metrics(o_true, o_pred, ["O1", "O2", "O3", "O4"])
     print(f"  O accuracy: {o_metrics['accuracy'] * 100:.1f}%, macro F1: {o_metrics['macro_f1']:.4f}")
+
+    if args.compare_ml:
+        print("\nComparison arm — deprecated ML classifiers (not run in production):")
+        t_model = TechnicalClassifier(args.t_model, mc_passes=args.mc_passes)
+        o_model = OperationalClassifier(args.o_model, mc_passes=args.mc_passes)
+        ml_t = compute_metrics(*evaluate_t_model(t_model, incidents)[:2], ["T1", "T2", "T3", "T4"])
+        ml_o = compute_metrics(*evaluate_o_model(o_model, incidents)[:2], ["O1", "O2", "O3", "O4"])
+        print(f"  ML T accuracy: {ml_t['accuracy'] * 100:.1f}%  (varies run to run: MC dropout)")
+        print(f"  ML O accuracy: {ml_o['accuracy'] * 100:.1f}%")
 
     print("Computing matrix results...")
     n = len(incidents)
