@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "description": "Human-curated benchmark dataset of real-world cyber incidents mapped to Blueprint T/O levels.",
   "incidents": [
     {
@@ -1241,6 +1241,187 @@
         "t_rationale": "Partial disruption of administrative systems only at a single small utility with no data compromise and no cascading effects falls into the T1 baseline category under the everything else rule.",
         "o_rationale": "ACN notification only, single non-essential entity, no cross-border impact, and no capacity exceedance results in O1 as the default classification."
       }
+    },
+    {
+      "id": "INC-041",
+      "name": "Synnovis pathology ransomware (2024)",
+      "date": "2024-06-03",
+      "sources": [
+        "https://therecord.media/ransomware-nhs-cyberattack-disruption"
+      ],
+      "description": "A ransomware attack on Synnovis, the pathology services provider for NHS trusts in South East London, disrupted blood testing and diagnostic services across multiple hospitals. Recovery proved exceptionally protracted: more than 18 months later internal documents showed at least one NHS trust still operating without fully restored pathology systems and managing large backlogs of delayed test results. At South London and Maudsley NHS Foundation Trust, pathology systems had not been restored as of April 2026. The incident illustrates a single specialised supplier producing sustained degradation across several dependent healthcare providers.",
+      "t_fields": {
+        "service_impact": "sustained",
+        "affected_entities": 7,
+        "sectors_affected": 1,
+        "cascading": "limited",
+        "data_impact": "compromised"
+      },
+      "o_fields": {
+        "sectors_affected": 1,
+        "entity_relevance": "high_relevance",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "capacity_exceeded": true
+      },
+      "expected_t": "T4",
+      "expected_o": "O3",
+      "rationale": {
+        "t_rationale": "Disruption persisting beyond 18 months with pathology systems still unrestored is sustained service impact, which is the T4 trigger irrespective of the entity count.",
+        "o_rationale": "Response capacity was exceeded — backlogs of delayed results persisted for over a year across dependent trusts — placing this at O3. It stays below O4 because impact remained within one member state with no cross-border pattern."
+      },
+      "vault_source": "02_Clippings/Incidents/GB/2024/0615 - Synnovis"
+    },
+    {
+      "id": "INC-042",
+      "name": "Transport for London breach (2024)",
+      "date": "2024-09-02",
+      "sources": [
+        "https://www.nationalcrimeagency.gov.uk/news/two-sentenced-for-hacking-transport-for-london-in-uk-s-biggest-ever-cyber-crime-case",
+        "https://www.bleepingcomputer.com/news/security/scattered-spider-members-behind-transport-for-london-hack-get-five-years-in-prison/"
+      ],
+      "description": "Transport for London, which serves more than 8.4 million Londoners, disclosed on 2 September 2024 that its network had been breached the previous month. The intrusion disrupted internal systems and online customer services while the transport network itself continued to operate. Two members of the Scattered Spider collective were later sentenced to five years and six months each, in what the National Crime Agency described as the UK's largest cybercrime prosecution.",
+      "t_fields": {
+        "service_impact": "degraded",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_impact": "accessed"
+      },
+      "o_fields": {
+        "sectors_affected": 1,
+        "entity_relevance": "high_relevance",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Internal and online services were degraded and customer data was accessed, while physical transport operations continued — degraded service and accessed data are both T2 triggers.",
+        "o_rationale": "Single entity, single member state, handled through national law enforcement without cross-border coordination."
+      },
+      "vault_source": "02_Clippings/Incidents/GB/2024/0902 - Transport for London"
+    },
+    {
+      "id": "INC-043",
+      "name": "Orange Belgium data breach (2025)",
+      "date": "2025-08-21",
+      "sources": [
+        "https://www.bleepingcomputer.com/news/security/orange-belgium-discloses-data-breach-impacting-850-000-customers/"
+      ],
+      "description": "Orange Belgium disclosed a data breach affecting 850,000 customers, detected in July 2025. The telecommunications operator's services remained available throughout; the impact was confined to customer data. The case is a large-scale personal data compromise at an essential-sector entity without any accompanying service disruption.",
+      "t_fields": {
+        "service_impact": "none",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_impact": "compromised"
+      },
+      "o_fields": {
+        "sectors_affected": 1,
+        "entity_relevance": "high_relevance",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Compromised customer data with no service impact is a T2 trigger on the data dimension alone; scale of records does not by itself escalate the technical level.",
+        "o_rationale": "Nationally scoped consumer data breach at a single operator, no cross-border pattern and no capacity exhaustion."
+      },
+      "vault_source": "02_Clippings/Incidents/BE/2025/0821 - Orange Belgium Data Breach"
+    },
+    {
+      "id": "INC-044",
+      "name": "AZ Monica hospital cyberattack (2026)",
+      "date": "2026-01-13",
+      "sources": [
+        "https://www.bleepingcomputer.com/news/security/belgian-hospital-az-monica-shuts-down-servers-after-cyberattack/"
+      ],
+      "description": "The Belgian hospital AZ Monica shut down its servers following a cyberattack and cancelled planned procedures. Taking systems offline as a containment measure rendered clinical services unavailable, with patient care rescheduled as a direct consequence.",
+      "t_fields": {
+        "service_impact": "unavailable",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_impact": "none"
+      },
+      "o_fields": {
+        "sectors_affected": 1,
+        "entity_relevance": "high_relevance",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T3",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Servers were taken offline and procedures cancelled, so services were unavailable rather than merely degraded — the T3 trigger.",
+        "o_rationale": "Contained to one hospital in one member state; no evidence of regional health capacity being exceeded."
+      },
+      "vault_source": "02_Clippings/Incidents/BE/2026/0113 - AZ Monica Cyberattack"
+    },
+    {
+      "id": "INC-045",
+      "name": "Port of Vigo ransomware (2026)",
+      "date": "2026-03-25",
+      "sources": [
+        "https://therecord.media/port-of-vigo-ransomware"
+      ],
+      "description": "A ransomware attack disrupted digital systems at Spain's Port of Vigo. Authorities disconnected parts of the port network and reverted to managing cargo operations manually. Cargo handling continued in degraded form rather than halting, a recurring pattern in European port incidents where manual fallback preserves partial throughput.",
+      "t_fields": {
+        "service_impact": "degraded",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_impact": "none"
+      },
+      "o_fields": {
+        "sectors_affected": 1,
+        "entity_relevance": "high_relevance",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Network segments were disconnected and operations continued manually — degraded, not unavailable, since cargo handling was maintained.",
+        "o_rationale": "Single port operator in one member state; no cross-border coordination reported despite the international nature of port traffic."
+      },
+      "vault_source": "02_Clippings/Incidents/ES/2026/0325 - Port of Vigo Ransomware"
+    },
+    {
+      "id": "INC-046",
+      "name": "Deutsche Bahn DDoS (2026)",
+      "date": "2026-02-18",
+      "sources": [
+        "https://www.dw.com/en/deutsche-bahn-says-cyberattack-hit-ticket-and-info-systems/a-76024130"
+      ],
+      "description": "Germany's national rail operator reported a distributed denial-of-service attack against its ticketing and passenger information systems. Train operations were not affected; the impact was confined to customer-facing digital services. A useful contrast with rail incidents that reach operational technology.",
+      "t_fields": {
+        "service_impact": "degraded",
+        "affected_entities": 1,
+        "sectors_affected": 1,
+        "cascading": "none",
+        "data_impact": "none"
+      },
+      "o_fields": {
+        "sectors_affected": 1,
+        "entity_relevance": "high_relevance",
+        "ms_affected": 1,
+        "cross_border_pattern": "none",
+        "capacity_exceeded": false
+      },
+      "expected_t": "T2",
+      "expected_o": "O1",
+      "rationale": {
+        "t_rationale": "Ticketing and information services were degraded while train operations continued; a DDoS confined to customer-facing systems does not reach unavailability of the transport service itself.",
+        "o_rationale": "National rail operator, one member state, no cross-border effect reported."
+      },
+      "vault_source": "02_Clippings/Incidents/DE/2026/0218 - Deutsche Bahn"
     }
   ]
 }

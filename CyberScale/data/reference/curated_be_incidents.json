@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "description": "10 curated Belgium incident scenarios for national threshold benchmark.",
   "scenarios": [
     {
@@ -118,6 +118,35 @@
       "financial_impact": "minor",
       "expected_model": "national_be_thresholds",
       "expected_significant": false
+    },
+    {
+      "id": "BE-11",
+      "name": "Orange Belgium customer data breach",
+      "entity_type": "public_ecs_provider",
+      "sector": "digital_infrastructure",
+      "ms_established": "BE",
+      "suspected_malicious": true,
+      "data_impact": "compromised",
+      "service_impact": "none",
+      "affected_persons_count": 850000,
+      "expected_model": "national_be_thresholds",
+      "expected_significant": true,
+      "expected_criteria_contains": "malicious",
+      "note": "Real incident disclosed 2025-08-21, detected July 2025. Services remained available; impact confined to customer data. Triggers the BE malicious_compromise criterion (threshold 'any') on confidentiality alone. Source: 02_Clippings/Incidents/BE/2025/0821 - Orange Belgium Data Breach"
+    },
+    {
+      "id": "BE-12",
+      "name": "AZ Monica hospital — servers shut down",
+      "entity_type": "healthcare_provider",
+      "sector": "health",
+      "ms_established": "BE",
+      "suspected_malicious": true,
+      "service_impact": "unavailable",
+      "data_impact": "none",
+      "expected_model": "national_be_thresholds",
+      "expected_significant": true,
+      "expected_criteria_contains": "malicious",
+      "note": "Real incident, 2026-01-13. Hospital shut down its own servers as containment and cancelled planned procedures — service unavailability arising from the response rather than the attack. Source: 02_Clippings/Incidents/BE/2026/0113 - AZ Monica Cyberattack"
     }
   ]
 }

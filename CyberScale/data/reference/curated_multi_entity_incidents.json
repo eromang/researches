@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "description": "50 curated multi-entity incident scenarios for benchmarking the CyberScale aggregation, O-model, and classification matrix pipeline. Covers all T-levels, O-levels, and classification tiers with realistic NIS2 entity configurations.",
   "incidents": [
     {
@@ -2847,6 +2847,50 @@
       "expected_t": "T4",
       "expected_o": "O4",
       "expected_classification": "cyber_crisis"
+    },
+    {
+      "id": "ME-051",
+      "name": "LuxTrust Sign tenant leak (ChimeraZ, 2026)",
+      "description": "Disclosure on a cybercrime forum, attributed to the actor ChimeraZ, of an export from the LuxTrust tenant of the LuxTrust Sign B2B e-signature platform: 6,410 user records and 6,384 handwritten signature images. 99.9% of records belong to the LuxTrust tenant; Thales appears as the largest single customer within it. Services remained available throughout — the impact is confined to exfiltrated identity and signature data held by a trust service provider on behalf of its business customers. Real incident, 12 May 2026; cross-border LU/FR through the customer base rather than through service disruption.",
+      "entities": [
+        {
+          "sector": "digital_infrastructure",
+          "entity_type": "trust_service_provider",
+          "ms_established": "LU",
+          "ms_affected": [
+            "LU",
+            "FR"
+          ],
+          "service_impact": "none",
+          "data_impact": "exfiltrated",
+          "financial_impact": "moderate",
+          "safety_impact": "none",
+          "affected_persons_count": 6410,
+          "suspected_malicious": true,
+          "impact_duration_hours": 0
+        },
+        {
+          "sector": "non_nis2",
+          "entity_type": "generic_enterprise",
+          "ms_established": "FR",
+          "ms_affected": [
+            "FR",
+            "LU"
+          ],
+          "service_impact": "none",
+          "data_impact": "exfiltrated",
+          "financial_impact": "minor",
+          "safety_impact": "none",
+          "affected_persons_count": 2900,
+          "suspected_malicious": true,
+          "impact_duration_hours": 0
+        }
+      ],
+      "expected_t": "T3",
+      "expected_o": "O2",
+      "expected_classification": "large_scale",
+      "vault_source": "02_Clippings/Incidents/LU/2026/0512 - LuxTrust Sign Tenant Leak",
+      "note": "O-level corrected from O1 to O2 during validation: a trust service provider is high_relevance and two member states are affected, which triggers the high_relevance + 2 MS rule. The initial O1 judgment overweighted the absence of formal cross-border coordination. Data-only case with zero service impact — T3 rests entirely on exfiltration, not availability. Thales is modelled as generic_enterprise because defence is not a NIS2 sector; it is a customer whose staff data sat in the breached tenant, not an operator. affected_persons_count for the second entity is the ~45% customer share of 6,410 recorded in the dossier, and is an approximation."
     }
   ]
 }

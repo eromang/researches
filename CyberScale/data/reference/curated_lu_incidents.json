@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "description": "20 curated Luxembourg incident scenarios for v7 national threshold benchmark. Each scenario tests a specific routing or threshold decision.",
   "scenarios": [
     {
@@ -11,7 +11,10 @@
       "ms_established": "LU",
       "service_impact": "unavailable",
       "impact_duration_hours": 0.75,
-      "sector_specific": {"pods_affected": 600, "voltage_level": "lv"},
+      "sector_specific": {
+        "pods_affected": 600,
+        "voltage_level": "lv"
+      },
       "expected_model": "national_lu_thresholds",
       "expected_significant": true,
       "expected_criteria_contains": "LV-POD",
@@ -39,7 +42,9 @@
       "sector": "transport",
       "ms_established": "LU",
       "suspected_malicious": true,
-      "sector_specific": {"trains_cancelled_pct": 7.0},
+      "sector_specific": {
+        "trains_cancelled_pct": 7.0
+      },
       "expected_model": "national_lu_thresholds",
       "expected_significant": true,
       "expected_criteria_contains": "trains",
@@ -53,7 +58,9 @@
       "sector": "health",
       "ms_established": "LU",
       "safety_impact": "health_risk",
-      "sector_specific": {"persons_health_impact": 12},
+      "sector_specific": {
+        "persons_health_impact": 12
+      },
       "expected_model": "national_lu_thresholds",
       "expected_significant": true,
       "expected_criteria_contains": "10 persons",
@@ -92,7 +99,9 @@
       "sector": "transport",
       "ms_established": "LU",
       "suspected_malicious": true,
-      "sector_specific": {"flights_cancelled": 6},
+      "sector_specific": {
+        "flights_cancelled": 6
+      },
       "expected_model": "national_lu_thresholds",
       "expected_significant": true,
       "expected_criteria_contains": "flights",
@@ -106,7 +115,9 @@
       "sector": "energy",
       "ms_established": "LU",
       "suspected_malicious": true,
-      "sector_specific": {"scada_unavailable_min": 35},
+      "sector_specific": {
+        "scada_unavailable_min": 35
+      },
       "expected_model": "national_lu_thresholds",
       "expected_significant": true,
       "expected_criteria_contains": "SCADA",
@@ -185,7 +196,9 @@
       "entity_type": "transmission_system_operator",
       "sector": "energy",
       "ms_established": "LU",
-      "sector_specific": {"voltage_level": "hv_ehv"},
+      "sector_specific": {
+        "voltage_level": "hv_ehv"
+      },
       "expected_model": "national_lu_thresholds",
       "expected_significant": true,
       "expected_criteria_contains": "HV/EHV",
@@ -200,7 +213,9 @@
       "ms_established": "LU",
       "affected_persons_count": 15000,
       "impact_duration_hours": 6,
-      "sector_specific": {"users_pct": 12},
+      "sector_specific": {
+        "users_pct": 12
+      },
       "expected_model": "national_lu_thresholds",
       "expected_significant": true,
       "expected_ilr_reference": "ILR/N21/2"
@@ -214,7 +229,9 @@
       "ms_established": "LU",
       "safety_impact": "death",
       "suspected_malicious": true,
-      "sector_specific": {"persons_health_impact": 1},
+      "sector_specific": {
+        "persons_health_impact": 1
+      },
       "expected_model": "national_lu_thresholds",
       "expected_significant": true,
       "expected_criteria_contains": "death",
@@ -228,7 +245,9 @@
       "sector": "health",
       "ms_established": "LU",
       "impact_duration_hours": 5,
-      "sector_specific": {"analyses_affected_pct": 60},
+      "sector_specific": {
+        "analyses_affected_pct": 60
+      },
       "expected_model": "national_lu_thresholds",
       "expected_significant": true,
       "expected_criteria_contains": "50-100%",
@@ -242,7 +261,9 @@
       "sector": "energy",
       "ms_established": "LU",
       "suspected_malicious": true,
-      "sector_specific": {"valve_control_loss": true},
+      "sector_specific": {
+        "valve_control_loss": true
+      },
       "expected_model": "national_lu_thresholds",
       "expected_significant": true,
       "expected_criteria_contains": "valve",
@@ -274,6 +295,34 @@
       "expected_model": "nis2_ml",
       "expected_significant_type": "string",
       "note": "DE entity — no national module available, falls back to NIS2 ML"
+    },
+    {
+      "id": "LU-21",
+      "name": "POST Luxembourg — nationwide telecom outage",
+      "description": "Targeted cyberattack exploiting a vulnerability in standardised software on Huawei routers causes a nationwide POST Luxembourg telecommunications outage from 16:15 to approximately 20:00. Emergency numbers 112/113 become inaccessible to POST customers, triggering government crisis cell activation.",
+      "entity_type": "public_ecn_provider",
+      "sector": "digital_infrastructure",
+      "ms_established": "LU",
+      "service_impact": "unavailable",
+      "impact_duration_hours": 3.5,
+      "suspected_malicious": true,
+      "expected_model": "ir_thresholds",
+      "expected_significant": true,
+      "note": "Real incident, 2025-07-23. Public ECN providers are IR entity types, not LU ILR sectors, so this routes to IR rather than ILR N-regulations. RETEX records nis2_significant: true. Source: 03_Analysis/06_Recover/Incident-Analysis/LU/2025/2025-07-23 - POST Cyberattack - RETEX.md"
+    },
+    {
+      "id": "LU-22",
+      "name": "CTIE DDoS on public.lu — below threshold",
+      "description": "DDoS attack against the public.lu domain operated by the Centre des technologies de l'information de l'Etat, 07:58-08:39. Guichet.lu, the CNS portal and other state websites unavailable for 41 minutes. CTIE confirmed no data compromised or exfiltrated.",
+      "entity_type": "central_government_entity",
+      "sector": "public_administration",
+      "ms_established": "LU",
+      "service_impact": "unavailable",
+      "impact_duration_hours": 0.68,
+      "suspected_malicious": true,
+      "expected_model": "nis2_ml",
+      "expected_significant": false,
+      "note": "Real incident, 2026-01-20. Central government entities are neither an LU ILR sector nor an IR entity type, so assessment falls to the general NIS2 model. RETEX records nis2_significant: false — a short, fully recovered outage with no data impact. Negative case for a class the roadmap flags as weak. Source: 03_Analysis/06_Recover/Incident-Analysis/LU/2026/2026-01-20 - CTIE DDoS Attack - RETEX.md"
     }
   ]
 }
