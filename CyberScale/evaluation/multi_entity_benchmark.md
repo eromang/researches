@@ -1,7 +1,7 @@
 # CyberScale v5 — Multi-Entity Aggregation Benchmark (Fully Deterministic)
 
-**Date:** 2026-04-01 11:56
-**Scenarios:** 50
+**Date:** 2026-08-05 17:05
+**Scenarios:** 51
 **Pipeline:** aggregation → derive_t_level → derive_o_level → matrix (zero ML)
 **Elapsed:** 0.0s
 
@@ -67,3 +67,4 @@
 | ME-048 | Non-NIS2 entities minor incident | 2 | T2/O2 | T2/O2 | significant | ok |
 | ME-049 | Small electricity provider pair out | 2 | T2/O3 | T2/O3 | large_scale | ok |
 | ME-050 | Pan-EU election infrastructure atta | 8 | T4/O4 | T4/O4 | cyber_crisis | ok |
+| ME-051 | LuxTrust Sign tenant leak (ChimeraZ | 2 | T3/O2 | T3/O2 | large_scale | ok |

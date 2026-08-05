@@ -88,8 +88,7 @@
       "service_impact": "degraded",
       "impact_duration_hours": 0.75,
       "expected_model": "nis2_ml",
-      "expected_significant": false,
-      "note": "IXP operators are IR entities — LU ILR/N22/6 is superseded. Service not fully unavailable, so IR not triggered. Corrected 2026-08-05: this entity type is not in scope of IR (EU) 2024/2690 (Art. 1). Luxembourg's own rule for electronic communications is ILR/N23/3, which CyberScale does not implement, so assessment falls to the general model."
+      "note": "IXP operators are IR entities — LU ILR/N22/6 is superseded. Service not fully unavailable, so IR not triggered. Corrected 2026-08-05: this entity type is not in scope of IR (EU) 2024/2690 (Art. 1). Luxembourg's own rule for electronic communications is ILR/N23/3, which CyberScale does not implement, so assessment falls to the general model. The ML path returns significant_incident=None by design: it estimates severity and emits a reporting hint, it does not make a regulatory determination. expected_significant is therefore omitted, matching the other nis2_ml scenarios."
     },
     {
       "id": "LU-07",
@@ -307,8 +306,7 @@
       "impact_duration_hours": 3.5,
       "suspected_malicious": true,
       "expected_model": "nis2_ml",
-      "expected_significant": true,
-      "note": "Real incident, 2025-07-23. Public ECN providers are IR entity types, not LU ILR sectors, so this routes to IR rather than ILR N-regulations. RETEX records nis2_significant: true. Source: 03_Analysis/06_Recover/Incident-Analysis/LU/2025/2025-07-23 - POST Cyberattack - RETEX.md Corrected 2026-08-05: this entity type is not in scope of IR (EU) 2024/2690 (Art. 1). Luxembourg's own rule for electronic communications is ILR/N23/3, which CyberScale does not implement, so assessment falls to the general model."
+      "note": "Real incident, 2025-07-23. Public ECN providers are IR entity types, not LU ILR sectors, so this routes to IR rather than ILR N-regulations. RETEX records nis2_significant: true. Source: 03_Analysis/06_Recover/Incident-Analysis/LU/2025/2025-07-23 - POST Cyberattack - RETEX.md Corrected 2026-08-05: this entity type is not in scope of IR (EU) 2024/2690 (Art. 1). Luxembourg's own rule for electronic communications is ILR/N23/3, which CyberScale does not implement, so assessment falls to the general model. The ML path returns significant_incident=None by design: it estimates severity and emits a reporting hint, it does not make a regulatory determination. expected_significant is therefore omitted, matching the other nis2_ml scenarios."
     },
     {
       "id": "LU-22",
@@ -321,8 +319,7 @@
       "impact_duration_hours": 0.68,
       "suspected_malicious": true,
       "expected_model": "nis2_ml",
-      "expected_significant": false,
-      "note": "Real incident, 2026-01-20. Central government entities are neither an LU ILR sector nor an IR entity type, so assessment falls to the general NIS2 model. RETEX records nis2_significant: false — a short, fully recovered outage with no data impact. Negative case for a class the roadmap flags as weak. Source: 03_Analysis/06_Recover/Incident-Analysis/LU/2026/2026-01-20 - CTIE DDoS Attack - RETEX.md"
+      "note": "Real incident, 2026-01-20. Central government entities are neither an LU ILR sector nor an IR entity type, so assessment falls to the general NIS2 model. RETEX records nis2_significant: false — a short, fully recovered outage with no data impact. Negative case for a class the roadmap flags as weak. Source: 03_Analysis/06_Recover/Incident-Analysis/LU/2026/2026-01-20 - CTIE DDoS Attack - RETEX.md The ML path returns significant_incident=None by design: it estimates severity and emits a reporting hint, it does not make a regulatory determination. expected_significant is therefore omitted, matching the other nis2_ml scenarios."
     }
   ]
 }

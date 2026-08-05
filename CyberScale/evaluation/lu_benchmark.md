@@ -1,25 +1,25 @@
 # CyberScale v7 — Luxembourg National Threshold Benchmark
 
-**Date:** 2026-04-02 15:45
+**Date:** 2026-08-05 17:03
 **Dataset:** `data/reference/curated_lu_incidents.json`
-**Scenarios:** 20
+**Scenarios:** 22
 **Elapsed:** 0.0s
 
 ## Summary
 
 | Metric | Result | Target |
 |--------|--------|--------|
-| Overall accuracy | 20/20 (100%) | 100% |
-| Routing correctness | 20/20 | 100% |
-| Significance correctness | 20/20 | 100% |
+| Overall accuracy | 22/22 (100%) | 100% |
+| Routing correctness | 22/22 | 100% |
+| Significance correctness | 22/22 | 100% |
 
 ## Routing Tier Distribution
 
 | Tier | Count | Correct |
 |------|-------|---------|
-| ir_thresholds | 4 | 4/4 |
+| ir_thresholds | 3 | 3/3 |
 | national_lu_thresholds | 13 | 13/13 |
-| nis2_ml | 3 | 3/3 |
+| nis2_ml | 6 | 6/6 |
 
 ## Per-scenario Results
 
@@ -30,7 +30,7 @@
 | LU-03 | CFL rail — train cancellation threshold | national_lu_thresholds | national_lu_thresholds | PASS |
 | LU-04 | CHL hospital — reversible health impact | national_lu_thresholds | national_lu_thresholds | PASS |
 | LU-05 | .LU registry — DNS zone compromise | ir_thresholds | ir_thresholds | PASS |
-| LU-06 | LU-IX IXP — member impact | ir_thresholds | ir_thresholds | PASS |
+| LU-06 | LU-IX IXP — member impact | nis2_ml | nis2_ml | PASS |
 | LU-07 | Luxair — flight cancellation threshold | national_lu_thresholds | national_lu_thresholds | PASS |
 | LU-08 | Creos Luxembourg — gas SCADA | national_lu_thresholds | national_lu_thresholds | PASS |
 | LU-09 | LU road transport — below threshold | national_lu_thresholds | national_lu_thresholds | PASS |
@@ -45,5 +45,7 @@
 | LU-18 | LU gas — valve control loss | national_lu_thresholds | national_lu_thresholds | PASS |
 | LU-19 | LU digital service provider — 6M user-hours | national_lu_thresholds | national_lu_thresholds | PASS |
 | LU-20 | DE electricity (non-LU) — NIS2 ML fallback | nis2_ml | nis2_ml | PASS |
+| LU-21 | POST Luxembourg — nationwide telecom outage | nis2_ml | nis2_ml | PASS |
+| LU-22 | CTIE DDoS on public.lu — below threshold | nis2_ml | nis2_ml | PASS |
 
 ## All scenarios passed.

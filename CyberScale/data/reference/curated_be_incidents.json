@@ -144,9 +144,8 @@
       "service_impact": "unavailable",
       "data_impact": "none",
       "expected_model": "national_be_thresholds",
-      "expected_significant": true,
-      "expected_criteria_contains": "malicious",
-      "note": "Real incident, 2026-01-13. Hospital shut down its own servers as containment and cancelled planned procedures — service unavailability arising from the response rather than the attack. Source: 02_Clippings/Incidents/BE/2026/0113 - AZ Monica Cyberattack"
+      "expected_significant": false,
+      "note": "Real incident, 2026-01-13. The hospital shut down its own servers as containment and cancelled planned procedures. The public reporting gives no outage duration and no affected-user share, and every BE availability threshold requires a duration of at least one hour — so no criterion fires on the inputs the source actually supports. Kept deliberately as a negative case: assessing a real incident from open reporting routinely lacks the quantitative fields the criteria are written around. Supplying a plausible duration would make it pass and would be inventing evidence. Source: 02_Clippings/Incidents/BE/2026/0113 - AZ Monica Cyberattack"
     }
   ]
 }
