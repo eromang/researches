@@ -54,8 +54,11 @@ def _assess_entity_incident(
     financial_impact: str = "none",
     safety_impact: str = "none",
     affected_persons_count: int = 0,
+    affected_persons_pct: float | None = None,
     suspected_malicious: bool = False,
     impact_duration_hours: int = 0,
+    contractual_delay: bool = False,
+    scheduled_maintenance: bool = False,
     # LU sector-specific fields (v7)
     sector_specific: dict | None = None,
 ) -> dict:
@@ -132,6 +135,9 @@ def _assess_entity_incident(
                     impact_duration_hours=impact_duration_hours,
                     cross_border=cross_border,
                     suspected_malicious=suspected_malicious,
+                    affected_persons_pct=affected_persons_pct,
+                    contractual_delay=contractual_delay,
+                    scheduled_maintenance=scheduled_maintenance,
                     sector_specific=sector_specific,
                 )
                 significance = nat_result.to_dict()
@@ -200,8 +206,11 @@ def register(mcp: FastMCP) -> None:
         financial_impact: str = "none",
         safety_impact: str = "none",
         affected_persons_count: int = 0,
+        affected_persons_pct: float | None = None,
         suspected_malicious: bool = False,
         impact_duration_hours: int = 0,
+        contractual_delay: bool = False,
+        scheduled_maintenance: bool = False,
         sector_specific: dict | None = None,
     ) -> dict:
         """Assess a single entity's incident: contextual severity + significant incident determination + early warning recommendation.
@@ -233,7 +242,10 @@ def register(mcp: FastMCP) -> None:
             service_impact=service_impact, data_impact=data_impact,
             financial_impact=financial_impact, safety_impact=safety_impact,
             affected_persons_count=affected_persons_count,
+            affected_persons_pct=affected_persons_pct,
             suspected_malicious=suspected_malicious,
             impact_duration_hours=impact_duration_hours,
+            contractual_delay=contractual_delay,
+            scheduled_maintenance=scheduled_maintenance,
             sector_specific=sector_specific,
         )

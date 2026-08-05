@@ -50,11 +50,15 @@ def run_benchmark() -> tuple[int, int, list[str]]:
             financial_impact=s.get("financial_impact", "none"),
             safety_impact=s.get("safety_impact", "none"),
             affected_persons_count=s.get("affected_persons_count", 0),
-            affected_persons_pct=s.get("affected_persons_pct", 0.0),
+            # None, not 0.0: a scenario that states no percentage has not measured
+            # one, which is the unknown_scope case rather than "zero users".
+            affected_persons_pct=s.get("affected_persons_pct"),
             impact_duration_hours=s.get("impact_duration_hours", 0),
             suspected_malicious=s.get("suspected_malicious", False),
             cross_border=s.get("cross_border", False),
             trade_secret_exfiltration=s.get("trade_secret_exfiltration", False),
+            contractual_delay=s.get("contractual_delay", False),
+            scheduled_maintenance=s.get("scheduled_maintenance", False),
         )
 
         ok = True

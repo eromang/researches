@@ -188,3 +188,84 @@ class TestApplicableFrameworks:
         # Trust services should go through IR, not BE
         # This test verifies is_be_covered returns False for trust_service_provider
         pass  # Covered by TestBeCoverage.test_ir_entity_not_covered
+
+
+class TestAvailabilityThresholds:
+    """All three availability thresholds in be_thresholds.json, not just the first.
+
+    Until 2026-08-05 be.py read only thresholds[0], so unknown_scope and
+    contractual were declared in the reference data and never evaluated.
+    """
+
+    def test_user_percentage_threshold(self):
+        r = assess_be_significance(
+            sector="health", entity_type="healthcare_provider",
+            service_impact="degraded", affected_persons_pct=30.0,
+            impact_duration_hours=2.0,
+        )
+        assert r.significant_incident
+        assert any("≥20% users" in c for c in r.triggered_criteria)
+
+    def test_unknown_scope_triggers_when_count_undetermined(self):
+        """>=1h of lost access with the affected count unknown is significant."""
+        r = assess_be_significance(
+            sector="health", entity_type="healthcare_provider",
+            service_impact="degraded", affected_persons_pct=None,
+            impact_duration_hours=3.0,
+        )
+        assert r.significant_incident
+        assert any("could not be determined" in c for c in r.triggered_criteria)
+
+    def test_explicit_zero_is_not_unknown_scope(self):
+        """0.0% asserts no users were affected; it must not read as 'unknown'."""
+        r = assess_be_significance(
+            sector="health", entity_type="healthcare_provider",
+            service_impact="degraded", affected_persons_pct=0.0,
+            impact_duration_hours=3.0,
+        )
+        assert not any("could not be determined" in c for c in r.triggered_criteria)
+
+    def test_unknown_scope_still_needs_an_hour(self):
+        r = assess_be_significance(
+            sector="health", entity_type="healthcare_provider",
+            service_impact="unavailable", affected_persons_pct=None,
+            impact_duration_hours=0.5,
+        )
+        assert not any("Availability" in c for c in r.triggered_criteria)
+
+    def test_unavailable_implies_full_scope_not_unknown(self):
+        """service_impact=unavailable means everyone; scope is known, not missing."""
+        r = assess_be_significance(
+            sector="health", entity_type="healthcare_provider",
+            service_impact="unavailable", affected_persons_pct=None,
+            impact_duration_hours=2.0,
+        )
+        assert r.significant_incident
+        assert any("≥20% users" in c for c in r.triggered_criteria)
+        assert not any("could not be determined" in c for c in r.triggered_criteria)
+
+    def test_contractual_delay_threshold(self):
+        r = assess_be_significance(
+            sector="transport", entity_type="road_transport_operator",
+            service_impact="degraded", contractual_delay=True,
+        )
+        assert r.significant_incident
+        assert any("contractual deadlines" in c for c in r.triggered_criteria)
+
+    def test_scheduled_maintenance_excluded_from_availability_only(self):
+        """The exclusion is scoped: a compromise during maintenance still counts."""
+        r = assess_be_significance(
+            sector="health", entity_type="healthcare_provider",
+            service_impact="unavailable", impact_duration_hours=6.0,
+            scheduled_maintenance=True,
+        )
+        assert not any("Availability" in c for c in r.triggered_criteria)
+
+        r2 = assess_be_significance(
+            sector="health", entity_type="healthcare_provider",
+            service_impact="unavailable", impact_duration_hours=6.0,
+            scheduled_maintenance=True,
+            suspected_malicious=True, data_impact="compromised",
+        )
+        assert r2.significant_incident
+        assert any("Malicious CIA" in c for c in r2.triggered_criteria)

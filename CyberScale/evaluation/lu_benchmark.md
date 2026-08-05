@@ -1,6 +1,6 @@
 # CyberScale v7 — Luxembourg National Threshold Benchmark
 
-**Date:** 2026-08-05 17:03
+**Date:** 2026-08-05 17:11
 **Dataset:** `data/reference/curated_lu_incidents.json`
 **Scenarios:** 22
 **Elapsed:** 0.0s

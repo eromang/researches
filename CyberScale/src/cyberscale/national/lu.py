@@ -395,6 +395,9 @@ def assess_lu_significance(
     impact_duration_hours: float = 0,
     cross_border: bool = False,
     suspected_malicious: bool = False,  # Accepted for router compatibility
+    affected_persons_pct: float | None = None,  # Accepted for router compatibility
+    contractual_delay: bool = False,  # Accepted for router compatibility
+    scheduled_maintenance: bool = False,  # Accepted for router compatibility
     # Sector-specific fields
     sector_specific: dict | None = None,
 ) -> LuSignificanceResult:

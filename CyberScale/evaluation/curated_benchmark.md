@@ -1,6 +1,6 @@
 # CyberScale Phase 3 — Curated Incident Benchmark
 
-**Date:** 2026-08-05 17:05
+**Date:** 2026-08-05 17:11
 **Dataset:** `data/reference/curated_incidents.json`
 **Incidents:** 46
 **Elapsed:** 8.0s
@@ -11,8 +11,8 @@
 
 ## T-model Results
 
-- **Accuracy:** 95.7%
-- **Macro F1:** 0.9602
+- **Accuracy:** 93.5%
+- **Macro F1:** 0.9370
 
 ### Per-level F1
 
@@ -20,8 +20,8 @@
 |-------|-----|---------|
 | T1 | 1.0000 | 4 |
 | T2 | 0.9677 | 16 |
-| T3 | 0.9500 | 19 |
-| T4 | 0.9231 | 7 |
+| T3 | 0.9231 | 19 |
+| T4 | 0.8571 | 7 |
 
 ### Confusion Matrix
 
@@ -29,7 +29,7 @@
 |---|---|---|---|---|
 | **T1** | 4 | 0 | 0 | 0 |
 | **T2** | 0 | 15 | 1 | 0 |
-| **T3** | 0 | 0 | 19 | 0 |
+| **T3** | 0 | 0 | 18 | 1 |
 | **T4** | 0 | 0 | 1 | 6 |
 
 ## O-model Results
@@ -57,15 +57,15 @@
 
 ## End-to-end Matrix Results
 
-- **Accuracy:** 89.1%
+- **Accuracy:** 91.3%
 
 ### Classification Distribution
 
 | Classification | Count | Pct |
 |---------------|-------|-----|
 | below_threshold | 4 | 8.7% |
-| significant | 27 | 58.7% |
-| large_scale | 10 | 21.7% |
+| significant | 26 | 56.5% |
+| large_scale | 11 | 23.9% |
 | cyber_crisis | 5 | 10.9% |
 
 ## Per-incident Results
@@ -81,7 +81,7 @@
 | INC-007 | Belgian MoD Log4Shell exploitation (2021 | T2/O1 | T2/O1 | ok | ok | Significant |
 | INC-008 | University of Maastricht ransomware (201 | T2/O1 | T2/O1 | ok | ok | Significant |
 | INC-009 | MOVEit Transfer mass exploitation (2023) | T4/O3 | T4/O4 | ok | MISS | Cyber crisis |
-| INC-010 | Change Healthcare ransomware (2024) | T3/O2 | T3/O1 | ok | MISS | Significant |
+| INC-010 | Change Healthcare ransomware (2024) | T3/O2 | T4/O1 | MISS | MISS | Large-scale |
 | INC-011 | Norsk Hydro LockerGoga ransomware (2019) | T2/O2 | T2/O2 | ok | ok | Significant |
 | INC-012 | German Landkreis Anhalt-Bitterfeld ranso | T3/O2 | T3/O3 | ok | MISS | Large-scale |
 | INC-013 | Düsseldorf University Hospital ransomwar | T3/O1 | T3/O1 | ok | ok | Significant |
@@ -124,13 +124,14 @@
 ### T-model Misclassifications
 
 - **INC-003 SolarWinds Orion supply chain (2020)**: expected T4, got T3 (confidence: high)
+- **INC-010 Change Healthcare ransomware (2024)**: expected T3, got T4 (confidence: low)
 - **INC-033 AnyDesk supply chain breach (2024)**: expected T2, got T3 (confidence: medium)
 
 ### O-model Misclassifications
 
 - **INC-004 Irish HSE ransomware (2021)**: expected O2, got O1 (confidence: low)
 - **INC-009 MOVEit Transfer mass exploitation (2023)**: expected O3, got O4 (confidence: medium)
-- **INC-010 Change Healthcare ransomware (2024)**: expected O2, got O1 (confidence: medium)
+- **INC-010 Change Healthcare ransomware (2024)**: expected O2, got O1 (confidence: low)
 - **INC-012 German Landkreis Anhalt-Bitterfeld ransomware (2021)**: expected O2, got O3 (confidence: medium)
 - **INC-016 Vodafone Portugal DDoS and sabotage (2022)**: expected O2, got O1 (confidence: medium)
 - **INC-017 Costa Rica Conti ransomware (2022)**: expected O2, got O3 (confidence: medium)

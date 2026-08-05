@@ -97,21 +97,31 @@ def assess_be_significance(
     financial_impact: str = "none",
     safety_impact: str = "none",
     affected_persons_count: int = 0,
-    affected_persons_pct: float = 0.0,
+    affected_persons_pct: float | None = None,
     impact_duration_hours: float = 0,
     suspected_malicious: bool = False,
     cross_border: bool = False,
     trade_secret_exfiltration: bool = False,
+    contractual_delay: bool = False,
+    scheduled_maintenance: bool = False,
     sector_specific: dict | None = None,  # Accepted for router compatibility, not used
 ) -> BeSignificanceResult:
     """Assess incident significance against Belgium CCB horizontal thresholds.
 
     Five categories (any one triggers):
     1. Suspected malicious CIA compromise
-    2. Availability: ≥20% users for ≥1h
+    2. Availability — all three thresholds in be_thresholds.json:
+       user_percentage (>=20% users for >=1h), unknown_scope (>=1h with the
+       affected count undetermined), contractual (delivery delays past deadline)
     3. Financial loss: >EUR 250K or >5% turnover
     4. Third-party damage: death, hospitalisation, injuries
     5. Recurring events (cannot evaluate from single incident — flagged in output)
+
+    `affected_persons_pct=None` means the entity could not determine how many
+    users were affected, which is what the unknown_scope threshold exists for.
+    It is distinct from `0.0`, which asserts that no users were affected. The
+    parameter previously defaulted to `0.0`, so an unmeasured incident was
+    indistinguishable from one measured at zero.
     """
     data = _load()
     criteria = data["significant_incident_criteria"]
@@ -136,18 +146,56 @@ def assess_be_significance(
     if suspected_malicious and data_impact in ("accessed", "exfiltrated", "compromised", "systemic"):
         triggered.append("Malicious CIA compromise: suspected malicious unauthorized access")
 
-    # 2. Availability
-    # service_impact=unavailable implies 100% of users affected
-    effective_pct = affected_persons_pct
-    if service_impact in ("unavailable", "sustained") and effective_pct == 0:
-        effective_pct = 100.0
+    # 2. Availability — be_thresholds.json defines three thresholds; all are checked.
+    # Until 2026-08-05 only thresholds[0] was read, so unknown_scope and
+    # contractual were declared in the reference data but never evaluated.
+    avail = criteria["availability"]
+    by_type = {t["type"]: t for t in avail["thresholds"]}
 
-    avail_threshold = criteria["availability"]["thresholds"][0]
-    if effective_pct >= avail_threshold["users_pct"] and impact_duration_hours >= avail_threshold["duration_hours"]:
-        triggered.append(
-            f"Availability: ≥{avail_threshold['users_pct']}% users for ≥{avail_threshold['duration_hours']}h "
-            f"(actual: {effective_pct:.0f}% for {impact_duration_hours:.1f}h)"
-        )
+    # "Planned maintenance matching expectations" is excluded (avail.exclusions).
+    # Scoped to availability only: a malicious compromise during a maintenance
+    # window is still a compromise.
+    if scheduled_maintenance:
+        pass
+    else:
+        disrupted = service_impact in ("degraded", "unavailable", "sustained")
+
+        # service_impact=unavailable implies every user is affected, so the
+        # scope is known even when no percentage was supplied.
+        effective_pct = affected_persons_pct
+        if service_impact in ("unavailable", "sustained") and effective_pct is None:
+            effective_pct = 100.0
+
+        pct_t = by_type.get("user_percentage")
+        if (
+            pct_t
+            and effective_pct is not None
+            and effective_pct >= pct_t["users_pct"]
+            and impact_duration_hours >= pct_t["duration_hours"]
+        ):
+            triggered.append(
+                f"Availability: ≥{pct_t['users_pct']}% users for ≥{pct_t['duration_hours']}h "
+                f"(actual: {effective_pct:.0f}% for {impact_duration_hours:.1f}h)"
+            )
+
+        # Users lost access for long enough, but the entity cannot say how many.
+        unk_t = by_type.get("unknown_scope")
+        if (
+            unk_t
+            and effective_pct is None
+            and disrupted
+            and impact_duration_hours >= unk_t["duration_hours"]
+        ):
+            triggered.append(
+                f"Availability: users lost access for ≥{unk_t['duration_hours']}h and the "
+                f"number affected could not be determined "
+                f"(actual: {impact_duration_hours:.1f}h, scope unknown)"
+            )
+
+        if by_type.get("contractual") and contractual_delay:
+            triggered.append(
+                "Availability: delivery delays exceed contractual deadlines"
+            )
 
     # 3. Financial loss (>EUR 250K or >5% turnover)
     fin = criteria["financial_loss"]
