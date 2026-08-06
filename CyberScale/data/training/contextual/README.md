@@ -40,6 +40,14 @@ v3, by contrast, was the input to a retrain that was **reverted** in `575c625`. 
 
 Anyone reaching for that dataset expecting the current training set gets the wrong generation. Correcting it means re-uploading to a public repository, so it is the maintainer's call and is tracked in `BACKLOG.md`.
 
-## The deployed model is v2-era
+## The deployed model is v4-trained
 
-`data/models/contextual/` at HEAD is byte-identical to its state before the v3 retrain, because that retrain was reverted. It is trained on the 8-entity-type v2 corpus, while `src/cyberscale/models/contextual.py` validates against 59 entity types and emits `ms_established:` / `ms_affected:`, which appear in none of the 32,000 v2 training rows. The two entity vocabularies have **zero overlap**. Tracked as `BACKLOG.md` D8.
+`data/models/contextual/` is trained on **v4** and has seen all 59 entity types. Three independent lines of evidence:
+
+- **Dates.** v4 written 1 Apr 03:48 → `model.safetensors` 05:31 → `metrics.json` 06:59. The weights postdate v4 by 1 h 43.
+- **Metrics.** Evaluating the deployed model on the v4 test split (stratified, seed 42) reproduces `metrics.json` to four decimals on five metrics: 81.71 % accuracy, macro F1 0.8148, per-class 0.9163 / 0.7770 / 0.7058 / 0.8601.
+- **Behaviour.** On the 1,500 test rows whose `entity_type` does not exist in v2 at all, it scores 80.67 % — indistinguishable from its overall 81.71 %. A model blind to those tokens could not do that.
+
+> **An earlier version of this file claimed the opposite**, on the strength of `git diff c51b3b6~1 HEAD -- data/models/contextual/` returning empty. **`data/models/` is gitignored**, so that diff compared nothing. An empty diff over untracked paths is the absence of evidence, not evidence of identity — and the two commits it named turn out to have touched only stray HuggingFace `.cache/` metadata, never any weights. Nothing was ever retrained-then-reverted.
+
+What does survive: accuracy on the three entity types the IR scope fix re-routed to this model — `ixp_operator`, `public_ecn_provider`, `public_ecs_provider` — is **66.0 %** against 81.7 % overall. Wilson 95 % intervals [52.2, 77.6] and [80.6, 82.8] do not overlap, so the gap holds even at n = 50. Reproduce with `evaluation/eval_contextual_vocabulary.py --by-entity-type`. Tracked as `BACKLOG.md` D3/I3.
