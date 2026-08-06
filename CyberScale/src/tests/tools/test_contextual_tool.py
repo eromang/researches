@@ -89,6 +89,8 @@ class TestAssessContextualSeverity:
             "Buffer overflow in SCADA", "transport",
             ms_established="DE", ms_affected=["FR"],
             score=9.5, entity_type=None, cer_critical_entity=None,
+            deployment_context=None,
+            apply_de_escalation=False,
         )
 
     def test_score_none_passed_to_model(self):
@@ -109,6 +111,8 @@ class TestAssessContextualSeverity:
             "Info disclosure", "non_nis2",
             ms_established="EU", ms_affected=None,
             score=None, entity_type=None, cer_critical_entity=None,
+            deployment_context=None,
+            apply_de_escalation=False,
         )
 
     def test_entity_type_passed_to_model(self):
@@ -133,6 +137,8 @@ class TestAssessContextualSeverity:
             "RCE in medical device firmware", "health",
             ms_established="DE", ms_affected=["FR"],
             score=9.1, entity_type="healthcare_provider", cer_critical_entity=None,
+            deployment_context=None,
+            apply_de_escalation=False,
         )
         assert result["entity_type"] == "healthcare_provider"
 
@@ -185,11 +191,15 @@ class TestCerCriticalEntity:
             sector="food",
             entity_type="food_producer",
             cer_critical_entity=True,
+            deployment_context=None,
+            apply_de_escalation=False,
         )
         mock_clf.predict.assert_called_once_with(
             "DoS in food supply chain", "food",
             ms_established="EU", ms_affected=None,
             score=None, entity_type="food_producer", cer_critical_entity=True,
+            deployment_context=None,
+            apply_de_escalation=False,
         )
         assert result["cer_critical_entity"] is True
 
@@ -224,5 +234,7 @@ class TestCerCriticalEntity:
             sector="food",
             entity_type="food_producer",
             cer_critical_entity=False,
+            deployment_context=None,
+            apply_de_escalation=False,
         )
         assert "cer_critical_entity" not in result

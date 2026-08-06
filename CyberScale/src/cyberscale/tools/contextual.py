@@ -53,6 +53,8 @@ def _assess_with_model(
     score: float | None = None,
     entity_type: str | None = None,
     cer_critical_entity: bool | None = None,
+    deployment_context: str | None = None,
+    apply_de_escalation: bool = False,
 ) -> dict:
     """Assess contextual severity using the classifier model."""
     result = clf.predict(
@@ -60,6 +62,8 @@ def _assess_with_model(
         ms_established=ms_established, ms_affected=ms_affected,
         score=score, entity_type=entity_type,
         cer_critical_entity=cer_critical_entity,
+        deployment_context=deployment_context,
+        apply_de_escalation=apply_de_escalation,
     )
     cross_border = bool(
         ms_affected and any(ms != ms_established for ms in ms_affected)
@@ -97,8 +101,24 @@ def register(mcp: FastMCP) -> None:
         severity_score: float | None = None,
         entity_type: str | None = None,
         cer_critical_entity: bool | None = None,
+        deployment_context: str | None = None,
+        apply_de_escalation: bool = False,
     ) -> dict:
-        """Assess context-dependent severity for a vulnerability given NIS2 sector, member state geography, and deployment context."""
+        """Assess context-dependent severity for a vulnerability given NIS2 sector, member state geography, and deployment context.
+
+        deployment_context is free text describing WHERE the affected system
+        runs — "SCADA historian on the plant control network" versus "finance
+        desktop used by three staff". Measured on the external validation set,
+        it is the strongest single predictor of the expert lowering severity
+        below the CVSS score, and until 2026-08-06 this tool had no parameter
+        for it despite the docstring promising one.
+
+        apply_de_escalation is opt-in and defaults off: enabling it changes the
+        severity returned for every out-of-scope entity. See
+        docs/de-escalation-rules.md for the derivation and the measured
+        accuracy, which is an improvement over the model and not a working
+        system.
+        """
         # 1. Validate sector
         ok, err = _validate_sector(sector)
         if not ok:
@@ -115,4 +135,6 @@ def register(mcp: FastMCP) -> None:
             ms_established=ms_established, ms_affected=ms_affected,
             score=severity_score, entity_type=entity_type,
             cer_critical_entity=cer_critical_entity,
+            deployment_context=deployment_context,
+            apply_de_escalation=apply_de_escalation,
         )
