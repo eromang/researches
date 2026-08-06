@@ -24,6 +24,12 @@ Last updated: **2026-08-06**
 
 ---
 
+## Decision pending
+
+| # | Item | Prio | Status | Note |
+|---|------|------|--------|------|
+| **P1** | **Phase 2 contextual severity — keep, rebuild, or retire** | P1 | **DECISION REQUIRED** | Synthesis of D3/D10/D11/D12/D13/D14 in [`docs/phase2-assessment-2026-08-06.md`](docs/phase2-assessment-2026-08-06.md). One line: **Phase 2 scores worse than ignoring context** — CVSS passthrough 36.95 % against the model's 34.2–34.6 % on the external set. Four options costed (ship de-escalation at ~49 % · rebuild the corpus so it can de-escalate · retire the model for CVSS + scope rules · stop and reconsider). Recommendation is **retire, with a deliberate pause before rebuilding**, because the de-escalation semantics must be authored as a regulatory question rather than inferred from 378 examples — inferring them is how the current corpus came to be wrong. Nothing acted on. |
+
 ## Data integrity
 
 | # | Item | Prio | Status | Note |
