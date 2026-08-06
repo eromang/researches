@@ -71,6 +71,21 @@ def load_split(csv_path: Path, seed: int, test_size: float):
     return [rows[i] for i in test_idx]
 
 
+def load_all(csv_path: Path):
+    """Every row of *csv_path*, in file order.
+
+    Used with --no-split when the file IS the evaluation set. Exits 2 on an
+    empty file rather than reporting a score over zero rows.
+    """
+    csv.field_size_limit(10**9)
+    with csv_path.open(newline="") as f:
+        rows = list(csv.DictReader(f))
+    if not rows:
+        print(f"ERROR: {csv_path} contains no records", file=sys.stderr)
+        sys.exit(2)
+    return rows
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="data/models/contextual")
@@ -82,6 +97,15 @@ def main() -> int:
     ap.add_argument("--out", default=None, help="write metrics JSON here")
     ap.add_argument("--by-entity-type", action="store_true",
                     help="break accuracy down per entity_type, with Wilson 95% intervals")
+    ap.add_argument("--no-split", action="store_true",
+                    help="evaluate every row of --data instead of re-deriving a "
+                         "test split from it. Required when --data is already a "
+                         "frozen evaluation set: re-splitting it would compare "
+                         "two models on different rows.")
+    ap.add_argument("--dump-predictions", default=None, metavar="PATH",
+                    help="write per-row predictions as CSV, so a slice (escalated "
+                         "vs not, by sector) can be analysed without re-running "
+                         "inference")
     ap.add_argument("--focus", nargs="*", default=None,
                     help="report these entity types as a group (default: the three IR re-routed)")
     args = ap.parse_args()
@@ -98,11 +122,16 @@ def main() -> int:
     seed = cfg["model"].get("seed", 42)
     test_size = cfg["evaluation"].get("test_split", 0.15)
 
-    test = load_split(data_path, seed, test_size)
+    if args.no_split:
+        test = load_all(data_path)
+        provenance = "frozen set, no re-split"
+    else:
+        test = load_split(data_path, seed, test_size)
+        provenance = f"test split, seed {seed}"
     if args.limit:
         test = test[: args.limit]
     print(f"Model   : {args.model}")
-    print(f"Dataset : {args.data}  ({len(test):,} test rows, seed {seed})")
+    print(f"Dataset : {args.data}  ({len(test):,} rows, {provenance})")
 
     import torch
     from transformers import AutoModelForSequenceClassification, AutoTokenizer
@@ -125,6 +154,20 @@ def main() -> int:
                 print(f"  {min(i + args.batch_size, len(test)):>6,}/{len(test):,}", end="\r")
 
     truth = [int(r["label"]) for r in test]
+
+    if args.dump_predictions:
+        with open(args.dump_predictions, "w", newline="") as fh:
+            w = csv.writer(fh)
+            w.writerow(["cve_id", "entity_type", "sector", "base_severity",
+                        "contextual_severity", "cross_border", "entity_affected",
+                        "cer_critical_entity", "label", "pred"])
+            for r, p_ in zip(test, preds):
+                w.writerow([r.get("cve_id", ""), r.get("entity_type", ""),
+                            r.get("sector", ""), r.get("base_severity", ""),
+                            r.get("contextual_severity", ""),
+                            r.get("cross_border", ""), r.get("entity_affected", ""),
+                            r.get("cer_critical_entity", ""), r["label"], p_])
+        print(f"  predictions → {args.dump_predictions}")
     correct = sum(p == t for p, t in zip(preds, truth))
     acc = correct / len(truth)
 

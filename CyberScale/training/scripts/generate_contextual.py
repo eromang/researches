@@ -386,6 +386,129 @@ def format_impact_fields(fields: dict) -> str:
     return " ".join(parts)
 
 
+def generate_focus_scenarios(
+    cves: list[dict],
+    rules: dict,
+    entity_ids: list[str],
+    extra_scenarios: int,
+    seed: int,
+    sector_entity_map: dict[str, list[dict]],
+    existing_texts: set[str],
+    incident_ratio: float = 0.3,
+    cross_border_escalation_prob: float = 0.5,
+) -> list[dict]:
+    """Additional scenarios restricted to *entity_ids*, for coverage top-up.
+
+    Deliberately driven by its **own** ``random.Random(seed)`` rather than the
+    main generation stream. Sharing the stream would shift every subsequent draw
+    and change the whole corpus, so a before/after comparison could no longer
+    attribute a difference to the top-up rather than to a wholesale resample.
+    With a separate stream the base rows stay byte-identical and these rows are
+    appended.
+
+    Rows whose ``input_text`` already exists are dropped: the point is to add
+    scenarios the model has not seen, not to duplicate rows it would then learn
+    by heart — which would raise the measured score without moving capability.
+    """
+    rng = random.Random(seed)
+    escalation_cfg = rules["rules"]["escalation_triggers"]
+    bands = rules["rules"]["base_severity_from_cvss"]
+    cross_border_esc = parse_escalation(rules["rules"]["cross_border_rule"]["escalation"])
+
+    by_id = {e["id"]: e for sect in sector_entity_map.values() for e in sect}
+    missing = [e for e in entity_ids if e not in by_id]
+    if missing:
+        raise KeyError(f"unknown entity_type(s) in augment config: {missing}")
+
+    rows: list[dict] = []
+    duplicates = 0
+    seen = set(existing_texts)
+    attempts = 0
+    max_attempts = extra_scenarios * 40
+
+    while len(rows) < extra_scenarios and attempts < max_attempts:
+        attempts += 1
+        cve = rng.choice(cves)
+        entity_id = rng.choice(entity_ids)
+        entity_info = by_id[entity_id]
+        sector_id = entity_info["sector"]
+        sector_cfg = escalation_cfg.get(sector_id)
+        if sector_cfg is None:
+            raise KeyError(f"sector {sector_id!r} absent from escalation rules")
+
+        desc, score = cve["description"], cve["cvss_score"]
+        base_sev = cvss_to_base_severity(score, bands)
+        is_triggered = bool(detect_triggers(desc) & set(sector_cfg["triggers"]))
+        cross_border = rng.random() < 0.5
+
+        ctx_sev = base_sev
+        if is_triggered:
+            ctx_sev = escalate(ctx_sev, parse_escalation(sector_cfg["escalation"]))
+        if cross_border and rng.random() < cross_border_escalation_prob:
+            ctx_sev = escalate(ctx_sev, cross_border_esc)
+
+        cer_critical_entity = entity_info["cer_eligible"] and rng.random() < 0.1
+        if cer_critical_entity:
+            ctx_sev = escalate(ctx_sev, 1)
+
+        ms_established = rng.choice(EU_MEMBER_STATES)
+        if cross_border:
+            pool = [ms for ms in EU_MEMBER_STATES if ms != ms_established]
+            ms_affected_list = rng.sample(pool, min(rng.randint(1, 5), len(pool)))
+        else:
+            ms_affected_list = []
+
+        input_text = (
+            f"{desc} [SEP] sector: {sector_id} "
+            f"cross_border: {'true' if cross_border else 'false'} "
+            f"ms_established: {ms_established}"
+        )
+        if ms_affected_list:
+            input_text += f" ms_affected: {','.join(ms_affected_list)}"
+        input_text += f" score: {score} entity_type: {entity_id}"
+        if cer_critical_entity:
+            input_text += " cer_critical_entity: true"
+
+        is_incident = rng.random() < incident_ratio
+        if is_incident:
+            impact_fields = generate_impact_scenario(rng, sector_id)
+            ctx_sev = impact_escalation(ctx_sev, impact_fields)
+            input_text += " " + format_impact_fields(impact_fields)
+
+        if input_text in seen:
+            duplicates += 1
+            continue
+        seen.add(input_text)
+
+        rows.append({
+            "cve_id": cve["cve_id"],
+            "input_text": input_text,
+            "sector": sector_id,
+            "cross_border": cross_border,
+            "ms_established": ms_established,
+            "ms_affected": ",".join(ms_affected_list) if ms_affected_list else "",
+            "cvss_score": score,
+            "base_severity": base_sev,
+            "contextual_severity": ctx_sev,
+            "label": SEVERITY_INDEX[ctx_sev],
+            "entity_type": entity_id,
+            "cer_critical_entity": cer_critical_entity,
+            "entity_affected": is_incident,
+        })
+
+    if len(rows) < extra_scenarios:
+        # Never silently return a short set: the caller's balance assumptions
+        # depend on this count.
+        raise RuntimeError(
+            f"augmentation exhausted after {attempts} attempts: produced "
+            f"{len(rows)}/{extra_scenarios} unique scenarios ({duplicates} "
+            "duplicates rejected). The CVE x entity space is too small for the "
+            "requested count.")
+    print(f"  Augmentation: {len(rows)} new scenarios for {entity_ids} "
+          f"({duplicates} duplicate texts rejected, {attempts} draws)")
+    return rows
+
+
 def balance_classes(
     rows: list[dict], min_per_class: int, seed: int
 ) -> list[dict]:
@@ -476,6 +599,23 @@ def main() -> None:
         sector_entity_map=sector_entity_map,
     )
     print(f"  Generated {len(rows)} raw scenarios")
+
+    # Optional coverage top-up. Absent from the config => this block never runs
+    # and the output is byte-identical to v4, which must stay reproducible.
+    augment_cfg = data_cfg.get("augment_entity_types")
+    if augment_cfg:
+        rows.extend(
+            generate_focus_scenarios(
+                cves=cves,
+                rules=rules,
+                entity_ids=augment_cfg["entity_ids"],
+                extra_scenarios=augment_cfg["extra_scenarios"],
+                seed=augment_cfg.get("seed", seed + 1),
+                sector_entity_map=sector_entity_map,
+                existing_texts={r["input_text"] for r in rows},
+            )
+        )
+        print(f"  Total after augmentation: {len(rows)}")
 
     # Print per-sector counts
     sector_counts = Counter(r["sector"] for r in rows)

@@ -30,3 +30,6 @@ docs/internal/
 
 # Poetry lock (reproducible from pyproject.toml)
 poetry.lock
+
+# Frozen evaluation set — deterministic, regenerate with evaluation/frozen/make_frozen_eval.py
+evaluation/frozen/*.csv
