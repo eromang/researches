@@ -193,6 +193,37 @@ ELSE → Medium (majority fallback)
 > - **Impact on V2:** The 78.3% accuracy is likely **inflated** by 1,587 entries (12.4% of test set) where the model has seen the exact same text during training. True out-of-distribution accuracy may be lower.
 > - **Root cause:** CNVD assigns separate IDs to the same vulnerability for different products/versions, but the description text is identical (boilerplate Chinese vulnerability descriptions)
 
+> [!WARNING]
+> **R8 — Re-run 2026-08-07 — LEAKAGE NOT FIXED, marginally worse**
+> Measured on revision `fcfa11537b9432c697c1c5e7f1e8f75aadbb2a8d` (dataset last
+> modified 2026-07-06). Script: [`scripts/r8_leakage_scan.py`](scripts/r8_leakage_scan.py),
+> raw output [`data/r8_rerun_2026-08-07.json`](data/r8_rerun_2026-08-07.json).
+>
+> | Measure | 2026-03-24 | 2026-08-07 | Δ |
+> |---|---:|---:|---:|
+> | train | 114,805 | 116,192 | +1,387 |
+> | test | 12,757 | 12,911 | +154 |
+> | exact duplicate descriptions (distinct) | 1,587 | 1,613 | +26 |
+> | **test entries affected** | **1,993 (15.6%)** | **2,059 (15.95%)** | **+66 (+0.35pp)** |
+> | exact duplicate titles (distinct) | 359 | 424 | +65 |
+> | near-duplicates, first 50 chars (distinct) | 4,497 | 4,479 | −18 |
+> | ID overlaps | 0 | 0 | 0 |
+>
+> **The corpus grew by 1,541 entries and the split methodology did not change.**
+> IDs remain unique across splits while the same description still appears on both
+> sides under different CNVD IDs — the identical root cause, four and a half months on.
+> The leaked share of the test set rose slightly rather than falling, so the V2/R11
+> correction still stands: **the published accuracy remains inflated.**
+>
+> **Fidelity check.** The re-run measures 9,229 test entries (71.5%) carrying a
+> 50-character prefix shared with train, against R13's 71.7% in March. Reproducing an
+> independently-reported figure to 0.2pp is what licenses comparing the other rows.
+>
+> **What this does *not* establish.** The re-run measures the dataset only. Whether the
+> *published model* was retrained on this revision is unknown — the model card pins no
+> dataset revision. A leakage-corrected accuracy for the current checkpoint would require
+> re-running R11, which this scan does not do.
+
 ---
 
 ### R9 — VL cross-source deduplication (V5)

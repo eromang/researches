@@ -1,0 +1,25 @@
+{
+  "dataset": "CIRCL/Vulnerability-CNVD",
+  "revision": "fcfa11537b9432c697c1c5e7f1e8f75aadbb2a8d",
+  "last_modified": "2026-07-06 08:08:26+00:00",
+  "train": 116192,
+  "test": 12911,
+  "exact_duplicate_descriptions_distinct": 1613,
+  "test_entries_affected": 2059,
+  "test_entries_affected_pct": 15.95,
+  "exact_duplicate_titles_distinct": 424,
+  "near_duplicates_50char_distinct": 4479,
+  "near_duplicate_test_entries": 9229,
+  "id_overlaps": 0,
+  "unkeyable_values": 0,
+  "baseline_2026_03_24": {
+    "exact_duplicate_descriptions_distinct": 1587,
+    "test_entries_affected": 1993,
+    "test_entries_affected_pct": 15.6,
+    "exact_duplicate_titles_distinct": 359,
+    "near_duplicates_50char_distinct": 4497,
+    "id_overlaps": 0,
+    "train": 114805,
+    "test": 12757
+  }
+}
