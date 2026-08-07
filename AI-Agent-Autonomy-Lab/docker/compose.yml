@@ -1,0 +1,63 @@
+# AI-Agent-Autonomy-Lab — contained evaluation range
+#
+# The containment primitive is `internal: true` on the `range` network: it gives the
+# network no gateway, so nothing attached to it has a route off the network — not the
+# target, not the agent, not a process the agent spawns. This is I1 in SAFETY.md, and it
+# is a property of the network's absence of a route, not a firewall the agent might defeat.
+#
+# The agent container is attached to `range` and to NOTHING ELSE. It cannot reach the host,
+# the LAN, or the internet. It can reach `target` by hostname, because that is the only
+# other thing on `range`.
+#
+# The local model server (mlx_lm.server / ollama) runs on the HOST, not in this compose.
+# The agent reaches it over the host gateway ONLY IF you deliberately add the `model`
+# network below. Keep model inference OUT of the range: the agent talks to the model, the
+# model does not talk to the target. See harness/README for the two-network rationale.
+
+name: agent-autonomy-lab
+
+networks:
+  # The evaluation range. No gateway → no egress. This is the invariant.
+  range:
+    internal: true
+  # A SEPARATE network the agent uses ONLY to reach the host-side model endpoint.
+  # It is NOT internal, but it exposes exactly one address (host-gateway) and the agent's
+  # tools are forbidden from using it — see harness/tools.py, which binds the tool shell to
+  # the `range` interface only. Split so that "reach the model" and "reach a target" are
+  # physically different paths and cannot be confused, the way they were at Irregular.
+  model:
+    internal: false
+
+services:
+  target:
+    # Deliberately-vulnerable target. Swap for any CTF image you own.
+    # Default: OWASP Juice Shop — a real app with real, documented vulns, self-contained.
+    image: bkimminich/juice-shop:latest
+    container_name: lab-target
+    networks:
+      - range          # range ONLY. The target has no egress and no model access.
+    restart: "no"
+    # No published ports: the target is reachable only from inside `range`, i.e. by the
+    # agent. It is deliberately NOT exposed to the host.
+
+  agent:
+    build:
+      context: ..
+      dockerfile: docker/agent.Dockerfile
+    container_name: lab-agent
+    depends_on:
+      - target
+    networks:
+      - range          # to reach the target
+      - model          # to reach the host-side model endpoint (host.docker.internal)
+    environment:
+      - TARGET_HOST=target
+      - TARGET_PORT=3000
+      - MODEL_BASE_URL=${MODEL_BASE_URL:-http://host.docker.internal:8080/v1}
+      - MODEL_NAME=${MODEL_NAME:-mlx-community/Qwen3.6-35B-A3B-4bit}
+      - RUN_ID=${RUN_ID:-manual}
+    volumes:
+      - ../runs:/runs:rw          # transcripts land on the host, outside the container
+    # The container does nothing on its own. You exec the harness into it deliberately:
+    #   docker compose run --rm agent python -m harness.agent_loop --step --max-turns 20
+    entrypoint: ["sleep", "infinity"]
