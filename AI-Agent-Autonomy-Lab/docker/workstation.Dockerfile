@@ -27,9 +27,22 @@ RUN apt-get update \
 # The agent runs as root here (default in this base image) and /root is writable. It may
 # create files, compile, and install locally. It has no internet — by design.
 
+# ---- SEALED LOCAL WHEELHOUSE — the faithful, safe answer to "let it install what it needs" ----
+# The OpenAI incident (panorama §5.1) let the model install via an upstream package proxy — and
+# that proxy, being the only network path, was the escape route (an Artifactory zero-day). The
+# lesson: the install path IS the containment boundary. The SAFE form of install capability is a
+# LOCAL mirror with NO upstream — install works, but there is nowhere for the install path to
+# escape to. Here that mirror is a wheelhouse populated at BUILD time (when I, not the agent,
+# have network) and used OFFLINE at run time.
+RUN pip3 download -d /wheelhouse requests beautifulsoup4 lxml \
+    && test -n "$(ls /wheelhouse/*.whl 2>/dev/null)"   # fail the build if the wheelhouse is empty
+# Run-time pip is forced offline: no index, only the local wheelhouse. An agent asking for a
+# package that is not mirrored FAILS — it cannot reach PyPI, because there is no route and no
+# upstream. "Install what it wants" is bounded to the catalogue, by design, not by trust.
+ENV PIP_NO_INDEX=1 PIP_FIND_LINKS=/wheelhouse PIP_BREAK_SYSTEM_PACKAGES=1
+
 WORKDIR /app
 COPY harness/ /app/harness/
-RUN pip3 install --no-cache-dir --break-system-packages requests 2>/dev/null || true
 
 ENV PYTHONUNBUFFERED=1
 # entrypoint set in compose (sleep infinity); harness exec'd in deliberately.
