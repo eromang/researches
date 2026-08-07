@@ -25,7 +25,7 @@ notes match that state — this is a closed project, not a stale one.
 
 | # | Item | Prio | Status | Note |
 |---|------|------|--------|------|
-| T1 | File the drafted GitHub issue with CIRCL | P2 | **OPEN** | [GitHub-Issue-CIRCL.md](GitHub-Issue-CIRCL.md) is a **draft**. No record of it having been filed on `vulnerability-lookup/vulnerability-lookup` or the Hugging Face discussions. See Q4 — it may be moot. |
+| T1 | File the drafted GitHub issue with CIRCL | P2 | **OPEN — live, not moot** | [GitHub-Issue-CIRCL.md](GitHub-Issue-CIRCL.md) is a **draft**. No record of it having been filed on `vulnerability-lookup/vulnerability-lookup` or the Hugging Face discussions. Q2 resolved 2026-08-07: the no-communication decision does **not** extend here, so this remains a real option. ⚠️ Before filing, re-check the findings against the current dataset — they were measured on the 2026-03-23 snapshot and the corpus has been updated since (HF shows `Vulnerability-CNVD` at 129k entries, updated Jul 6, against the 127,562 measured). **The leakage may already be fixed**, in which case filing an uncorrected issue would report a defect that no longer exists. See Q4. |
 
 ---
 
@@ -67,9 +67,9 @@ notes match that state — this is a closed project, not a stale one.
 | # | Question | Status | Note |
 |---|----------|--------|------|
 | Q1 | Was the GitHub issue ever filed? | OPEN | The draft exists and is complete. Nothing in the repository records a submission, and absence of a record is **not** evidence it was not sent — this is "could not look", not "found nothing" |
-| Q2 | Does the 2026-08-06 "no communication with CIRCL" decision extend to this project? | OPEN | That decision is recorded in `Exploit-Hazard-Validation/BACKLOG.md` and is scoped there to *that* work. Extending it here would be an inference. **Needs a user answer, not a guess.** If it does extend, T1 becomes `DROPPED` and the findings are record-only |
+| Q2 | ~~Does the 2026-08-06 "no communication with CIRCL" decision extend to this project?~~ | **RESOLVED (no)** 2026-08-07 | User answer: the decision was scoped to `Exploit-Hazard-Validation`; a communication here is possible though not decided. T1 therefore stays open rather than becoming `DROPPED`. The blocker on filing is no longer permission — it is **freshness**, see T1 and Q4 |
 | Q3 | Is the keyword dependency inherent to the data, or to CIRCL's training run? | OPEN (accepted) | R1/R2 make it very likely inherent, which is why V6 was dropped. But that is the one thing an independent retrain would have *established* rather than inferred. Cost of the drop, stated plainly |
-| Q4 | Has the leakage been fixed upstream since March 2026? | OPEN | The dataset had ~monthly HF commits as of 2026-03-23. Four months on, the 15.6% leakage may be fixed, unchanged, or worse. **Not re-checked.** A single re-run of R8 would answer it |
+| Q4 | Has the leakage been fixed upstream since March 2026? | **OPEN — now blocks T1** | The dataset had ~monthly HF commits as of 2026-03-23. Observed 2026-08-07: `CIRCL/Vulnerability-CNVD` now shows **129k entries, updated Jul 6**, against the **127,562** these findings were measured on — so the corpus has moved and the model card was refreshed ~1 month ago. The 15.6% leakage may be fixed, unchanged, or worse; **not re-checked**. A single re-run of R8 answers it. This became load-bearing when Q2 resolved: filing an issue against a defect that has since been fixed would be the costliest possible outcome |
 | Q5 | Does the RMSV attribution for the publication cliff hold causally? | OPEN (by design) | The coincidence between the 94%→4% coverage decline and RMSV (Sept 2021) is **measured**; the causal reading is inferred and is presented as such in the report. No counterfactual is available |
 | Q6 | Is the 19.0% CNVD-only tail stable as the dataset grows? | OPEN | Measured once, at one snapshot. The tail is concentrated in 2020–2021, so continued ingestion of recent years should shrink it. Untested |
 
@@ -84,6 +84,7 @@ notes match that state — this is a closed project, not a stale one.
 | 2026-03-24 | Report R14 as inconclusive rather than as an 80.6% result | n=36. Quoting it as a result would have been the exact overclaim the project was auditing |
 | 2026-03-24 | Skip V6 | See Q3 — accepted cost, recorded rather than silently omitted |
 | 2026-03-24 | Frame the review as characterisation, not critique | The dataset and model are useful; the question was what they actually are. Stated explicitly in the report so the tone is not mistaken for hostility |
+| 2026-08-07 | A communication to CIRCL is possible, not excluded | User decision, narrowing the 2026-08-06 no-communication call to `Exploit-Hazard-Validation` alone. This reopens T1 — but the gate is now **freshness, not permission**: the findings are 4½ months old and the corpus has moved (Q4). Re-measure before filing |
 
 ---
 

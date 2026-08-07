@@ -19,8 +19,9 @@ Last updated: **2026-08-07** — project created. Nothing measured yet.
 
 | # | Item | Prio | Status | Note |
 |---|------|------|--------|------|
-| T1 | Decide whether findings have a recipient | P1 | **OPEN** | On 2026-08-06 the user decided **no communication with CIRCL** for `Exploit-Hazard-Validation`. Whether that extends here is **unanswered** — the same question is open as Q2 in `CNVD-Dataset-Validation/BACKLOG.md`. If it does extend, this project is a record-only internal validation and there is no reason to rush any track |
-| T2 | Snapshot the dataset and model cards | P1 | **OPEN** | `vulnerability-scores` was updated 16 days before project start and the org publishes ~monthly. **The claim under test can change under the project.** Pin the revision hash for both repo and model before L1 runs, or the corrected accuracy will be computed against a moving target — the failure mode `Exploit-Hazard-Validation` hit with PR 530 |
+| T1 | Decide whether findings have a recipient | P1 | **RESOLVED (open door)** 2026-08-07 | The 2026-08-06 no-communication decision was scoped to `Exploit-Hazard-Validation` and **does not extend here**. User: a communication *could* be made — not that one will be. Treat the outcome as undecided but the channel as available. **Consequence: this project is not record-only, so timing matters** — see T2 and T3 |
+| T2 | Snapshot the dataset and model cards | P1 | **OPEN** | `vulnerability-scores` was updated 16 days before project start and the org publishes ~monthly. **The claim under test can change under the project.** Pin the revision hash for both repo and model before L1 runs, or the corrected accuracy will be computed against a moving target — the failure mode `Exploit-Hazard-Validation` hit with PR 530. Now also the evidentiary basis of any communication: a finding quoted against an unpinned card cannot be checked by its recipient |
+| T3 | Keep the findings communicable as work proceeds | P2 | **OPEN** | *Emerged from T1.* Since a communication is possible, the reports must stay quotable by someone who has to act on them: claim → measurement → sample size, no dependency on internal context, and the reproduction path runnable from public data alone. Cheap if done throughout, expensive as a retrofit — `CNVD-Dataset-Validation` shows the shape (`GitHub-Issue-CIRCL.md` was drafted straight from the findings reports) |
 
 ---
 
@@ -83,7 +84,8 @@ Last updated: **2026-08-07** — project created. Nothing measured yet.
 | Q1 | Do GHSA and CVE descriptions actually duplicate? | OPEN | **The project's central assumption, and entirely untested.** If they are independently written, the mechanism hypothesis collapses and L1 may still find CNVD-style boilerplate leakage instead — or nothing |
 | Q2 | Which split did the reported metrics use? | OPEN | The card says "evaluation set" without defining it. If it is a validation slice rather than the 74,574 test split, reproduction targets a different population and L3-1 may not converge on 0.8186 |
 | Q3 | Are severity labels derived from CVSS, and if so from which version? | OPEN | The corpus carries `cvss_v4_0`, `cvss_v3_1`, `cvss_v3_0`, `cvss_v2_0` as separate columns. If the four-class label is bucketed from whichever version is present, entries differ in **label provenance**, not just value — and a v2-derived "high" is not a v3.1-derived "high" |
-| Q4 | Does the 2026-08-06 no-communication decision extend here? | OPEN | Same question as T1, recorded here because it also governs whether a GitHub-issue draft is worth writing at all |
+| Q4 | ~~Does the 2026-08-06 no-communication decision extend here?~~ | **RESOLVED (no)** 2026-08-07 | It was scoped to `Exploit-Hazard-Validation`. A communication here is possible though not decided. A GitHub-issue draft is therefore worth writing — see T3 |
+| Q6 | If a communication is made, is a GitHub issue the right channel? | OPEN | *Emerged from Q4.* CNVD drafted one against `vulnerability-lookup/vulnerability-lookup`, with Hugging Face discussions as the alternative. A **dataset** defect may belong on the dataset repo rather than the code repo, and a leakage finding is arguably a model-card correction rather than a bug report. Not decided |
 | Q5 | Has the corpus changed since the model was trained? | OPEN | The dataset is updated ~monthly; the model card does not pin a dataset revision. Leakage measured on today's corpus may not be the leakage the model was trained under — **a real threat to the whole design**, and the reason T2 is P1 |
 
 ---
@@ -96,6 +98,7 @@ Last updated: **2026-08-07** — project created. Nothing measured yet.
 | 2026-08-07 | Reproduce before correcting | A corrected accuracy without a reproduced baseline is not interpretable. This is the CNVD sequence and it is what made 76.6% defensible |
 | 2026-08-07 | Treat "no leakage found" as a publishable result | Otherwise the project has an incentive to find something. Recorded as L1-5 so it is a deliverable, not a fallback |
 | 2026-08-07 | Public data only; no CIRCL cooperation assumed | Keeps the project executable regardless of the answer to T1/Q4 |
+| 2026-08-07 | A communication to CIRCL is possible, not excluded | User decision, narrowing the 2026-08-06 no-communication call to `Exploit-Hazard-Validation` alone. **The outcome is undecided — the channel is available.** Two consequences: pinning revisions (T2) becomes evidentiary and not just methodological, and the reports must stay quotable by an outside reader from the first track (T3) rather than be retrofitted at the end |
 
 ---
 
