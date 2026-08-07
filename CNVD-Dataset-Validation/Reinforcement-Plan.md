@@ -224,6 +224,58 @@ ELSE → Medium (majority fallback)
 > dataset revision. A leakage-corrected accuracy for the current checkpoint would require
 > re-running R11, which this scan does not do.
 
+> [!IMPORTANT]
+> **R8 re-run — significance corrected the same day, 2026-08-07**
+> The numbers above are correct and stand. **The conclusion drawn from them was wrong.**
+>
+> The R11 re-run sent me to the current model card, which states the model is trained on
+> an **80/20 split deduplicated on description text**, evaluated on **25,878 samples**,
+> with *"no description text appears in both train and test splits"*. Verified against the
+> corpus: 25,878 ≈ 20% of the 129,103 raw rows (25,821), **not** 20% of the 113,803
+> distinct descriptions (22,761), and the card's per-class supports sum to exactly 25,878.
+> That signature is **grouped splitting** — all rows sharing a description assigned to the
+> same side. It is the correct fix, and it is the fix this project asked for in March.
+>
+> **CIRCL does not train on the dataset's published `train`/`test` split.** So the 15.95%
+> leakage measured above is a property of the *published split only*. It does **not**
+> inflate the model's reported accuracy, and "the leakage is not fixed" — which is what I
+> reported first — is false about the model.
+>
+> What survives is narrower and still worth stating: **anyone who naively uses the
+> dataset's built-in split inherits 15.95% train/test contamination.** That is a real trap
+> for third-party consumers, and the dataset card does not warn about it. It is not a
+> finding against CIRCL's model.
+
+---
+
+### R11 — Accuracy without leaked entries — **RE-RUN 2026-08-07, RESULT DISCARDED**
+
+> [!CAUTION]
+> **The re-run is invalid. Its numbers must not be quoted.**
+> Script: [`scripts/r11_leakage_corrected_accuracy.py`](scripts/r11_leakage_corrected_accuracy.py),
+> raw output [`data/r11_rerun_2026-08-07.json`](data/r11_rerun_2026-08-07.json), both kept
+> so the error is inspectable rather than deleted.
+>
+> It produced overall 85.66%, leaked 89.32%, unleaked **84.97%**, Low recall 0.5844 —
+> against March's 78.29% / 87.6% / 76.6% / 0.384. An 8.4pp jump in unleaked accuracy.
+>
+> **That jump is an artifact of my method, not a property of the model.** The script
+> partitions the *dataset's published test split* by leakage against the *dataset's
+> published train split*. The model is trained on a different, grouped 80/20 split whose
+> test half holds 25,878 rows. Much of the 12,911-row published test split therefore sits
+> in the **model's training data**, so the score is inflated by evaluating a model on rows
+> it was fitted on. The "unleaked" subset is unleaked with respect to the published split
+> and says nothing about what the model saw.
+>
+> **The honest comparison is the one CIRCL now publishes.** Their card reports **76.85%
+> accuracy, macro F1 0.6901, Low recall 0.4203** on the deduplicated split. This project's
+> independently computed leakage-corrected figure in March was **76.6%**. The two agree to
+> **0.25pp** — the correction was right, and it has been adopted.
+>
+> **To actually re-measure**, the grouped split would have to be reconstructed (group by
+> normalised description, 80/20, seed unknown) — and without the seed it cannot be
+> reproduced exactly. That is now tracked as its own item rather than pretended away.
+
 ---
 
 ### R9 — VL cross-source deduplication (V5)

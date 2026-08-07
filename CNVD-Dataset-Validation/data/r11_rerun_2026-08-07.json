@@ -1,0 +1,39 @@
+{
+  "dataset": "CIRCL/Vulnerability-CNVD",
+  "revision": "fcfa11537b9432c697c1c5e7f1e8f75aadbb2a8d",
+  "model": "CIRCL/vulnerability-severity-classification-chinese-macbert-base",
+  "scored": 12911,
+  "unmappable_excluded": 0,
+  "accuracy_overall": 0.8566338780884517,
+  "accuracy_leaked": 0.893152015541525,
+  "accuracy_unleaked": 0.849705123479543,
+  "n_leaked": 2059,
+  "n_unleaked": 10852,
+  "inflation_pp": 0.6928754608908738,
+  "per_class_unleaked": {
+    "Low": {
+      "recall": 0.5843881856540084,
+      "support": 948
+    },
+    "Medium": {
+      "recall": 0.8812770202859993,
+      "support": 6014
+    },
+    "High": {
+      "recall": 0.8655526992287917,
+      "support": 3890
+    }
+  },
+  "baseline_2026_03_24": {
+    "accuracy_overall": 0.7829,
+    "accuracy_leaked": 0.876,
+    "accuracy_unleaked": 0.766,
+    "n_leaked": 1993,
+    "n_unleaked": 10764,
+    "inflation_pp": 1.7,
+    "per_class_unleaked_recall": {
+      "High": 0.736,
+      "Low": 0.384
+    }
+  }
+}
