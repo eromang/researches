@@ -1,0 +1,46 @@
+dataset CIRCL/vulnerability-scores@5c017b72
+model   CIRCL/vulnerability-severity-classification-roberta-base@accca22d
+corpus 745,736 | scored 626,053 | skipped (no CVSS or no text) 119,683
+label source: {'cvss_v2_0': 72406, 'cvss_v3_1': 381235, 'cvss_v3_0': 108759, 'cvss_v4_0': 63653}
+gold distribution: {'Medium': 288267, 'High': 235046, 'Critical': 75656, 'Low': 27084}
+duplicated-description rows: 496,445 (79.3%)
+  128/626,053
+  25,728/626,053
+  51,328/626,053
+  76,928/626,053
+  102,528/626,053
+  128,128/626,053
+  153,728/626,053
+  179,328/626,053
+  204,928/626,053
+  230,528/626,053
+  256,128/626,053
+  281,728/626,053
+  307,328/626,053
+  332,928/626,053
+  358,528/626,053
+  384,128/626,053
+  409,728/626,053
+  435,328/626,053
+  460,928/626,053
+  486,528/626,053
+  512,128/626,053
+  537,728/626,053
+  563,328/626,053
+  588,928/626,053
+  614,528/626,053
+
+=== L1-6 RESULT ===
+overall            : 0.8899  (n=626,053)
+duplicated desc.   : 0.8947  [0.8939, 0.8956]  (n=496,445)
+unique desc.       : 0.8713  [0.8695, 0.8731]  (n=129,608)
+GAP (dup - unique) : +2.34 pp
+
+interpretation: a large positive gap indicates a RANDOM split (duplicates
+leak across it); a gap near zero indicates a GROUPED split.
+  Low       dup 0.6595 (n=21,749)  uniq 0.6195 (n=5,335)  gap +4.00pp
+  Medium    dup 0.9235 (n=227,450)  uniq 0.9081 (n=60,817)  gap +1.54pp
+  High      dup 0.8970 (n=184,665)  uniq 0.8726 (n=50,381)  gap +2.44pp
+  Critical  dup 0.8653 (n=62,581)  uniq 0.7982 (n=13,075)  gap +6.71pp
+
+wrote data/l1_6_duplicate_gap.json

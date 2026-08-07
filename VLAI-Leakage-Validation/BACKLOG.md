@@ -5,7 +5,7 @@ Living list. Updated at every working checkpoint, not at the end.
 **Status vocabulary:** `OPEN` · `IN PROGRESS` · `BLOCKED` · `DONE` · `DROPPED` (with reason)
 **Priority:** `P1` acts on something time-sensitive · `P2` substantive · `P3` depth/nice-to-have
 
-Last updated: **2026-08-07** — L0 executed. Training split reconstructed: 90/10 of the 626,324 CVSS-labelable rows. Published split carries 73.9% test-side overlap. Whether the model's own split is grouped or random is the open pivot (L0-4, L1-6).
+Last updated: **2026-08-07** — L0 executed, L1-6 executed and inconclusive. Training split reconstructed (90/10 of the 626,324 CVSS-labelable rows); published split carries 73.9% test-side overlap. Whether the model's own split is grouped or random is STILL the open pivot — L1-6 could not decide it.
 
 > [!note] This one is live from checkpoint zero
 > Unlike the retroactive backlogs in `CNVD-Dataset-Validation` and `LLM-Benchmark`, this
@@ -37,7 +37,7 @@ answered.**
 | L0-1 | Derive the training-set size from the card's training log | P1 | **DONE** | 17,620 steps/epoch × batch 32 = **563,840**. Matches neither published train (671,162) nor its dedup (403,959) |
 | L0-2 | Identify the training population | P1 | **DONE** | **90/10 of the 626,324 CVSS-labelable rows** = 563,692, against 563,840 observed — 148 rows, 0.026%. 119,412 rows carry no CVSS in any version and cannot be labelled |
 | L0-3 | Measure overlap in the published split | P1 | **DONE** | **55,094 of 74,574 test entries (73.9%)** carry a train description; 52,780 distinct shared. Corpus is only **56.4% distinct** descriptions. 4.6× the CNVD rate |
-| L0-4 | Determine whether the 90/10 is grouped or random | P1 | **OPEN — the pivot of the project** | Size matches **cannot** distinguish the two: grouped splitting preserves row counts, as the Chinese model's 25,878 test rows show. See L1-6 for the test that can |
+| L0-4 | Determine whether the 90/10 is grouped or random | P1 | **STILL OPEN — and harder than scoped** | Size matches cannot distinguish the two. L1-6 was meant to, and **does not** — its contrast is diluted tenfold because ~90% of any scored population is training data. Cheapest decisive route is now **asking CIRCL** (T1 leaves that open); the English card documents neither split method nor seed, while the Chinese one documents both |
 | L0-5 | Compare the two model cards' disclosure | P2 | **DONE** | Chinese card documents a grouped deduplicated split and 25,878 test rows. **English card documents nothing** — no split method, no dedup, no eval-set size. Asymmetric disclosure on the flagship |
 
 ---
@@ -51,7 +51,7 @@ answered.**
 | L1-3 | Hash and intersect train ∩ test | P1 | OPEN | The single measurement that decides whether the project continues |
 | L1-4 | Per-class breakdown of any duplicates found | P2 | OPEN | CNVD's leaked entries scored 87.6% against 76.6% unleaked. Per-class matters because Low is the weak class |
 | L1-5 | Report "no leakage" as a result if that is what is found | P1 | OPEN | Stated as a task so it cannot quietly become a non-deliverable. A clean split would mean the CNVD defect was **fixed**, which is worth publishing — and it is what happened for the Chinese model |
-| L1-6 | **Duplicated-vs-unique accuracy gap over the 626,324 labelable rows** | P1 | OPEN | *Emerged from L0-4.* The decisive experiment, and it sidesteps the unrecoverable seed: score the model over the labelable population and compare accuracy on rows whose description repeats in the corpus against rows whose description is unique. **A random 90/10 predicts a large gap; a grouped one predicts none.** Tests the split's method through the model's behaviour rather than by reconstructing it |
+| L1-6 | **Duplicated-vs-unique accuracy gap over the 626,324 labelable rows** | P1 | **DONE — INCONCLUSIVE** 2026-08-07 | Measured **+2.34 pp** (dup 0.8947 vs unique 0.8713, n=626,053, disjoint CIs). **The design was weaker than I thought and I did not notice before running it:** ~90% of every scored row is training data whatever the split, so a random split predicts only ~1 pp, not the "large gap" anticipated. Real and directionally consistent with random, but a competing explanation survives — duplicated boilerplate may simply be easier text. See `findings/L1-6-Duplicate-Gap.md`. Critical class is the live lead: +6.71 pp on 75,656 rows |
 | L1-7 | Re-state the operating rule that the CNVD failure produced | P1 | **DONE** | *Emerged during work.* **Never partition by a split the model was not trained on.** Written into L0 as a precondition rather than left as a lesson |
 
 ---
