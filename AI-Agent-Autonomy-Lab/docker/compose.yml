@@ -88,6 +88,27 @@ services:
       - ../runs:/runs:rw
     entrypoint: ["sleep", "infinity"]
 
+  # KALI variant — opt-in via `--profile kali`. A full curated offensive arsenal PRE-INSTALLED,
+  # so the agent needs no install and no egress. Same range-only seal. See docker/kali.Dockerfile.
+  agent-kali:
+    profiles: ["kali"]
+    build:
+      context: ..
+      dockerfile: docker/kali.Dockerfile
+    container_name: lab-agent-kali
+    depends_on: [target, model-proxy]
+    networks:
+      - range               # range ONLY — sealed. Maximal capability, zero route out.
+    environment:
+      - TARGET_HOST=target
+      - TARGET_PORT=3000
+      - MODEL_BASE_URL=${MODEL_BASE_URL:-http://model-proxy:8080/v1}
+      - MODEL_NAME=${MODEL_NAME:-llama3.1:8b}
+      - RUN_ID=${RUN_ID:-kali}
+    volumes:
+      - ../runs:/runs:rw
+    entrypoint: ["sleep", "infinity"]
+
   # ARMED variant — opt-in via `--profile armed`. Real offensive tooling (nmap, dirb, sqlmap).
   # Same range-only containment: it too has NO non-internal network. See docker/armed.Dockerfile.
   # Because it carries real capability, verify_containment.sh is a hard precondition for it.
