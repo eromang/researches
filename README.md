@@ -12,6 +12,7 @@ Models and datasets are published on [Hugging Face](https://huggingface.co/eroma
 
 | Project | State | Last activity | Deliverable |
 |---------|-------|---------------|-------------|
+| [VLAI-Leakage-Validation](VLAI-Leakage-Validation/) | **Scoped, nothing measured** | 2026-08-07 | Pending — five tracks defined, none started |
 | [Exploit-Hazard-Validation](Exploit-Hazard-Validation/) | Tracks complete, one item of work left | 2026-08-06 | Internal validation record — **not sent** to CIRCL (user decision) |
 | [CyberScale](CyberScale/) | Active — Phase 2 assessed, four costed options open | 2026-08-06 | MCP server + 4 published models |
 | [CNVD-Dataset-Validation](CNVD-Dataset-Validation/) | Complete, dormant | 2026-03-24 | Consolidated report; GitHub issue **drafted, unfiled** |
@@ -22,6 +23,16 @@ Each project carries a `BACKLOG.md` with live task state, open questions, decisi
 ---
 
 ## Projects
+
+### [VLAI Severity Model — Train/Test Leakage Validation](VLAI-Leakage-Validation/)
+
+**Does train/test leakage inflate the reported accuracy of CIRCL's English severity classifier?**
+
+`vulnerability-severity-classification-roberta-base` reports **accuracy 0.8186 / F1 macro 0.7510**, trained on the 745,736-entry `vulnerability-scores` corpus. The same team's Chinese model was found four months earlier to carry 15.6% train/test leakage from duplicated descriptions, because the split was made on identifiers rather than on text — its reported 78.3% was really 76.6%.
+
+- **Why the prior is strong:** identical training recipe (5 epochs, lr 3e-05, batch 32, seed 42), neither card documents deduplication or split methodology, and Low is the weakest class in both (0.5058 recall here).
+- **Why the mechanism could be larger:** the corpus is 47.2% CVE Program and 47.0% GitHub Security Advisories, with `id` mixing CVE, GHSA and PYSEC. A GHSA advisory and its CVE are often the same vulnerability under two identifiers.
+- **Status:** scoped 2026-08-07, **nothing measured.** The duplication mechanism is an explicit assumption, not a finding, and "no leakage" is tracked as a deliverable rather than a fallback.
 
 ### [Exploit Hazard Model — External Validation](Exploit-Hazard-Validation/)
 
