@@ -1,2 +1,6 @@
 .DS_Store
 .secrets/
+
+# Exports de sessions Claude : sync-claude-sessions ecrit relativement au cwd
+# et deposait ces arborescences ici. Le magasin canonique est le vault.
+06_Metadata/
