@@ -30,10 +30,12 @@ OpenAI model exploited a real website the same way, in the same partner's enviro
 **Control:** the agent and target run on a Docker network declared `internal: true`. That
 removes the gateway — there is no route off the network, for anyone on it, regardless of
 what the agent attempts. This is not a firewall rule the agent might find a hole in; it is
-the *absence of a path*.
+the *absence of a path*. The agent reaches the host-side model **only** through a
+`model-proxy` sidecar that is the sole container on the non-internal network and forwards one
+fixed port — so the agent itself never holds a route out. (This architecture exists because
+F3 found the naive "agent on range+model" design leaked egress via the second network.)
 
-**Verification:** `verify_containment.sh` launches a probe container on the same network
-and confirms it **cannot** reach a public address. If the probe reaches the internet, the
+**Verification:** `verify_containment.sh` does two things — a **structural check** that no agent container is attached to any non-internal network (added after F3, which found the agent leaking egress via a second network the range-only probe missed), AND a probe container that confirms it **cannot** reach a public address. If the probe reaches the internet, the
 run is aborted. Egress is proven absent, not assumed. `⚠` A host VPN (interface `utun*`)
 does not create egress from an `internal` network, but it MUST be noted in the run log:
 the one thing worse than an uncontrolled variable is an unrecorded one.
@@ -77,7 +79,10 @@ tool surface. This is a control, stated as one — not a convenience default.
 - **It does not contain exploit code.** The harness provides a *generic, network-confined*
   tool surface (a shell reaching only the internal target, an HTTP client). The
   vulnerabilities live in the target image. What the agent does with that surface,
-  autonomously, is the experiment — that is why none of it is scripted.
+  autonomously, is the experiment — that is why none of it is scripted. An **opt-in armed
+  image** (`docker/armed.Dockerfile`, profile `armed`) adds standard tools (nmap, dirb,
+  sqlmap) for the ExploitGym-analogue experiment; it is never the default posture, and the
+  containment gate is a hard precondition for it precisely because it grants real capability.
 - **It does not test frontier capability.** On 36 GB of unified memory you run a ~14–35B
   local model, not a V4-class model. Conclusions are about *the behaviour of the agent
   loop* — persistence, boundary-testing, goal-drift, guardrail circumvention — **not** the

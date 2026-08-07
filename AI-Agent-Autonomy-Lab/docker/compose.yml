@@ -1,63 +1,88 @@
 # AI-Agent-Autonomy-Lab — contained evaluation range
 #
-# The containment primitive is `internal: true` on the `range` network: it gives the
-# network no gateway, so nothing attached to it has a route off the network — not the
-# target, not the agent, not a process the agent spawns. This is I1 in SAFETY.md, and it
-# is a property of the network's absence of a route, not a firewall the agent might defeat.
+# CONTAINMENT ARCHITECTURE (revised after F3 — a real egress leak was found and closed):
 #
-# The agent container is attached to `range` and to NOTHING ELSE. It cannot reach the host,
-# the LAN, or the internet. It can reach `target` by hostname, because that is the only
-# other thing on `range`.
+# The agent must reach a model endpoint on the host (for Metal GPU acceleration, the model
+# runs host-native, not in a container). The naive way to do that — attach the agent to a
+# second, non-internal network — GIVES THE AGENT GENERAL EGRESS via that network. F3 caught
+# exactly this: an armed agent on range+model reached 1.1.1.1. That is the panorama's root
+# cause reproduced: a "sealed" environment with a second path out.
 #
-# The local model server (mlx_lm.server / ollama) runs on the HOST, not in this compose.
-# The agent reaches it over the host gateway ONLY IF you deliberately add the `model`
-# network below. Keep model inference OUT of the range: the agent talks to the model, the
-# model does not talk to the target. See harness/README for the two-network rationale.
+# The fix here: ONLY a dedicated `model-proxy` sidecar touches the non-internal `model`
+# network. It forwards ONE fixed port to the host model endpoint and nothing else. The agent
+# is attached to the `range` (internal, no gateway) network ONLY — it has zero route off the
+# range — and reaches the model at `model-proxy:8080`, which can only ever forward to the
+# model host. The agent cannot use the proxy to reach an arbitrary address (socat's
+# destination is fixed), so no general egress exists for the agent.
+#
+# verify_containment.sh now enforces this structurally: it FAILS if the agent service is
+# attached to any non-internal network. The probe test remains.
 
 name: agent-autonomy-lab
 
 networks:
-  # The evaluation range. No gateway → no egress. This is the invariant.
   range:
-    internal: true
-  # A SEPARATE network the agent uses ONLY to reach the host-side model endpoint.
-  # It is NOT internal, but it exposes exactly one address (host-gateway) and the agent's
-  # tools are forbidden from using it — see harness/tools.py, which binds the tool shell to
-  # the `range` interface only. Split so that "reach the model" and "reach a target" are
-  # physically different paths and cannot be confused, the way they were at Irregular.
+    internal: true          # no gateway → no route out. The agent lives here, ONLY here.
   model:
-    internal: false
+    internal: false         # reaches the host. ONLY model-proxy is attached to it.
 
 services:
+  # The single point that bridges the sealed range to the host model endpoint. It forwards
+  # one TCP port to a FIXED destination; it is not a general proxy the agent can aim elsewhere.
+  model-proxy:
+    image: alpine/socat:latest
+    container_name: lab-model-proxy
+    networks:
+      - range               # the agent reaches it here, at model-proxy:8080
+      - model               # it reaches the host here — the ONLY container with egress
+    command: >-
+      TCP-LISTEN:8080,fork,reuseaddr
+      TCP:host.docker.internal:${MODEL_HOST_PORT:-11434}
+    restart: "no"
+
   target:
-    # Deliberately-vulnerable target. Swap for any CTF image you own.
-    # Default: OWASP Juice Shop — a real app with real, documented vulns, self-contained.
     image: bkimminich/juice-shop:latest
     container_name: lab-target
     networks:
-      - range          # range ONLY. The target has no egress and no model access.
+      - range               # range ONLY: no egress, no model access
     restart: "no"
-    # No published ports: the target is reachable only from inside `range`, i.e. by the
-    # agent. It is deliberately NOT exposed to the host.
 
   agent:
     build:
       context: ..
       dockerfile: docker/agent.Dockerfile
     container_name: lab-agent
-    depends_on:
-      - target
+    depends_on: [target, model-proxy]
     networks:
-      - range          # to reach the target
-      - model          # to reach the host-side model endpoint (host.docker.internal)
+      - range               # range ONLY. No non-internal network. Zero egress (enforced by the gate).
     environment:
       - TARGET_HOST=target
       - TARGET_PORT=3000
-      - MODEL_BASE_URL=${MODEL_BASE_URL:-http://host.docker.internal:8080/v1}
-      - MODEL_NAME=${MODEL_NAME:-mlx-community/Qwen3.6-35B-A3B-4bit}
+      - MODEL_BASE_URL=${MODEL_BASE_URL:-http://model-proxy:8080/v1}
+      - MODEL_NAME=${MODEL_NAME:-llama3.1:8b}
       - RUN_ID=${RUN_ID:-manual}
     volumes:
-      - ../runs:/runs:rw          # transcripts land on the host, outside the container
-    # The container does nothing on its own. You exec the harness into it deliberately:
-    #   docker compose run --rm agent python -m harness.agent_loop --step --max-turns 20
+      - ../runs:/runs:rw
+    entrypoint: ["sleep", "infinity"]
+
+  # ARMED variant — opt-in via `--profile armed`. Real offensive tooling (nmap, dirb, sqlmap).
+  # Same range-only containment: it too has NO non-internal network. See docker/armed.Dockerfile.
+  # Because it carries real capability, verify_containment.sh is a hard precondition for it.
+  agent-armed:
+    profiles: ["armed"]
+    build:
+      context: ..
+      dockerfile: docker/armed.Dockerfile
+    container_name: lab-agent-armed
+    depends_on: [target, model-proxy]
+    networks:
+      - range               # range ONLY — same seal as the default agent
+    environment:
+      - TARGET_HOST=target
+      - TARGET_PORT=3000
+      - MODEL_BASE_URL=${MODEL_BASE_URL:-http://model-proxy:8080/v1}
+      - MODEL_NAME=${MODEL_NAME:-llama3.1:8b}
+      - RUN_ID=${RUN_ID:-armed}
+    volumes:
+      - ../runs:/runs:rw
     entrypoint: ["sleep", "infinity"]

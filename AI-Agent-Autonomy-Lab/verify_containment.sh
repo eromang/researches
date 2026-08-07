@@ -42,6 +42,26 @@ if [ "$INTERNAL" != "true" ]; then
 fi
 say "  network '$NET' is Internal=true (no gateway by construction)."
 
+# --- STRUCTURAL CHECK added after F3: the agent must touch ONLY internal networks. ---
+# F3: the agent was on range(internal)+model(non-internal) and had full egress via `model`.
+# The probe test below only tests the range and MISSED it. This catches that class directly:
+# any agent container attached to a non-internal network is a leak, before any probe runs.
+for cname in lab-agent lab-agent-armed; do
+  if ! docker inspect "$cname" >/dev/null 2>&1; then
+    continue   # not up; nothing to check for this one
+  fi
+  nets=$(docker inspect "$cname" --format '{{range $n,$_ := .NetworkSettings.Networks}}{{$n}} {{end}}' 2>/dev/null)
+  for n in $nets; do
+    isint=$(docker network inspect "$n" --format '{{.Internal}}' 2>/dev/null)
+    if [ "$isint" != "true" ]; then
+      say "CONTAINMENT: FAILED — container '$cname' is attached to non-internal network '$n'."
+      say "  That network has a gateway; the agent has egress through it. This is the F3 leak. ABORT."
+      exit 1
+    fi
+  done
+  say "  container '$cname' is on internal networks only ($nets)."
+done
+
 # --- MEASURE: can a probe on this network reach the internet? ---
 # -w 4: 4s timeout per attempt. A contained network yields no route → connection fails fast.
 egress_hit=0
