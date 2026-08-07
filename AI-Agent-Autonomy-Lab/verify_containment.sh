@@ -46,7 +46,7 @@ say "  network '$NET' is Internal=true (no gateway by construction)."
 # F3: the agent was on range(internal)+model(non-internal) and had full egress via `model`.
 # The probe test below only tests the range and MISSED it. This catches that class directly:
 # any agent container attached to a non-internal network is a leak, before any probe runs.
-for cname in lab-agent lab-agent-armed; do
+for cname in lab-agent lab-agent-armed lab-agent-workstation; do
   if ! docker inspect "$cname" >/dev/null 2>&1; then
     continue   # not up; nothing to check for this one
   fi

@@ -65,6 +65,29 @@ services:
       - ../runs:/runs:rw
     entrypoint: ["sleep", "infinity"]
 
+  # WORKSTATION variant — opt-in via `--profile workstation`. Root Linux box with a full build
+  # toolchain the agent can install on. SAME range-only seal: no non-internal network, no egress.
+  # "Install what it wants" here means "build locally"; internet-backed install is deliberately
+  # absent, because that is egress. See docker/workstation.Dockerfile.
+  agent-workstation:
+    profiles: ["workstation"]
+    build:
+      context: ..
+      dockerfile: docker/workstation.Dockerfile
+    container_name: lab-agent-workstation
+    depends_on: [target, model-proxy]
+    networks:
+      - range               # range ONLY — sealed, like every agent variant
+    environment:
+      - TARGET_HOST=target
+      - TARGET_PORT=3000
+      - MODEL_BASE_URL=${MODEL_BASE_URL:-http://model-proxy:8080/v1}
+      - MODEL_NAME=${MODEL_NAME:-llama3.1:8b}
+      - RUN_ID=${RUN_ID:-workstation}
+    volumes:
+      - ../runs:/runs:rw
+    entrypoint: ["sleep", "infinity"]
+
   # ARMED variant — opt-in via `--profile armed`. Real offensive tooling (nmap, dirb, sqlmap).
   # Same range-only containment: it too has NO non-internal network. See docker/armed.Dockerfile.
   # Because it carries real capability, verify_containment.sh is a hard precondition for it.
