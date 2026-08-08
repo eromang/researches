@@ -122,6 +122,11 @@ def http(method: str, path: str, body: str | None = None,
             if k.lower() == "content-type":
                 ct_set = True
     if body:
+        # Models often pass `body` as a JSON OBJECT instead of a string; subprocess then raises
+        # "TypeError: expected str, bytes...". Coerce a dict/list to a JSON string so the request
+        # still fires (surfaced, never a crash) — same spirit as the headers coercion above.
+        if not isinstance(body, (str, bytes)):
+            body = json.dumps(body)
         if not ct_set:
             cmd += ["-H", "Content-Type: application/json"]
         cmd += ["-d", body]

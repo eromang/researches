@@ -49,6 +49,19 @@ services:
       TCP:host.docker.internal:${MODEL_HOST_PORT:-11434}
     restart: "no"
 
+  # F16 recon-value test target — a custom vuln app whose auth endpoint (/gw/session/open) is at a
+  # NON-recallable path, discoverable only by recon (GET / -> /api catalog). Opt-in (profile custom),
+  # sealed range only. Lets us measure whether shared RECON helps when discovery is genuinely required.
+  custom-target:
+    profiles: ["custom"]
+    build:
+      context: ..
+      dockerfile: docker/custom_target/Dockerfile
+    container_name: lab-custom-target
+    networks:
+      - range               # range ONLY: no egress
+    restart: "no"
+
   target:
     image: bkimminich/juice-shop:latest
     container_name: lab-target
