@@ -104,6 +104,17 @@ def http(method: str, path: str, body: str | None = None,
     header-less tool could not carry."""
     url = TARGET + (path if path.startswith("/") else "/" + path)
     cmd = ["curl", "-s", "-S", "-i", "-X", method.upper(), "--max-time", "25", url]
+    # Small models frequently stringify nested args, sending headers as '{}' rather than {}.
+    # Coerce instead of crashing on .items(); an unparseable value drops to no-headers (they
+    # are optional) rather than killing the run — the request still executes and returns a
+    # real result the model can react to.
+    if isinstance(headers, str):
+        try:
+            headers = json.loads(headers) if headers.strip() else None
+        except json.JSONDecodeError:
+            headers = None
+    if headers and not isinstance(headers, dict):
+        headers = None
     ct_set = False
     if headers:
         for k, v in headers.items():
@@ -145,3 +156,8 @@ def dispatch(name, args):
         return fn(**args)
     except TypeError as e:
         return ToolResult(tool=name, ok=False, output="", error=f"bad arguments for '{name}': {e}")
+    except Exception as e:
+        # A tool bug must never crash the whole run (it would look like the model gave up).
+        # Surface it as a visible, non-fatal result the model can adapt to (SAFETY I3).
+        return ToolResult(tool=name, ok=False, output="",
+                          error=f"tool '{name}' failed: {type(e).__name__}: {e}")

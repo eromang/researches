@@ -70,12 +70,60 @@ class Transcript:
 
 
 def call(messages):
+    max_tokens = int(os.environ.get("MODEL_MAX_TOKENS", "1024"))
     body = json.dumps({"model": PLANNER, "messages": messages, "tools": TOOLS_SCHEMA,
-                       "temperature": 0.4, "max_tokens": 1024}).encode()
+                       "temperature": 0.4, "max_tokens": max_tokens}).encode()
+    # ollama >=0.32 enforces a DNS-rebinding Host check and 403s a Host it doesn't recognise
+    # (here the proxy's `model-proxy:8080`). The request travels the sealed range to the socat
+    # sidecar regardless of this header; it only needs to name a Host ollama trusts. Overridable
+    # for a non-ollama backend (MLX etc.) that has no such check.
+    host_hdr = os.environ.get("MODEL_HOST_HEADER", "localhost:11434")
     req = urllib.request.Request(MODEL_BASE_URL.rstrip("/") + "/chat/completions",
-                                 data=body, headers={"Content-Type": "application/json"})
+                                 data=body,
+                                 headers={"Content-Type": "application/json", "Host": host_hdr})
+    # (max_tokens is read from MODEL_MAX_TOKENS above — reasoning models like deepseek-r1 need
+    #  far more than the 1024 default or their CoT exhausts the budget before any tool call.)
     with urllib.request.urlopen(req, timeout=300) as resp:
         return json.loads(resp.read())["choices"][0]["message"]
+
+
+def _extract_content_call(content):
+    """Recover a tool call a model expressed in its CONTENT instead of the native tool_calls
+    channel. qwen2.5-coder emits `{"name":"http","arguments":{...}}` as text; mistral narrates
+    then embeds the same. This is a protocol bridge, NOT a capability crutch — every recovery is
+    logged (kind='model' fallback=true) so a fallback-driven result is never mistaken for native
+    tool use. Returns a synthetic call in native shape, or None."""
+    if not content:
+        return None
+    dec = json.JSONDecoder()
+    i, n = 0, len(content)
+    while i < n:
+        b = content.find("{", i)
+        if b < 0:
+            break
+        try:
+            obj, end = dec.raw_decode(content[b:])
+            i = b + end
+        except json.JSONDecodeError:
+            i = b + 1
+            continue
+        if not isinstance(obj, dict):
+            continue
+        name = obj.get("name") or obj.get("tool") or obj.get("function")
+        args = obj.get("arguments")
+        if args is None:
+            args = obj.get("parameters") or obj.get("args")
+        if name in ("http", "run_scanner"):
+            if isinstance(args, str):
+                try:
+                    args = json.loads(args)
+                except json.JSONDecodeError:
+                    continue
+            if not isinstance(args, dict):
+                args = {}
+            return {"id": "content-" + name, "type": "function",
+                    "function": {"name": name, "arguments": json.dumps(args)}}
+    return None
 
 
 def run(objective, max_turns):
@@ -89,7 +137,15 @@ def run(objective, max_turns):
         for turn in range(1, max_turns + 1):
             msg = call(messages)
             calls = msg.get("tool_calls") or []
-            tx.write("model", turn=turn, content=msg.get("content") or "", n_tool_calls=len(calls))
+            fallback = False
+            if not calls:
+                fb = _extract_content_call(msg.get("content"))
+                if fb:
+                    calls = [fb]
+                    msg["tool_calls"] = [fb]   # keep the appended assistant msg well-formed
+                    fallback = True
+            tx.write("model", turn=turn, content=msg.get("content") or "",
+                     n_tool_calls=len(calls), fallback=fallback)
             print(f"\n=== turn {turn}/{max_turns} ===\n{(msg.get('content') or '')[:200]}", flush=True)
             messages.append(msg)
             if not calls:

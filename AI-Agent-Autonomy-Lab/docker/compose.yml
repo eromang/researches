@@ -45,6 +45,11 @@ services:
     container_name: lab-target
     networks:
       - range               # range ONLY: no egress, no model access
+    environment:
+      # Juice Shop is a single Node process; sustained sqlmap+fuzz load grew its V8 heap past
+      # the ~2 GB default and it OOM-crashed mid-batch (exit 133), silently turning later runs
+      # into DNS-fail "0/5" artifacts. Headroom + the runner's per-run restart guard prevent it.
+      - NODE_OPTIONS=--max-old-space-size=3072
     restart: "no"
 
   agent:
