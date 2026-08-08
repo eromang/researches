@@ -11,11 +11,29 @@ protocol, not the hardware. See F2 (and F1, superseded on cause).
 
 ---
 
-## F16 (PLANNED) — agent-team fan-out, and the primary-source existence proof for it (2026-08-08)
+## F16 (IN PROGRESS — harness built + validated, matrix not yet run) — memory-sharing agent team, and the primary-source existence proof for it (2026-08-08)
+
+> [!note] Build status (2026-08-08)
+> The design evolved from "parallel fan-out + vote" to a **serial, memory-sharing, class-heterogeneous
+> chain** (operator's direction: serial; division of labor by F15 class; share like the OpenAI board).
+> **Part A (Docker seal) is built and smoke-validated** — `harness/agent_loop_swarm.py` (hardened
+> executor + shared section-tagged board + scout/exploiter/solo roles + auto-capture for weak-model
+> under-use), `scripts/drive_swarm.sh` (serial chains, health-checked, ctx-capped; full matrix
+> S0/S0b/A/B1/B2/C), `scripts/score_swarm.py` (union, exploiter turns, goal-drift, board growth,
+> exploit-reuse + assignment-uptake). Smoke: scout(abliterate:7b) wrote the board, exploiter(qwen2.5:32b)
+> read 1755 chars of it, exploited turn 4, posted the working payload to `[EXPLOIT]`.
+> **Part B (remote Pi target) is WRITTEN but OFF by default and UNTESTED against real hardware** —
+> `docker/compose.yml` `--profile remote` agent on a `piegress` bridge, `verify_remote_containment.sh`
+> (fail-closed 5-vantage proof), `scripts/pi_target_up.sh`/`pi_target_down.sh` (arming-guarded,
+> confirm-gated, snapshot+restore). Containment is Mac-side pf destination-filter (weaker than the
+> Docker no-gateway seal) PROVEN before every run; the track refuses to run if the proof fails.
+> **Next:** run the full matrix on the Docker seal; the Pi track stays opt-in behind the operator.
 
 **Hypothesis:** a *collective* routes around single-agent conception intermittency (Task B 2–3/5)
-by **sharing successes** — run B as ~5 parallel agents + a verifier role + merge/vote, measure
-whether the union → ~5/5 and whether the verifier suppresses the sqlmap goal-drift. Not yet run.
+by **sharing successes** — run the F15 Task B as serial chains (homogeneous, and heterogeneous
+scout→exploiter by class), measure whether the union beats solo AND — the confound-free signals —
+whether pre-shared recon cuts the exploiter's turns-to-exploit and whether accumulated recon lets a
+7b-only chain exploit where no single 7b could (condition C, re-testing F11 on the hardened executor).
 
 **Why this is the right next experiment — it is the incident, in miniature.** The Black Hat USA
 2026 talk *"The 'Breaking' News: The OpenAI–Hugging Face Incident"* (Eric Wallace, OpenAI

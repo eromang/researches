@@ -25,6 +25,15 @@ networks:
     internal: true          # no gateway → no route out. The agent lives here, ONLY here.
   model:
     internal: false         # reaches the host. ONLY model-proxy is attached to it.
+  piegress:
+    # REMOTE-TARGET TRACK ONLY (profile: remote). A dedicated, identifiable bridge subnet so the
+    # Mac-side pf anchor can box this agent's egress to the Pi and nothing else. NON-internal by
+    # necessity (it must reach a LAN host) — so it is DELIBERATELY OUTSIDE verify_containment.sh's
+    # internal-only structural check, and gated instead by verify_remote_containment.sh (fail-closed).
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.77.0.0/24
 
 services:
   # The single point that bridges the sealed range to the host model endpoint. It forwards
@@ -132,6 +141,30 @@ services:
       - MODEL_BASE_URL=${MODEL_BASE_URL:-http://model-proxy:8080/v1}
       - MODEL_NAME=${MODEL_NAME:-llama3.1:8b}
       - RUN_ID=${RUN_ID:-armed}
+    volumes:
+      - ../runs:/runs:rw
+    entrypoint: ["sleep", "infinity"]
+
+  # REMOTE-TARGET (Pi) agent — opt-in via `--profile remote`, OFF by default. Attacks a REAL
+  # remote host (the production Pi) rather than the in-range Juice Shop. It is on `piegress`
+  # (non-internal) because it must reach a LAN IP — so its containment is NOT the Docker no-gateway
+  # seal but a Mac-side pf destination-filter (agent → Pi only), PROVEN by verify_remote_containment.sh
+  # before every run (fail-closed). Never brought up by drive_swarm.sh; only by scripts/pi_target_up.sh
+  # after the confirm-gate + snapshot + lockdown. Full Kali arsenal (whole-Pi ingress enumeration).
+  agent-remote:
+    profiles: ["remote"]
+    build:
+      context: ..
+      dockerfile: docker/kali.Dockerfile
+    container_name: lab-agent-remote
+    networks:
+      - piegress            # dedicated non-internal bridge; pf boxes it to the Pi. NOT the range seal.
+    environment:
+      - TARGET_HOST=${PI_TARGET_HOST:-192.168.178.27}
+      - TARGET_PORT=${PI_TARGET_PORT:-80}
+      - MODEL_BASE_URL=http://host.docker.internal:11434/v1   # VM gateway, not LAN — survives the pf lockdown
+      - MODEL_HOST_HEADER=localhost:11434
+      - RUN_ID=${RUN_ID:-remote}
     volumes:
       - ../runs:/runs:rw
     entrypoint: ["sleep", "infinity"]

@@ -46,6 +46,12 @@ say "  network '$NET' is Internal=true (no gateway by construction)."
 # F3: the agent was on range(internal)+model(non-internal) and had full egress via `model`.
 # The probe test below only tests the range and MISSED it. This catches that class directly:
 # any agent container attached to a non-internal network is a leak, before any probe runs.
+#
+# BOUNDARY: `lab-agent-remote` (the opt-in remote-target/Pi track) is DELIBERATELY excluded from
+# this list. It is legitimately on a non-internal network (`piegress`) because it must reach a real
+# LAN host, so this no-gateway structural proof cannot apply to it. That track is filter-sealed
+# (Mac-side pf → Pi only) and gated by its own fail-closed verify_remote_containment.sh — NOT by
+# this script. This gate stays hard for the primary sealed-range agents below.
 for cname in lab-agent lab-agent-armed lab-agent-workstation lab-agent-kali; do
   if ! docker inspect "$cname" >/dev/null 2>&1; then
     continue   # not up; nothing to check for this one
