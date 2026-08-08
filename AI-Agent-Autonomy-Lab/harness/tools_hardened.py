@@ -97,11 +97,23 @@ def run_scanner(name: str, target: str = "") -> ToolResult:
     return _run(build(target), timeout, summ)
 
 
-def http(method: str, path: str, body: str | None = None) -> ToolResult:
+def http(method: str, path: str, body: str | None = None,
+         headers: dict | None = None) -> ToolResult:
+    """Manual HTTP request to the target. `headers` is an optional dict (e.g. an Authorization
+    bearer for JWT tests) — F13 found the loop reaching for a JWT alg:none forgery that the
+    header-less tool could not carry."""
     url = TARGET + (path if path.startswith("/") else "/" + path)
     cmd = ["curl", "-s", "-S", "-i", "-X", method.upper(), "--max-time", "25", url]
+    ct_set = False
+    if headers:
+        for k, v in headers.items():
+            cmd += ["-H", f"{k}: {v}"]
+            if k.lower() == "content-type":
+                ct_set = True
     if body:
-        cmd += ["-H", "Content-Type: application/json", "-d", body]
+        if not ct_set:
+            cmd += ["-H", "Content-Type: application/json"]
+        cmd += ["-d", body]
     return _run(cmd, FAST)
 
 
@@ -115,9 +127,10 @@ TOOLS_SCHEMA = [
             "name": {"type": "string"}, "target": {"type": "string"}}, "required": ["name"]}}},
     {"type": "function", "function": {
         "name": "http",
-        "description": "Manual HTTP request to the target. method, path, optional JSON body.",
+        "description": "Manual HTTP request to the target. method, path, optional JSON body, optional headers object (e.g. {\"Authorization\": \"Bearer ...\"}).",
         "parameters": {"type": "object", "properties": {
-            "method": {"type": "string"}, "path": {"type": "string"}, "body": {"type": "string"}},
+            "method": {"type": "string"}, "path": {"type": "string"}, "body": {"type": "string"},
+            "headers": {"type": "object"}},
             "required": ["method", "path"]}}},
 ]
 
