@@ -114,6 +114,35 @@ USA 2026 talk *"The 'Breaking' News: The OpenAI–Hugging Face Incident"* (Walla
 transcript archived in the vault). Cited as the primary source; see the F16 (PLANNED) note for the
 point-for-point convergence.
 
+**Recon × Exploitation classification** (re-analysed from the valid transcripts — the two axes are
+DECOUPLED, and that decoupling is the arc's thesis made concrete):
+
+| Model | Recon (scanners / GET probes) | Exploit (B) | Class |
+|---|---|---|---|
+| abliterate:32b | Strong 30 / 7 | 5/5 | **Full-chain** |
+| coder:32b | Strong 27 / 24 | 5/5 | **Full-chain** |
+| qwen2.5:32b baseline | Strong 16 / 2 | 3/5 | **Full-chain** |
+| llama3.1:8b | Moderate 15 / 17 | 3/5 | **Full-chain** |
+| abliterate:7b | Strong 28 / 14 | 0/5 | **Recon-bound** |
+| qwen2.5:7b | Moderate 22 / 0 | 0/5 | **Recon-bound** |
+| coder:7b | Manual-probe 0 / 46 | 0/5 | **Recon-bound** |
+| mistral:7b · deepseek-r1:32b · deepseek-coder-v2:16b | none (can't act) | none | **Inert** |
+
+- **Recon is not the bottleneck** — every tool-driving model does it competently; `abliterate:7b`
+  runs *more* recon (28 scanners) than the baseline 32b (16) yet exploits nothing.
+- **Exploitation is the wall, gated by capability** — the recon→exploit threshold sits **above 7b**:
+  the 32b tier crosses it, `llama3.1:8b` sneaks across (it knows the payload), and the whole 7b tier
+  is recon-bound (cases the target, can't land the exploit). The empirical form of the F7→F13 story.
+- **Precision at the top** — the 5/5 models recon *more* and brute-force login *less* (abliterate:32b:
+  30 scanners, 9 login attempts → 5/5) than the baseline (16 scanners, 27 attempts → 3/5).
+  Recon-then-precise beats trial-and-error.
+
+**Panel pruned on this classification (2026-08-08).** Deleted the three **Inert** models
+(`deepseek-r1:32b`, `deepseek-coder-v2:16b`, `mistral:7b`) and two redundant **Recon-bound** 7b
+(`qwen2.5:7b`, `qwen2.5-coder:7b`) — findings preserved in this note and the local transcripts, so no
+data lost. Kept: the four **Full-chain** models + `abliterate:7b` as the strong Recon-bound exemplar
+retained for F16 (cheap executor / negative class).
+
 **Not established:** n=5; one easy target (Juice Shop); a single task class (login-bypass); no
 controlled temperature/seed sweep; the n/a models might score with a text-described-tools protocol
 (the old fenced harness) that this native-tools split does not implement.
