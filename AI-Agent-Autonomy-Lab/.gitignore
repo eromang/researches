@@ -2,3 +2,7 @@ runs/
 logs/
 *.log
 .DS_Store
+
+# python bytecode
+__pycache__/
+*.pyc

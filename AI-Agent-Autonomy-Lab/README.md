@@ -78,10 +78,21 @@ run with neither flag — there is no unattended default.
 
 ## Status
 
-**v0.1 — scaffold complete, not yet exercised with a live model.** The containment gate,
-the compose range, the tool surface and the loop are written. What remains is a first
-`--step` run against Juice Shop with MLX serving the model, and turning the resulting
-transcript into the first finding. See [BACKLOG.md](BACKLOG.md).
+**Exercised — F1 → F18 run, headline conclusion reached.** The bench has been driven through
+~15 experiments against a live model panel (qwen2.5 / coder / abliterate 32b, llama3.1:8b, the
+7b tier). The one-line result, re-obtained from every angle: **the binding control is
+containment — proven-absent egress — not model capability.** Commodity hardware reproduces the
+incident's *seeds* (reliable tool orchestration, collective exploit-reuse, the "you can install
+packages" affordance-seeking) but not its *escalation* (novel exploit conception, SSRF breakout).
+
+Full narrative: **[RAPPORT.md](RAPPORT.md)** (humanised synthesis) and a rendered version
+published as a claude.ai artifact. Complete versioned trail: **[BACKLOG.md](BACKLOG.md)** (F1–F18).
+
+Two surfaces: the primary Docker-sealed range (always available, egress proven-absent) and an
+opt-in remote-target track (`--profile remote`, `pi_target_*.sh`) that is **written but off by
+default and never safely runnable against production infra from this host** — a limit that is
+itself a finding (F18/Pi). Honest incompletes: small n, the full F16 matrix partial (36 GB
+memory kills long runs), WhiteRabbitNeo-33B blocked on a GGUF↔ollama incompatibility.
 
 ## Relation to the rest of `researches/`
 
