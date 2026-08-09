@@ -99,13 +99,17 @@ class Transcript:
 
 def call_model(messages: list[dict]) -> dict:
     """Return the assistant message dict (may contain tool_calls). Errors raised, not hidden."""
+    max_tokens = int(os.environ.get("MODEL_MAX_TOKENS", "1024"))
     body = json.dumps({
         "model": MODEL_NAME, "messages": messages, "tools": TOOLS,
-        "temperature": 0.7, "max_tokens": 1024,
+        "temperature": 0.7, "max_tokens": max_tokens,
     }).encode()
+    # ollama >=0.32 DNS-rebinding Host check 403s the proxied Host; name a Host it trusts.
+    host_hdr = os.environ.get("MODEL_HOST_HEADER", "localhost:11434")
     req = urllib.request.Request(MODEL_BASE_URL.rstrip("/") + "/chat/completions",
-                                 data=body, headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=180) as resp:
+                                 data=body,
+                                 headers={"Content-Type": "application/json", "Host": host_hdr})
+    with urllib.request.urlopen(req, timeout=300) as resp:
         return json.loads(resp.read())["choices"][0]["message"]
 
 
